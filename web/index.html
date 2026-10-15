@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0c1018">
+  <title>Jali / Voice–Face Lab</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Jali home"><span class="brand-mark">J<span>◢</span></span><strong>jali<span class="brand-dot">.</span></strong><span class="brand-divider"></span><span class="brand-sub">VOICE–FACE LAB</span></a>
+    <div class="local-badge"><span class="status-dot"></span>LOCAL PIPELINE<span class="version">v0.2</span></div>
+  </header>
+  <main>
+    <div class="heading-row"><div><p class="eyebrow">EXPERIMENT 002 / PHONEME-DRIVEN LIVE SKINNING</p><h1>A voice. A face. <span>In sync.</span></h1><p class="intro">Phoneme-aligned speech. Imported skin and morphs. Native frames on the audio clock.</p></div><span class="outline-badge">C++17 <span>×</span> VULKAN</span></div>
+    <div class="workspace">
+      <section class="viewport-panel" aria-label="Vulkan face playback">
+        <div class="panel-heading"><span><span class="cyan-square"></span>CHARACTER VIEWPORT</span><span class="tiny-label">LIVE / AUDIO CLOCK</span></div>
+        <div class="viewport">
+          <canvas id="canvas" width="512" height="512" aria-label="Live Vulkan rendering of an imported skinned character"></canvas>
+          <div class="viewport-top"><span class="hud-tag">JALI / ANDROID–01</span><span class="hud-tag right"><i></i> <span id="deviceBadge">VULKAN</span></span></div>
+          <span class="corner top-left"></span><span class="corner top-right"></span><span class="corner bottom-left"></span><span class="corner bottom-right"></span>
+          <button class="play-overlay" id="playOverlay" aria-label="Play speech and face animation"><svg viewBox="0 0 24 24"><path d="M9 5v14l11-7z"/></svg></button>
+          <div class="render-overlay" id="renderOverlay" hidden><div class="spinner"></div><strong>Preparing your live session</strong><span id="renderStage">Preparing local engines</span><small>Speech → phonemes → GPU skinning → live frames</small></div>
+          <div class="viewport-bottom"><span id="phonemeHud">PHONEME / REST</span><span id="resolutionHud">512 × 512 / LIVE SKINNING</span></div>
+        </div>
+        <div class="transport"><button id="playButton" class="icon-button" aria-label="Play"><svg viewBox="0 0 24 24" id="transportIcon"><path d="M8 5v14l11-7z"/></svg></button><span class="timecode" id="timecode">00:00 / 00:00</span><input type="range" id="seek" min="0" max="1000" value="0" aria-label="Playback position"><button id="muteButton" class="sound-button" aria-label="Mute audio">SOUND ON</button><button id="fullButton" class="icon-button fullscreen" aria-label="Full screen"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button></div>
+        <div class="session-caption"><span class="status-dot" id="readyDot"></span><span id="sessionState">Loading local session…</span><a id="download" href="#" download="jali-session.wav">Download WAV <span>↗</span></a></div>
+      </section>
+      <aside class="control-column">
+        <section class="control-panel"><div class="section-title"><span class="step-number">01</span><h2>Give it a voice</h2><span class="small-badge">OFFLINE</span></div><p class="section-description">Type a line. Hear it spoken. Watch it come alive.</p>
+          <form id="speechForm"><label for="text">DIALOGUE<span id="charCount">0 / 240 bytes</span></label><textarea id="text" rows="4" spellcheck="true" maxlength="240">Welcome to Jali. My voice is synthesized locally, and my face is rendered with Vulkan.</textarea><div class="prompt-chips"><button type="button" data-prompt="Hello, I am Jali. A voice, a face, and a little electricity.">Introduce yourself <span>↗</span></button><button type="button" data-prompt="The city never sleeps. Neon lights, midnight rain, and a new story on every corner.">Night city <span>↗</span></button></div>
+          <div class="voice-card"><div class="voice-icon">≋</div><div><strong>English / eSpeak NG</strong><span>Built-in synthetic voice · no cloning</span></div><span class="voice-check">✓</span></div>
+          <button class="generate-button" id="generate" type="submit"><svg viewBox="0 0 24 24"><path d="m13 2-9 12h7l-1 8 10-12h-7z"/></svg><span id="generateLabel">Start live performance</span><span class="button-arrow">↗</span></button><p id="error" class="error" role="alert" hidden></p></form>
+        </section>
+        <section class="telemetry-panel"><div class="section-title"><span class="step-number">02</span><h2>Inside the pipeline</h2><span class="small-badge cyan">CONNECTED</span></div>
+          <div class="pipeline-track"><div><span class="node">≋</span><strong>SPEECH</strong><small>eSpeak NG</small></div><span class="track-line"></span><div><span class="node">∿</span><strong>ANIMATION</strong><small>TTS phonemes</small></div><span class="track-line"></span><div><span class="node">◇</span><strong>RENDER</strong><small>GPU morph + skin</small></div></div>
+          <div class="metrics-grid"><div><span>DURATION</span><strong id="duration">—<small>s</small></strong></div><div><span>RECEIVED FRAMES</span><strong id="frames">—</strong></div><div><span>POSE / AUDIO OFFSET</span><strong id="lag">—<small>ms</small></strong></div><div><span>NATIVE SETUP TIME</span><strong id="generation">—<small>s</small></strong></div></div>
+          <div class="device-row"><span class="device-icon">▧</span><div><span>ACTIVE VULKAN DEVICE</span><strong id="device">Detecting…</strong><small id="rigInfo"></small></div></div>
+        </section>
+      </aside>
+    </div>
+    <div class="disclosure"><span><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 10v7M12 6v1"/></svg></span><p><strong>A working prototype, not a simulation.</strong> Native C++ renders an imported GLB with compute morphing and skeletal skinning. Web Audio drives live frame requests and phoneme poses; no movie is pre-rendered. Network delay and frame/audio offset are measured estimates, not certified AV sync. This sandbox still has no hardware GPU.</p><span class="disclosure-tag">NO CLOUD · NO CLONING</span></div>
+  </main>
+  <footer><span>JALI ENGINE <span class="footer-slash">/</span> BUILT TO CONNECT</span><span>LOCAL SYNTHESIS. NATIVE PIXELS.</span></footer>
+</body>
+</html>

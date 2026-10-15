@@ -1,0 +1,105 @@
+#version 450
+// Native Vulkan compute ray tracing of analytic 3D geometry. No browser-side rendering.
+layout(local_size_x=8, local_size_y=8) in;
+layout(set=0, binding=0, std430) buffer Pixels { uint rgba[]; } pixels;
+layout(push_constant) uniform Frame { uint width; uint height; float jaw; float time; } frame;
+
+const vec3 CYAN = vec3(0.02, 0.85, 1.0);
+const vec3 PINK = vec3(1.0, 0.08, 0.32);
+float closest;
+vec3 normal;
+vec3 point;
+int material;
+
+// Exact ray/ellipsoid intersections and inverse-transpose normals.
+void ellipsoid(vec3 ro, vec3 rd, vec3 center, vec3 radius, int id) {
+    vec3 o=(ro-center)/radius, d=rd/radius;
+    float a=dot(d,d), b=dot(o,d), c=dot(o,o)-1.0;
+    float h=b*b-a*c;
+    if (h<0.0) return;
+    float t=(-b-sqrt(h))/a;
+    if (t<=0.0 || t>=closest) return;
+    closest=t; point=ro+rd*t;
+    normal=normalize((point-center)/(radius*radius)); material=id;
+}
+
+vec3 scene(vec3 ro, vec3 rd) {
+    closest=1e6; material=-1;
+    // Sculpted shell, articulated lower jaw, neck and shoulder armor.
+    ellipsoid(ro,rd,vec3(0,0.16,0),vec3(0.61,0.87,0.52),0);
+    ellipsoid(ro,rd,vec3(0,-0.49-frame.jaw*0.055,0.015),vec3(0.46,0.34,0.45),1);
+    ellipsoid(ro,rd,vec3(0,-1.02,-0.06),vec3(0.24,0.42,0.25),2);
+    ellipsoid(ro,rd,vec3(0,-1.48,-0.15),vec3(1.18,0.38,0.44),2);
+    ellipsoid(ro,rd,vec3(0,-1.13,0.04),vec3(0.40,0.12,0.35),3);
+    // Temple implants and mechanical ears.
+    for(int side=-1;side<=1;side+=2) {
+        float s=float(side);
+        ellipsoid(ro,rd,vec3(s*0.61,0.13,-0.04),vec3(0.105,0.27,0.16),2);
+        ellipsoid(ro,rd,vec3(s*0.66,0.13,0.045),vec3(0.040,0.18,0.13),4);
+        ellipsoid(ro,rd,vec3(s*0.25,0.29,0.445),vec3(0.19,0.085,0.075),2);
+        ellipsoid(ro,rd,vec3(s*0.25,0.29,0.495),vec3(0.139,0.038,0.041),4);
+        ellipsoid(ro,rd,vec3(s*0.25,0.40,0.43),vec3(0.21,0.035,0.065),3);
+        ellipsoid(ro,rd,vec3(s*0.38,-0.13,0.40),vec3(0.10,0.17,0.09),3);
+    }
+    // Nose bridge and tip.
+    ellipsoid(ro,rd,vec3(0,0.10,0.49),vec3(0.075,0.205,0.10),0);
+    ellipsoid(ro,rd,vec3(0,-0.02,0.55),vec3(0.095,0.075,0.07),0);
+    // Mouth assembly: outer rim, dark opening and tiny illuminated inner separator.
+    float opening=0.014+frame.jaw*0.088;
+    ellipsoid(ro,rd,vec3(0,-0.32-frame.jaw*0.025,0.43),vec3(0.205,opening+0.029,0.081),3);
+    ellipsoid(ro,rd,vec3(0,-0.32-frame.jaw*0.025,0.493),vec3(0.173,opening,0.028),5);
+    if(material==-1) return vec3(-1);
+
+    vec3 n=normal, p=point;
+    vec3 light=normalize(vec3(-0.65,0.9,1.6));
+    vec3 view=-rd;
+    float diffuse=max(dot(n,light),0.0);
+    float rim=pow(1.0-max(dot(n,view),0.0),3.0);
+    float spec=pow(max(dot(reflect(-light,n),view),0.0),40.0);
+    vec3 base=vec3(0.60,0.67,0.70);
+    if(material==1) base=vec3(0.45,0.52,0.57);
+    if(material==2) base=vec3(0.025,0.042,0.065);
+    if(material==3) base=vec3(0.12,0.20,0.25);
+    vec3 color=base*(0.14+0.8*diffuse)+spec*vec3(0.5)+rim*CYAN*0.23;
+    color+=max(0.0,dot(n,normalize(vec3(1,-0.1,0.6))))*PINK*0.07;
+    if(material==4) {
+        color=CYAN*(0.70+0.30*diffuse);
+        // A pupil-like center interrupts the glowing eye strip.
+        if(abs(abs(p.x)-0.25)<0.025 && abs(p.y-0.29)<0.034) color*=0.24;
+    }
+    if(material==5) {
+        color=vec3(0.007,0.012,0.025);
+        if(frame.jaw>0.12 && abs(p.y-(-0.32-frame.jaw*0.025))<0.006) color+=PINK*0.35;
+    }
+    // Surface-space panel lines and embedded circuit tracks.
+    if(material==0 || material==1) {
+        float seam=abs(abs(p.x)-(0.20+max(p.y-0.4,0.0)*0.3));
+        if(p.y>0.51 && seam<0.006) color*=0.30;
+        if(p.y>0.55 && abs(p.x)<0.027 && p.z>0.18) color=CYAN*0.65;
+        if(p.y>0.67 && p.y<0.70 && abs(p.x)<0.21 && p.z>0.1) color*=0.45;
+        if(p.y<0.07 && p.y> -0.21 && abs(p.x)>0.42 && abs(p.y+abs(p.x)*0.3)<0.009) color=CYAN*0.7;
+    }
+    return color;
+}
+
+void main() {
+    uvec2 pixel=gl_GlobalInvocationID.xy;
+    if(pixel.x>=frame.width || pixel.y>=frame.height) return;
+    vec2 uv=(vec2(pixel)+0.5)/vec2(frame.width,frame.height)*2.0-1.0;
+    uv.x*=float(frame.width)/float(frame.height);
+    uv.y=-uv.y;
+    // Slight fixed three-quarter portrait makes the procedural geometry legible.
+    vec3 ro=vec3(0.12,0.02,4.5);
+    vec3 rd=normalize(vec3(uv.x*0.93,uv.y*0.93-0.15,-3.0));
+    vec3 bg=vec3(0.013,0.025,0.045);
+    float halo=exp(-dot(uv-vec2(0,0.10),uv-vec2(0,0.10))*2.0);
+    bg+=vec3(0.01,0.06,0.075)*halo;
+    // Restrained technical grid, rendered by the Vulkan shader too.
+    vec2 grid=abs(fract((uv+2.0)*10.0)-0.5);
+    if(min(grid.x,grid.y)<0.006) bg+=vec3(0.008,0.022,0.027);
+    vec3 color=scene(ro,rd);
+    if(color.x<0.0) color=bg;
+    color=pow(clamp(color,0.0,1.0),vec3(1.0/2.2));
+    uvec3 rgb=uvec3(color*255.0+0.5);
+    pixels.rgba[pixel.y*frame.width+pixel.x]=rgb.r|(rgb.g<<8)|(rgb.b<<16)|(255u<<24);
+}

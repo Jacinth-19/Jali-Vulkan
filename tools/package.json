@@ -1,0 +1,14 @@
+{
+  "name": "jali-vulkan-local-tools",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Pinned development shader compiler and optional sandbox software Vulkan runtime",
+  "dependencies": {
+    "@sparticuz/chromium": "133.0.0",
+    "@webgpu/glslang": "0.0.15"
+  },
+  "devDependencies": {
+    "gltf-validator": "2.0.0-dev.3.10",
+    "playwright-core": "1.51.1"
+  }
+}

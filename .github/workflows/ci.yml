@@ -1,0 +1,169 @@
+name: Voice and Vulkan validation
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-test:
+    name: ${{ matrix.compiler }} / ${{ matrix.build_type }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler: [g++, clang++]
+        build_type: [Debug, Release]
+    steps:
+      - name: Check out source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Confirm Python analyzer is available
+        run: python3 --version
+      - name: Configure
+        run: >-
+          cmake -S . -B build
+          -DCMAKE_CXX_COMPILER=${{ matrix.compiler }}
+          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+          -DPython3_EXECUTABLE=$(command -v python3)
+      - name: Build
+        run: cmake --build build --parallel 2
+      - name: Run contracts and serialized-artifact gauntlet
+        run: ctest --test-dir build --output-on-failure --no-tests=error
+      - name: Upload synthetic fixture and test log
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: fixture-${{ matrix.compiler }}-${{ matrix.build_type }}
+          path: |
+            build/fixture/
+            build/Testing/Temporary/LastTest.log
+          retention-days: 3
+          if-no-files-found: warn
+
+  sanitizers:
+    name: Address and undefined-behavior checks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Configure
+        run: >-
+          cmake -S . -B build-sanitized
+          -DCMAKE_BUILD_TYPE=Debug
+          -DJALI_ENABLE_SANITIZERS=ON
+          -DPython3_EXECUTABLE=$(command -v python3)
+      - name: Build
+        run: cmake --build build-sanitized --parallel 2
+      - name: Run sanitized contracts
+        env:
+          ASAN_OPTIONS: detect_leaks=1:halt_on_error=1
+          UBSAN_OPTIONS: halt_on_error=1:print_stacktrace=1
+        run: ctest --test-dir build-sanitized --output-on-failure --no-tests=error
+
+  native-backends:
+    name: Native speech, Vulkan validation layers and browser
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Install platform speech and Vulkan development dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libvulkan-dev mesa-vulkan-drivers vulkan-tools vulkan-validationlayers libespeak-ng-dev glslang-tools
+      - name: Select software Vulkan and record actual runner resources
+        run: |
+          mkdir -p artifacts "$RUNNER_TEMP/jali-xdg"
+          chmod 700 "$RUNNER_TEMP/jali-xdg"
+          icd=$(find /usr/share/vulkan/icd.d -name '*lvp*json' -print -quit)
+          test -n "$icd"
+          echo "VK_ICD_FILENAMES=$icd" >> "$GITHUB_ENV"
+          echo "XDG_RUNTIME_DIR=$RUNNER_TEMP/jali-xdg" >> "$GITHUB_ENV"
+          echo "VK_INSTANCE_LAYERS=VK_LAYER_KHRONOS_validation" >> "$GITHUB_ENV"
+          { uname -a; lscpu; free -h; df -h .; } | tee artifacts/runner-resources.txt
+      - name: Record Vulkan device and validation layer inventory
+        run: vulkaninfo --summary 2>&1 | tee artifacts/vulkan-info.txt
+      - name: Install pinned Python image transport dependency
+        run: |
+          python3 -m venv .venv
+          .venv/bin/python -m pip install pillow==11.3.0
+      - name: Fetch the pinned self-contained glTF parser
+        run: |
+          mkdir -p .cache/deps
+          curl -fL https://codeload.github.com/syoyo/tinygltf/tar.gz/refs/tags/v2.9.3 -o .cache/deps/tinygltf.tar.gz
+          echo "c34443de2e9afaaf005713f69f5b061101a24ab2e9ee4021d882ac1d7983dbc0  .cache/deps/tinygltf.tar.gz" | sha256sum -c -
+          tar -xzf .cache/deps/tinygltf.tar.gz -C .cache/deps
+          npm ci --prefix tools --ignore-scripts
+      - name: Configure real backends
+        run: >-
+          cmake -S . -B build-live -DCMAKE_BUILD_TYPE=Release
+          -DJALI_ENABLE_ESPEAK=ON -DJALI_ENABLE_VULKAN=ON
+          -DPython3_EXECUTABLE="$PWD/.venv/bin/python"
+          -DTINYGLTF_INCLUDE_DIR="$PWD/.cache/deps/tinygltf-2.9.3"
+      - name: Build
+        run: cmake --build build-live --parallel 2
+      - name: Test real PCM and Vulkan readback
+        run: ctest --test-dir build-live --output-on-failure --no-tests=error
+      - name: Exercise the full native CLI
+        run: |
+          ./build-live/jali_demo --voice espeak --renderer vulkan \
+            --text "Hello from Jali." --size 128 --fps 12 --output artifacts/native-ci 2>&1 | tee artifacts/native-cli.log
+          python3 tests/analyze_sync.py --audio artifacts/native-ci/session.wav \
+            --curves artifacts/native-ci/face.csv --max-lag-ms 100
+      - name: Verify hardware-required mode rejects the software driver
+        run: |
+          if ./build-live/jali_live --require-hardware --output artifacts/hardware-rejection > artifacts/hardware-rejection.log 2>&1; then
+            echo "ERROR: Software Vulkan was accepted as hardware" >&2
+            exit 1
+          fi
+          grep -i "hardware" artifacts/hardware-rejection.log
+      - name: Exercise live Web Audio and native frames in Chromium
+        run: .venv/bin/python tools/smoke_ci.py
+      - name: Fail on Vulkan validation diagnostics
+        run: |
+          .venv/bin/python - <<'PY'
+          from pathlib import Path
+          import re
+          paths = [Path('build-live/Testing/Temporary/LastTest.log'),
+                   Path('artifacts/native-cli.log'), Path('artifacts/ci-preview.log')]
+          paths += list(Path('artifacts').glob('*/engine.log'))
+          for path in paths:
+              text = path.read_text(errors='replace')
+              if re.search(r'Validation (?:Error|Warning|Performance Warning)|VUID-|UNASSIGNED-', text):
+                  raise SystemExit(f'Vulkan validation diagnostic in {path}:\n{text}')
+          print('No Vulkan validation diagnostics found in native and browser test logs')
+          PY
+      - name: Upload built-in synthetic speech and native frame evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: native-backend-evidence
+          path: |
+            artifacts/native-ci/
+            artifacts/native-cli.log
+            artifacts/runner-resources.txt
+            artifacts/vulkan-info.txt
+            artifacts/ci-preview.log
+            artifacts/ci-session.json
+            artifacts/hardware-rejection.log
+            artifacts/browser-check/
+            artifacts/*/engine.log
+            build-live/live-protocol/session.json
+            build-live/Testing/Temporary/LastTest.log
+          retention-days: 3
+          if-no-files-found: warn

@@ -1,0 +1,17 @@
+#version 450
+layout(local_size_x=64) in;
+layout(set=0,binding=0,std430) readonly buffer Rest { uint words[]; } rest;
+layout(set=0,binding=1,std430) writeonly buffer Deformed { float words[]; } mesh;
+layout(set=0,binding=2,std140) uniform Pose { mat4 bones[64]; vec4 morph; } pose;
+layout(push_constant) uniform Count { uint vertices; } count;
+vec3 read3(uint o) { return vec3(uintBitsToFloat(rest.words[o]),uintBitsToFloat(rest.words[o+1]),uintBitsToFloat(rest.words[o+2])); }
+void main() {
+    uint v=gl_GlobalInvocationID.x;if(v>=count.vertices)return;uint s=v*26;
+    vec3 p=read3(s)+read3(s+17)*pose.morph.x+read3(s+20)*pose.morph.y+read3(s+23)*pose.morph.z;
+    mat4 skin=mat4(0);
+    for(uint i=0;i<4;i++)skin+=pose.bones[rest.words[s+9+i]]*uintBitsToFloat(rest.words[s+13+i]);
+    p=(skin*vec4(p,1)).xyz;vec3 n=mat3(skin)*read3(s+3);
+    float length2=dot(n,n);n=length2>1e-12 ? n*inversesqrt(length2) : read3(s+3);vec3 color=read3(s+6);
+    uint o=v*9;
+    for(uint k=0;k<3;k++){mesh.words[o+k]=p[k];mesh.words[o+3+k]=n[k];mesh.words[o+6+k]=color[k];}
+}

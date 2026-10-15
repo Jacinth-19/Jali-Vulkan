@@ -1,0 +1,5 @@
+# Optional offline MP4 encoding only; the CPU baseline needs no Python packages.
+imageio-ffmpeg==0.6.0
+
+# Live native frame transport uses JPEG only; no offline movie generation required.
+pillow==11.3.0

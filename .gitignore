@@ -1,0 +1,15 @@
+/build*/
+/artifacts/
+/out/
+/coverage/
+__pycache__/
+*.pyc
+.venv/
+/models/
+/datasets/
+.cache/
+node_modules/
+/private/
+/recordings/
+/voice-grants/
+.env
