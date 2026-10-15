@@ -78,6 +78,8 @@ async function loadSession(meta, autoplay = false) {
   buffer = await ctx.decodeAudioData(await audioResponse.arrayBuffer());
   cues = await (await fetch(meta.cues_url)).json();
   session = meta; offset = 0; framesReceived = 0; latestOffset = 0;
+  canvas.dataset.durationSeconds = String(buffer.duration);
+  canvas.dataset.sessionId = meta.id;
   canvas.width = meta.width; canvas.height = meta.height;
   $('download').href = meta.audio_url;
   $('device').textContent = `${meta.device} · ${meta.hardware_accelerated ? 'hardware' : 'software'}`;
