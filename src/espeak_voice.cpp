@@ -33,8 +33,32 @@ int collect(short* pcm, int count, espeak_EVENT* events) noexcept {
         return 1;
     }
 }
-struct Shutdown {
-    ~Shutdown() { espeak_Terminate(); destination = nullptr; cue_destination = nullptr; }
+// eSpeak owns process-global state and (in distro builds) asynchronous helper
+// threads even when synthesis itself is synchronous. Keep one engine alive;
+// terminate/reinitialize between requests can deadlock those helper threads.
+struct Engine {
+    int rate = 0;
+    std::string data_path;
+    int initialize(const std::string& path) {
+        if (rate > 0) {
+            if (path != data_path)
+                throw std::invalid_argument("eSpeak data directory cannot change within a process");
+            return rate;
+        }
+        // DONT_EXIT | PHONEME_EVENTS: initialization errors must not exit our process.
+        const int initialized = espeak_Initialize(AUDIO_OUTPUT_SYNCHRONOUS, 0,
+                                                  path.empty() ? nullptr : path.c_str(), 0x8001);
+        if (initialized <= 0)
+            throw std::runtime_error("eSpeak initialization failed; check JALI_ESPEAK_DATA");
+        data_path = path;
+        rate = initialized;
+        return rate;
+    }
+    ~Engine() { if (rate > 0) espeak_Terminate(); }
+};
+Engine& engine() { static Engine shared; return shared; }
+struct ResetCallback {
+    ~ResetCallback() { destination = nullptr; cue_destination = nullptr; callback_error = nullptr; }
 };
 }
 EspeakVoiceSource::EspeakVoiceSource(std::filesystem::path data_directory)
@@ -47,11 +71,8 @@ AudioBuffer EspeakVoiceSource::synthesize(const VoiceRequest& request) {
         throw std::invalid_argument("speech text must contain 1-500 bytes of nonblank text, without NUL");
     std::lock_guard<std::mutex> lock(engine_mutex);
     const auto path = data_directory_.string();
-    // 0x8000 prevents the engine from exiting the process if data is missing.
-    const auto rate = espeak_Initialize(AUDIO_OUTPUT_SYNCHRONOUS, 0,
-                                       path.empty() ? nullptr : path.c_str(), 0x8001);
-    if (rate <= 0) throw std::runtime_error("eSpeak initialization failed; check JALI_ESPEAK_DATA");
-    Shutdown shutdown;
+    const auto rate = engine().initialize(path);
+    ResetCallback reset;
     AudioBuffer audio;
     audio.sample_rate = static_cast<std::uint32_t>(rate);
     audio.samples.reserve(audio.sample_rate * 15u);

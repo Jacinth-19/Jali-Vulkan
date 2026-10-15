@@ -28,6 +28,7 @@ int main() {
         rejects([&] { speech.synthesize({"", "espeak-en"}); });
         rejects([&] { speech.synthesize({"   ", "espeak-en"}); });
         rejects([&] { speech.synthesize({std::string("a\0b", 3), "espeak-en"}); });
+        std::cerr << "eSpeak: first synchronous synthesis\n";
         auto audio = speech.synthesize({"Welcome to Jali. This is real synthesized speech.", "espeak-en"});
         expect(audio.samples.size() > audio.sample_rate, "speech unexpectedly shorter than one second");
         double energy = 0;
@@ -35,11 +36,13 @@ int main() {
         expect(energy > 1, "speech PCM is silent");
         expect(!speech.phonemes().empty(), "phoneme event capture is empty");
         expect(jali::phoneme_pose("m").close==1 && jali::phoneme_pose("u:").round==1 && jali::phoneme_pose("a").jaw>0.7f,"distinct viseme classes");
+        std::cerr << "eSpeak: repeated synchronous synthesis\n";
         auto second = speech.synthesize({"Hello again.", "espeak-en"});
         expect(!second.samples.empty(), "second synthesis failed");
         std::cout << "eSpeak PCM: " << audio.samples.size() << " samples at " << audio.sample_rate << " Hz\n";
 #endif
 #ifdef JALI_HAS_VULKAN
+        std::cerr << "Vulkan: create renderer and test analytic readback\n";
         jali::VulkanFaceRenderer renderer(96, 96, JALI_DEFAULT_FACE_SHADER);
         rejects([&] { renderer.render(0); });
         auto rig = jali::make_fixture_rig();
@@ -61,6 +64,7 @@ int main() {
         rig.morph_channels[0].name = "wrong";
         rejects([&] { renderer.submit(rig, {{0, {0}}}); });
         const auto character = jali::load_character_glb(JALI_DEFAULT_CHARACTER);
+        std::cerr << "Vulkan: test imported mesh deformation and raster\n";
         renderer.load_character(JALI_DEFAULT_CHARACTER);
         expect(character.joints.size()==2 && character.vertices.size()>1000,"real imported GLB skin");
         auto neutral = renderer.render_pose({});

@@ -24,7 +24,7 @@ jobs:
         build_type: [Debug, Release]
     steps:
       - name: Check out source
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           persist-credentials: false
       - name: Confirm Python analyzer is available
@@ -41,7 +41,7 @@ jobs:
         run: ctest --test-dir build --output-on-failure --no-tests=error
       - name: Upload synthetic fixture and test log
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
         with:
           name: fixture-${{ matrix.compiler }}-${{ matrix.build_type }}
           path: |
@@ -56,7 +56,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Check out source
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           persist-credentials: false
       - name: Configure
@@ -79,7 +79,7 @@ jobs:
     timeout-minutes: 20
     steps:
       - name: Check out source
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           persist-credentials: false
       - name: Install platform speech and Vulkan development dependencies
@@ -118,16 +118,16 @@ jobs:
       - name: Build
         run: cmake --build build-live --parallel 2
       - name: Test real PCM and Vulkan readback
-        run: ctest --test-dir build-live --output-on-failure --no-tests=error
+        run: ctest --test-dir build-live --output-on-failure --no-tests=error --timeout 60
       - name: Exercise the full native CLI
         run: |
-          ./build-live/jali_demo --voice espeak --renderer vulkan \
+          timeout 60s ./build-live/jali_demo --voice espeak --renderer vulkan \
             --text "Hello from Jali." --size 128 --fps 12 --output artifacts/native-ci 2>&1 | tee artifacts/native-cli.log
           python3 tests/analyze_sync.py --audio artifacts/native-ci/session.wav \
             --curves artifacts/native-ci/face.csv --max-lag-ms 100
       - name: Verify hardware-required mode rejects the software driver
         run: |
-          if ./build-live/jali_live --require-hardware --output artifacts/hardware-rejection > artifacts/hardware-rejection.log 2>&1; then
+          if timeout 30s ./build-live/jali_live --require-hardware --output artifacts/hardware-rejection > artifacts/hardware-rejection.log 2>&1; then
             echo "ERROR: Software Vulkan was accepted as hardware" >&2
             exit 1
           fi
@@ -150,7 +150,7 @@ jobs:
           PY
       - name: Upload built-in synthetic speech and native frame evidence
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
         with:
           name: native-backend-evidence
           path: |
@@ -164,6 +164,6 @@ jobs:
             artifacts/browser-check/
             artifacts/*/engine.log
             build-live/live-protocol/session.json
-            build-live/Testing/Temporary/LastTest.log
+            build-live/Testing/Temporary/
           retention-days: 3
           if-no-files-found: warn
