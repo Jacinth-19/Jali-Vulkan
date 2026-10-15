@@ -96,8 +96,12 @@ jobs:
           echo "XDG_RUNTIME_DIR=$RUNNER_TEMP/jali-xdg" >> "$GITHUB_ENV"
           echo "VK_INSTANCE_LAYERS=VK_LAYER_KHRONOS_validation" >> "$GITHUB_ENV"
           { uname -a; lscpu; free -h; df -h .; } | tee artifacts/runner-resources.txt
+          echo "::notice title=Runner resources::CPUs=$(nproc); RAM=$(awk '/MemTotal/ {printf "%.1f GiB", $2/1048576}' /proc/meminfo); disk=$(df -h . | awk 'NR==2 {print $4}') free"
       - name: Record Vulkan device and validation layer inventory
-        run: vulkaninfo --summary 2>&1 | tee artifacts/vulkan-info.txt
+        run: |
+          vulkaninfo --summary 2>&1 | tee artifacts/vulkan-info.txt
+          device=$(sed -n 's/.*deviceName *= *//p' artifacts/vulkan-info.txt | head -1)
+          echo "::notice title=Vulkan device::$device (software driver selected)"
       - name: Install pinned Python image transport dependency
         run: |
           python3 -m venv .venv
@@ -135,6 +139,7 @@ jobs:
       - name: Exercise live Web Audio and native frames in Chromium
         run: .venv/bin/python tools/smoke_ci.py
       - name: Fail on Vulkan validation diagnostics
+        if: ${{ !cancelled() }}
         run: |
           .venv/bin/python - <<'PY'
           from pathlib import Path
@@ -143,9 +148,14 @@ jobs:
                    Path('artifacts/native-cli.log'), Path('artifacts/ci-preview.log')]
           paths += list(Path('artifacts').glob('*/engine.log'))
           for path in paths:
+              if not path.exists():
+                  continue
               text = path.read_text(errors='replace')
               if re.search(r'Validation (?:Error|Warning|Performance Warning)|VUID-|UNASSIGNED-', text):
-                  raise SystemExit(f'Vulkan validation diagnostic in {path}:\n{text}')
+                  details = '\n'.join(line for line in text.splitlines() if re.search(r'Validation |VUID-|UNASSIGNED-', line))[:6000]
+                  escaped = details.replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A')
+                  print(f'::error title=Vulkan validation::{path}: {escaped}', flush=True)
+                  raise SystemExit(f'Vulkan validation diagnostic in {path}')
           print('No Vulkan validation diagnostics found in native and browser test logs')
           PY
       - name: Upload built-in synthetic speech and native frame evidence

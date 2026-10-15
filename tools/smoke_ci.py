@@ -49,7 +49,12 @@ def main():
                     time.sleep(0.1)
             (artifacts / 'ci-session.json').write_text(json.dumps(metadata, indent=2) + '\n')
             print(f"Browser test device: {metadata['device']}; hardware={metadata['hardware_accelerated']}", flush=True)
-            subprocess.run(['node', 'tools/smoke_preview.cjs', url], cwd=ROOT, check=True, timeout=120)
+            result = subprocess.run(['node', 'tools/smoke_preview.cjs', url], cwd=ROOT,
+                                    capture_output=True, text=True, timeout=120)
+            print(result.stdout, end='')
+            print(result.stderr, end='', file=sys.stderr)
+            if result.returncode:
+                raise RuntimeError((result.stderr or result.stdout)[-7000:])
         finally:
             # The native renderer belongs to the same disposable process group.
             try:
@@ -64,4 +69,9 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except Exception as error:
+        message = str(error).replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A')
+        print(f'::error title=Live browser integration::{message}', flush=True)
+        raise
