@@ -32,7 +32,7 @@ class InstallationTests(unittest.TestCase):
                 else:p.write_text(payload)
                 self.assertFalse(verify_installation(self.root)['verified'])
     def test_unsafe_names_are_rejected_before_hashing(self):
-        for name in ('../out','/absolute','C:/app','a\\b','a//b','a/../b','a/./b','bad.','bad ','a:stream','a\0b','a?b'):
+        for name in ('.','a\nb','a\x1fb','../out','/absolute','C:/app','a\\b','a//b','a/../b','a/./b','bad.','bad ','a:stream','a\0b','a?b'):
             self.assertFalse(safe_name(name),name)
         m=json.loads((self.root/NAME).read_text());m['files']['../outside']=m['files']['app.exe'];(self.root/NAME).write_text(json.dumps(m));self.assertFalse(verify_installation(self.root)['verified'])
     def test_case_colliding_manifest_rejected(self):

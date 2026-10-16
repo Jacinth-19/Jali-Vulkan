@@ -39,6 +39,7 @@ def build(*,prepare_speech=True):
     rig = {'profile':'mpfb-rhubarb-9-v1', 'source_commit': SOURCE_COMMIT,
            'model_sha256':digest(model), 'retarget_sha256':digest(ROOT / 'web/neural-head/visemes.mjs'),
            'viewer_sha256':digest(OUTPUT / 'viewer.js')}
+    subprocess.run(['node','tools/build_native_shapes.cjs',str(OUTPUT/'native-shapes.json')],cwd=ROOT,check=True,timeout=15)
     (OUTPUT / 'rig.json').write_text(json.dumps(rig, indent=2) + '\n')
     data = {'clips': [], 'live': True, 'rig': rig}
     (OUTPUT / 'demo-data.js').write_text('window.JALI_HEAD_DATA='+json.dumps(data)+';\nwindow.JALI_HEAD_BASE64='+json.dumps(base64.b64encode(model.read_bytes()).decode())+';\n')

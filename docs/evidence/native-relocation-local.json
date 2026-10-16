@@ -1,0 +1,21 @@
+{
+  "schema": "jali-native-relocation-local-v1",
+  "original_shader_directory_unavailable": true,
+  "renderer": {
+    "atlas_height": 3084,
+    "atlas_width": 3084,
+    "device": "SwiftShader Device (Subzero)",
+    "hardware_accelerated": false,
+    "height": 128,
+    "named_targets": 66,
+    "palette_nodes": 68,
+    "primitive_groups": 8,
+    "renderer": "native-vulkan-rich-v1",
+    "triangles": 83686,
+    "vertices": 53116,
+    "width": 128
+  },
+  "bytes": 65536,
+  "frame_sha256": "670ad33a518054b24fac3af20f10598b2a3d375271b34d7f3d0af29d8f815b48",
+  "limits": "Linux native relocation test, not the frozen Windows acceptance"
+}

@@ -23,7 +23,7 @@ def digest(path):
 def safe_name(name):
     if not isinstance(name,str) or not name or len(name)>1024:return False
     p=PurePosixPath(name)
-    return not p.is_absolute() and p.as_posix()==name and all(c not in name for c in '\\:\x00<>"|?*') and all(part not in ('.','..') and part.rstrip(' .')==part for part in p.parts)
+    return bool(p.parts) and not p.is_absolute() and not any(ord(c)<32 for c in name) and p.as_posix()==name and all(c not in name for c in '\\:\x00<>"|?*') and all(part not in ('.','..') and part.rstrip(' .')==part for part in p.parts)
 
 
 def link(path):

@@ -236,7 +236,7 @@ jobs:
             artifacts/playback-checkpoint-proof/
           retention-days: 3
           if-no-files-found: error
-      - name: Upload synthetic-only review evidence, never weights or caches
+      - name: Upload public corpus, exact CC0 rig and review evidence (never speech weights)
         if: always()
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
         with:
@@ -244,6 +244,9 @@ jobs:
           path: |
             artifacts/neural-review/
             artifacts/neural-studio/proof/
+            artifacts/neural-head-demo/model/mpfb-head.glb
+            artifacts/neural-studio/licenses/CC0-1.0.txt
+            artifacts/neural-studio/licenses/model-source-README.md
             artifacts/neural-runner-resources.txt
             artifacts/neural-ci-server.log
           retention-days: 3

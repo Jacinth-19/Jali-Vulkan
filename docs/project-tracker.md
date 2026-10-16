@@ -490,3 +490,19 @@ The follow-up preserves secure loader behavior, explicitly registers/cleans up
 the hosted test ICD, fixes paths/separators, and adds a deterministic queued-pause
 regression alongside actual playback cancellation. Local contracts are now
 119 Python / 17 JavaScript / 12 CTest entries; hosted results are still pending.
+
+Second run `38910496941`: Windows native GPU/backend and all 11 CTest entries
+passed after the explicit hosted ICD registration fix, but the subsequent public
+session proof correctly rejected a different Windows-prepared GLB hash. The
+Linux producer's exact prepared CC0 model is now staged with the public corpus;
+platform-local PNG re-encoding is never accepted as the same rig. A regression
+checks that exact producer bytes survive local preparation. Source LF checkout
+rules make cross-platform source/retarget hashes reproducible.
+
+The optional frozen-native app also correctly failed the stripped-PATH test:
+its shared-shape adapter still launched Node. Shapes are now exported from the
+single authoritative JS mapping **at build time**, bound to its source hash,
+and read directly at runtime. Two model-free contracts and actual native JPEG
+readback with an empty PATH validate that fix locally. The frozen Windows path
+must still pass hosted; failures have not been reclassified as successes.
+Local total is now 123 Python / 17 JS / 12 CTest entries.

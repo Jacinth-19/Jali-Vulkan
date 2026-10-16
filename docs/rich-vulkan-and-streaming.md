@@ -168,3 +168,18 @@ uses a packaged shader directory, not baked build-machine paths. A real local
 relocation test moved the EXE/shaders and hid the original shader directory;
 the complete human still rendered successfully. Frozen Windows relocation and
 stripped-PATH loading are separately covered by the new hosted package test.
+
+For cross-platform corpus proof, use the **exact** prepared CC0 GLB published by
+the Linux producer, not a Windows-local PNG re-encoding of it. CI stages that
+licensed asset with the public review corpus and checks the clip's bound model
+SHA before conversion. Original pinned source/license provenance is still
+verified. Source LF checkout rules also preserve exact retarget hashes.
+
+The native shape table is exported from `visemes.mjs` by
+`tools/build_native_shapes.cjs` during explicit presentation preparation. Frozen
+runtime reads the bundled version-bound JSON directly; it does not launch Node
+or evaluate JavaScript. Source-only contracts have a checked-in generated table
+and numerical JS/Python parity tests. Updating the authoritative JS mapping
+requires regenerating that table. For local software-driver tests use a normal,
+non-elevated shell; secure Windows loaders ignore environment driver overrides
+when elevated. Only disposable hosted CI receives the temporary registry entry.

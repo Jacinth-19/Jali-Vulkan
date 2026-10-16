@@ -1,0 +1,270 @@
+{
+  "schema": "jali-native-longevity-v1",
+  "parser_checks": [
+    {
+      "case": "oversize-command",
+      "exit_code": 1,
+      "raw_frame_bytes": 0
+    },
+    {
+      "case": "windows-crlf-quit",
+      "exit_code": 0,
+      "raw_frame_bytes": 0
+    },
+    {
+      "case": "last-command-without-newline",
+      "exit_code": 0,
+      "raw_frame_bytes": 16384
+    }
+  ],
+  "protocol": {
+    "renderer": {
+      "atlas_height": 1,
+      "atlas_width": 1,
+      "device": "SwiftShader Device (Subzero)",
+      "hardware_accelerated": false,
+      "height": 64,
+      "named_targets": 3,
+      "palette_nodes": 1,
+      "primitive_groups": 2,
+      "renderer": "native-vulkan-rich-v1",
+      "triangles": 2,
+      "vertices": 6,
+      "width": 64
+    },
+    "frames_after_warmup": 10020,
+    "size": 64,
+    "elapsed_seconds": 3.9613230959994326,
+    "readback_ms_median": 0.3571229999579373,
+    "readback_ms_p95": 0.4492230000323616,
+    "resident_baseline_bytes": 19865600,
+    "resident_samples": [
+      {
+        "frame": 250,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 500,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 750,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 1000,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 1250,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 1500,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 1750,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 2000,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 2250,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 2500,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 2750,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 3000,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 3250,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 3500,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 3750,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 4000,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 4250,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 4500,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 4750,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 5000,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 5250,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 5500,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 5750,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 6000,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 6250,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 6500,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 6750,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 7000,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 7250,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 7500,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 7750,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 8000,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 8250,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 8500,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 8750,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 9000,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 9250,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 9500,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 9750,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 10000,
+        "resident_bytes": 19865600
+      },
+      {
+        "frame": 10020,
+        "resident_bytes": 19865600
+      }
+    ],
+    "maximum_resident_growth_bytes": 0,
+    "regression_growth_budget_bytes": 67108864,
+    "stable_pose_hashes": {
+      "{}": "74eba9c583e8f592a5863a69f420f31d443307bae95014b5bbb51ac7a8d45c07",
+      "{\"viseme_PP\": 0.95}": "84b9fec1e6d145e5727fa9fa955a87bd4e2f9551131b23de2b16077a921d5812",
+      "{\"viseme_aa\": 0.88}": "fbb83a44cc521462cb14c6d6c9c5d7527212c4703022f739b9d51e99452b45c1",
+      "{\"viseme_U\": 0.88}": "5f5f6093a860fcd7356b4b86b045a4fb32694359546478d1c97352cd7437047f"
+    }
+  },
+  "detailed_head": {
+    "renderer": {
+      "atlas_height": 3084,
+      "atlas_width": 3084,
+      "device": "SwiftShader Device (Subzero)",
+      "hardware_accelerated": false,
+      "height": 256,
+      "named_targets": 66,
+      "palette_nodes": 68,
+      "primitive_groups": 8,
+      "renderer": "native-vulkan-rich-v1",
+      "triangles": 83686,
+      "vertices": 53116,
+      "width": 256
+    },
+    "frames_after_warmup": 256,
+    "size": 256,
+    "elapsed_seconds": 23.101229508999495,
+    "readback_ms_median": 86.82718350019059,
+    "readback_ms_p95": 92.50733999942895,
+    "resident_baseline_bytes": 635719680,
+    "resident_samples": [
+      {
+        "frame": 250,
+        "resident_bytes": 635719680
+      },
+      {
+        "frame": 256,
+        "resident_bytes": 635719680
+      }
+    ],
+    "maximum_resident_growth_bytes": 0,
+    "regression_growth_budget_bytes": 127143936,
+    "stable_pose_hashes": {
+      "{}": "a4265c1cc39c8674f051726ae70aed33fec53ca2001be81740bc7429c4693265",
+      "{\"viseme_PP\": 0.95}": "e828a4ee9a199b1f4bc6d5aaa826a3daff5e45ce5f458e12215d2906a64ebcb1",
+      "{\"viseme_I\": 0.35, \"viseme_SS\": 0.35}": "82f314ffc57313cf010c188179ea5e20b9d1dec633b008151c534f82ac6f5bf2",
+      "{\"viseme_E\": 0.72, \"viseme_aa\": 0.08}": "f5aa08cb6efb33eb1cb200a6fb2bc6144eb0bb6202af7d8ac82fe0906d599863",
+      "{\"viseme_aa\": 0.88}": "dde323308151441644c022c2174b3d483cd593af5219567294f818a0d86d4c7c",
+      "{\"viseme_O\": 0.65, \"viseme_RR\": 0.15}": "fd3616a4ec0f03032e9e9e215c219ee23946d1264e2cfe4b709700d42819dbb8",
+      "{\"viseme_O\": 0.12, \"viseme_U\": 0.88}": "d59276da4f3548fe5d7734f878a1733c102778811c9cce3ce969a3545bb8aff2",
+      "{\"viseme_FF\": 0.85}": "d6f990e61cf35e97b6b257ab0e40157f6ba9d8744c4a1d4fd7bbc25233ec4afe",
+      "{\"viseme_DD\": 0.22, \"viseme_nn\": 0.65}": "cd940ae4abcbda09b70b2150f7b788c4e1147d395d6ebec1451eb05c476a6130"
+    }
+  },
+  "passed": true,
+  "limits": "Regression budget, not a consumer memory/performance promise. Synthetic repeated poses, not sustained physical audio playback, gapless streaming or articulation approval.",
+  "source_files_sha256": {
+    "src/rich.cpp": "17bfff83aebffd0c2e391be815ce238acad7d08242d45f5103c70005ff88d6ca",
+    "src/vulkan_renderer.cpp": "37709eafb022f1a4543db438d204e5d3b969c91446152d6c899da38f8579047a",
+    "src/vulkan_mesh.inc": "82f0f98283bb761d1cbd2e28d4fd91b2880efbc53cf586d7598cd6e435d11741",
+    "tools/stress_native.py": "dd1f6624d654ca5ba2434c312adb6704c69cb03daae7fa611968de4f489f3026",
+    "tools/rich_worker.py": "4ea282a1c7904464d78b79a932d58b18e53ff35ee9a8157e9597a837adc8ef56"
+  }
+}

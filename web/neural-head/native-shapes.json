@@ -1,0 +1,63 @@
+{
+  "schema": "jali-native-shapes-v1",
+  "retarget_sha256": "dffa942e4f0bf5055c727235f4f4ec4110a8a4c9ac5d4cfcce6e6e96ff7ad009",
+  "shapes": {
+    "X": {
+      "label": "Rest / silence",
+      "weights": {}
+    },
+    "A": {
+      "label": "P / B / M",
+      "weights": {
+        "viseme_PP": 0.95
+      }
+    },
+    "B": {
+      "label": "Consonants / EE",
+      "weights": {
+        "viseme_I": 0.35,
+        "viseme_SS": 0.35
+      }
+    },
+    "C": {
+      "label": "EH / AE",
+      "weights": {
+        "viseme_E": 0.72,
+        "viseme_aa": 0.08
+      }
+    },
+    "D": {
+      "label": "Open AA",
+      "weights": {
+        "viseme_aa": 0.88
+      }
+    },
+    "E": {
+      "label": "Rounded AO / ER",
+      "weights": {
+        "viseme_O": 0.65,
+        "viseme_RR": 0.15
+      }
+    },
+    "F": {
+      "label": "Puckered OO / W",
+      "weights": {
+        "viseme_U": 0.88,
+        "viseme_O": 0.12
+      }
+    },
+    "G": {
+      "label": "F / V",
+      "weights": {
+        "viseme_FF": 0.85
+      }
+    },
+    "H": {
+      "label": "L / tongue up",
+      "weights": {
+        "viseme_nn": 0.65,
+        "viseme_DD": 0.22
+      }
+    }
+  }
+}

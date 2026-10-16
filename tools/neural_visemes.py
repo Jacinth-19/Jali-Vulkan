@@ -2,12 +2,29 @@
 from bisect import bisect_right
 import json
 import math
-import subprocess
+import hashlib
+import sys
 from render_session import ROOT
 
 
 def shared_shapes():
-    return json.loads(subprocess.check_output(['node','--input-type=module','-e',"import {SHAPES} from './web/neural-head/visemes.mjs';console.log(JSON.stringify(SHAPES))"],cwd=ROOT,text=True,timeout=15))
+    # Generated from the authoritative JS table at build time, never at runtime.
+    frozen=getattr(sys,'frozen',False)
+    generated=ROOT/'artifacts/neural-studio/native-shapes.json'
+    expected=json.loads((ROOT/'artifacts/neural-studio/rig.json').read_text())['retarget_sha256'] if frozen else hashlib.sha256((ROOT/'web/neural-head/visemes.mjs').read_bytes()).hexdigest()
+    path=generated if frozen else ROOT/'web/neural-head/native-shapes.json'
+    if not frozen and generated.is_file():
+        candidate=json.loads(generated.read_text(encoding='utf-8'))
+        if candidate.get('retarget_sha256')==expected:path=generated
+    data=json.loads(path.read_text(encoding='utf-8'))
+    if data.get('schema')!='jali-native-shapes-v1' or data.get('retarget_sha256')!=expected:raise ValueError('Native shapes/source version mismatch; rebuild native-shapes.json with tools/build_native_shapes.cjs')
+    shapes=data['shapes']
+    if not isinstance(shapes,dict) or set(shapes)!=set('ABCDEFGHX'):raise ValueError('Invalid native cue classes')
+    for shape in shapes.values():
+        if not isinstance(shape,dict) or not isinstance(shape.get('weights'),dict) or len(shape['weights'])>80:raise ValueError('Invalid native shape weights')
+        for name,value in shape['weights'].items():
+            if not isinstance(name,str) or len(name)>128 or type(value) not in (int,float) or not math.isfinite(value) or not 0<=value<=1:raise ValueError('Invalid native shape weight')
+    return shapes
 
 
 def sample(clip,time,shapes,offset=0,enabled=True):
