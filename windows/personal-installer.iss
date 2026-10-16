@@ -22,16 +22,20 @@ SolidCompression=yes
 WizardStyle=modern
 CloseApplications=yes
 RestartApplications=no
-UninstallDisplayIcon={app}\JaliStudio.exe
+UninstallDisplayIcon={app}\application\JaliStudio.exe
 SetupLogging=yes
 DisableProgramGroupPage=yes
+; Inno-owned uninstaller/logs are outside the strictly inventoried app payload.
+; Rebuild/replace only this application-owned payload, never LOCALAPPDATA user data.
+[InstallDelete]
+Type: filesandordirs; Name: "{app}\application"
 [Files]
-Source: "{#BundleDir}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "{#BundleDir}\*"; DestDir: "{app}\application"; Flags: ignoreversion recursesubdirs createallsubdirs
 [Icons]
-Name: "{group}\Jali Studio"; Filename: "{app}\JaliStudio.exe"
+Name: "{group}\Jali Studio"; Filename: "{app}\application\JaliStudio.exe"
 Name: "{group}\Uninstall Jali Studio"; Filename: "{uninstallexe}"
 [Run]
-Filename: "{app}\JaliStudio.exe"; Description: "Open Jali Studio launcher"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\application\JaliStudio.exe"; Description: "Open Jali Studio launcher"; Flags: nowait postinstall skipifsilent
 [Code]
 function InitializeSetup(): Boolean;
 begin

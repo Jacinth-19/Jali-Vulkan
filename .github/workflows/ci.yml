@@ -614,7 +614,7 @@ jobs:
       - name: Actually import/export skin and all morphs in clean Blender
         run: blender --background --factory-startup --python tools/blender_character_roundtrip.py -- artifacts/character-import-proof
       - name: Verify three world-space posed mesh round trips
-        run: node tools/test_character_import.mjs artifacts/character-import-proof --roundtrip
+        run: python tools/ci_command.py node tools/test_character_import.mjs artifacts/character-import-proof --roundtrip
       - name: Prepare and actually render imported rig through dialogue/export controls
         env:
           GH_TOKEN: ${{ github.token }}

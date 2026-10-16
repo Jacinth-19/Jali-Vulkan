@@ -1,5 +1,5 @@
 # Optional unsigned per-user installer. Never publish its output.
-param([Parameter(Mandatory=$true)][switch]$PersonalUseOnly,[string]$Compiler='',[string]$BundleDir='artifacts/windows-portable/JaliStudio',[string]$OutputDir='artifacts/windows-personal-installer')
+param([Parameter(Mandatory=$true)][switch]$PersonalUseOnly,[string]$Compiler='',[string]$BundleDir='artifacts/windows-portable/app/JaliStudio',[string]$OutputDir='artifacts/windows-personal-installer')
 $ErrorActionPreference='Stop'
 Push-Location (Split-Path $PSScriptRoot -Parent)
 try {

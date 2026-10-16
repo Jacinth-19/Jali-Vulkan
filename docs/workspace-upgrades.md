@@ -189,7 +189,9 @@ Without an explicit native port for a custom imported character, omit
 no admin requirement, Start-menu launcher/uninstaller, app-process closure during
 updates and same-AppId reinstall/update support. Dependency/asset diagnostics
 remain in the launcher/`--doctor`; verification is fail-closed. Updates are manual
-installers, not a network updater. Uninstall removes the application but **preserves
+installers, not a network updater. Each update replaces only the application-owned
+`application` payload subfolder. Keep recordings/notes outside the install
+directory. Inno uninstaller files are outside the strictly inventoried payload. Uninstall removes the application but **preserves
 JaliVulkan user data**, including saved conversations. Delete that data manually
 only after backing it up. Signing is optional and does not block personal use.
 
