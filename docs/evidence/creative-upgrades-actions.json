@@ -1,0 +1,116 @@
+{
+  "databaseId": 38945207804,
+  "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38945207804",
+  "event": "push",
+  "headSha": "d4743f3e5b45d389c7f086f9ea59995dcf0d19cd",
+  "status": "completed",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "name": "Windows local neural speech, analyzer and live face",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-16T18:09:51Z",
+      "completedAt": "2026-10-16T18:23:59Z",
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38945207804/job/117122481587"
+    },
+    {
+      "name": "clang++ / Debug",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-16T18:09:52Z",
+      "completedAt": "2026-10-16T18:23:59Z",
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38945207804/job/117122481942"
+    },
+    {
+      "name": "Native speech, Vulkan validation layers and browser",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-16T18:09:52Z",
+      "completedAt": "2026-10-16T18:23:59Z",
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38945207804/job/117122482055"
+    },
+    {
+      "name": "g++ / Release",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-16T18:09:51Z",
+      "completedAt": "2026-10-16T18:23:59Z",
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38945207804/job/117122482088"
+    },
+    {
+      "name": "clang++ / Release",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-16T18:09:52Z",
+      "completedAt": "2026-10-16T18:23:59Z",
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38945207804/job/117122482102"
+    },
+    {
+      "name": "Local neural speech, WebGL and articulation review",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-16T18:09:52Z",
+      "completedAt": "2026-10-16T18:23:59Z",
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38945207804/job/117122482276"
+    },
+    {
+      "name": "g++ / Debug",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-16T18:09:52Z",
+      "completedAt": "2026-10-16T18:23:59Z",
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38945207804/job/117122482287"
+    },
+    {
+      "name": "Address and undefined-behavior checks",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-16T18:09:52Z",
+      "completedAt": "2026-10-16T18:23:59Z",
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38945207804/job/117122482500"
+    },
+    {
+      "name": "Detailed human Vulkan, same-WAV native UI and source Three comparison",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-16T18:20:10Z",
+      "completedAt": "2026-10-16T18:23:59Z",
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38945207804/job/117126966129"
+    },
+    {
+      "name": "Windows Chrome offline playback (not local TTS)",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-16T18:20:10Z",
+      "completedAt": "2026-10-16T18:23:59Z",
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38945207804/job/117126966190"
+    },
+    {
+      "name": "Windows native Vulkan binary pipes and detailed-head playback",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-16T18:20:10Z",
+      "completedAt": "2026-10-16T18:23:59Z",
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38945207804/job/117126966332"
+    }
+  ],
+  "scope": "Hosted Linux and Windows actual CPU speech, secure-browser offline VP8/Opus export, explicit non-speech creative-control fixtures, personal frozen launcher/app and detailed native Vulkan regressions. Not target-laptop or human/physical-AV/legal/signing certification.",
+  "prior_runs": [
+    {
+      "id": 38939255761,
+      "result": "failure",
+      "reason": "Linux live MediaRecorder capture timeout; Windows, native and C++ passed."
+    },
+    {
+      "id": 38942308737,
+      "result": "cancelled",
+      "reason": "Superseded by stricter encoded timestamp / decoded frame-count verification."
+    },
+    {
+      "id": 38942919396,
+      "result": "failure",
+      "reason": "Linux GPU-texture VideoEncoder flush stalled; replaced texture sharing with CPU RGBA frames and bounded encoder waits."
+    }
+  ]
+}

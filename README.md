@@ -38,7 +38,8 @@ manual expression intensity and timed sequences, WebGL lighting/material/camera
 controls with optional FXAA, and user-facing WebM + JSON/CSV animation exports are
 implemented. [Usage and exact renderer/export limits](docs/creative-upgrades.md).
 Local **132 Python / 31 JavaScript tests** and real-head browser/encoder checks
-pass; hosted acceptance for these new features is pending. Manual controls are
+pass; **all 11 hosted jobs passed**, including Linux/Windows genuine speech and
+the frozen app ([verified run](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38945207804)). Manual controls are
 not inferred emotion; video renders offline at fixed media-clock times as VP8/Opus
 WebM, not MP4. Slow rendering takes longer instead of dropping frames.
 

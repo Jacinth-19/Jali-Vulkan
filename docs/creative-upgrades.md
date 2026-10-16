@@ -3,9 +3,12 @@
 Implemented for the current detailed head. Local checks: **132 Python / 31
 JavaScript tests**, real-head Chromium controls and an actual WebM with both audio
 and video decoded by FFmpeg. The local UI transport/encoder fixture is explicitly
-**non-speech**, not neural synthesis or perceptual approval. New hosted genuine
-speech, native and packaged regression checks are pending. Earlier all-green
-upgrade evidence does not certify these new changes.
+**non-speech**, not neural synthesis or perceptual approval. Hosted Linux/Windows genuine
+speech, native and personal frozen-app regressions passed: **all 11 jobs green**
+in [run 38945207804](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38945207804), implementation
+`d4743f3e5b45d389c7f086f9ea59995dcf0d19cd`. [Hosted evidence](evidence/creative-upgrades-actions.json)
+and [local checks](evidence/creative-upgrades-local.json) retain exact scope and
+prior failures. Human/laptop acceptance remains separate.
 
 After updating source, rebuild the prepared frontend, then start the launcher:
 
@@ -92,7 +95,8 @@ certification, bit-identical audio, MP4, or universal DCC retargeting**.
 Current Chrome with WebCodecs and a secure context (HTTPS or localhost) is
 required for video. Frames cross into the encoder as CPU-owned RGBA rather
 than shared GPU textures; encoder queues are bounded, stalled flushes time out
-after 15 seconds, and Cancel also interrupts a pending encoder flush. Unsupported encoders fail explicitly; JSON/CSV still work.
+after 15 seconds, and Cancel also interrupts a pending encoder flush. Unsupported
+encoders fail explicitly; JSON/CSV still work.
 Native supports facial timelines, but video and appearance are WebGL-only.
 The pinned MIT webm-muxer license is included in prepared studio assets. No
 runtime network service, recorder extension or FFmpeg install is required.
@@ -105,7 +109,9 @@ of both streams and every expected decoded frame. Browser security stays enabled
 A separate hosted Linux GPU-frame encoder stall led to CPU-owned frame handoff;
 controlled tests also exercise cancellation and timeout of an encoder that never
 flushes. Local genuine stock-Kokoro speech export also passed (1.792 s,
-54 frames at 30 FPS); this is not a listening-quality approval.
+54 frames at 30 FPS). The final full genuine-speech protocol also passed locally
+with browser security enabled, CPU-owned frames and all 104 frames decoded for
+a 3.46-second clip. These are not listening-quality approvals.
 
 ## Remaining acceptance
 

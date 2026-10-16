@@ -55,8 +55,8 @@ recording -> animate the detailed character -> synchronized playback.
 - [x] WebGL light/material/background/camera controls and actual optional FXAA rendering.
 - [x] User-facing fixed-clock JSON/CSV timelines and offline fixed-clock VP8/Opus WebM with verified source-WAV identity, one pose row per video-frame submission, repeat-export and cancellation cleanup.
 - [x] Local 132 Python / 31 JS tests; real-head Chromium + FFmpeg audio/video decoding (explicit non-speech encoder fixture), repeated exports and exact timeline/frame pose parity.
-- [x] Separate newly synthesized stock-Kokoro local speech export: 1.792 s, all 54 fixed-clock frames, verified WAV/cue identity.
-- [ ] New hosted genuine neural export, native artistic layers and Windows/package regression. Initial run 38939255761 passed Windows genuine/package, native and C++ jobs but failed Linux live movie capture; replaced with offline WebCodecs export. Run 38942919396 then exposed a Linux GPU-texture encoder flush stall; CPU-owned RGBA handoff, bounded flush deadlines and pending-flush cancellation added; rerun required.
+- [x] Separate newly synthesized stock-Kokoro local speech export: 1.792 s / 54 frames; final full protocol with browser security enabled and CPU-owned frames: 3.46 s / all 104 decoded frames, verified WAV/cue identity.
+- [x] Hosted genuine neural export, native artistic layers and Windows/package regression: **all 11 jobs passed** in [38945207804](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38945207804) for implementation `d4743f3`. Initial run 38939255761 failed Linux live capture; 38942919396 exposed a GPU-texture encoder flush stall. Resolved with CPU-owned RGBA handoff, bounded encoder waits and pending-flush cancellation; prior failures retained in [evidence](evidence/creative-upgrades-actions.json).
 - [ ] Human motion/material review, target-device/physical AV and reverse-DCC acceptance.
 
 [Controls, file formats and renderer limits](creative-upgrades.md). Appearance/video

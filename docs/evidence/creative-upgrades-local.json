@@ -1,0 +1,127 @@
+{
+  "date": "2026-10-16",
+  "source_commit": "d4743f3e5b45d389c7f086f9ea59995dcf0d19cd",
+  "python_tests": 132,
+  "javascript_tests": 31,
+  "native_js_numeric_parity_cases": 104,
+  "fixture_browser": {
+    "passed": true,
+    "fixture": "EXPLICIT non-speech PCM and cues; not inference or human quality approval",
+    "profiles_roundtrip_persisted": true,
+    "wrong_rig_rejected": true,
+    "eased_gaze": 0.04,
+    "manual_intensity": 0.15,
+    "timed_expression": 0.16,
+    "actual_appearance_changed": true,
+    "fxaa": true,
+    "timeline_frames": 91,
+    "recorded_frames": 90,
+    "webm_bytes": 150040,
+    "cancel_discards_export": true,
+    "repeated_fixed_clock_export": true,
+    "manual_project_roundtrip": true,
+    "errors": []
+  },
+  "encoded_fixture_video_frames": 90,
+  "fixture_ffmpeg": "Both streams decoded; all 90 video frames, with passthrough frame timing",
+  "genuine_local_speech": {
+    "passed": true,
+    "fixture": false,
+    "text": "Please bring the blue paper bag.",
+    "voice": "stock Kokoro af_heart",
+    "audio_sha256": "0da0323f995f379aabae6ad9c9ba250536138eeea3f98a1b6c7674f946a9f421",
+    "rig": {
+      "profile": "mpfb-rhubarb-9-v1",
+      "source_commit": "2afe6d79779313db8909badebf46f9805a6c7b70",
+      "model_sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+      "retarget_sha256": "96d2d2a82f71bbdf87b7c301d1e79e566c8b66d9c79a645e65309c11b90d8a30",
+      "viewer_sha256": "5bde3d20233959c455df4b244b10c6e1adbac19abc33894fc9ccd13571111a4a"
+    },
+    "duration": 1.792,
+    "recorded_frames": 54,
+    "mode": "offline-fixed-media-clock",
+    "renderer": "WebGL with optional FXAA",
+    "limits": "Actual local neural generation, every fixed-clock browser frame and encoded movie; not human or physical AV acceptance",
+    "scope_note": "Earlier short-clip check, before CPU RGBA handoff; the full protocol below validates the final secure CPU-frame path."
+  },
+  "genuine_ffmpeg": "Both streams decoded; all 54 video frames, with passthrough frame timing",
+  "genuine_video_sha256": "dc530d79e2cd736bd5af521158cb069def27b5aa616874bfd6b5d3c3f1ffff3e",
+  "export_schema": "jali-recorded-frames-v2",
+  "encoded_genuine_video_frames": 54,
+  "scope": "No runtime downloads or paid APIs. Stock Kokoro voice, not voice-00. Local automation does not certify human expression/articulation quality, physical AV sync, target-i5 throughput, universal DCC retargeting, signing or redistribution/legal approval. Private/generated audio, weights and executables are not committed.",
+  "fixture_browser_web_security_enabled": true,
+  "genuine_full_protocol": {
+    "passed": true,
+    "model": {
+      "vertices": 53116,
+      "bones": 67,
+      "faceControls": 66,
+      "runtimeFaceControls": 26,
+      "morphMeshes": 6
+    },
+    "web_security_enabled": true,
+    "external_requests": [],
+    "errors": [],
+    "checks": [
+      "3 real form submissions",
+      "new CPU neural synthesis for each text",
+      "actual WAV analyzed with its dialog",
+      "downloaded WAV hash verified in browser",
+      "audio/face IDs match",
+      "actual closure morph",
+      "seek",
+      "sync off clears speech weights",
+      "natural end rests",
+      "old session replays with its own cues",
+      "mobile layout",
+      "cancel real generation hides partial media",
+      "cancel then retry",
+      "warm/full-closure pixel equality",
+      "left/right gaze changes actual render",
+      "stop clears audio/morphs/gaze",
+      "real sentence batching starts before producer completion",
+      "batch stop/cancel then retry",
+      "combined PCM offsets/hash verified"
+    ],
+    "sessions": [
+      {
+        "id": "6767a96f22de4b089f5ff678348e519b",
+        "text": "Mama. Papa. Baby. Bob packed my blue paper bag.",
+        "audio_sha256": "cb2aff047d3bee2e7e648af51ed413f3f7962bc8868d5591a339dbc738366f0d",
+        "duration": 3.456,
+        "cues": 31,
+        "total_seconds": 8.7643
+      },
+      {
+        "id": "7a036b872b4b4a83b0273492ef62f6bb",
+        "text": "Five vivid voices. Baby Lily likes little yellow lollipops.",
+        "audio_sha256": "a762e20fa7809a2487ca41c7cd5b86627ae4ba144f1c408ba98679250db282e3",
+        "duration": 4.074666666666666,
+        "cues": 29,
+        "total_seconds": 12.2822
+      },
+      {
+        "id": "e0e7e6bca3234b46ac4d17549ec7e9cf",
+        "text": "Blue moon. Cool water. Open wide. Oh. Ooh. Ah. Ee.",
+        "audio_sha256": "fa36bc15385794b892fbbf8e1b33f2220cd721a22a0fab015cf986ea9223e12f",
+        "duration": 3.6053333333333333,
+        "cues": 19,
+        "total_seconds": 12.4172
+      }
+    ]
+  },
+  "genuine_full_protocol_export": {
+    "schema": "jali-recorded-frames-v2",
+    "mode": "offline-fixed-media-clock",
+    "frame_input": "CPU RGBA",
+    "fps": 30,
+    "encoded_video_frames": 104,
+    "width": 512,
+    "height": 512,
+    "audio_sha256": "cb2aff047d3bee2e7e648af51ed413f3f7962bc8868d5591a339dbc738366f0d",
+    "full_session_recorded": true,
+    "recorded_end": 3.456,
+    "ffmpeg_decoded_frames": 104,
+    "movie_sha256": "5622e37c41c68031ac2a8297b7ec92ef9daeb863af57fc2df2ceb31a4532100a"
+  }
+}
