@@ -1,0 +1,50 @@
+// Build-time only: bounded self-contained GLB import and reusable canonical map.
+import fs from 'node:fs';import path from 'node:path';import os from 'node:os';import crypto from 'node:crypto';import {spawnSync} from 'node:child_process';
+import {NodeIO} from '@gltf-transform/core';import {ALL_EXTENSIONS} from '@gltf-transform/extensions';
+import {simplify,meshopt} from '@gltf-transform/functions';import {MeshoptDecoder,MeshoptEncoder,MeshoptSimplifier} from 'meshoptimizer';
+export const CHANNELS=['viseme_PP','viseme_I','viseme_SS','viseme_E','viseme_aa','viseme_O','viseme_RR','viseme_U','viseme_FF','viseme_nn','viseme_DD','eyeBlinkLeft','eyeBlinkRight'];
+export const BONES=['Head','LeftEye','RightEye'];
+export const sha=bytes=>crypto.createHash('sha256').update(bytes).digest('hex');
+export async function io(){await Promise.all([MeshoptDecoder.ready,MeshoptEncoder.ready,MeshoptSimplifier.ready]);return new NodeIO().registerExtensions(ALL_EXTENSIONS).registerDependencies({'meshopt.decoder':MeshoptDecoder,'meshopt.encoder':MeshoptEncoder});}
+export function preflight(bytes,maximum=32*1024*1024){
+ if(bytes.length<20||bytes.length>maximum||bytes.readUInt32LE(0)!==0x46546c67||bytes.readUInt32LE(4)!==2||bytes.readUInt32LE(8)!==bytes.length||bytes.readUInt32LE(16)!==0x4e4f534a)throw Error('Use a self-contained GLB 2.0, at most 32 MiB');
+ const n=bytes.readUInt32LE(12);if(n>2*1024*1024||20+n>bytes.length)throw Error('GLB JSON exceeds budget');const j=JSON.parse(bytes.subarray(20,20+n).toString('utf8'));
+ if(j.asset?.version!=='2.0'||!j.buffers?.length||j.buffers.length>8||j.buffers.some((b,i)=>b.uri||i>0&&!b.extensions?.EXT_meshopt_compression?.fallback)||j.buffers.reduce((sum,b)=>sum+b.byteLength,0)>512*1024*1024||j.images?.some(i=>i.uri||!['image/png','image/jpeg'].includes(i.mimeType))||j.nodes?.length>512||j.meshes?.length>64||j.images?.length>16||j.skins?.some(s=>s.joints.length>128)||(j.extensionsRequired||[]).some(e=>!['EXT_meshopt_compression','KHR_mesh_quantization','KHR_materials_unlit','KHR_texture_transform'].includes(e)))throw Error('Unsupported/external GLB resources, extensions or rig budget');
+ let decoded=0;for(const a of j.accessors||[]){const components={SCALAR:1,VEC2:2,VEC3:3,VEC4:4,MAT4:16}[a.type],size={5120:1,5121:1,5122:2,5123:2,5125:4,5126:4}[a.componentType];if(!components||!size||!Number.isSafeInteger(a.count)||a.count<0||a.count>2000000)throw Error('Invalid accessor budget');decoded+=a.count*components*size;}
+ if(decoded>512*1024*1024)throw Error('Decoded accessor budget exceeds 512 MiB');return j;
+}
+export function profile(value){
+ if(!value||Object.keys(value).some(k=>!['schema','name','space','bones','morphs','license'].includes(k))||value.schema!=='jali-retarget-v1'||value.space!=='jali-y-up-world-axes-v1'||typeof value.name!=='string'||!value.name.trim()||value.name.length>80||typeof value.license!=='string'||!value.license.trim()||value.license.length>1000)throw Error('Retarget profile needs name, license/provenance and declared head-local Y-up space');
+ for(const [map,required] of [[value.bones,BONES],[value.morphs,CHANNELS]])if(!map||Object.keys(map).some(k=>typeof k!=='string'||k.length>64)||required.some(k=>!map[k])||Object.values(map).some(v=>typeof v!=='string'||!v||v.length>128)||new Set(Object.values(map)).size!==Object.values(map).length)throw Error('Missing/ambiguous bone or morph mapping');
+ if(Object.keys(value.bones).some(k=>!BONES.includes(k))||Object.keys(value.morphs).some(k=>!CHANNELS.includes(k)&&!['mouthSmileLeft','mouthSmileRight','cheekSquintLeft','cheekSquintRight','browInnerUp','browOuterUpLeft','browOuterUpRight','browDownLeft','browDownRight','mouthFrownLeft','mouthFrownRight','eyeWideLeft','eyeWideRight'].includes(k)))throw Error('Unknown canonical channel');return structuredClone(value);
+}
+export function audit(doc){
+ for(const a of doc.getRoot().listAccessors())if(a.getComponentType()===5126&&!a.getArray().every(Number.isFinite))throw Error('Nonfinite accessor');let vertices=0,triangles=0;const names=new Set();for(const mesh of doc.getRoot().listMeshes())for(const p of mesh.listPrimitives()){
+  if(p.getMode()!==4)throw Error('Only triangle primitives are supported');const pos=p.getAttribute('POSITION');if(!pos)throw Error('POSITION missing');vertices+=pos.getCount();triangles+=(p.getIndices()?.getCount()||pos.getCount())/3;
+  if(p.listTargets().length>128)throw Error('Too many morph targets');for(const t of p.listTargets())names.add(t.getName());
+  for(const a of [pos,...p.listTargets().map(t=>t.getAttribute('POSITION')).filter(Boolean)])if(!a.getArray().every(v=>Number.isFinite(v)&&(a.getComponentType()!==5126||Math.abs(v)<10000)))throw Error('Nonfinite/extreme vertex');
+ }
+ if(vertices>100000||triangles>160000)throw Error('Mesh exceeds 100000 vertices / 160000 triangles');
+ const nodes=doc.getRoot().listNodes();for(const b of BONES)if(nodes.filter(n=>n.getName()===b).length!==1)throw Error('Expected unique canonical bone '+b);
+ const head=nodes.find(n=>n.getName()==='Head');for(let n=head;n;n=n.getParentNode()){const scale=n.getScale();if(scale.some(v=>v<=0)||Math.max(...scale)-Math.min(...scale)>1e-5)throw Error('Head ancestors require positive uniform scale');}if(!['LeftEye','RightEye'].every(name=>head.listChildren().some(n=>n.getName()===name)))throw Error('Eyes must be direct children of Head, in the declared Head-parent rotation frame');
+ if(!doc.getRoot().listSkins().some(s=>BONES.every(name=>s.listJoints().some(n=>n.getName()===name))))throw Error('Canonical bones must belong to one skin');
+ if(CHANNELS.some(k=>!names.has(k)))throw Error('Required speech/blink morphs missing');
+ for(const texture of doc.getRoot().listTextures()){const size=texture.getSize();if(!size||Math.max(...size)>4096)throw Error('Textures must be PNG/JPEG, at most 4096 per side');}
+ return {vertices,triangles,morphs:[...names].sort(),bones:nodes.length,textures:doc.getRoot().listTextures().map(t=>t.getSize())};
+}
+export async function importCharacter(input,mapping,output){
+ if(fs.statSync(input).size>32*1024*1024)throw Error('Input exceeds 32 MiB');const bytes=fs.readFileSync(input);preflight(bytes);mapping=profile(mapping);const loader=await io(),doc=await loader.readBinary(new Uint8Array(bytes));
+ const nodes=doc.getRoot().listNodes();for(const source of Object.values(mapping.bones))if(nodes.filter(n=>n.getName()===source).length!==1)throw Error('Ambiguous/missing source bone '+source);
+ const selected=new Map(Object.entries(mapping.bones).map(([target,source])=>[nodes.find(n=>n.getName()===source),target]));for(const n of nodes)if(BONES.includes(n.getName())&&!selected.has(n))throw Error('Canonical bone name collides with another node');for(const [n,name] of selected)n.setName(name);
+ const reverse=new Map(Object.entries(mapping.morphs).map(([target,source])=>[source,target]));for(const m of doc.getRoot().listMeshes())for(const p of m.listPrimitives()){const seen=new Set();for(const t of p.listTargets()){const name=reverse.get(t.getName())||t.getName();if(seen.has(name))throw Error('Morph mapping collides on '+name);seen.add(name);t.setName(name);}}
+ const report=audit(doc);fs.mkdirSync(output,{recursive:true});await loader.write(path.join(output,'character.glb'),doc);const canonical=fs.readFileSync(path.join(output,'character.glb'));
+ // Output can be larger than compressed input. Validate through the standard glTF validator too.
+ const validator=(await import('gltf-validator')).default;const validation=await validator.validateBytes(new Uint8Array(canonical),{maxIssues:100});if(validation.issues.numErrors)throw Error('glTF validator rejected canonical output');
+ const manifest={schema:'jali-character-package-v1',source_sha256:sha(bytes),model_sha256:sha(canonical),profile_sha256:sha(Buffer.from(JSON.stringify(mapping))),profile:mapping,report,validator_errors:validation.issues.numErrors,limits:'Canonical Y-up/world-axis/roll-Z rig only. No automatic axis/contact/artistic approval; custom imports are WebGL-only until native port/parity tests.'};
+ fs.writeFileSync(path.join(output,'character.json'),JSON.stringify(manifest,null,2));return manifest;
+}
+export async function buildLOD(input,output,python){
+ if(fs.statSync(input).size>128*1024*1024)throw Error('LOD input exceeds 128 MiB');preflight(fs.readFileSync(input),128*1024*1024);const loader=await io(),doc=await loader.read(input),before=audit(doc);await doc.transform(simplify({simplifier:MeshoptSimplifier,ratio:.5,error:.005,lockBorder:true}));
+ const temporary=fs.mkdtempSync(path.join(os.tmpdir(),'jali-lod-'));try{let i=0;for(const t of doc.getRoot().listTextures()){const source=path.join(temporary,`${i}.input`),dest=path.join(temporary,`${i++}.png`);fs.writeFileSync(source,t.getImage());const result=spawnSync(python,['-c',"from PIL import Image;import sys;im=Image.open(sys.argv[1]);im.thumbnail((512,512));im.save(sys.argv[2],format='PNG')",source,dest],{encoding:'utf8'});if(result.status!==0)throw Error(result.stderr||'Texture resize failed');t.setImage(new Uint8Array(fs.readFileSync(dest))).setMimeType('image/png');}}finally{fs.rmSync(temporary,{recursive:true,force:true});}
+ await doc.transform(meshopt({encoder:MeshoptEncoder,level:'medium'}));const after=audit(doc);await loader.write(output,doc);const bytes=fs.readFileSync(output);return {schema:'jali-lod-v1',sha256:sha(bytes),source_sha256:sha(fs.readFileSync(input)),before,after,bytes:bytes.length,limits:'Approximate geometry. Skin/morph correspondence retained; human lip/teeth contact and appearance review remains required.'};
+}

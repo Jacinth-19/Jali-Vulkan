@@ -39,6 +39,8 @@ def validate_binding(clip, wav, cue_data, rig):
 
 
 def build_session(session_id, text, directory, rig, rhubarb, on_stage=lambda _: None):
+    from studio_voices import VOICES
+    speaker=getattr(on_stage,'speaker',{'id':'default','name':'Default','voice':'af_heart','speed':1.0})
     token = getattr(on_stage, 'cancel_token', None)
     runner = token.run if token else subprocess.run
     if token: token.check()
@@ -51,12 +53,12 @@ def build_session(session_id, text, directory, rig, rhubarb, on_stage=lambda _: 
     on_stage('synthesizing')
     # Isolate the neural runtime and bound each request. No shell, user commands,
     # model URLs, uploaded conditioning, or cached speech from another session.
-    result = runner(speech_worker_command(ROOT,['--text', text, '--output', str(directory / 'speech'), '--threads', '2']),
+    result = runner(speech_worker_command(ROOT,['--text', text, '--output', str(directory / 'speech'), '--threads', '2','--voice',speaker['voice'],'--speed',str(speaker['speed'])]),
                             cwd=ROOT, check=True, capture_output=True, text=True, encoding='utf-8', timeout=90)
     (directory / 'worker.log').write_text((result.stdout + result.stderr)[-32000:], encoding='utf-8')
     speech = json.loads((directory / 'speech/manifest.json').read_text())
     if (speech['providers'] != ['CPUExecutionProvider'] or speech['remote_speech_api_used'] is not False
-            or speech['model_sha256'] != MODEL_SHA or speech['voice_sha256'] != VOICE_SHA
+            or speech['model_sha256'] != MODEL_SHA or speech['voice_sha256'] != VOICES[speaker['voice']] or speech['stock_voice']!=speaker['voice']
             or len(speech['clips']) != 1 or speech['clips'][0]['requested_text'] != text):
         raise ValueError('Unverified local speech result')
     wav = directory / 'audio.wav'
@@ -71,7 +73,7 @@ def build_session(session_id, text, directory, rig, rhubarb, on_stage=lambda _: 
     analysis_start = time.perf_counter()
     cues = analyze_wav(wav, dialog, directory / 'cues.json', rhubarb, runner=runner)
     clip = {
-        'id': session_id, 'title': 'Local neural performance', 'text': text,
+        'speaker':speaker, 'id': session_id, 'title': 'Local neural performance', 'text': text,
         'text_sha256': text_hash(text), 'file': f'/sessions/{session_id}/audio.wav',
         'duration': metrics['duration_seconds'], 'cues': cues['mouthCues'], 'audio': metrics,
         'rig': rig, 'tts': {key: speech[key] for key in

@@ -47,6 +47,22 @@ recording -> animate the detailed character -> synchronized playback.
 | M7 | Windows performance and packaging | Partial: source/frozen renderer/preset GUI, Launch/Stop/device doctor and one-command benchmark passed hosted CI; user-reported PC run works; licensing, signing and measured laptop acceptance open | Measured target-device results and a tested, understandable launcher/package |
 | M8 | Asset workflow and final QA | Partial: fixtures, provenance and tests exist | Reliable asset round trips, real AV measurements, and release review |
 
+## Character/workspace expansion — 2026-10-16
+
+- [x] Bounded self-contained GLB validation; explicit bone/morph alias maps; hash-bound reusable character packages and separate custom-studio preparation.
+- [x] Prepared lower-detail mesh/textures: 53,116 / 83,686 vertices/triangles → 33,520 / 37,842; 512px textures, verified LOD loading, 2 FPS natural-idle cap and explicit scene/audio unload.
+- [x] Dialogue queue up to 128 turns / 20,000 characters; pause/resume, sentence navigation, owned-job interruption, server-side saved WAV/cue archives and verified replay after six-session eviction.
+- [x] Opt-in loopback command/event broker; private key file, bounded commands/events, single browser lease, at-most-once semantics and a standard-library client.
+- [x] Eight validated cast profiles; separate explicitly installed stock voice/speed/calibration/manual performance/appearance, pinned per-job snapshots. One active prepared mesh, speaker and inference worker; not concurrent distinct avatars.
+- [x] Optional unsigned personal per-user installer source, dependency/integrity doctor, reinstall/update and data-preserving uninstall test; explicit personal-use acknowledgement.
+- [x] Local 138 Python / 33 JS, secure-browser dialogue/storage/API/LOD/unload fixture and mapped synthetic GLB import passed.
+- [ ] Hosted actual Blender skin/morph roundtrip, additional genuine voice identities and Windows installer acceptance (running next).
+- [ ] Broad production-avatar/DCC acceptance, simultaneous distinct-mesh scene management and measured target-device budgets.
+- [ ] Public release licensing/source/provenance approval; engineering inventory/gates added, NOT legal clearance. Signing optional for personal use.
+
+[Contracts, setup, quotas and limitations](workspace-upgrades.md). Existing gates
+below are not automatically closed by these scoped implementations.
+
 ## Creative upgrades 5–9 — 2026-10-16
 
 - [x] Named rig-scoped calibration profiles with bounded import/export and browser persistence.

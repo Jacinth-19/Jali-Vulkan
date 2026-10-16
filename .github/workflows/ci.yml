@@ -217,9 +217,13 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           python tools/ci_command.py .venv/bin/python tools/prepare_kokoro_cpu.py
+          .venv/bin/python tools/studio_voices.py --install af_bella
+          .venv/bin/python tools/studio_voices.py --install am_michael
           python tools/ci_command.py .venv/bin/python tools/build_neural_studio.py
       - name: Check presets, articulation controls and controlled-delay prebuffer transport
         run: python tools/ci_command.py .venv/bin/python tools/run_upgrade_fixture_ci.py
+      - name: Check dialogue, saved WAVs, cast, local API, LOD and unload (explicit non-speech fixture)
+        run: python tools/ci_command.py .venv/bin/python tools/run_workspace_ci.py
       - name: Exercise actual neural synthesis, audio analysis and facial articulation
         run: .venv/bin/python tools/run_neural_ci.py
       - name: Crosscheck all actual corpus WAVs with two-pass phone alignment
@@ -252,6 +256,8 @@ jobs:
             artifacts/neural-runner-resources.txt
             artifacts/upgrade-proof/
             artifacts/creative-proof/
+            artifacts/workspace-proof/
+            artifacts/installer-proof/*.json
             artifacts/neural-ci-server.log
           retention-days: 3
           if-no-files-found: warn
@@ -335,7 +341,7 @@ jobs:
       - name: Check cross-platform neural contracts without inference
         shell: pwsh
         run: |
-          foreach ($pattern in @('test_neural*.py','test_local_neural.py','test_playback_checkpoint.py','test_benchmark.py','test_native_adapter.py','test_phone_alignment.py','test_upgrades.py','test_creative.py')) {
+          foreach ($pattern in @('test_neural*.py','test_local_neural.py','test_playback_checkpoint.py','test_benchmark.py','test_native_adapter.py','test_phone_alignment.py','test_upgrades.py','test_creative.py','test_workspace.py')) {
             .venv/Scripts/python.exe -m unittest discover -s tests -p $pattern
             if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           }
@@ -348,10 +354,16 @@ jobs:
         run: |
           python tools/ci_command.py .venv/Scripts/python.exe tools/prepare_kokoro_cpu.py
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          .venv/Scripts/python.exe tools/studio_voices.py --install af_bella
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          .venv/Scripts/python.exe tools/studio_voices.py --install am_michael
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python tools/ci_command.py .venv/Scripts/python.exe tools/build_neural_studio.py
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Check Windows preset/articulation/prebuffer browser controls
         run: python tools/ci_command.py .venv/Scripts/python.exe tools/run_upgrade_fixture_ci.py
+      - name: Check Windows dialogue, saved WAVs, cast, local API, LOD and unload
+        run: python tools/ci_command.py .venv/Scripts/python.exe tools/run_workspace_ci.py
       - name: Generate three NEW Windows CPU recordings and animate their live face
         shell: pwsh
         run: python tools/ci_command.py .venv/Scripts/python.exe tools/run_neural_ci.py
@@ -376,6 +388,20 @@ jobs:
       - name: Run the frozen app with Python, Node and gh removed from its PATH
         shell: pwsh
         run: python tools/ci_command.py .venv/Scripts/python.exe tools/smoke_packaged.py
+      - name: Build and test unsigned personal per-user installer (never uploaded)
+        shell: pwsh
+        run: |
+          $compiler=Join-Path ${env:ProgramFiles(x86)} 'Inno Setup 6/ISCC.exe'
+          if (-not (Test-Path $compiler)) {
+            choco install innosetup --version=6.4.3 --no-progress -y
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          }
+          ./windows/build-personal-installer.ps1 -PersonalUseOnly
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          ./windows/test-personal-installer.ps1
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          .venv/Scripts/python.exe tools/release_inventory.py --output artifacts/installer-proof/license-inventory.json
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Upload public synthetic Windows evidence, never weights or caches
         if: always()
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
@@ -386,6 +412,8 @@ jobs:
             artifacts/neural-studio/proof/
             artifacts/upgrade-proof/
             artifacts/creative-proof/
+            artifacts/workspace-proof/
+            artifacts/installer-proof/*.json
             artifacts/neural-ci-server.log
             artifacts/windows-neural-runner.json
             artifacts/windows-neural-summary.json
@@ -561,3 +589,44 @@ jobs:
         shell: pwsh
         run: |
           if (Test-Path .venv/Scripts/python.exe) { & .venv/Scripts/python.exe tools/setup_windows_native.py --unregister-ci-driver }
+
+  character-roundtrip:
+    name: Character import validation and Blender skin/morph round trip
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '22'
+      - name: Install pinned Node tools and distribution Blender
+        run: |
+          npm ci --prefix tools --ignore-scripts
+          sudo apt-get update
+          sudo apt-get install -y blender
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.11'
+      - name: Install image resizing dependency
+        run: python -m pip install Pillow==11.1.0
+      - name: Validate synthetic import, alias mapping and reusable profile
+        run: node tools/test_character_import.mjs
+      - name: Actually import/export skin and all morphs in clean Blender
+        run: blender --background --factory-startup --python tools/blender_character_roundtrip.py -- artifacts/character-import-proof
+      - name: Verify three world-space posed mesh round trips
+        run: node tools/test_character_import.mjs artifacts/character-import-proof --roundtrip
+      - name: Prepare and actually render imported rig through dialogue/export controls
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python -c "import sys;sys.path.insert(0,'tools');from build_neural_studio import build;build(prepare_speech=False,character='artifacts/character-import-proof/returned',output='artifacts/custom-studio-test')"
+          python tools/run_workspace_ci.py --assets artifacts/custom-studio-test
+      - name: Upload only synthetic fixture and roundtrip evidence
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with:
+          name: character-import-blender-proof
+          path: |
+            artifacts/character-import-proof/
+            artifacts/workspace-proof/
+          retention-days: 3

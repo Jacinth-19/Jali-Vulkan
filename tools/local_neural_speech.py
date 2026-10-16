@@ -95,9 +95,11 @@ def write_audio(path, audio, rate):
             'sha256': digest(path)}
 
 
-def run(texts, output, directory=ASSETS, speed=1.0, threads=2):
+def run(texts, output, directory=ASSETS, speed=1.0, threads=2, voice="af_heart"):
     for text in texts:
         validate_request(text, speed, threads)
+    from studio_voices import voice_file, VOICES
+    voice_path=voice_file(voice,directory)
     verify_assets(directory)  # Fail before importing/executing the model runtime.
     output.mkdir(parents=True, exist_ok=True)
     (output / 'manifest.json').unlink(missing_ok=True)
@@ -118,7 +120,7 @@ def run(texts, output, directory=ASSETS, speed=1.0, threads=2):
     schema = {i.name: i.type for i in session.get_inputs()}
     if schema != {'input_ids': 'tensor(int64)', 'style': 'tensor(float)', 'speed': 'tensor(float)'}:
         raise ValueError(f'Unexpected model inputs: {schema}')
-    styles = np.fromfile(directory / 'af_heart.bin', dtype='<f4').reshape(510, 1, 256)
+    styles = np.fromfile(voice_path, dtype='<f4').reshape(510, 1, 256)
     if not np.isfinite(styles).all():
         raise ValueError('Invalid stock voice data')
 
@@ -139,16 +141,16 @@ def run(texts, output, directory=ASSETS, speed=1.0, threads=2):
     # checksum-verified, finite raw float voice tensor, not a downloaded pickle.
     with tempfile.TemporaryDirectory(prefix='jali-kokoro-') as temp:
         voices = Path(temp) / 'voices.npz'
-        np.savez(voices, af_heart=styles)
+        np.savez(voices, **{voice:styles})
         engine = ExportAdapter.from_session(session, str(voices))
         # Close the lazy NPZ reader before Windows tries to remove the temp file.
         engine.voices.close()
-        engine.voices = {'af_heart': styles}
+        engine.voices = {voice:styles}
         load_seconds = time.perf_counter() - start
         clips = []
         for index, text in enumerate(texts):
             start = time.perf_counter()
-            samples, rate = engine.create(text, voice='af_heart', speed=speed, lang='en-us')
+            samples, rate = engine.create(text, voice=voice, speed=speed, lang='en-us')
             generation_seconds = time.perf_counter() - start
             filename = f'{index + 1:02d}-local-neural.wav'
             metrics = write_audio(output / filename, samples, rate)
@@ -162,7 +164,7 @@ def run(texts, output, directory=ASSETS, speed=1.0, threads=2):
             print(f"{filename}: {metrics['duration_seconds']:.2f}s audio in {generation_seconds:.2f}s (RTF {clips[-1]['real_time_factor']})", flush=True)
     report = {
         'schema': 1, 'method': 'Local neural Kokoro-82M v1.0 q8 / ONNX Runtime CPU',
-        'stock_voice': 'af_heart', 'same_as_previous_arena_voice_00': False,
+        'stock_voice': voice, 'same_as_previous_arena_voice_00': False,
         'cloned_identity': False, 'remote_speech_api_used': False,
         'audio_backend': 'Neural ONNX waveform; eSpeak NG is used only for text phonemization',
         'phonemizer_note': 'Different G2P frontends may affect pronunciation. Text+audio alone are not timed phoneme alignment.',
@@ -172,7 +174,7 @@ def run(texts, output, directory=ASSETS, speed=1.0, threads=2):
         'dependency_import_seconds': round(import_seconds, 4), 'engine_load_seconds': round(load_seconds, 4),
         'process_peak_rss_mib': peak_rss_mib(),
         'memory_scope': ('Windows process peak working set via GetProcessMemoryInfo' if sys.platform == 'win32' else 'Linux/macOS process high-water RSS') + '; includes dependencies/model; not system RAM or isolated model size',
-        'model_sha256': MODEL_SHA, 'voice_sha256': VOICE_SHA,
+        'model_sha256': MODEL_SHA, 'voice_sha256': VOICES[voice],
         'packages': {name: importlib.metadata.version(name) for name in
                      ('kokoro-onnx', 'onnxruntime', 'numpy', 'phonemizer-fork', 'espeakng-loader')},
         'clips': clips,
@@ -194,9 +196,10 @@ def main():
     parser.add_argument('--models', type=Path, default=ASSETS)
     parser.add_argument('--threads', type=int, default=2)
     parser.add_argument('--speed', type=float, default=1.0)
+    parser.add_argument('--voice',default='af_heart',choices=['af_heart','af_bella','am_michael'])
     args = parser.parse_args()
     try:
-        run([args.text] if args.text is not None else DEFAULT_TEXTS, args.output.resolve(), args.models.resolve(), args.speed, args.threads)
+        run([args.text] if args.text is not None else DEFAULT_TEXTS, args.output.resolve(), args.models.resolve(), args.speed, args.threads,args.voice)
     except (ValueError, FileNotFoundError) as error:
         parser.exit(2, f'{error}\n')
 

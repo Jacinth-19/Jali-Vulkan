@@ -33,6 +33,7 @@ def main():
                 assets.append((str(f),str(Path(relative)/f.relative_to(source).parent)))
     native_binaries=[]
     if args.include_native:
+        if json.loads((ROOT/'artifacts/neural-studio/rig.json').read_text())['profile']!='mpfb-rhubarb-9-v1':raise ValueError('Custom imports require an explicit native port; build WebGL-only')
         for filename in ('jali_rich.exe','vulkan-1.dll'):
             file=ROOT/'build-live'/filename
             if not file.is_file():raise RuntimeError('Run windows/setup-native.ps1 before --include-native')

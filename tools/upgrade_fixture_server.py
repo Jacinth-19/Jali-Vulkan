@@ -21,6 +21,9 @@ def fixture_pipeline(ident,text,directory,rig,rhubarb,stage):
     audio=audio_metadata(directory/'audio.wav');analysis={'audio_sha256':audio['sha256'],'method':'Explicit non-speech PCM/cue transport fixture, NOT inference/alignment or quality proof'}
     cues=[{'start':0,'end':.8,'value':'A'},{'start':.8,'end':1.5,'value':'G'},{'start':1.5,'end':2.3,'value':'H'},{'start':2.3,'end':3,'value':'X'}]
     clip={'id':ident,'text':text,'text_sha256':text_hash(text),'file':f'/sessions/{ident}/audio.wav','duration':duration,'audio':audio,'cues':cues,'rig':rig,'analysis':analysis,'tts':{'engine_load_seconds':0,'process_peak_rss_mib':None},'generation_seconds':0,'analysis_seconds':0,'total_seconds':0}
+    clip['speaker']=getattr(stage,'speaker',dict(id='default',name='Default',voice='af_heart',speed=1.0))
+    (directory/'manifest.json').write_text(json.dumps(clip))
+    (directory/'requested-text.txt').write_text(text)
     (directory/'cues.json').write_text(json.dumps({'metadata':{'duration':duration},'mouthCues':cues,'provenance':analysis}));return clip
 
 

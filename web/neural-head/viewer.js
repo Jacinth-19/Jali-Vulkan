@@ -17,12 +17,13 @@ const $ = id => document.getElementById(id);
 const data = window.JALI_HEAD_DATA;
 const audio = $('audio');
 const canvas = $('face');
-let sourceAssociations;
+let sourceAssociations,importedHeadBasis=null,importedParentBasis=null;
 let root, controls, camera, renderer, headBone, baseHeadRotation;
 const eyeBones=[], gazeRotation=new THREE.Quaternion(), gazeEuler=new THREE.Euler();
 let selected = 0, speechMeshes = [], ready = false, frameCount = 0, fpsEpoch = performance.now();
 let nativeActive=false, renderSettings={fps:30,resolution:Infinity,pixelRatio:Math.min(devicePixelRatio||1,1.5)}, articulationProfile='baseline';
 let creativeOptions=null, appearance=null, composer=null,fxaaPass=null, lights=null,portraitTarget=null,currentLayers=null;
+let idleRate=2,actualAsset={lod:'full',sha256:data.rig?.model_sha256};
 const idleEpoch=performance.now();
 let currentPose = {}, modelStats = {}, captureOnly = false, resizeViewer;
 const scene = new THREE.Scene();
@@ -72,10 +73,11 @@ function applyAt(time) {
   }
   if (headBone) {
     headBone.rotation.copy(baseHeadRotation);
-    headBone.rotation.y += layers.head.yaw;
-    headBone.rotation.z += layers.head.roll;
+    if(importedParentBasis){const motion=new THREE.Quaternion().setFromEuler(new THREE.Euler(0,layers.head.yaw,layers.head.roll));headBone.quaternion.premultiply(importedParentBasis.clone().invert().multiply(motion).multiply(importedParentBasis));}
+    else {headBone.rotation.y += layers.head.yaw;headBone.rotation.z += layers.head.roll;}
   }
   gazeRotation.setFromEuler(gazeEuler.set(layers.eyes.pitch,layers.eyes.yaw,0));
+  if(importedHeadBasis)gazeRotation.premultiply(importedHeadBasis.clone().invert()).multiply(importedHeadBasis);
   // Premultiply in the shared Head-parent frame, not each differently oriented
   // eye bone's Euler axes (which would make left/right eyes diverge).
   for(const {bone,base} of eyeBones)bone.quaternion.copy(base).premultiply(gazeRotation);
@@ -119,7 +121,13 @@ async function init() {
   const fill=new THREE.HemisphereLight(0xfaf4e9, 0x36545c, 1.1);scene.add(fill);
   const key = new THREE.DirectionalLight(0xffebd0, 2); key.position.set(-2, 3, 4); scene.add(key);
   const rim = new THREE.DirectionalLight(0x8dcced, 1.3); rim.position.set(2, 2, -1); scene.add(rim);lights={key,rim,fill};
-  const bytes = Uint8Array.from(atob(window.JALI_HEAD_BASE64), c => c.charCodeAt(0));
+  let bytes;
+  if(new URLSearchParams(location.search).get('lod')==='low'){
+   if(!data.lod||data.lod.source_sha256!==data.rig.model_sha256)throw Error('No matching prepared low LOD; switch to Full');
+   const response=await fetch(data.lod.file);if(!response.ok)throw Error('Prepared low LOD is unavailable');bytes=new Uint8Array(await response.arrayBuffer());
+   const hash=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)),b=>b.toString(16).padStart(2,'0')).join('');if(hash!==data.lod.sha256)throw Error('LOD identity mismatch');actualAsset={lod:'low',sha256:hash};
+  }else bytes=Uint8Array.from(atob(window.JALI_HEAD_BASE64), c => c.charCodeAt(0));
+  delete window.JALI_HEAD_BASE64;
   const loader = new GLTFLoader().setMeshoptDecoder(MeshoptDecoder);
   const gltf = await loader.parseAsync(bytes.buffer, '');
   sourceAssociations=gltf.parser.associations;
@@ -151,6 +159,7 @@ async function init() {
     mesh.morphTargetInfluences = entries.map(() => 0);
   }
   baseHeadRotation = headBone.rotation.clone();
+  if(data.rig?.profile==='canonical-face-v1'){root.updateMatrixWorld(true);importedHeadBasis=headBone.getWorldQuaternion(new THREE.Quaternion());importedParentBasis=headBone.parent.getWorldQuaternion(new THREE.Quaternion());}
   const target = headBone.getWorldPosition(new THREE.Vector3()); target.y += 0.04;
   camera.position.copy(target).add(new THREE.Vector3(0.035, 0.005, 0.82));
   controls = new OrbitControls(camera, canvas); controls.target.copy(target);portraitTarget=target.clone();
@@ -167,7 +176,7 @@ async function init() {
   ready = true; canvas.dataset.ready = 'true';
   window.dispatchEvent(new Event('jali-head-ready'));
   const resize = resizeViewer = () => {
-    if (captureOnly) return;
+    if (!ready||captureOnly) return;
     const width = canvas.clientWidth, height = canvas.clientHeight;
     renderer.setPixelRatio(Math.min(renderSettings.pixelRatio,renderSettings.resolution/Math.max(width,height)));
     renderer.setSize(width, height, false);syncPost(); camera.aspect = width / height; camera.updateProjectionMatrix();
@@ -177,8 +186,8 @@ async function init() {
   let last = 0;
   function tick(now) {
     requestAnimationFrame(tick);
-    if (nativeActive || captureOnly || now - last < 1000 / renderSettings.fps) return;
-    last = now-(now-last)%(1000/renderSettings.fps);
+    if (!ready||document.hidden||nativeActive || captureOnly || now - last < 1000 / ((!audio.paused&&!audio.ended)?renderSettings.fps:Math.min(idleRate,renderSettings.fps))) return;
+    last = now;
     const playing = !audio.paused && !audio.ended;
     const orbitChanged = controls.update();
     if (!playing && !orbitChanged && !(!track()&&creativeOptions?.natural&&$('life').checked)) return; // Idle does not consume a software-rendered core.
@@ -223,6 +232,9 @@ function setAppearance(value){
  syncPost();renderAt(audio.currentTime||0);
 }
 window.JaliHeadDemo = {
+  setIdleRate:value=>{if(![2,15].includes(value))throw Error('Invalid idle rate');idleRate=value;},
+  unload:()=>{if(captureOnly)throw Error('Finish export before unloading');audio.pause();audio.removeAttribute('src');audio.load();for(const c of data.clips)if(c.file.startsWith('blob:'))URL.revokeObjectURL(c.file);data.clips=[];selected=-1;ready=false;canvas.dataset.ready='false';scene.remove(root);root?.traverse(o=>{if(!o.isMesh)return;o.geometry.dispose();for(const m of (Array.isArray(o.material)?o.material:[o.material])){for(const value of Object.values(m))if(value?.isTexture)value.dispose();m.dispose();}});controls?.dispose();composer?.dispose();scene.environment?.dispose();renderer.renderLists.dispose();renderer.dispose();renderer.forceContextLoss();speechMeshes=[];eyeBones.length=0;sourceAssociations=null;headBone=null;root=null;currentPose={};},
+
   setCreative: value=>{creativeOptions=creativeSettings(value);renderAt(audio.currentTime||0);},
   setAppearance,
 
@@ -259,7 +271,7 @@ window.JaliHeadDemo = {
   },
   getDiagnostics: () => {
     const gl = renderer?.getContext(), extension = gl?.getExtension('WEBGL_debug_renderer_info');
-    return { activeRenderer:nativeActive?'native-vulkan':'WebGL', modelStats, webgl:gl ? {
+    return {renderAsset:nativeActive?{lod:'native-fixed',sha256:data.rig?.model_sha256}:actualAsset,idleRate, activeRenderer:nativeActive?'native-vulkan':'WebGL', modelStats, webgl:gl ? {
       version:gl.getParameter(gl.VERSION),
       renderer:gl.getParameter(extension ? extension.UNMASKED_RENDERER_WEBGL : gl.RENDERER),
       vendor:gl.getParameter(extension ? extension.UNMASKED_VENDOR_WEBGL : gl.VENDOR),
@@ -267,7 +279,7 @@ window.JaliHeadDemo = {
     } : null, canvas:{width:canvas.width,height:canvas.height}, pixelRatio:renderer?.getPixelRatio(),
     speechRig:data.rig || null };
   },
-  getState: () => ({ ready, layers:currentLayers, creative:creativeOptions,appearance,streamOffset:(track()?._stream_start_sample||0)/(track()?.audio?.sample_rate||24000),idleTime:creativeOptions?.natural?((performance.now()-idleEpoch)/1000)%3600:0, sessionId: track()?.id || null, clips: data.clips.map(c => ({id:c.id, title:c.title})), modelStats, gazeBones:eyeBones.map(({bone,base})=>{const e=new THREE.Euler().setFromQuaternion(bone.quaternion.clone().multiply(base.clone().invert()));return {name:bone.name,delta:{x:Math.abs(e.x)<1e-12?0:e.x,y:Math.abs(e.y)<1e-12?0:e.y}};}), pose: currentPose, time: audio.currentTime, clip: selected,
+  getState: () => ({ ready,renderAsset:nativeActive?{lod:'native-fixed',sha256:data.rig?.model_sha256}:actualAsset,idleRate, layers:currentLayers, creative:creativeOptions,appearance,streamOffset:(track()?._stream_start_sample||0)/(track()?.audio?.sample_rate||24000),idleTime:creativeOptions?.natural?((performance.now()-idleEpoch)/1000)%3600:0, sessionId: track()?.id || null, clips: data.clips.map(c => ({id:c.id, title:c.title})), modelStats, gazeBones:eyeBones.map(({bone,base})=>{const e=new THREE.Euler().setFromQuaternion(bone.quaternion.clone().multiply(base.clone().invert()));return {name:bone.name,delta:{x:Math.abs(e.x)<1e-12?0:e.x,y:Math.abs(e.y)<1e-12?0:e.y}};}), pose: currentPose, time: audio.currentTime, clip: selected,
     activeMorphs: speechMeshes.map(mesh => ({ mesh: mesh.name, values: Object.fromEntries(Object.entries(mesh.morphTargetDictionary).filter(([, i]) => mesh.morphTargetInfluences[i] > 0.01).map(([name,i]) => [name, mesh.morphTargetInfluences[i]])) })) }),
   referenceVertices: (layout,time,index=selected) => {
     if(index!==selected)selectClip(index,false);renderAt(time);root.updateMatrixWorld(true);

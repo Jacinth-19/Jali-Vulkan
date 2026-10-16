@@ -67,3 +67,14 @@ test('cancelling a stalled encoder closes both codecs, unlocks controls and offe
 test('encoder stall deadline discards output and restores controls',async()=>{
  const mock=stalledExporter(true);await assert.rejects(mock.exporter.start(),/Encoder stalled/);assert.equal(mock.exporter.active,false);assert.deepEqual(mock.locks,[true,false]);assert.equal(mock.closed.length,2);assert.equal(mock.offers.length,0);
 });
+
+import {sentenceTurns,castProfiles,conversationDocument} from '../web/neural-studio/dialogue.mjs';
+test('dialogue paragraph splitting is bounded and preserves words and speaker identity',()=>{
+ let i=0;const turns=sentenceTurns('Hello there. Second sentence!\n'+Array(35).fill('longword').join(' '),'first',()=>String(++i).padStart(32,'0'));
+ assert.equal(turns[0].text,'Hello there.');assert.equal(turns[1].text,'Second sentence!');assert.ok(turns.every(t=>t.text.length<=160&&t.speaker==='first'&&t.session===null));assert.equal(turns.slice(2).map(t=>t.text).join(' '),Array(35).fill('longword').join(' '));
+ assert.throws(()=>sentenceTurns('x'.repeat(161),'first'));assert.throws(()=>sentenceTurns('One. '.repeat(129),'first'));assert.throws(()=>sentenceTurns('x\0y','first'));
+});
+test('cast/dialogue schema rejects unknown voices, duplicate identities and stale untrusted fields',()=>{
+ const p={id:'first',name:'First',voice:'af_heart',speed:1},t={id:'a'.repeat(32),speaker:'first',text:'Hello.',session:null},doc={schema:'jali-conversation-v1',id:'b'.repeat(32),name:'Test',cast:[p],turns:[t]};
+ assert.equal(conversationDocument(doc,['af_heart']).turns.length,1);assert.throws(()=>castProfiles([p,p],['af_heart']));assert.throws(()=>castProfiles([{...p,voice:'uninstalled'}],['af_heart']));assert.throws(()=>castProfiles([{...p,speed:NaN}],['af_heart']));assert.throws(()=>conversationDocument({...doc,turns:[t,t]},['af_heart']));assert.throws(()=>conversationDocument({...doc,turns:[{...t,path:'/secret'}]},['af_heart']));assert.throws(()=>conversationDocument({...doc,turns:[{...t,speaker:'missing'}]},['af_heart']));
+});

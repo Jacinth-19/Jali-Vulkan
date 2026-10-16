@@ -1,3 +1,4 @@
+import {installWorkspace} from './workspace-controller.js';
 import {installCreativeControls} from './creative-controller.js';
 import {PRESETS,performanceSettings,summarizeObservation} from './settings.mjs';
 import {ARTICULATION,articulation} from '../neural-head/articulation.mjs';
@@ -6,6 +7,7 @@ import {validateStreamChunk,AudioPrefetch} from './streaming.mjs';
 (() => {
   'use strict';
   const $ = id => document.getElementById(id);
+  let managedPlayback=false,managedSpeaker=null;
   let config = null, busy = false, phase = 'loading', verified = false, selectedId = null;
   const sessions = new Map();
   let currentJob=null, cancelPending=false, streaming=false,exporting=false,creativeOptions=null;
@@ -18,6 +20,7 @@ import {validateStreamChunk,AudioPrefetch} from './streaming.mjs';
     $('generate').disabled = $('text').value.length>($('batch').checked?1000:500) || busy || exporting || !config || !window.JaliHeadDemo?.getState().ready;
     $('text-count').textContent = `${$('text').value.length} / ${$('batch').checked?1000:500}`;
     $('text').disabled = busy;
+    if($('speaker'))$('speaker').disabled=busy||exporting;
     $('cancel').disabled = !busy || !currentJob || cancelPending;
     document.querySelectorAll('#history button').forEach(button => {button.disabled = busy||exporting;});
   };
@@ -31,7 +34,7 @@ import {validateStreamChunk,AudioPrefetch} from './streaming.mjs';
     });
   }
   async function json(url, options) {
-    const response = await fetch(url, {...options, cache:'no-store'});
+    const response = await fetch(url, {...options,headers:{...(options?.headers||{}),...(config?{'X-Jali-Token':config.token}:{})}, cache:'no-store'});
     const data = await response.json();
     if (!response.ok) throw new Error(data.error || `Local request failed (${response.status})`);
     return data;
@@ -189,7 +192,7 @@ import {validateStreamChunk,AudioPrefetch} from './streaming.mjs';
   async function nativeTick(){
     const tickBegan=performance.now();
     try{
-      if(config?.native&&$('renderer').value==='native'){
+      if(config?.native&&JaliHeadDemo.getState().ready&&$('renderer').value==='native'){
         const epoch=nativeEpoch,id=selectedId||'neutral',time=selectedId?($('audio').currentTime||0):0;
         const query=new URLSearchParams({id,time:String(time),trim:$('trim').value,mood:$('mood').value,gaze:$('gaze').value,life:$('life').checked?'1':'0',sync:$('sync').checked?'1':'0',resolution:String(quality.resolution),articulation:JSON.stringify(calibration),...(creativeOptions?{creative:JSON.stringify({...creativeOptions,offset:JaliHeadDemo.getState().streamOffset||0,idle:!selectedId,idleTime:!selectedId&&creativeOptions.natural?JaliHeadDemo.getState().idleTime:0})}:{})}),key=query.toString();
         if(nativeFrame!==key){
@@ -206,7 +209,7 @@ import {validateStreamChunk,AudioPrefetch} from './streaming.mjs';
         }
       }
     }catch(failure){nativeInfo.errors.push(failure.message);if(nativeInfo.errors.length>6)nativeInfo.errors.shift();error(failure.message);await sleep(1000);}
-    setTimeout(nativeTick,Math.max(0,1000/quality.fps-(performance.now()-tickBegan)));
+    setTimeout(nativeTick,Math.max(0,1000/($('audio').paused?Math.min(quality.fps,JaliHeadDemo.getState().idleRate||2):quality.fps)-(performance.now()-tickBegan)));
   }
   function saveSettings(){try{localStorage.setItem('jali.settings.'+JALI_HEAD_DATA.rig.model_sha256,JSON.stringify({quality,calibration}));}catch{}}
   function syncControls(){$('quality-preset').value=Object.keys(PRESETS).find(k=>JSON.stringify(PRESETS[k])===JSON.stringify(quality))||'custom';$('art-profile').value=Object.keys(ARTICULATION).find(k=>JSON.stringify(ARTICULATION[k])===JSON.stringify(calibration))||'custom';for(const k of ['fps','resolution','pixelRatio'])$('quality-'+k).value=String(quality[k]);for(const k of Object.keys(ARTICULATION.baseline))if(k!=='smooth'){$('art-'+k).value=calibration[k];$('art-'+k+'-value').textContent=calibration[k];}}
@@ -235,7 +238,7 @@ import {validateStreamChunk,AudioPrefetch} from './streaming.mjs';
     $('downloads').hidden = true; $('resume').hidden = true;
     JaliHeadDemo.resetPerformance(); update(); stage('synthesizing','Generating a new neural recording locally on CPU…');
     try {
-      const job = await json(streaming?'/api/stream':'/api/generate',{method:'POST',headers:{'Content-Type':'application/json','X-Jali-Token':config.token},body:JSON.stringify({text:$('text').value})});
+      const job = await json(streaming?'/api/stream':'/api/generate',{method:'POST',headers:{'Content-Type':'application/json','X-Jali-Token':config.token},body:JSON.stringify({text:$('text').value,speaker:managedSpeaker||$('speaker')?.value||'default'})});
       currentJob=job.id;update();
       if(streaming){await followStream(job.id);return;}
       const deadline = performance.now()+210000;
@@ -245,7 +248,7 @@ import {validateStreamChunk,AudioPrefetch} from './streaming.mjs';
         if (state.state === 'cancelled') {JaliHeadDemo.resetPerformance(true);stage('cancelled','Cancelled. Partial output was discarded; you can generate again.');break;}
         if (state.state === 'cancelling') stage('cancelling','Stopping the owned speech/analyzer process…');
         if (state.state === 'error') throw new Error(state.error);
-        if (state.state === 'ready') {stage('ready','Verifying the recording and loading its matching mouth cues…'); await load(state.clip,job.id);break;}
+        if (state.state === 'ready') {stage('ready','Verifying the recording and loading its matching mouth cues…'); await load(state.clip,job.id,{autoplay:!managedPlayback});break;}
         if (state.stage === 'analyzing') stage('analyzing','Analyzing this exact WAV with its script. No reused speech timings…');
         await sleep(700);
       }
@@ -285,6 +288,14 @@ import {validateStreamChunk,AudioPrefetch} from './streaming.mjs';
     const value=await json('/api/jobs/'+id);if(value.state!=='ready')throw new Error('Existing session is not ready');
     await load(value.clip,id,{autoplay:false});$('resume').hidden=false;stage('ready','Existing recording verified and loaded.');update();
   },getState:()=>({quality,calibration,busy,phase,verified,selectedId,currentJob,cancelPending,streaming,streamStats,nativeInfo})};
+  Object.assign(window.JaliStudio,{
+    generate:async(text,speaker)=>{
+      if(busy||exporting)throw Error('Wait for the active operation');managedPlayback=true;
+      try{managedSpeaker=typeof speaker==='object'?speaker:null;$('speaker').value=typeof speaker==='object'?speaker.id:speaker;$('batch').checked=false;$('text').value=text;$('compose').requestSubmit();while(busy)await sleep(50);if(!verified||phase!=='ready')throw Error($('error').textContent||'Generation interrupted');return sessions.get(selectedId);}finally{managedPlayback=false;managedSpeaker=null;}
+    },
+    interrupt:async()=>{const began=performance.now();while(busy&&!currentJob){if(performance.now()-began>5000)throw Error('Generation request is still pending');await sleep(25);}if(busy)await requestCancel();while(busy){if(performance.now()-began>35000)throw Error('Worker cleanup is still pending');await sleep(50);}$('stop').click();},
+    play:async()=>{await play();return !$('audio').paused;}
+  });
   window.JaliCreative=installCreativeControls({rig:JALI_HEAD_DATA.rig,getQuality:()=>quality,getCalibration:()=>calibration,
     setCalibration:value=>{calibration=articulation(value);applySettings();},
     setCreative:value=>{creativeOptions=value;nativeEpoch++;nativeFrame=null;JaliHeadDemo.setCreative(value);},
@@ -293,7 +304,7 @@ import {validateStreamChunk,AudioPrefetch} from './streaming.mjs';
   });
   json('/api/config').then(value=>{
     if (JSON.stringify(value.rig)!==JSON.stringify(JALI_HEAD_DATA.rig)) throw new Error('Viewer and backend rig versions differ; rebuild the studio.');
-    config=value; if(config.native){$('native-option').disabled=false;$('native-option').textContent='Native Vulkan — '+config.native.device;}
+    config=value;installWorkspace({json,generate:(text,speaker)=>JaliStudio.generate(text,speaker),interrupt:()=>JaliStudio.interrupt(),play:()=>JaliStudio.play(),state:()=>JaliStudio.getState(),loadExisting:id=>JaliStudio.loadExisting(id),update},config); if(config.native){$('native-option').disabled=false;$('native-option').textContent='Native Vulkan — '+config.native.device;}
     if(new URLSearchParams(location.search).get('renderer')==='native'&&config.native){$('renderer').value='native';$('renderer').dispatchEvent(new Event('change'));}
     if (JaliHeadDemo.getState().ready) stage('idle','Ready. Write a sentence, then generate your performance.');update();
   }).catch(failure=>{error(failure.message);stage('error','The local generation service is unavailable.');});

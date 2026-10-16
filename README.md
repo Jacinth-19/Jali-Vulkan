@@ -31,6 +31,20 @@ Captured on **SwiftShader software Vulkan**, not a hardware-GPU performance resu
 The native fixture is not the detailed human above. [Capture commands, provenance,
 image hashes and scope](docs/render-captures.md) are retained.
 
+### Character/workspace upgrades
+
+Mapped self-contained GLB importing and reusable retarget profiles; prepared low
+mesh/texture LOD and explicit unload; bounded multi-speaker paragraph/sentence
+queues with durable verified WAV replay; an opt-in loopback command/event API;
+and a personal unsigned per-user installer are implemented.
+[Setup, API, supported rig contract and exact limits](docs/workspace-upgrades.md).
+Local **138 Python / 33 JavaScript tests**, real-head workspace browser checks and
+synthetic alias-map import pass. Hosted Blender/voice/installer verification is
+pending. Cast profiles share one active prepared mesh and one inference worker;
+this is not simultaneous multi-avatar rendering or universal rig importing.
+**Public redistribution/licensing approval remains blocked**; signing is optional
+for your personal version. Existing native render captures above are unchanged.
+
 ### Creative upgrades (5–9)
 
 Named per-character calibration profiles, optional natural eyes/idle, speech-safe

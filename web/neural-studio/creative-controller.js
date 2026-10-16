@@ -38,7 +38,7 @@ export function installCreativeControls(api){
  const appearanceKeys=['lighting','background','camera','exposure','skin','eyes','fxaa'];
  for(const k of appearanceKeys)$('look-'+k).addEventListener('input',guard(()=>{const p={};for(const k of appearanceKeys)p[k]=k==='fxaa'?$('look-'+k).checked:['exposure','skin','eyes'].includes(k)?Number($('look-'+k).value):$('look-'+k).value;window.JaliHeadDemo.setAppearance(appearanceSettings(p));report('WebGL appearance updated.');}));
  function clip(){if(api.isBusy()||$('renderer').value!=='webgl'&&recorder.active)throw Error('Finish generation/recording first');const c=api.getClip();if(!c)throw Error('Select a completed verified recording first');return c;}
- function timeline(){if(recorder.active)throw Error('Finish recording first');return animationTimeline(clip(),{fps:Number($('export-fps').value),calibration:api.getCalibration(),creative:readCreative(),mood:$('mood').value,gaze:$('gaze').value,life:$('life').checked,sync:$('sync').checked,trim:Number($('trim').value)/1000});}
+ function timeline(){if(recorder.active)throw Error('Finish recording first');return {...animationTimeline(clip(),{fps:Number($('export-fps').value),calibration:api.getCalibration(),creative:readCreative(),mood:$('mood').value,gaze:$('gaze').value,life:$('life').checked,sync:$('sync').checked,trim:Number($('trim').value)/1000}),render_asset:window.JaliHeadDemo.getState().renderAsset};}
  $('export-json').onclick=guard(()=>json('facial-animation.json',timeline()));
  $('export-csv').onclick=guard(()=>offer('facial-weights.csv',new Blob([timelineCSV(timeline())],{type:'text/csv'}),true));
  const exportSettings=()=>({fps:Number($('export-fps').value),resolution:api.getQuality().resolution,calibration:api.getCalibration(),creative:readCreative(),mood:$('mood').value,gaze:$('gaze').value,life:$('life').checked,sync:$('sync').checked,trim:Number($('trim').value)/1000,appearance:window.JaliHeadDemo.getState().appearance});
@@ -49,5 +49,10 @@ export function installCreativeControls(api){
  $('renderer').addEventListener('change',appearanceAvailability);appearanceAvailability();
  // Defaults reproduce the original neutral/legacy animation; advanced motion is opt-in.
  api.setCreative(creative);
- return {getSettings:()=>creative,recording:recorder};
+ return {getSettings:()=>creative,recording:recorder,
+  getCharacterSettings:()=>({calibration:api.getCalibration(),creative:readCreative(),appearance:window.JaliHeadDemo.getState().appearance,mood:$('mood').value,gaze:$('gaze').value,life:$('life').checked}),
+  applyCharacterSettings:s=>{const p=creativeSettings(s.creative);if(!EXPRESSIONS.includes(s.mood)||!['forward','left','right','down'].includes(s.gaze)||typeof s.life!=='boolean')throw Error('Invalid character performance');api.setCalibration(s.calibration);$('mood').value=s.mood;$('gaze').value=s.gaze;$('life').checked=s.life;previousGaze=s.gaze;creative=p;$('expression-events').replaceChildren();for(const k of inputs)if(k==='natural')$('creative-'+k).checked=p[k];else $('creative-'+k).value=p[k];for(const e of p.sequence)addEvent(e);applyCreative();if(s.appearance){const a=appearanceSettings(s.appearance);window.JaliHeadDemo.setAppearance(a);for(const k of appearanceKeys)if(k==='fxaa')$('look-'+k).checked=a[k];else $('look-'+k).value=a[k];}},
+  setManualExpression:(style,intensity)=>{if(!EXPRESSIONS.includes(style)||typeof intensity!=='number'||!Number.isFinite(intensity)||intensity<0||intensity>1)throw Error('Invalid manual expression');$('mood').value=style;$('creative-intensity').value=intensity;applyCreative();}
+ };
+
 }

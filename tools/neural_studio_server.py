@@ -6,6 +6,9 @@ retained in this run. The request token/origin policy prevents browser CSRF, NOT
 remote-user authentication. Do not expose as a public service or enter secrets.
 """
 import argparse
+import ipaddress
+from studio_workspace import ConversationStore,ControlBroker,cast,speaker
+from studio_voices import available
 import copy
 from concurrent.futures import ThreadPoolExecutor
 import json
@@ -17,6 +20,7 @@ import shutil
 import threading
 from urllib.parse import urlparse,parse_qs
 import uuid
+import wave
 
 from analyze_neural_clips import digest, verify_engine
 from neural_platform import analyzer_path
@@ -28,7 +32,7 @@ from preview_server import Handler as FileHandler
 from http.server import ThreadingHTTPServer
 
 STATIC = {'/': 'index.html', '/style.css': 'style.css', '/controller.js': 'controller.js',
-          '/viewer.js': 'viewer.js', '/demo-data.js': 'demo-data.js',
+          '/viewer.js': 'viewer.js', '/model/low.glb':'model/low.glb', '/demo-data.js': 'demo-data.js',
           '/rig.json': 'rig.json', '/licenses/model-source-README.md': 'licenses/model-source-README.md'}
 
 
@@ -48,10 +52,18 @@ class StudioState:
         self.failed = []
         self.busy = False
         self.token = secrets.token_hex(32)
+        self.voices=sorted(set(['af_heart',*available()]))
+        self.cast=[dict(id='default',name='Default',voice='af_heart',speed=1.0)]
+        self.speakers={}
+        self.conversations=ConversationStore(self.root.parent/(self.root.name+'-conversations'),self.voices)
+        self.control=None
 
-    def start(self, text, streaming=False):
+    def start(self, text, streaming=False, speaker_id="default"):
         if not streaming:validate_request(text)
         batches=sentence_batches(text) if streaming else None
+        chosen=speaker_id if isinstance(speaker_id,dict) else next((s for s in self.cast if s['id']==speaker_id),None)
+        if chosen is None:raise ValueError('Unknown cast member')
+        chosen=speaker(chosen,self.voices)
         with self.lock:
             if self.busy:
                 return None
@@ -59,6 +71,7 @@ class StudioState:
             ident = uuid.uuid4().hex
             self.jobs[ident] = {'state': 'running', 'stage': 'queued', 'id': ident}
             self.tokens[ident] = CancellationToken()
+            self.speakers[ident]=chosen
             if streaming:
                 self.streams[ident]={'pending':[],'consumed':0,'produced':0}
                 self.jobs[ident].update(mode='sentence-batched',chunks=[],chunk_count=len(batches),consumed=0,produced=0)
@@ -96,6 +109,7 @@ class StudioState:
                 token.check()
                 self.jobs[ident] = {'state': 'running', 'stage': value, 'id': ident}
         stage.cancel_token = token
+        stage.speaker=self.speakers[ident]
         try:
             token.check()
             clip = self.pipeline(ident, text, self.root / ident, self.rig, self.rhubarb, stage)
@@ -121,6 +135,7 @@ class StudioState:
                 while len(self.failed)>6:self.jobs.pop(self.failed.pop(0),None)
         finally:
             with self.lock:
+                self.speakers.pop(ident,None)
                 if self.tokens.pop(ident, None) is not None:self.busy = False
 
     def get(self, ident):
@@ -135,7 +150,9 @@ class Handler(FileHandler):
         self.connection.settimeout(15)
 
     def do_POST(self):
-        if self.path not in ('/api/generate','/api/cancel','/api/stream','/api/ack'):
+        if self.path.startswith('/api/integration/'):
+            return self.integration_post()
+        if self.path not in ('/api/generate','/api/cancel','/api/stream','/api/ack','/api/cast','/api/conversations/save','/api/conversations/delete','/api/conversations/replay','/api/control/poll','/api/control/event'):
             return self.json_response(404, {'error': 'Not found'})
         origin = self.headers.get('Origin')
         try:
@@ -145,6 +162,7 @@ class Handler(FileHandler):
             return self.json_response(403, {'error': 'Invalid origin'})
         if not secrets.compare_digest(self.headers.get('X-Jali-Token', '').encode('utf-8'), self.server.state.token.encode('ascii')):
             return self.json_response(403, {'error': 'Refresh the page to obtain its request token'})
+        if self.path in ('/api/cast','/api/conversations/save','/api/conversations/delete','/api/conversations/replay','/api/control/poll','/api/control/event'):return self.workspace_post()
         try:
             length = int(self.headers.get('Content-Length', '0'))
             if not 0 < length <= 8192 or self.headers.get_content_type() != 'application/json' or self.headers.get('Transfer-Encoding'):
@@ -154,7 +172,7 @@ class Handler(FileHandler):
                 raise ValueError('Incomplete request')
             payload = json.loads(body)
             expected = {'text'} if self.path in ('/api/generate','/api/stream') else {'id','index'} if self.path=='/api/ack' else {'id'}
-            if not isinstance(payload, dict) or set(payload) != expected:
+            if not isinstance(payload,dict) or (set(payload) not in (expected,expected|{'speaker'}) if self.path in ('/api/generate','/api/stream') else set(payload)!=expected):
                 raise ValueError('Unexpected request fields')
             if self.path in ('/api/generate','/api/stream'):
                 if self.path=='/api/stream':sentence_batches(payload['text'])
@@ -172,16 +190,78 @@ class Handler(FileHandler):
             if not self.server.state.get(payload['id']):return self.json_response(404,{'error':'Unknown job'})
             if not self.server.state.acknowledge(payload['id'],payload['index']):return self.json_response(409,{'error':'Chunk acknowledgement is out of order or job is finished'})
             return self.json_response(200,{'acknowledged':payload['index']})
-        ident = self.server.state.start(payload['text'],streaming=self.path=='/api/stream')
+        try:ident = self.server.state.start(payload['text'],streaming=self.path=='/api/stream',speaker_id=payload.get('speaker','default'))
+        except ValueError as error:return self.json_response(400,{'error':str(error)})
         if ident is None:
             return self.json_response(409, {'error': 'One generation is already running. Please wait.'})
         return self.json_response(202, {'id': ident})
 
+    def ui_auth(self):
+        origin=self.headers.get('Origin')
+        if (origin and (urlparse(origin).scheme not in ('http','https') or urlparse(origin).netloc!=self.headers.get('Host'))) or not secrets.compare_digest(self.headers.get('X-Jali-Token','').encode(),self.server.state.token.encode()):
+            self.json_response(403,{'error':'Same-origin UI token required'});return False
+        return True
+
+    def read_body(self,maximum):
+        n=int(self.headers.get('Content-Length','0'))
+        if not 0<n<=maximum or self.headers.get_content_type()!='application/json' or self.headers.get('Transfer-Encoding'):raise ValueError('Invalid JSON body/budget')
+        raw=self.rfile.read(n)
+        if len(raw)!=n:raise ValueError('Incomplete body')
+        return json.loads(raw)
+
+    def workspace_post(self):
+        try:
+            v=self.read_body(262144);state=self.server.state;store=state.conversations
+            if self.path=='/api/cast':
+                if state.busy:raise ValueError('Wait for generation before editing cast')
+                state.cast=cast(v,state.voices);return self.json_response(200,{'cast':state.cast})
+            if self.path=='/api/conversations/save':return self.json_response(200,store.save(v,state))
+            if self.path=='/api/conversations/delete':
+                if not isinstance(v,dict) or set(v)!={'id'}:raise ValueError('Expected conversation ID')
+                store.delete(v['id']);return self.json_response(200,{'deleted':True})
+            if self.path=='/api/conversations/replay':
+                if not isinstance(v,dict) or set(v)!={'id','turn'}:raise ValueError('Expected conversation and turn IDs')
+                return self.json_response(200,{'id':store.replay(v['id'],v['turn'],state)})
+            if state.control is None:return self.json_response(404,{'error':'Integration is disabled'})
+            if self.path=='/api/control/poll':
+                if not isinstance(v,dict) or set(v)!={'consumer'}:raise ValueError('Invalid poll')
+                return self.json_response(200,{'command':state.control.poll(v['consumer'])})
+            if not isinstance(v,dict) or set(v)!={'consumer','type','data'}:raise ValueError('Invalid playback event')
+            state.control.event(v['consumer'],v['type'],v['data']);return self.json_response(200,{'recorded':True})
+        except (ValueError,TypeError,KeyError,FileNotFoundError,UnicodeError,EOFError,wave.Error) as error:return self.json_response(400,{'error':str(error)})
+
+    def integration_auth(self):
+        control=self.server.state.control
+        if control is None:self.json_response(404,{'error':'Integration disabled'});return False
+        if not ipaddress.ip_address(self.client_address[0]).is_loopback or self.headers.get('Origin') or not secrets.compare_digest(self.headers.get('Authorization','').encode(),('Bearer '+control.key).encode()):
+            self.json_response(403,{'error':'Loopback non-browser client and pairing key required'});return False
+        return True
+
+    def integration_post(self):
+        if not self.integration_auth():return
+        if self.path!='/api/integration/commands':return self.json_response(404,{'error':'Unknown integration route'})
+        try:return self.json_response(202,{'id':self.server.state.control.submit(self.read_body(4096))})
+        except (ValueError,TypeError,UnicodeError) as error:return self.json_response(400,{'error':str(error)})
+
     def do_GET(self, head_only=False):
         route = urlparse(self.path).path
+        if route=='/api/integration/cast':
+            if not self.integration_auth():return
+            return self.json_response(200,{'cast':[{k:s[k] for k in ('id','name','voice','speed')} for s in self.server.state.cast],'voices':self.server.state.voices,'limits':{'active_meshes':1,'active_audio_players':1,'inference_jobs':1,'cpu_threads':2,'cast_profiles':8}})
+        if route=='/api/integration/events':
+            if not self.integration_auth():return
+            try:return self.json_response(200,self.server.state.control.read(int(parse_qs(urlparse(self.path).query).get('after',['0'])[0])))
+            except ValueError as error:return self.json_response(400,{'error':str(error)})
+        if route=='/api/conversations':
+            if not self.ui_auth():return
+            return self.json_response(200,{'conversations':self.server.state.conversations.list()})
+        if route.startswith('/api/conversations/'):
+            if not self.ui_auth():return
+            try:return self.json_response(200,self.server.state.conversations.load(route.split('/')[-1]))
+            except (ValueError,FileNotFoundError):return self.json_response(404,{'error':'Unknown/invalid saved conversation'})
         if route == '/api/config':
             return self.json_response(200, {'token': self.server.state.token, 'max_characters': 500, 'max_stream_characters':MAX_STREAM_CHARACTERS,'max_stream_chunks':MAX_CHUNKS,
-                'voice': 'Kokoro af_heart (stock, CPU)', 'rig': self.server.state.rig, 'native':self.server.state.native.metadata if self.server.state.native else None})
+                'voices':self.server.state.voices,'cast':self.server.state.cast,'integration':self.server.state.control is not None,'voice': 'Kokoro af_heart (stock, CPU)', 'rig': self.server.state.rig, 'native':self.server.state.native.metadata if self.server.state.native else None})
         if route=='/api/native/frame':
             if head_only:return self.json_response(405,{'error':'Use GET'})
             origin=self.headers.get('Origin')
@@ -232,6 +312,8 @@ def make_server(assets, state, host='0.0.0.0', port=8082):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--assets',type=Path,help='Explicit prepared custom studio directory')
+    parser.add_argument('--integration-key-file',type=Path,help='Opt-in loopback application control; private bearer key file')
     parser.add_argument('--port', type=int, default=8082)
     parser.add_argument('--bind', default='0.0.0.0')
     parser.add_argument('--sessions', type=Path, help='Explicit session store for isolated benchmarks')
@@ -239,7 +321,7 @@ def main():
     parser.add_argument('--software-vulkan',action='store_true')
     parser.add_argument('--ready-file', type=Path, help='Write actual bound port after readiness')
     args = parser.parse_args()
-    assets = ROOT / 'artifacts/neural-studio'
+    assets = args.assets.resolve() if args.assets else ROOT / 'artifacts/neural-studio'
     required = ['index.html', 'viewer.js', 'controller.js', 'demo-data.js', 'rig.json']
     if not all((assets / name).is_file() for name in required):
         parser.error('Run tools/build_neural_studio.py first')
@@ -252,7 +334,7 @@ def main():
         verify_engine(rhubarb)
     except ValueError as error:
         parser.error(str(error))
-    sessions = args.sessions or ROOT / 'artifacts/neural-studio-sessions'
+    sessions = args.sessions or (ROOT / 'artifacts'/('character-sessions-'+rig['model_sha256'][:16]) if args.assets else ROOT / 'artifacts/neural-studio-sessions')
     sessions.mkdir(parents=True, exist_ok=True)
     state = StudioState(sessions, rig, rhubarb)
     # Bind before deleting stale sessions: a second instance must not erase the
@@ -263,7 +345,17 @@ def main():
         state.pool.shutdown(wait=True)
         raise
     try:
+        if args.integration_key_file:
+            if args.bind not in ('127.0.0.1','::1','localhost'):raise ValueError('Integration requires --bind 127.0.0.1')
+            keyfile=args.integration_key_file.resolve();keyfile.parent.mkdir(parents=True,exist_ok=True)
+            if not keyfile.exists():
+                fd=os.open(keyfile,os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o600)
+                with os.fdopen(fd,'w') as out:out.write(secrets.token_hex(32))
+            key=keyfile.read_text().strip()
+            if len(key)!=64 or any(c not in '0123456789abcdef' for c in key):raise ValueError('Invalid integration key file')
+            state.control=ControlBroker(key)
         if args.native_asset:
+            if rig.get('profile')!='mpfb-rhubarb-9-v1':raise ValueError('Custom rigs are WebGL-only; native profile must be explicitly ported')
             from native_studio import NativeStudio
             state.native=NativeStudio(args.native_asset.resolve(),rig,args.software_vulkan)
         for old in sessions.iterdir():

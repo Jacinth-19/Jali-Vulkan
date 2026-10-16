@@ -83,6 +83,7 @@ def perform_stream(state,ident,text,batches):
         with state.condition:
             token.check();state.jobs[ident]['stage']=value
     stage.cancel_token=token
+    stage.speaker=state.speakers.get(ident,dict(id="default",name="Default",voice="af_heart",speed=1.0))
     def wait_capacity(finish=False):
         deadline=time.monotonic()+CONSUMER_TIMEOUT
         with state.condition:
@@ -130,6 +131,7 @@ def perform_stream(state,ident,text,batches):
             state.failed.append(ident)
             while len(state.failed)>6:state.jobs.pop(state.failed.pop(0),None)
     finally:
+        state.speakers.pop(ident,None)
         for child in children:
             shutil.rmtree(state.root/child,ignore_errors=True)
         with state.condition:
