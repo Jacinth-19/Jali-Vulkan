@@ -1,7 +1,10 @@
 #pragma once
 #include "jali/phonemes.hpp"
 #include <array>
+#include <cstddef>
 namespace jali {
+inline constexpr std::size_t kMaxCharacterJoints = 128;
+inline constexpr std::size_t kMaxCharacterNodes = 256;
 using Mat4 = std::array<float,16>;
 struct MeshVertex {
     std::array<float,3> position{}, normal{}, color{};
@@ -20,6 +23,7 @@ struct Character {
 Mat4 identity_matrix();
 Mat4 multiply(const Mat4& a, const Mat4& b);
 Character load_character_glb(const std::filesystem::path& path);
-std::array<Mat4,64> character_palette(const Character& character, SpeechPose pose);
+using JointPalette = std::array<Mat4,kMaxCharacterJoints>;
+JointPalette character_palette(const Character& character, SpeechPose pose);
 std::vector<std::array<float,3>> deform_reference(const Character& character, SpeechPose pose);
 } // namespace jali

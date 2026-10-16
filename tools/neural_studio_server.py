@@ -21,6 +21,7 @@ from analyze_neural_clips import digest, verify_engine
 from neural_platform import analyzer_path
 from local_neural_speech import validate_request, verify_assets
 from neural_session import build_session, SESSION_ID, MEDIA, ROOT
+from neural_cancel import CancellationToken, GenerationCancelled
 from preview_server import Handler as FileHandler
 from http.server import ThreadingHTTPServer
 
@@ -37,6 +38,7 @@ class StudioState:
         self.lock = threading.Lock()
         self.pool = ThreadPoolExecutor(max_workers=1)
         self.jobs = {}
+        self.tokens = {}
         self.ready = []
         self.failed = []
         self.busy = False
@@ -50,16 +52,34 @@ class StudioState:
             self.busy = True
             ident = uuid.uuid4().hex
             self.jobs[ident] = {'state': 'running', 'stage': 'queued', 'id': ident}
+            self.tokens[ident] = CancellationToken()
         self.pool.submit(self.perform, ident, text)
         return ident
 
+    def cancel(self, ident):
+        with self.lock:
+            token = self.tokens.get(ident)
+            if token is None or self.jobs.get(ident,{}).get('state') not in ('running','cancelling'):return False
+            token.cancel()
+            self.jobs[ident] = {'state':'cancelling','stage':'cancelling','id':ident}
+            return True
+
+    def cancel_active(self):
+        with self.lock:
+            for token in self.tokens.values():token.cancel()
+
     def perform(self, ident, text):
+        token = self.tokens[ident]
         def stage(value):
             with self.lock:
+                token.check()
                 self.jobs[ident] = {'state': 'running', 'stage': value, 'id': ident}
+        stage.cancel_token = token
         try:
+            token.check()
             clip = self.pipeline(ident, text, self.root / ident, self.rig, self.rhubarb, stage)
             with self.lock:
+                token.check()
                 self.jobs[ident] = {'state': 'ready', 'stage': 'ready', 'id': ident, 'clip': clip}
                 self.ready.append(ident)
                 while len(self.ready) > 6:
@@ -69,14 +89,16 @@ class StudioState:
         except Exception as error:
             shutil.rmtree(self.root / ident, ignore_errors=True)
             with self.lock:
-                self.jobs[ident] = {'state': 'error', 'stage': 'error', 'id': ident,
-                                    'error': f'Local generation/analysis failed ({type(error).__name__}). No substitute audio or cues were used. Try a shorter English sentence.'}
+                if isinstance(error, GenerationCancelled) or token.event.is_set():
+                    self.jobs[ident] = {'state':'cancelled','stage':'cancelled','id':ident}
+                else:
+                    self.jobs[ident] = {'state': 'error', 'stage': 'error', 'id': ident,
+                        'error': f'Local generation/analysis failed ({type(error).__name__}). No substitute audio or cues were used. Try a shorter English sentence.'}
                 self.failed.append(ident)
-                for old in self.failed[:-6]:
-                    self.jobs.pop(old, None)
-                self.failed = self.failed[-6:]
+                while len(self.failed)>6:self.jobs.pop(self.failed.pop(0),None)
         finally:
             with self.lock:
+                self.tokens.pop(ident, None)
                 self.busy = False
 
     def get(self, ident):
@@ -91,7 +113,7 @@ class Handler(FileHandler):
         self.connection.settimeout(15)
 
     def do_POST(self):
-        if self.path != '/api/generate':
+        if self.path not in ('/api/generate','/api/cancel'):
             return self.json_response(404, {'error': 'Not found'})
         origin = self.headers.get('Origin')
         try:
@@ -109,11 +131,18 @@ class Handler(FileHandler):
             if len(body) != length:
                 raise ValueError('Incomplete request')
             payload = json.loads(body)
-            if not isinstance(payload, dict) or set(payload) != {'text'}:
-                raise ValueError('Expected only a text field')
-            validate_request(payload['text'])
+            expected = {'text'} if self.path == '/api/generate' else {'id'}
+            if not isinstance(payload, dict) or set(payload) != expected:
+                raise ValueError('Unexpected request fields')
+            if self.path == '/api/generate':validate_request(payload['text'])
+            elif not isinstance(payload['id'],str) or not SESSION_ID.fullmatch(payload['id']):
+                raise ValueError('Invalid job identity')
         except (ValueError, UnicodeError) as error:
             return self.json_response(400, {'error': str(error)})
+        if self.path == '/api/cancel':
+            if not self.server.state.get(payload['id']):return self.json_response(404, {'error':'Unknown job'})
+            if not self.server.state.cancel(payload['id']):return self.json_response(409, {'error':'Job is already finished'})
+            return self.json_response(202, {'id':payload['id'],'state':'cancelling'})
         ident = self.server.state.start(payload['text'])
         if ident is None:
             return self.json_response(409, {'error': 'One generation is already running. Please wait.'})
@@ -201,6 +230,7 @@ def main():
         pass
     finally:
         server.server_close()
+        state.cancel_active()
         state.pool.shutdown(wait=True)
 
 

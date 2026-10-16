@@ -39,6 +39,9 @@ def validate_binding(clip, wav, cue_data, rig):
 
 
 def build_session(session_id, text, directory, rig, rhubarb, on_stage=lambda _: None):
+    token = getattr(on_stage, 'cancel_token', None)
+    runner = token.run if token else subprocess.run
+    if token: token.check()
     validate_request(text)
     if not SESSION_ID.fullmatch(session_id):
         raise ValueError('Invalid session ID')
@@ -48,7 +51,7 @@ def build_session(session_id, text, directory, rig, rhubarb, on_stage=lambda _: 
     on_stage('synthesizing')
     # Isolate the neural runtime and bound each request. No shell, user commands,
     # model URLs, uploaded conditioning, or cached speech from another session.
-    result = subprocess.run([sys.executable, str(ROOT / 'tools/local_neural_speech.py'),
+    result = runner([sys.executable, str(ROOT / 'tools/local_neural_speech.py'),
                              '--text', text, '--output', str(directory / 'speech'), '--threads', '2'],
                             cwd=ROOT, check=True, capture_output=True, text=True, encoding='utf-8', timeout=90)
     (directory / 'worker.log').write_text((result.stdout + result.stderr)[-32000:], encoding='utf-8')
@@ -67,7 +70,7 @@ def build_session(session_id, text, directory, rig, rhubarb, on_stage=lambda _: 
     dialog.write_text(text.replace('’', "'") + '\n', encoding='utf-8')
     on_stage('analyzing')
     analysis_start = time.perf_counter()
-    cues = analyze_wav(wav, dialog, directory / 'cues.json', rhubarb)
+    cues = analyze_wav(wav, dialog, directory / 'cues.json', rhubarb, runner=runner)
     clip = {
         'id': session_id, 'title': 'Local neural performance', 'text': text,
         'text_sha256': text_hash(text), 'file': f'/sessions/{session_id}/audio.wav',
@@ -84,6 +87,7 @@ def build_session(session_id, text, directory, rig, rhubarb, on_stage=lambda _: 
     validate_binding(clip, wav, cues, rig)
     if cues['provenance']['dialog_sha256'] != digest(dialog):
         raise ValueError('Dialog changed during analysis')
+    if token: token.check()
     target = directory / 'manifest.json'
     temporary = directory / 'manifest.part'
     temporary.write_text(json.dumps(clip, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')

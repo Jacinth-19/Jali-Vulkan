@@ -38,13 +38,13 @@ recording -> animate the detailed character -> synchronized playback.
 | ID | Workstream | Current status | What closes it |
 |---|---|---|---|
 | B0 | Existing foundation | Delivered prototype, scoped below | Keep regression tests passing |
-| M1 | Local neural speech | CPU inference proven on Linux; listening review and Windows verification remain | New text generates playable speech locally, with reviewed artifacts and measured CPU cost |
+| M1 | Local neural speech | CPU inference proven on Linux/hosted Windows; user PC run works; listening review open | New text generates playable speech locally, with reviewed artifacts and measured CPU cost |
 | M2 | Automatic end-to-end generation | Delivered Linux/Windows-hosted WebGL prototype; new form-to-face sessions passed | One action produces and plays a newly synthesized, clip-driven performance |
 | M3 | Better lip-sync fidelity | Partial: short-cue/end-rest fixes and repeatable nine-class review checks pass | Rig tuning, independent reference checks, and full-utterance quality review |
-| M4 | Detailed character in Vulkan | Not integrated | Native engine renders the richer textured rig with verified deformation |
-| M5 | Expressive facial performance | Basic procedural/manual controls only | Controllable, evaluated speech-related expression and gaze/gesture behavior |
-| M6 | Streaming and interruption | Partial: whole-utterance playback works | Bounded incremental audio/face playback with cancellation and recovery |
-| M7 | Windows performance and packaging | Partial: Windows backend and one-command benchmark passed hosted CI; target laptop and installer unverified | Measured target-device results and a tested, understandable launcher/package |
+| M4 | Detailed character in Vulkan | Partial foundation: 128-joint ABI tested; rich head not integrated | Native engine renders the richer textured rig with verified deformation |
+| M5 | Expressive facial performance | Separate manual layers, speech-priority warmth and gaze implemented; quality review open | Controllable, evaluated speech-related expression and gaze/gesture behavior |
+| M6 | Streaming and interruption | Partial: whole-utterance playback + owned-child cancellation/stop/retry | Bounded incremental audio/face playback with cancellation and recovery |
+| M7 | Windows performance and packaging | Partial: Windows backend and one-command benchmark passed hosted CI; user-reported PC run works; measured laptop acceptance and installer open | Measured target-device results and a tested, understandable launcher/package |
 | M8 | Asset workflow and final QA | Partial: fixtures, provenance and tests exist | Reliable asset round trips, real AV measurements, and release review |
 
 ## B0 — Foundation already delivered
@@ -188,7 +188,7 @@ working local-speech/WebGL integration, rather than blocking it.
 
 - [x] Audit the optimized asset's static extensions/counts/targets against the native profile; 67-joint/66-target multi-mesh/material gaps are recorded, not silently removed.
 - [ ] Choose an explicit supported native profile and report unsupported features clearly.
-- [ ] Support the actual skeleton/palette needs; do not silently truncate the 67-bone rig.
+- [x] Remove the 64-joint capacity blocker: 128-joint C++/GLSL ABI, weighted 67/128-joint GPU-vs-CPU fixtures and device buffer checks. Full rich-asset hierarchy integration remains below.
 - [ ] Preserve hierarchy, mesh transforms, inverse bind matrices and joint weights.
 - [ ] Support the required named facial targets and consistent target ordering.
 - [ ] Apply matching facial animation to the main face and secondary meshes.
@@ -208,21 +208,20 @@ Vulkan path, with supported features stated and deformation evidence retained.
 
 ## M5 — Expressive facial performance
 
-**Current baseline:** procedural blinking/head drift and manual styling. Neither
-constitutes inferred emotion or a learned facial performance.
+**Current baseline:** deterministic separate speech/style/blink/head/manual-gaze layers, with speech-priority warmth suppression. These are manual/cosmetic controls, not inferred emotion or a learned facial performance. See [implementation details](performance-controls.md).
 
-- [ ] Separate speech articulation, expression, gaze and head-motion control layers.
-- [ ] Define control ranges, blend priorities and conflict handling.
+- [x] Separate speech articulation, expression, gaze and head-motion control layers.
+- [x] Define bounded control ranges and speech-priority warmth handling; unit tests and full-closure pixel comparison cover the implemented rules.
 - [ ] Ensure expressions do not prevent lip closures or distort pronunciation poses.
-- [ ] Add intentional gaze targets and evaluated eye behavior.
+- [ ] Evaluate intentional gaze targets/eye behavior; bounded forward/left/right/down eye-bone offsets are implemented and render-tested, not naturalness-reviewed.
 - [ ] Improve blink timing without labeling it emotion inference.
 - [ ] Add restrained speech-related head gestures with user controls.
-- [ ] Support explicit style instructions such as neutral, warm or attentive.
+- [x] Support explicit manual neutral, warm and attentive styles (not emotional TTS prosody).
 - [ ] Evaluate an optional permitted learned facial solver only if its resource needs fit the project.
 - [ ] If using text/audio style estimation, label uncertainty rather than claiming to know a speaker's feelings.
 - [ ] Evaluate emotional speech prosody separately from visual expression.
 - [ ] Review expressions for jitter, repetition, overshoot and uncanny combinations.
-- [ ] Keep an option to disable expressive motion and retain plain lip-sync.
+- [x] Keep neutral styling, forward gaze and a procedural-motion toggle for plain lip-sync.
 - [ ] Collect user review of naturalness on multiple utterances.
 
 **Exit gate:** controllable, reviewed expressive behavior that improves the
@@ -230,7 +229,7 @@ performance without breaking articulation. The implementation method stays discl
 
 ## M6 — Streaming and interruption
 
-**Current baseline:** whole-utterance synthesis/analysis plus controllable playback.
+**Current baseline:** whole-utterance synthesis/analysis, owned-child cancellation with cleanup, stop/reset and retry. No incremental neural generation or chunk streaming is claimed.
 Streaming playback is not the same as incremental neural generation.
 
 - [ ] Determine whether the selected TTS model genuinely supports incremental output.
@@ -241,10 +240,10 @@ Streaming playback is not the same as incremental neural generation.
 - [ ] Define lookahead and buffering policy for cues that need future audio.
 - [ ] Use playback sample position as the shared clock.
 - [ ] Handle underruns, late chunks, missing chunks and resampling explicitly.
-- [ ] Cancel inference and flush stale audio/face data safely.
-- [ ] Support stop/interruption followed by a clean new request.
-- [ ] Return to neutral on cancellation or failure.
-- [ ] Test backpressure and overlapping request attempts.
+- [x] Cancel owned whole-utterance speech/analyzer child, hide partial media and clean up before reuse; cancellation resets the face. Incremental queues are still absent.
+- [x] Stop/reset playback and cancel/retry generation, tested through the real UI.
+- [x] Return to neutral on cancellation or failure.
+- [x] Reject overlapping whole-utterance requests while running/cancelling; tests cover retry and ready/cancel races. Chunk backpressure remains unimplemented.
 - [ ] Measure first-playable-audio latency separately from steady-state throughput.
 - [ ] Test synchronization and memory over extended playback.
 
@@ -392,12 +391,15 @@ or scope; a roadmap item is not a promise that an arbitrary model will run in re
 
 ## Current next action
 
-**Delivered collector:** after Windows setup, run `windows/benchmark.ps1` on the
-actual laptop and inspect/share `artifacts/jali-benchmark-report.json` if comfortable.
-[Instructions and limits](windows-benchmark.md). M3 references must be independently
-marked on the newly recorded WAVs; no rig strengths have been declared tuned.
-M4 is at static audit only; implementing a rich native profile/ABI is still open.
-
+The user reports that the Windows command works on their PC. Record that as a
+functional user confirmation, not a reviewed benchmark report. This increment
+implements cancellation/reset, expression/gaze arbitration and native palette
+capacity, and adds [actual rendered README images](render-captures.md).
+Next implementation priorities are the rich native mesh/morph/material paths and
+true bounded incremental playback. Independent articulation/naturalness review,
+measured laptop acceptance and packaging remain open. [Implementation details and
+remaining scope](performance-controls.md) distinguish completed foundations from
+those larger gates.
 
 **Early browser checkpoint prepared:** see [the extraction/review instructions](windows-playback-checkpoint.txt). The pack needs no Python or models for playback and exports explicit user notes plus visible-tab render observations. Windows-hosted Chrome HTTP/file playback passed separately from Linux neural synthesis in eight-job Actions run 38841826083. See [checkpoint evidence](playback-checkpoint.md). The separately ported developer backend subsequently passed nine-job run 38843451199; neither hosted check finishes target-device M7 acceptance.
 
@@ -437,6 +439,7 @@ use this dated tracker and current evidence to judge present completion.
 
 | Date | Update |
 |---|---|
+| 2026-10-16 | Implemented owned-child cancellation/cleanup and stop/reset/retry; separate speech/style/head/blink/manual-gaze layers with closure pixel protection; expanded native palette to 128 with weighted 67/128-joint CPU/GPU tests. Added four real README renderer captures with provenance. Local 94 Python/15 JS/11 CTest entries and real browser review passed; hosted rerun pending at this edit. Rich Vulkan, independent quality, incremental streaming and measured laptop gates remain open. |
 | 2026-10-16 | Delivered isolated one-command Windows benchmark (actual PowerShell entry point passed in nine-job run 38844926069); six local fresh samples, 87 Python/12 JS tests. Added exact-WAV independent-reference templates/comparison and static M4 blockers for 8 meshes/skins, 67 joints, 66 targets and materials. No independent alignment, rig tuning, rich Vulkan rendering or target-laptop acceptance is claimed. |
 | 2026-10-16 | Windows x64 developer backend passed three actual new CPU recordings, Windows exact-WAV/dialog analysis and live Chrome face checks. All nine Actions jobs passed; pipeline 4.99–5.30 s, worker peak working set 291–297 MiB on the runner. Added platform pins, safe extraction, Windows cleanup/UTF-8 handling and developer PowerShell launchers; target laptop/installer/quality remain open. |
 | 2026-10-16 | Added a self-contained laptop/browser playback checkpoint with half-speed review, notes and explicit JSON export. Render-completion measurements distinguish CPU submission time from GPU execution/physical AV latency. Public-corpus/hash admission checks and local HTTP/file tests passed. All eight Actions jobs passed, including actual Windows Chrome HTTP/file playback; target-device and local Windows speech tests remain open. |

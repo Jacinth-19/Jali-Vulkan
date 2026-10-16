@@ -4,12 +4,14 @@
   const $ = id => document.getElementById(id);
   let config = null, busy = false, phase = 'loading', verified = false, selectedId = null;
   const sessions = new Map();
+  let currentJob=null, cancelPending=false;
   const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
   const error = message => { $('error').textContent = message; $('error').hidden = !message; };
   const update = () => {
     $('generate').disabled = busy || !config || !window.JaliHeadDemo?.getState().ready;
     $('text-count').textContent = `${$('text').value.length} / 500`;
     $('text').disabled = busy;
+    $('cancel').disabled = !busy || !currentJob || cancelPending;
     document.querySelectorAll('#history button').forEach(button => {button.disabled = busy;});
   };
   function stage(value, message) {
@@ -94,24 +96,34 @@
   }
   $('compose').addEventListener('submit', async event => {
     event.preventDefault(); if (busy || !config || !JaliHeadDemo.getState().ready) return;
+    currentJob=null;cancelPending=false;
     busy = true; verified = false; selectedId = null; error('');
     $('verified').textContent = 'PREPARING NEW RECORDING'; $('metrics').textContent = '';
     $('downloads').hidden = true; $('resume').hidden = true;
     JaliHeadDemo.resetPerformance(); update(); stage('synthesizing','Generating a new neural recording locally on CPU…');
     try {
       const job = await json('/api/generate',{method:'POST',headers:{'Content-Type':'application/json','X-Jali-Token':config.token},body:JSON.stringify({text:$('text').value})});
+      currentJob=job.id;update();
       const deadline = performance.now()+210000;
       while (true) {
         if (performance.now()>deadline) throw new Error('Local job timed out. Refresh to check the server.');
         const state = await json(`/api/jobs/${job.id}`);
+        if (state.state === 'cancelled') {JaliHeadDemo.resetPerformance(true);stage('cancelled','Cancelled. Partial output was discarded; you can generate again.');break;}
+        if (state.state === 'cancelling') stage('cancelling','Stopping the owned speech/analyzer process…');
         if (state.state === 'error') throw new Error(state.error);
         if (state.state === 'ready') {stage('ready','Verifying the recording and loading its matching mouth cues…'); await load(state.clip,job.id);break;}
         if (state.stage === 'analyzing') stage('analyzing','Analyzing this exact WAV with its script. No reused speech timings…');
         await sleep(700);
       }
-    } catch (failure) {stage('error','Generation did not complete. No fallback performance was substituted.');error(failure.message);}
-    finally {busy=false;update();}
+    } catch (failure) {JaliHeadDemo.resetPerformance(true);stage('error','Generation did not complete. No fallback performance was substituted.');error(failure.message);}
+    finally {busy=false;currentJob=null;cancelPending=false;update();}
   });
+  $('cancel').addEventListener('click',async()=>{
+    if(!currentJob||cancelPending)return;cancelPending=true;update();
+    try{await json('/api/cancel',{method:'POST',headers:{'Content-Type':'application/json','X-Jali-Token':config.token},body:JSON.stringify({id:currentJob})});stage('cancelling','Stopping generation and removing partial output…');}
+    catch(failure){cancelPending=false;update();error(failure.message);}
+  });
+  $('stop').addEventListener('click',()=>{JaliHeadDemo.resetPerformance(true);selectedId=null;verified=false;$('downloads').hidden=true;$('resume').hidden=true;$('verified').textContent='PLAYBACK STOPPED';if(!busy)stage('idle','Stopped. Choose history to replay or generate new words.');});
   $('resume').addEventListener('click',()=>play().catch(failure=>error(failure.message)));
   $('text').addEventListener('input',update);
   $('audio').addEventListener('pause',()=>{
@@ -129,7 +141,7 @@
   window.addEventListener('jali-clip-selected',event=>{
     const clip = sessions.get(event.detail.id); if (clip) selectDetails(clip);
   });
-  window.JaliStudio = {getState:()=>({busy,phase,verified,selectedId})};
+  window.JaliStudio = {getState:()=>({busy,phase,verified,selectedId,currentJob,cancelPending})};
   json('/api/config').then(value=>{
     if (JSON.stringify(value.rig)!==JSON.stringify(JALI_HEAD_DATA.rig)) throw new Error('Viewer and backend rig versions differ; rebuild the studio.');
     config=value; if (JaliHeadDemo.getState().ready) stage('idle','Ready. Write a sentence, then generate your performance.');update();

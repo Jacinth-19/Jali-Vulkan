@@ -71,7 +71,8 @@ This is not a clean consumer installer or a benchmark of the target i5 laptop.
 - `POST /api/generate`: only `{"text":"..."}`, JSON, <=8192 bytes, 1-500 characters.
   Same-origin browser policy and `X-Jali-Token` are checked. Returns a job ID (202),
   validation error (400), CSRF rejection (403), or busy response (409).
-- `GET /api/jobs/<id>`: queued/synthesizing/analyzing, ready, or explicit error.
+- `GET /api/jobs/<id>`: queued/synthesizing/analyzing, cancelling/cancelled, ready, or explicit error.
+- `POST /api/cancel`: exactly `{"id":"<job ID>"}`, same origin/token checks; cancellation retains the busy slot through child/output cleanup. Ready jobs are immutable (409); Stop clears playback.
 - `GET /sessions/<id>/{audio.wav,cues.json,requested-text.txt,manifest.json}`:
   published only after readiness. Byte-range audio requests are supported.
 
@@ -109,7 +110,7 @@ provenance checks, **not cryptographic proof of voice permissions or lip-sync qu
   Another tab's jobs can expire server downloads earlier than a tab's local replay.
 - Idle/paused static faces no longer redraw continuously. Orbit damping and audio
   playback still render as needed; this is not a frame-rate guarantee.
-- Interrupting an in-progress model job/cancellation UI remains M6 work. This is
+- Owned-child generation/analysis cancellation and stop/reset/retry are now implemented; incremental neural inference remains M6 work. This is
   not an incremental persistent model worker; each generation starts an isolated worker.
 
 The token/origin checks protect against browser CSRF, **not remote authentication**.
@@ -160,7 +161,7 @@ The same optimized GLB was decoded and validated: zero errors, nine retained war
   no TTS phoneme durations or verified forced alignment are fabricated here.
 - Native Vulkan support for this richer character (M4).
 - Learned/controlled expressive behavior beyond procedural/manual styling (M5).
-- Streaming, interruption and cancellation (M6).
+- True bounded incremental generation/playback (M6); whole-utterance cancellation/stop/retry is implemented.
 - Local Windows verification, target-device profiling and a usable launcher (M7).
 - Broader interchange, dependency/distribution/privacy review and release QA (M8).
 
@@ -171,3 +172,11 @@ M2's connected **prototype** is delivered; the overall project is not complete.
 See [repeatable articulation review](neural-articulation.md) for the public
 three-text corpus, short-cue/end-rest corrections, actual mesh review frames,
 disposable CI runner, hosted resource inventory and remaining quality gates.
+
+## Latest performance controls
+
+The studio now has Cancel generation, Stop playback/reset face and manual eye-bone
+gaze. Speech-priority warmth suppression protects mapped closure/contact/rounding
+poses. See [implementation and scope](performance-controls.md) and the
+[actual README renderer captures](render-captures.md). The user reports a working
+Windows PC run; no quantitative target-laptop report has been reviewed.

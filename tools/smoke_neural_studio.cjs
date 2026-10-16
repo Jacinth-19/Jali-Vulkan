@@ -28,6 +28,18 @@ const chromium=require('@sparticuz/chromium');
     await page.waitForFunction(()=>window.JaliHeadDemo?.getState().ready&&!document.querySelector('#generate').disabled,null,{timeout:60000});
     const model=await page.evaluate(()=>JaliHeadDemo.getState().modelStats);
     if(model.faceControls!==66||model.bones!==67)throw new Error('Detailed character missing');
+    // Real UI cancellation, then retry through the same bounded worker.
+    await page.locator('#mood').selectOption('warm');await page.locator('#gaze').selectOption('left');
+    await page.locator('#text').fill('Cancel this generated performance before it can play.');
+    await page.locator('#generate').click();
+    await page.waitForFunction(()=>JaliStudio.getState().currentJob&&!document.querySelector('#cancel').disabled);
+    const cancelledId=await page.evaluate(()=>JaliStudio.getState().currentJob);
+    await page.locator('#cancel').click();
+    await page.waitForFunction(()=>!JaliStudio.getState().busy&&JaliStudio.getState().phase==='cancelled',null,{timeout:20000});
+    const cancelled=await (await context.request.get(`${base}/api/jobs/${cancelledId}`)).json();
+    if(cancelled.state!=='cancelled'||(await context.request.get(`${base}/sessions/${cancelledId}/audio.wav`)).status()!==404)throw new Error('Cancelled output exposed');
+    const cancelledFace=await page.evaluate(()=>JaliHeadDemo.getState());
+    if(await page.locator('#audio').getAttribute('src')||Object.values(cancelledFace.pose).some(w=>w!==0)||cancelledFace.gazeBones.some(b=>b.delta.x||b.delta.y))throw new Error('Cancellation retained audio or non-neutral pose');
     const defaultTexts=[
       'Hello, this is the connected local voice and face test. Please bring my blue paper bag.',
       'The new recording has its own timing. We can pause, jump back, and replay the same face.'
@@ -59,6 +71,18 @@ const chromium=require('@sparticuz/chromium');
       await page.waitForFunction(t=>Math.abs(Number(document.querySelector('#face').dataset.audioTime)-t)<0.025,seek);
       const posed=await page.evaluate(t=>{JaliHeadDemo.capture(t);return JaliHeadDemo.getState();},seek);
       if(!posed.activeMorphs.some(m=>m.values.viseme_PP>0.5))throw new Error('Actual closed-mouth morph not driven');
+      await page.locator('#mood').selectOption('neutral');
+      const neutralClosure=await page.evaluate(t=>JaliHeadDemo.capture(t),seek);
+      await page.locator('#mood').selectOption('warm');
+      const warmClosure=await page.evaluate(t=>JaliHeadDemo.capture(t),seek);
+      if(neutralClosure!==warmClosure)throw new Error('Warm layer changed full-closure pixels');
+      await page.locator('#mood').selectOption('neutral');
+      await page.locator('#gaze').selectOption('left');
+      const leftGaze=await page.evaluate(t=>({image:JaliHeadDemo.capture(t),bones:JaliHeadDemo.getState().gazeBones}),seek);
+      await page.locator('#gaze').selectOption('right');
+      const rightGaze=await page.evaluate(t=>({image:JaliHeadDemo.capture(t),bones:JaliHeadDemo.getState().gazeBones}),seek);
+      if(leftGaze.bones.length!==2||!leftGaze.bones.every(b=>Math.abs(b.delta.y-.08)<1e-6)||!rightGaze.bones.every(b=>Math.abs(b.delta.y+.08)<1e-6)||leftGaze.image===rightGaze.image)throw new Error('Eye-bone gaze not rendered');
+      await page.locator('#gaze').selectOption('forward');
       await page.locator('#sync').uncheck();
       const disabled=await page.evaluate(t=>{JaliHeadDemo.capture(t);return JaliHeadDemo.getState();},seek);
       if(disabled.activeMorphs.some(m=>Object.keys(m.values).some(k=>k.startsWith('viseme_'))))throw new Error('Speech weights did not reset');
@@ -71,6 +95,12 @@ const chromium=require('@sparticuz/chromium');
     // Replay the first immutable history item after generating a second one.
     await page.locator(`#history [data-session="${sessions[0].id}"]`).click();
     await page.waitForFunction(id=>JaliHeadDemo.getState().sessionId===id&&document.querySelector('#audio').currentTime>.1,sessions[0].id);
+    await page.locator('#audio').evaluate(a=>a.pause());
+    await page.locator('#stop').click();
+    const stopped=await page.evaluate(()=>({head:JaliHeadDemo.getState(),studio:JaliStudio.getState(),src:document.querySelector('#audio').getAttribute('src')}));
+    if(stopped.src||stopped.head.sessionId||stopped.studio.verified||Object.values(stopped.head.pose).some(w=>w!==0)||stopped.head.gazeBones.some(b=>b.delta.x||b.delta.y))throw new Error('Stop left stale audio or face');
+    await page.locator(`#history [data-session="${sessions[0].id}"]`).click();
+    await page.waitForFunction(id=>JaliHeadDemo.getState().sessionId===id,sessions[0].id);
     await page.locator('#audio').evaluate(a=>a.pause());
     await page.screenshot({path:path.join(proof,'desktop.png'),fullPage:true});
     await page.setViewportSize({width:390,height:844});await page.waitForTimeout(200);
@@ -136,7 +166,7 @@ const chromium=require('@sparticuz/chromium');
     }
     if(errors.length||external.length)throw new Error(JSON.stringify({errors,external}));
     fs.writeFileSync(path.join(proof,'browser-check.json'),JSON.stringify({passed:true,model,web_security_enabled:true,external_requests:external,errors,
-      checks:[`${sessions.length} real form submissions`,'new CPU neural synthesis for each text','actual WAV analyzed with its dialog','downloaded WAV hash verified in browser','audio/face IDs match','actual closure morph','seek','sync off clears speech weights','natural end rests','old session replays with its own cues','mobile layout'],
+      checks:[`${sessions.length} real form submissions`,'new CPU neural synthesis for each text','actual WAV analyzed with its dialog','downloaded WAV hash verified in browser','audio/face IDs match','actual closure morph','seek','sync off clears speech weights','natural end rests','old session replays with its own cues','mobile layout','cancel real generation hides partial media','cancel then retry','warm/full-closure pixel equality','left/right gaze changes actual render','stop clears audio/morphs/gaze'],
       sessions:sessions.map(c=>({id:c.id,text:c.text,audio_sha256:c.audio.sha256,duration:c.duration,cues:c.cues.length,total_seconds:c.total_seconds}))},null,2)+'\n');
     fs.rmSync(path.join(proof,'failure.png'),{force:true});
     console.log('M2/M3 real neural studio browser checks passed');

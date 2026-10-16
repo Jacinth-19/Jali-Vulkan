@@ -59,7 +59,7 @@ class NativeAuditTests(unittest.TestCase):
             path=Path(directory)/'test.glb';path.write_bytes(b'glTF'+struct.pack('<IIII',2,len(data)+20,len(data),0x4e4f534a)+data)
             r=audit(path);self.assertEqual(r['counts']['max_skin_joints'],67)
             self.assertEqual(r['static_status'],'known_incompatible');self.assertFalse(r['native_rendering_performed']);self.assertFalse(r['assets_modified'])
-            self.assertIn('palette_64_limit',[b['code'] for b in r['blockers']])
+            self.assertNotIn('palette_limit',[b['code'] for b in r['blockers']]);self.assertIn('three_target_abi',[b['code'] for b in r['blockers']])
 
 
 class BenchmarkSafetyTests(unittest.TestCase):

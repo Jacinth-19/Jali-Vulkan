@@ -2,7 +2,7 @@
 layout(local_size_x=64) in;
 layout(set=0,binding=0,std430) readonly buffer Rest { uint words[]; } rest;
 layout(set=0,binding=1,std430) writeonly buffer Deformed { float words[]; } mesh;
-layout(set=0,binding=2,std140) uniform Pose { mat4 bones[64]; vec4 morph; } pose;
+layout(set=0,binding=2,std140) uniform Pose { mat4 bones[128]; vec4 morph; } pose;
 layout(push_constant) uniform Count { uint vertices; } count;
 vec3 read3(uint o) { return vec3(uintBitsToFloat(rest.words[o]),uintBitsToFloat(rest.words[o+1]),uintBitsToFloat(rest.words[o+2])); }
 void main() {

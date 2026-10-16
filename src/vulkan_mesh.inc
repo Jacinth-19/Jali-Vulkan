@@ -1,8 +1,9 @@
 // Included inside VulkanFaceRenderer::Impl: shared device/queue/readback ownership.
 struct MeshBuffer { VkBuffer buffer=VK_NULL_HANDLE; VkDeviceMemory memory=VK_NULL_HANDLE; void* mapped=nullptr; };
 struct MeshImage { VkImage image=VK_NULL_HANDLE; VkDeviceMemory memory=VK_NULL_HANDLE; VkImageView view=VK_NULL_HANDLE; };
-struct MeshPose { std::array<Mat4,64> bones; std::array<float,4> morph; };
-static_assert(sizeof(MeshPose)==4112,"std140 pose ABI");
+struct MeshPose { JointPalette bones; std::array<float,4> morph; };
+static_assert(sizeof(MeshPose)==8208,"std140 pose ABI");
+static_assert(offsetof(MeshPose,morph)==8192,"shader morph offset after 128 matrices");
 MeshBuffer rest_vertices, deformed_vertices, mesh_indices, pose_buffer;
 MeshImage color_image,depth_image;
 VkRenderPass mesh_pass=VK_NULL_HANDLE;

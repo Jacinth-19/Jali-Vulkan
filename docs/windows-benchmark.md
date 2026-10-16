@@ -141,7 +141,7 @@ Every report includes a static audit of the actual optimized GLB and the hash of
 `src/character.cpp`. The current asset has **8 meshes, 8 skins, 7 materials,
 7 images, 67 joints per largest skin and up to 66 morph targets**. The existing
 native path rejects required extensions/materials, expects one mesh/skin, allows
-64 joints and stores exactly three fixed named facial deltas. Signed quantized
+128 joints after the palette implementation, and stores exactly three fixed named facial deltas. Signed quantized
 accessors are also outside its supported reader types.
 
 The audit records these blockers without modifying/truncating assets. It is a
@@ -149,12 +149,13 @@ partial metadata audit, **not native import or GPU rendering**. Next M4 work mus
 
 1. Define a rich native asset/profile contract and decode Meshopt/quantization.
 2. Preserve all instances, skin hierarchies, inverse binds and transforms.
-3. Expand palette/shader/buffer ABI together; support named morphs on face and
-   secondary meshes rather than renaming 66 shapes into three unrelated deltas.
+3. Support named morphs on face and secondary meshes rather than renaming 66
+   shapes into three unrelated deltas. The palette/shader/buffer ABI now supports
+   128 joints with actual 67/128-joint fixture tests; that removes one blocker only.
 4. Add UV/material/texture/color-space paths and correct normal handling.
 5. Compare CPU deformation/canonical poses with WebGL, then run real Vulkan
    validation and connect the same audio/cue session identity.
 
-Increasing a joint constant alone does not accomplish those steps. M4 remains
-unimplemented for this head. M3 listening/visual review and actual laptop data
+Increasing a joint constant alone does not accomplish those steps. The rich M4 render path remains
+unimplemented for this head. See [the implemented palette foundation](performance-controls.md). M3 listening/visual review and actual laptop data
 remain necessary; hosted CI does not close them.

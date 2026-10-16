@@ -79,6 +79,24 @@ int main() {
                 expect(std::isfinite(gpu[i][k]) && std::abs(gpu[i][k]-cpu[i][k])<2e-5,"GPU/CPU morph-then-skin mismatch");
         }
         rejects([&] { renderer.render_pose({2,0,0}); });
+        // Real importer + GPU test: weighted joint 66 exercises palette entries
+        // beyond the old 64-matrix ABI, not merely unused appended joints.
+        const auto check_palette = [&](const char* asset, std::size_t expected) {
+        const auto large = jali::load_character_glb(asset);
+        expect(large.joints.size()==expected,"large joint fixture was truncated");
+        expect(large.vertices.front().joints[0]==expected-1,"high joint not exercised");
+        renderer.load_character(asset);
+        for(const auto pose:{jali::SpeechPose{},jali::SpeechPose{.8f,.5f,0},jali::SpeechPose{.1f,0,1}}) {
+            renderer.render_pose(pose);const auto gpu=renderer.deformed_positions();const auto cpu=jali::deform_reference(large,pose);
+            expect(gpu.size()==cpu.size(),"large palette readback count");
+            for(std::size_t i=0;i<gpu.size();++i)for(int k=0;k<3;++k)
+                expect(std::abs(gpu[i][k]-cpu[i][k])<2e-5,"large palette CPU/GPU mismatch");
+        }
+        std::cout<<expected<<"-joint palette: weighted joint "<<expected-1<<" agrees with CPU reference\n";
+        };
+        check_palette(JALI_LARGE_CHARACTER,67);
+        check_palette(JALI_MAX_CHARACTER,128);
+
         if(!renderer.hardware_accelerated()) {
             bool failed=false;try { jali::VulkanFaceRenderer required(96,96,JALI_DEFAULT_FACE_SHADER,true); } catch(const std::runtime_error&) {failed=true;}
             expect(failed,"hardware-required mode silently accepted a software driver");

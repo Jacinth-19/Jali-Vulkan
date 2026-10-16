@@ -1,0 +1,117 @@
+{
+  "schema": "jali-readme-renders-v1",
+  "created_utc": "2026-10-16T03:46:38.523882+00:00",
+  "method": "Actual deterministic WebGL canvas exports and a fresh native Vulkan RGBA readback; no generated/mock images",
+  "source_files_sha256": {
+    "tools/capture_readme.py": "d4ab68b02e74a3d1b8b3991d655d8a21763fd3402f5f8c48a57affa3394c47df",
+    "tools/smoke_neural_studio.cjs": "1fa7e495952ce42247206cf72785a1a8ffea2f31c467f110a64b8ece371f8eb0",
+    "web/neural-head/viewer.js": "4b50c588823c7fc4982b9185d72747a853996677b5a584364c593fe48565f7a7",
+    "web/neural-head/visemes.mjs": "dffa942e4f0bf5055c727235f4f4ec4110a8a4c9ac5d4cfcce6e6e96ff7ad009",
+    "web/neural-head/performance.mjs": "fee395a44ca35f6be723a7250315c1f439e66c5b285647288ca20c841ae60d3f",
+    "src/character.cpp": "3e924a87a7da4e207e231016431550e476b63697c816f0c3970489c98a6bd394",
+    "src/vulkan_mesh.inc": "94bf0a7dc384efd227c7de10c23c5b471f472358de71f36cbabf7fbcb086d491",
+    "include/jali/character.hpp": "6edba2f1e574b184969cc9fda556521f0de7e6df2b1c955c5c3c770c2ad92d7e",
+    "shaders/skin.comp": "a83953f0e1f5bf00aecbbbf51398da86bba307f76b223688a7cfd6901ab953f1",
+    "shaders/mesh.vert": "3e42c739a92477c69dae360283639741fe0fbede2c3d25ecf442e03e0b9e5472",
+    "shaders/mesh.frag": "27851ac6210ac21f039ce9b198d1e22b05701243c2a8e4439aa61547d35258e3",
+    "tools/make_character.py": "5e28c4b1b43a40af94f04030410643a72b05be7b3f1862edb04ac0fad35dda7e",
+    "tests/backend_tests.cpp": "f9b13e272da3b8581ff8141244f62d93bec24860016008150f4173ae696f9c5d"
+  },
+  "images": [
+    {
+      "file": "webgl-closure.png",
+      "sha256": "ae4d1c7923152d7c2c6c9b1c0fea91a534740353ccea73785d2177f4b28a9d51",
+      "renderer": "Three.js / WebGL",
+      "source_frame": "frames/closures-A.png",
+      "audio_time_seconds": 1.72,
+      "estimated_class": "A",
+      "weights": {
+        "viseme_PP": 0.95
+      },
+      "text": "Mama. Papa. Baby. Bob packed my blue paper bag.",
+      "audio_sha256": "cb2aff047d3bee2e7e648af51ed413f3f7962bc8868d5591a339dbc738366f0d",
+      "rig": {
+        "profile": "mpfb-rhubarb-9-v1",
+        "source_commit": "2afe6d79779313db8909badebf46f9805a6c7b70",
+        "model_sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+        "retarget_sha256": "dffa942e4f0bf5055c727235f4f4ec4110a8a4c9ac5d4cfcce6e6e96ff7ad009",
+        "viewer_sha256": "633e56ac14e4b552decf452a93810adf6d34ef6c2a40074196f7de6927c2a585"
+      },
+      "style": "neutral; procedural motion disabled",
+      "independent_phoneme_verification": false
+    },
+    {
+      "file": "webgl-contact.png",
+      "sha256": "0a253a44f67950b728edb70c4ce243b4f2edec7e8e084a66c0ca6d7fc585a58a",
+      "renderer": "Three.js / WebGL",
+      "source_frame": "frames/contacts-G.png",
+      "audio_time_seconds": 0.44499999999999995,
+      "estimated_class": "G",
+      "weights": {
+        "viseme_FF": 0.85
+      },
+      "text": "Five vivid voices. Baby Lily likes little yellow lollipops.",
+      "audio_sha256": "a762e20fa7809a2487ca41c7cd5b86627ae4ba144f1c408ba98679250db282e3",
+      "rig": {
+        "profile": "mpfb-rhubarb-9-v1",
+        "source_commit": "2afe6d79779313db8909badebf46f9805a6c7b70",
+        "model_sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+        "retarget_sha256": "dffa942e4f0bf5055c727235f4f4ec4110a8a4c9ac5d4cfcce6e6e96ff7ad009",
+        "viewer_sha256": "633e56ac14e4b552decf452a93810adf6d34ef6c2a40074196f7de6927c2a585"
+      },
+      "style": "neutral; procedural motion disabled",
+      "independent_phoneme_verification": false
+    },
+    {
+      "file": "webgl-rounding.png",
+      "sha256": "03aea6ef761d41f1aa0fb98d3c69efc2c9bbff70eb2f0b583455dfa0d448319f",
+      "renderer": "Three.js / WebGL",
+      "source_frame": "frames/vowels-F.png",
+      "audio_time_seconds": 2.705,
+      "estimated_class": "F",
+      "weights": {
+        "viseme_U": 0.88,
+        "viseme_O": 0.12
+      },
+      "text": "Blue moon. Cool water. Open wide. Oh. Ooh. Ah. Ee.",
+      "audio_sha256": "fa36bc15385794b892fbbf8e1b33f2220cd721a22a0fab015cf986ea9223e12f",
+      "rig": {
+        "profile": "mpfb-rhubarb-9-v1",
+        "source_commit": "2afe6d79779313db8909badebf46f9805a6c7b70",
+        "model_sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+        "retarget_sha256": "dffa942e4f0bf5055c727235f4f4ec4110a8a4c9ac5d4cfcce6e6e96ff7ad009",
+        "viewer_sha256": "633e56ac14e4b552decf452a93810adf6d34ef6c2a40074196f7de6927c2a585"
+      },
+      "style": "neutral; procedural motion disabled",
+      "independent_phoneme_verification": false
+    },
+    {
+      "file": "native-vulkan.png",
+      "sha256": "e69ab5bfe05740986be9b69dc794172420440d08ce18013debebb297a7fded55",
+      "renderer": "native Vulkan compute skinning + indexed rasterization",
+      "model": "original Jali android, 67-joint test fixture (NOT detailed MPFB head)",
+      "model_sha256": "7f24dabbcc53fbf922b0b2f44b46cfaead8d2b3175404013f78df5993466f9d6",
+      "audio_time_seconds": 0.65,
+      "audio_sha256": "c0094c5b67da068948d5bd35a03961a721e52cd7939426c8f4eb8cf732603516",
+      "metadata": {
+        "alignment": "tts-phoneme-events",
+        "bones": 67,
+        "device": "SwiftShader Device (Subzero)",
+        "duration_seconds": 3.6797278911564626,
+        "hardware_accelerated": false,
+        "height": 512,
+        "mode": "live-mesh",
+        "morph_targets": 3,
+        "phoneme_count": 37,
+        "prepare_seconds": 0.107465021,
+        "sample_rate": 22050,
+        "text": "Hello from Jali. Please bring my blue paper bag.",
+        "triangles": 20736,
+        "vertices": 11392,
+        "voice": "espeak",
+        "width": 512
+      }
+    }
+  ],
+  "limits": "Pose/render evidence only, not independent articulation quality, physical AV sync or target-laptop performance acceptance. Detailed MPFB remains WebGL-only."
+}

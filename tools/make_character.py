@@ -7,7 +7,8 @@ import struct
 import sys
 
 
-def make_character(output):
+def make_character(output, joint_count=2):
+    if not 2 <= joint_count <= 128: raise ValueError("Fixture joint count must be 2-128")
     vertices, normals, colors, joints, weights, indices = [], [], [], [], [], []
     morphs = [[], [], []]
     def ellipsoid(center, radius, color, bone=0, mouth=False, segments=24, rings=16):
@@ -51,6 +52,9 @@ def make_character(output):
     ellipsoid((0,-.32,.43),(.205,.04,.081),trim,mouth=True)
     ellipsoid((0,-.32,.493),(.173,.014,.028),(.006,.012,.025),mouth=True)
     ellipsoid((0,.72,.37),(.025,.17,.025),cyan)
+    if joint_count > 2:
+        for i in range(min(100,len(joints))):
+            joints[i]=(joint_count-1,0,0,0);weights[i]=(1,0,0,0)
     data = bytearray(); views = []; accessors = []
     def accessor(values, component, shape, minimum=None, maximum=None, target=34962):
         while len(data) % 4: data.append(0)
@@ -72,7 +76,7 @@ def make_character(output):
     targets = [{'POSITION':accessor(m,'f','VEC3',[min(v[k] for v in m) for k in range(3)],[max(v[k] for v in m) for k in range(3)])} for m in morphs]
     identity = [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]
     jaw_inverse = identity.copy(); jaw_inverse[13] = .3
-    ibm = accessor([identity,jaw_inverse],'f','MAT4',target=None)
+    ibm = accessor([identity,jaw_inverse]+[identity]*(joint_count-2),'f','MAT4',target=None)
     model = {'asset':{'version':'2.0','generator':'Jali original authored test character'},
              'scene':0,'scenes':[{'nodes':[0,2]}],
              'nodes':[{'name':'Root','children':[1]}, {'name':'Jaw','translation':[0,-.3,0]}, {'name':'Android','mesh':0,'skin':0}],
@@ -80,12 +84,17 @@ def make_character(output):
              'meshes':[{'name':'Jali Android','weights':[0,0,0], 'extras':{'targetNames':['jawOpen','mouthRound','mouthClose']},
                         'primitives':[{'mode':4,'attributes':{'POSITION':pos,'NORMAL':normal,'COLOR_0':color,'JOINTS_0':joint,'WEIGHTS_0':weight},'indices':idx,'targets':targets}]}],
              'buffers':[{'byteLength':len(data)}],'bufferViews':views,'accessors':accessors}
+    for i in range(2,joint_count):
+        node=len(model['nodes']);model['nodes'].append({'name':f'FixtureBone{i}','translation':[.07 if i==joint_count-1 else 0,0,0]})
+        model['nodes'][0]['children'].append(node);model['skins'][0]['joints'].append(node)
     raw = json.dumps(model,separators=(',',':')).encode()
     raw += b' '*((-len(raw))%4); data.extend(b'\0'*((-len(data))%4))
     glb = struct.pack('<III',0x46546c67,2,28+len(raw)+len(data)) + struct.pack('<I4s',len(raw),b'JSON') + raw + struct.pack('<I4s',len(data),b'BIN\0') + data
     output = Path(output);output.parent.mkdir(parents=True,exist_ok=True);output.write_bytes(glb)
-    print(f'Authored {output}: {len(vertices)} vertices, {len(indices)//3} triangles, two bones, three morph targets')
+    print(f'Authored {output}: {len(vertices)} vertices, {len(indices)//3} triangles, {joint_count} bones, three morph targets')
 
 
 if __name__ == '__main__':
-    make_character(sys.argv[1])
+    import argparse
+    p=argparse.ArgumentParser();p.add_argument('output');p.add_argument('--joints',type=int,default=2);a=p.parse_args()
+    make_character(a.output,a.joints)

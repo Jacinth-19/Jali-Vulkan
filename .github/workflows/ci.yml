@@ -271,7 +271,7 @@ jobs:
       - name: Install pinned browser tooling without install hooks
         run: npm ci --prefix tools --ignore-scripts
       - name: Check sampler and measurement contracts on Windows
-        run: node --test tests/visemes.test.mjs tests/measurement.test.mjs
+        run: node --test tests/visemes.test.mjs tests/measurement.test.mjs tests/performance.test.mjs
       - name: Exercise actual installed Chrome over HTTP and file URLs
         env:
           JALI_BROWSER_CHANNEL: chrome
@@ -328,7 +328,7 @@ jobs:
             .venv/Scripts/python.exe -m unittest discover -s tests -p $pattern
             if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           }
-          node --test tests/visemes.test.mjs tests/measurement.test.mjs
+          node --test tests/visemes.test.mjs tests/measurement.test.mjs tests/performance.test.mjs
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Explicitly prepare stock voice, model, Windows analyzer and CC0 head
         env:

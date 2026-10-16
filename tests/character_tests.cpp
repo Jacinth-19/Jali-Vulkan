@@ -28,6 +28,7 @@ int main(){
         m=original;m["meshes"][0]["extras"]["targetNames"]={"jawOpen","wrong","mouthClose"};reject(m,bin);
         m=original;m["buffers"][0]["uri"]="../private.wav";reject(m,bin);
         m=original;m["skins"][0]["joints"]={0,0};reject(m,bin);
+        m=original;m["skins"][0]["joints"]=std::vector<int>(jali::kMaxCharacterJoints+1,0);reject(m,bin);
         m=original;m["meshes"][0]["primitives"][0]["attributes"].erase("WEIGHTS_0");reject(m,bin);
         auto bad=bin;int a=original["meshes"][0]["primitives"][0]["attributes"]["JOINTS_0"];int v=original["accessors"][a]["bufferView"];
         std::size_t at=original["bufferViews"][v]["byteOffset"];bad[at]=255;bad[at+1]=255;reject(original,bad);

@@ -63,6 +63,35 @@ class StudioHTTPTests(unittest.TestCase):
             time.sleep(.01)
         self.fail('Test worker did not reach expected state')
 
+    def test_cancel_auth_cleanup_retry_and_terminal_race(self):
+        code,data,_=self.post({'text':'Cancel this'})
+        self.assertEqual(code,202);ident=json.loads(data)['id'];self.wait(ident,'running')
+        def cancel(headers=None):return self.request('/api/cancel',json.dumps({'id':ident}).encode(),headers=headers)
+        self.assertEqual(cancel({'Origin':'https://other.invalid'})[0],403)
+        self.assertEqual(cancel({'X-Jali-Token':''})[0],403)
+        self.assertEqual(cancel()[0],202);self.assertEqual(cancel()[0],202)
+        self.assertTrue(self.state.busy)
+        self.assertEqual(self.post({'text':'Not yet'})[0],409)
+        self.assertEqual(self.request(f'/sessions/{ident}/audio.wav')[0],404)
+        self.gate.set();self.wait(ident,'cancelled')
+        self.assertFalse((self.state.root/ident).exists());self.assertNotIn(ident,self.state.ready)
+        self.assertEqual(cancel()[0],409)
+        code,data,_=self.post({'text':'Retry after cancellation'});self.assertEqual(code,202)
+        ready_id=json.loads(data)['id'];self.wait(ready_id,'ready')
+        # Simulate the tiny ready-publication/finally window: even a retained
+        # token must not turn a ready job into a forever-cancelling job.
+        from neural_cancel import CancellationToken
+        self.state.tokens[ready_id]=CancellationToken()
+        self.assertFalse(self.state.cancel(ready_id));self.assertEqual(self.state.get(ready_id)['state'],'ready')
+        self.state.tokens.pop(ready_id)
+
+    def test_cancel_invalid_unknown_and_invalid_unicode(self):
+        for payload in ({'id':'../escape'},{'id':[]},{'id':'a'*32,'extra':True}):
+            self.assertEqual(self.request('/api/cancel',json.dumps(payload).encode())[0],400)
+        self.assertEqual(self.request('/api/cancel',json.dumps({'id':'a'*32}).encode())[0],404)
+        self.assertEqual(self.post({'text':'bad\ud800'})[0],400)
+        self.assertFalse(self.state.busy)
+
     def test_config_and_root(self):
         code, data, headers = self.request('/api/config')
         self.assertEqual(code, 200)

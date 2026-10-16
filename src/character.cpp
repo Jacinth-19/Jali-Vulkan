@@ -85,8 +85,8 @@ Character load_character_glb(const std::filesystem::path& path) {
     ensure(loader.LoadBinaryFromMemory(&model,&error,&warning,bytes.data(),static_cast<unsigned>(bytes.size())),"invalid or unsupported GLB");
     ensure(model.extensionsRequired.empty() && model.images.empty() && model.animations.empty() && model.materials.empty(),"extensions, materials/textures, and authored animation tracks are outside this vertex-color facial profile");
     ensure(model.scenes.size()==1 && model.defaultScene==0,"requires one explicitly selected scene");
-    ensure(model.meshes.size()==1 && model.skins.size()==1 && model.nodes.size()<=128,"requires one skinned mesh and <=128 nodes");
-    const auto& skin=model.skins[0];ensure(!skin.joints.empty() && skin.joints.size()<=64,"requires 1-64 joints");
+    ensure(model.meshes.size()==1 && model.skins.size()==1 && model.nodes.size()<=kMaxCharacterNodes,"requires one skinned mesh and <=256 nodes");
+    const auto& skin=model.skins[0];ensure(!skin.joints.empty() && skin.joints.size()<=kMaxCharacterJoints,"requires 1-128 joints");
     std::vector<int> parents(model.nodes.size(),-1);
     for(std::size_t i=0;i<model.nodes.size();++i) for(int child:model.nodes[i].children) {
         ensure(child>=0 && std::size_t(child)<parents.size() && parents[child]==-1,"invalid/multiple node parents");parents[child]=int(i);
@@ -147,10 +147,10 @@ Character load_character_glb(const std::filesystem::path& path) {
     }
     ensure(!result.indices.empty(),"empty mesh");character_palette(result,{});return result;
 }
-std::array<Mat4,64> character_palette(const Character& c,SpeechPose pose) {
-    ensure(c.joints.size()<=64 && !c.joints.empty(),"invalid joint count");
+JointPalette character_palette(const Character& c,SpeechPose pose) {
+    ensure(c.joints.size()<=kMaxCharacterJoints && !c.joints.empty(),"invalid joint count");
     for(auto v:{pose.jaw,pose.round,pose.close}) ensure(std::isfinite(v) && v>=0 && v<=1,"invalid facial pose");
-    std::array<Mat4,64> out,global;for(auto& m:out)m=identity_matrix();std::array<int,64> visit{};
+    JointPalette out,global;for(auto& m:out)m=identity_matrix();std::array<int,kMaxCharacterJoints> visit{};
     std::function<void(int)> solve=[&](int i) {ensure(i>=0 && std::size_t(i)<c.joints.size(),"invalid hierarchy link");ensure(visit[i]!=1,"cyclic joint hierarchy");if(visit[i]==2)return;visit[i]=1;
         auto local=c.joints[i].local;if(i==c.jaw_joint) {auto r=identity_matrix();float angle=pose.jaw*(1-pose.close)*0.22f;r[5]=r[10]=std::cos(angle);r[6]=std::sin(angle);r[9]=-r[6];local=multiply(local,r);}
         const auto parent=c.joints[i].parent;if(parent!=-1) {solve(parent);global[i]=multiply(global[parent],local);}else global[i]=local;

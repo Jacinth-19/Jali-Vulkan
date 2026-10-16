@@ -30,6 +30,8 @@ DEFAULT_TEXTS = [
 def validate_request(text, speed=1.0, threads=2):
     if not isinstance(text, str) or not text.strip() or len(text) > 500:
         raise ValueError('Text must contain 1-500 characters with some non-whitespace content')
+    try: text.encode('utf-8')
+    except UnicodeEncodeError: raise ValueError('Text contains invalid Unicode') from None
     if any(ord(c) < 32 and c not in '\n\r\t' for c in text):
         raise ValueError('Text contains unsupported control characters')
     if isinstance(speed, bool) or not isinstance(speed, (float, int)) or not math.isfinite(speed) or not 0.5 <= speed <= 2.0:

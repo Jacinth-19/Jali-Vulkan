@@ -1,6 +1,41 @@
 # Jali-Vulkan
 
-C++17 voice-to-face engine with **phoneme-driven live playback, imported GLB characters, and Vulkan compute morphing/skinning plus indexed rasterization**. The browser presents actual native-rendered frames on a Web Audio clock—not a pre-rendered movie or a JavaScript face simulation.
+C++17 voice-to-face engine with **native Vulkan morphing/skinning and rasterization**, plus a connected **local CPU neural-speech / detailed WebGL face studio**. These are separate rendering paths: the detailed textured human is not yet ported to Vulkan.
+
+## Actual renderer captures
+
+These are real application exports, **not AI-generated illustrations or mockups**.
+The human poses below follow estimated cues from freshly synthesized local speech.
+
+| P/B/M closure — WebGL | F/V contact pose — WebGL | OO/W rounding — WebGL |
+|:---:|:---:|:---:|
+| ![Actual detailed WebGL head at an estimated P/B/M closure cue](docs/images/webgl-closure.png) | ![Actual detailed WebGL head at an estimated F/V cue](docs/images/webgl-contact.png) | ![Actual detailed WebGL head at an estimated rounded vowel cue](docs/images/webgl-rounding.png) |
+
+**Native Vulkan — original android, 67-joint test fixture:**
+
+<img src="docs/images/native-vulkan.png" width="320" alt="Actual native Vulkan raster output of the original Jali android fixture">
+
+Captured on **SwiftShader software Vulkan**, not a hardware-GPU performance result.
+The native fixture is not the detailed human above. [Capture commands, provenance,
+image hashes and scope](docs/render-captures.md) are retained.
+
+### Newly implemented controls and native capacity
+
+- **Cancel generation:** stops the owned speech/analyzer child, hides partial media,
+  cleans up, and allows a fresh request after the worker exits.
+- **Stop playback / reset face:** clears stale audio, speech weights, styling and gaze;
+  existing history can still be replayed.
+- **Separate performance layers:** manual gaze, restrained head/blink motion, and
+  neutral/warm/attentive styling. Speech closures, F/V and rounding take priority
+  over warm smiles; these controls are not emotion inference.
+- **128-joint native palette:** importer, C++/GLSL pose ABI and GPU buffers expanded
+  together. Real 67- and 128-joint fixtures exercise weighted joints 66/127 and
+  compare GPU positions with the CPU reference. This alone does **not** complete
+  rich multi-mesh/material/morph support.
+
+See [implementation details and remaining work](docs/performance-controls.md) and
+[the milestone tracker](docs/project-tracker.md). The user reports that the Windows
+command runs on their PC; quantitative target-laptop results have not been supplied.
 
 ## Run the native live demo here
 
@@ -40,7 +75,7 @@ from the neural ONNX model.
 See [setup, measured results and license/provenance limits](docs/local-neural-speech.md)
 and the [updated project tracker](docs/project-tracker.md). Use explicit model
 setup followed by `tools/local_neural_speech.py`; generation has no hosted speech
-fallback. The target Windows laptop has not been benchmarked.
+fallback. The user reports a successful Windows PC run; no target-device benchmark report has been reviewed.
 
 ## Connected neural face studio — M2 prototype delivered
 
@@ -58,7 +93,7 @@ After explicit model/dependency setup:
 ```
 
 The port 8082 preview offers new generation, play/pause/seek, six-session history,
-WAV/cue/manifest downloads and manual expression controls. The Linux CPU/browser
+WAV/cue/manifest downloads, cancellation, playback reset and manual expression/gaze controls. The Linux CPU/browser
 pipeline passed two real form submissions plus fast contract tests. It completes
 whole utterances before playback, uses estimated visemes, and does not claim
 learned emotion, native support for this rig, or tested target-laptop performance.
@@ -66,7 +101,7 @@ This is a development service, not authenticated public hosting; do not enter
 sensitive content. The Windows x64 developer backend now passed real CPU speech,
 Windows audio analysis and live Chrome integration in [nine-job Actions run 38843451199](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38843451199).
 See [Windows developer setup and actual measurements](docs/windows-neural-studio.md).
-A standalone installer and target-laptop validation remain open.
+A standalone installer and measured target-laptop acceptance remain open.
 
 ## Personal face and voice test assets
 

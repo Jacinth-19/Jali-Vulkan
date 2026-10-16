@@ -114,12 +114,12 @@ def ensure_engine():
     return binary
 
 
-def analyze_wav(audio, dialog, destination, binary):
+def analyze_wav(audio, dialog, destination, binary, runner=subprocess.run):
     """Analyze one actual WAV; no download, synthesis, guessed timing or fallback."""
     audio, dialog, destination = Path(audio), Path(dialog), Path(destination)
     spec = verify_engine(binary)
     metrics = audio_metadata(audio)
-    subprocess.run([str(binary), '--threads', '2', '--machineReadable', '-f', 'json',
+    runner([str(binary), '--threads', '2', '--machineReadable', '-f', 'json',
                     '-r', 'pocketSphinx', '-d', str(dialog), '-o', str(destination), str(audio)],
                    check=True, capture_output=True, text=True, timeout=90)
     data = json.loads(destination.read_text(encoding='utf-8'))

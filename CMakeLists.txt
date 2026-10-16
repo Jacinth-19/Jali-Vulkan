@@ -79,14 +79,22 @@ if(JALI_ENABLE_VULKAN)
   add_custom_command(OUTPUT "${JALI_CHARACTER}"
     COMMAND ${Python3_EXECUTABLE} "${CMAKE_CURRENT_SOURCE_DIR}/tools/make_character.py" "${JALI_CHARACTER}"
     DEPENDS tools/make_character.py VERBATIM)
-  add_custom_target(jali_character_asset DEPENDS "${JALI_CHARACTER}")
+  set(JALI_LARGE_CHARACTER "${CMAKE_CURRENT_BINARY_DIR}/assets/android-67.glb")
+  add_custom_command(OUTPUT "${JALI_LARGE_CHARACTER}"
+    COMMAND ${Python3_EXECUTABLE} "${CMAKE_CURRENT_SOURCE_DIR}/tools/make_character.py" "${JALI_LARGE_CHARACTER}" --joints 67
+    DEPENDS tools/make_character.py VERBATIM)
+  set(JALI_MAX_CHARACTER "${CMAKE_CURRENT_BINARY_DIR}/assets/android-128.glb")
+  add_custom_command(OUTPUT "${JALI_MAX_CHARACTER}"
+    COMMAND ${Python3_EXECUTABLE} "${CMAKE_CURRENT_SOURCE_DIR}/tools/make_character.py" "${JALI_MAX_CHARACTER}" --joints 128
+    DEPENDS tools/make_character.py VERBATIM)
+  add_custom_target(jali_character_asset DEPENDS "${JALI_CHARACTER}" "${JALI_LARGE_CHARACTER}" "${JALI_MAX_CHARACTER}")
   add_library(jali_vulkan src/vulkan_renderer.cpp src/character.cpp)
   target_include_directories(jali_vulkan PRIVATE ${TINYGLTF_INCLUDE_DIR})
   target_compile_definitions(jali_vulkan PRIVATE JALI_MESH_SHADER_DIR="${CMAKE_CURRENT_BINARY_DIR}/shaders")
   add_dependencies(jali_vulkan jali_face_shader jali_character_asset)
   target_link_libraries(jali_vulkan PUBLIC jali_pipeline PRIVATE Vulkan::Vulkan)
   target_link_libraries(jali_backends INTERFACE jali_vulkan)
-  target_compile_definitions(jali_backends INTERFACE JALI_HAS_VULKAN=1 JALI_DEFAULT_FACE_SHADER="${FACE_SHADER}" JALI_DEFAULT_CHARACTER="${JALI_CHARACTER}")
+  target_compile_definitions(jali_backends INTERFACE JALI_HAS_VULKAN=1 JALI_DEFAULT_FACE_SHADER="${FACE_SHADER}" JALI_DEFAULT_CHARACTER="${JALI_CHARACTER}" JALI_LARGE_CHARACTER="${JALI_LARGE_CHARACTER}" JALI_MAX_CHARACTER="${JALI_MAX_CHARACTER}")
 endif()
 if(JALI_ENABLE_ESPEAK AND JALI_ENABLE_VULKAN)
   add_executable(jali_live src/live.cpp)
@@ -113,6 +121,10 @@ if(BUILD_TESTING)
     if(NODE_EXECUTABLE AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tools/node_modules/gltf-validator")
       add_test(NAME gltf_spec_validation COMMAND ${NODE_EXECUTABLE}
         "${CMAKE_CURRENT_SOURCE_DIR}/tools/validate_character.cjs" "${JALI_CHARACTER}")
+      add_test(NAME gltf_67_joint_validation COMMAND ${NODE_EXECUTABLE}
+        "${CMAKE_CURRENT_SOURCE_DIR}/tools/validate_character.cjs" "${JALI_LARGE_CHARACTER}")
+      add_test(NAME gltf_128_joint_validation COMMAND ${NODE_EXECUTABLE}
+        "${CMAKE_CURRENT_SOURCE_DIR}/tools/validate_character.cjs" "${JALI_MAX_CHARACTER}")
     endif()
   endif()
   if(JALI_ENABLE_ESPEAK OR JALI_ENABLE_VULKAN)

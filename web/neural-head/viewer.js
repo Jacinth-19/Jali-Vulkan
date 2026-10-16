@@ -3,6 +3,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
+import { composePerformance } from './performance.mjs';
 import { sampleClipVisemes, validateCues } from './visemes.mjs';
 
 const $ = id => document.getElementById(id);
@@ -10,6 +11,7 @@ const data = window.JALI_HEAD_DATA;
 const audio = $('audio');
 const canvas = $('face');
 let root, controls, camera, renderer, headBone, baseHeadRotation;
+const eyeBones=[], gazeRotation=new THREE.Quaternion(), gazeEuler=new THREE.Euler();
 let selected = 0, speechMeshes = [], ready = false, frameCount = 0, fpsEpoch = performance.now();
 let currentPose = {}, modelStats = {}, captureOnly = false, resizeViewer;
 const scene = new THREE.Scene();
@@ -46,16 +48,9 @@ function applyAt(time) {
   const clip = track();
   const offset = Number($('trim').value) / 1000;
   const sample = sampleClipVisemes(clip, time, offset, $('sync').checked);
-  const pose = { ...sample.weights };
-  // Cosmetic animation is deliberately separate from speech recognition.
-  if ($('life').checked && time > 0 && time < (clip?.duration || 0)) {
-    const phase = (time + 0.7) % 3.8;
-    const blink = Math.max(0, 1 - Math.abs(phase - 3.25) / 0.11);
-    pose.eyeBlinkLeft = pose.eyeBlinkRight = blink;
-  }
-  const mood = $('mood').value;
-  if (mood === 'warm') { pose.mouthSmileLeft = pose.mouthSmileRight = 0.16; pose.cheekSquintLeft = pose.cheekSquintRight = 0.06; }
-  if (mood === 'attentive') { pose.browInnerUp = 0.25; pose.browOuterUpLeft = pose.browOuterUpRight = 0.12; }
+  const layers=composePerformance(sample.weights,{time,duration:clip?.duration||0,
+    life:$('life').checked,mood:$('mood').value,gaze:$('gaze')?.value||'forward'});
+  const pose=layers.pose;
   for (const mesh of speechMeshes) {
     mesh.morphTargetInfluences.fill(0);
     for (const [name, value] of Object.entries(pose)) {
@@ -65,11 +60,13 @@ function applyAt(time) {
   }
   if (headBone) {
     headBone.rotation.copy(baseHeadRotation);
-    if ($('life').checked && time > 0 && time < (clip?.duration || 0)) {
-      headBone.rotation.y += Math.sin(time * 0.73) * 0.018;
-      headBone.rotation.z += Math.sin(time * 0.51) * 0.008;
-    }
+    headBone.rotation.y += layers.head.yaw;
+    headBone.rotation.z += layers.head.roll;
   }
+  gazeRotation.setFromEuler(gazeEuler.set(layers.eyes.pitch,layers.eyes.yaw,0));
+  // Premultiply in the shared Head-parent frame, not each differently oriented
+  // eye bone's Euler axes (which would make left/right eyes diverge).
+  for(const {bone,base} of eyeBones)bone.quaternion.copy(base).premultiply(gazeRotation);
   currentPose = pose;
   $('shape').textContent = sample.value;
   $('shape-label').textContent = sample.label;
@@ -121,9 +118,10 @@ async function init() {
     }
     if (object.isBone) bones.add(object);
     if (object.isBone && object.name.toLowerCase() === 'head') headBone = object;
+    if (object.isBone && ['LeftEye','RightEye'].includes(object.name)) eyeBones.push({bone:object,base:object.quaternion.clone()});
   });
   const facial = speechMeshes.find(mesh => mesh.morphTargetDictionary.viseme_aa !== undefined);
-  if (!facial || !headBone) throw new Error('Expected facial visemes and Head bone are missing');
+  if (!facial || !headBone || eyeBones.length!==2 || eyeBones.some(({bone})=>bone.parent!==headBone)) throw new Error('Expected facial visemes, Head and head-parented eye bones are missing');
   // The downloadable asset retains all 66 facial controls. The viewer uploads
   // only controls used by this demo, avoiding 66-way zero-weight shader loops.
   const originalFaceControls = Object.keys(facial.morphTargetDictionary).length;
@@ -183,6 +181,7 @@ $('trim').addEventListener('input', () => renderAt(audio.currentTime || 0));
 $('mood').addEventListener('change', () => renderAt(audio.currentTime || 0));
 $('sync').addEventListener('change', () => renderAt(audio.currentTime || 0));
 $('life').addEventListener('change', () => renderAt(audio.currentTime || 0));
+$('gaze')?.addEventListener('change', () => renderAt(audio.currentTime || 0));
 for (const event of ['seeked','loadedmetadata','pause','ended']) audio.addEventListener(event, () => {
   if (!captureOnly) renderAt(audio.currentTime || 0);
   if (audio.paused || audio.ended) $('fps').textContent = track() ? 'paused' : 'idle';
@@ -192,7 +191,8 @@ audio.addEventListener('error', () => error(data.live ? 'The local recording cou
 if (data.clips.length) selectClip(0);
 window.JaliHeadDemo = {
   selectClip: index => selectClip(index, false),
-  resetPerformance: () => {
+  resetPerformance: (clearStyle=false) => {
+    if(clearStyle){$('mood').value='neutral';if($('gaze'))$('gaze').value='forward';}
     audio.pause(); audio.removeAttribute('src'); audio.load(); selected = -1;
     audio.dataset.session = ''; $('timeline').replaceChildren();
     $('clip-title').textContent = 'Preparing a new performance';
@@ -223,7 +223,7 @@ window.JaliHeadDemo = {
     } : null, canvas:{width:canvas.width,height:canvas.height}, pixelRatio:renderer?.getPixelRatio(),
     speechRig:data.rig || null };
   },
-  getState: () => ({ ready, sessionId: track()?.id || null, clips: data.clips.map(c => ({id:c.id, title:c.title})), modelStats, pose: currentPose, time: audio.currentTime, clip: selected,
+  getState: () => ({ ready, sessionId: track()?.id || null, clips: data.clips.map(c => ({id:c.id, title:c.title})), modelStats, gazeBones:eyeBones.map(({bone,base})=>{const e=new THREE.Euler().setFromQuaternion(bone.quaternion.clone().multiply(base.clone().invert()));return {name:bone.name,delta:{x:Math.abs(e.x)<1e-12?0:e.x,y:Math.abs(e.y)<1e-12?0:e.y}};}), pose: currentPose, time: audio.currentTime, clip: selected,
     activeMorphs: speechMeshes.map(mesh => ({ mesh: mesh.name, values: Object.fromEntries(Object.entries(mesh.morphTargetDictionary).filter(([, i]) => mesh.morphTargetInfluences[i] > 0.01).map(([name,i]) => [name, mesh.morphTargetInfluences[i]])) })) }),
   setCaptureMode: (enabled, size = 512) => {
     if (!ready) throw new Error('Model is not ready');

@@ -65,7 +65,7 @@ Do not combine this with `--software-vulkan`. In this sandbox the hardware-requi
 
 - Self-contained binary GLB, ≤16 MiB, one selected scene, one mesh instance/skin.
 - Root-level identity mesh transform; all joint ancestors must be included in the skin.
-- Up to 100,000 vertices, 600,000 indices, 64 joints, and four influences per vertex.
+- Up to 100,000 vertices, 600,000 indices, 128 joints (256-node import bound), and four influences per vertex.
 - Triangle primitives with float position/normal and RGB vertex color, joint indices and weights.
 - A named `Jaw`/`jaw` bone and exactly three named morph targets: `jawOpen`, `mouthRound`, `mouthClose`. Their names, not assumed source indices, define the mapping.
 - Zero default morph weights and finite, rigid joint matrices and inverse binds. Nonuniform scale/shear is rejected instead of producing incorrect normals.
@@ -176,3 +176,8 @@ approved separately. Do not send untrusted PR code or private voice assets to a
 persistent self-hosted GPU runner. The repository's Actions permissions, quotas,
 and any required approvals still govern whether jobs can start. Actions are
 finite tests, not an always-on deployment of the live preview.
+
+The 128-joint palette uses an 8,208-byte C++/GLSL pose ABI. Weighted 67/128-joint
+fixtures exercise joints above the former 64-joint limit against the CPU
+reference. This does not add rich MPFB multi-mesh/material/morph support; see
+[implementation scope](performance-controls.md).
