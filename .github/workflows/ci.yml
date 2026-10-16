@@ -194,7 +194,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Select Node 22
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: '22'
       - name: Record actual hosted CPU resources
@@ -214,8 +214,8 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          .venv/bin/python tools/prepare_kokoro_cpu.py
-          .venv/bin/python tools/build_neural_studio.py
+          python tools/ci_command.py .venv/bin/python tools/prepare_kokoro_cpu.py
+          python tools/ci_command.py .venv/bin/python tools/build_neural_studio.py
       - name: Exercise actual neural synthesis, audio analysis and facial articulation
         run: .venv/bin/python tools/run_neural_ci.py
       - name: Upload synthetic-only review evidence, never weights or caches
