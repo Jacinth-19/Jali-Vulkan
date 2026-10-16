@@ -1,0 +1,32 @@
+name: Inspect official Windows analyzer bytes (never execute)
+on:
+  push:
+    branches: [arena/3284941c-jali-vulkan]
+    paths: [.github/workflows/windows-analyzer-audit.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inventory:
+    runs-on: windows-latest
+    timeout-minutes: 10
+    steps:
+      - name: Download official release and inventory ZIP without executing it
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $path = Join-Path $env:RUNNER_TEMP 'rhubarb-windows.zip'
+          Invoke-WebRequest -Uri 'https://github.com/DanielSWolf/rhubarb-lip-sync/releases/download/v1.13.0/Rhubarb-Lip-Sync-1.13.0-Windows.zip' -OutFile $path
+          $result = @{url='https://github.com/DanielSWolf/rhubarb-lip-sync/releases/download/v1.13.0/Rhubarb-Lip-Sync-1.13.0-Windows.zip'; archive_sha256=(Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash.ToLower(); bytes=(Get-Item $path).Length; executables=@()}
+          $zip = [System.IO.Compression.ZipFile]::OpenRead($path)
+          try {
+            foreach ($entry in $zip.Entries) {
+              if ($entry.FullName -match '\.(exe|dll)$') {
+                $stream = $entry.Open()
+                try { $sha = [Convert]::ToHexString([System.Security.Cryptography.SHA256]::HashData($stream)).ToLower() } finally { $stream.Dispose() }
+                $result.executables += @{path=$entry.FullName;bytes=$entry.Length;sha256=$sha}
+              }
+            }
+          } finally { $zip.Dispose() }
+          $json = $result | ConvertTo-Json -Depth 5 -Compress
+          Write-Output "::notice title=Windows analyzer byte inventory::$json"
