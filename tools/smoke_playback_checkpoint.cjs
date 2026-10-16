@@ -2,6 +2,7 @@
 const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),zlib=require('node:zlib');
 const {pathToFileURL}=require('node:url'),{execFileSync}=require('node:child_process'),{createHash}=require('node:crypto');
 const {chromium:playwright}=require('playwright-core'),chromium=require('@sparticuz/chromium');
+let checkpointStage='package integrity';
 (async()=>{
  const root=path.resolve('artifacts/Jali-Laptop-Playback-Checkpoint'),proof=path.resolve('artifacts/playback-checkpoint-proof');fs.mkdirSync(proof,{recursive:true});
  const manifest=JSON.parse(fs.readFileSync(path.join(root,'package-manifest.json')));
@@ -22,11 +23,13 @@ const {chromium:playwright}=require('playwright-core'),chromium=require('@sparti
  let browser;const results=[];
  try{
   for(const [mode,url] of [['HTTP',`http://127.0.0.1:${server.address().port}`],['file',pathToFileURL(path.join(root,'index.html')).href]]){
+   checkpointStage=mode+' initialization';
    browser=await playwright.launch(channel?{channel,headless:true,args:['--enable-unsafe-swiftshader']}:{executablePath:await chromium.executablePath(),headless:true,args:chromium.args.filter(a=>a!=='--disable-web-security'),env:{...process.env,LD_LIBRARY_PATH:`${support}/lib:/tmp:${process.env.LD_LIBRARY_PATH||''}`}});
    const context=await browser.newContext({viewport:{width:1360,height:1000},acceptDownloads:true}),page=await context.newPage(),errors=[],external=[];
    page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
    page.on('request',r=>{if(/^https?:/.test(r.url())&&(mode==='file'||!r.url().startsWith(url+'/')))external.push(r.url());});
    await page.goto(url,{waitUntil:'load'});await page.waitForFunction(()=>window.JaliCheckpoint&&JaliHeadDemo.getState().ready&&!document.querySelector('#measure').disabled,null,{timeout:60000});
+   checkpointStage=mode+' corpus audio/face identity';
    for(let i=0;i<manifest.corpus.length;i++){
     await page.locator(`button[data-clip="${i}"]`).click();
     const clip=await page.evaluate(i=>window.JALI_HEAD_DATA.clips[i],i);
@@ -39,6 +42,7 @@ const {chromium:playwright}=require('playwright-core'),chromium=require('@sparti
    await page.locator('button[data-clip="0"]').click();await page.locator('#notes').fill('Automated test note, not a human review.');await page.locator('#rating').selectOption('problem');
    await page.locator('button[data-clip="1"]').click();await page.locator('button[data-clip="0"]').click();
    if(await page.locator('#notes').inputValue()!=='Automated test note, not a human review.')throw Error('Notes lost on switch');
+   checkpointStage=mode+' actual playback measurement';
    await page.locator('#measure').click();await page.waitForFunction(()=>JaliCheckpoint.getRuns().length===1,null,{timeout:45000});
    const run=await page.evaluate(()=>JaliCheckpoint.getRuns()[0]);
    if(!run.valid_sample||run.reason!=='ended'||run.observed_render_fps===null||!run.diagnostics.webgl)throw Error('Playback measurement failed: '+JSON.stringify(run));
@@ -46,9 +50,11 @@ const {chromium:playwright}=require('playwright-core'),chromium=require('@sparti
    const cancelled=await page.evaluate(()=>JaliCheckpoint.getRuns()[1]);if(cancelled.valid_sample||cancelled.reason!=='cancelled')throw Error('Cancellation counted as success');
    await page.locator('#measure').click();await page.waitForFunction(()=>JaliCheckpoint.isMeasuring());await page.locator('#speed').selectOption('0.5');
    if((await page.evaluate(()=>JaliCheckpoint.getRuns()[2])).valid_sample)throw Error('Changed speed counted as success');
+   checkpointStage=mode+' report export';
    const downloadPromise=page.waitForEvent('download');await page.locator('#download').click();const download=await downloadPromise;
    const filename=path.join(proof,`${mode}-automated-runner-report.json`);await download.saveAs(filename);const exported=JSON.parse(fs.readFileSync(filename));
    if(exported.quality_score!==null||exported.user_review_declared_complete||exported.corpus[0].rating!=='problem'||exported.runs.length!==3)throw Error('Export falsely completed quality review or lost data');
+   checkpointStage=mode+' layout and console checks';
    await page.setViewportSize({width:390,height:844});await page.waitForTimeout(200);
    if(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth))throw Error('Mobile overflow');
    await page.screenshot({path:path.join(proof,`${mode}-mobile.png`),fullPage:true});
@@ -59,4 +65,4 @@ const {chromium:playwright}=require('playwright-core'),chromium=require('@sparti
   }
   fs.writeFileSync(path.join(proof,'browser-check.json'),JSON.stringify({environment:`Automated ${process.platform} browser; NOT the user target laptop`,results},null,2)+'\n');
  }finally{if(browser)await browser.close();await new Promise(resolve=>server.close(resolve));}
-})().catch(e=>{console.error(e);process.exitCode=1;});
+})().catch(e=>{console.error('Checkpoint stage:',checkpointStage);console.error(e);process.exitCode=1;});

@@ -279,7 +279,7 @@ jobs:
       - name: Exercise actual installed Chrome over HTTP and file URLs
         env:
           JALI_BROWSER_CHANNEL: chrome
-        run: node tools/smoke_playback_checkpoint.cjs
+        run: python tools/ci_command.py node tools/smoke_playback_checkpoint.cjs
       - name: Upload Windows browser-only evidence
         if: always()
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
