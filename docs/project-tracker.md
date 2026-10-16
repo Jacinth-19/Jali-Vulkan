@@ -54,9 +54,9 @@ recording -> animate the detailed character -> synchronized playback.
 - [x] Five manual styles, intensity and bounded timed expression editor with speech-mouth protection.
 - [x] WebGL light/material/background/camera controls and actual optional FXAA rendering.
 - [x] User-facing fixed-clock JSON/CSV timelines and offline fixed-clock VP8/Opus WebM with verified source-WAV identity, one pose row per video-frame submission, repeat-export and cancellation cleanup.
-- [x] Local 132 Python / 29 JS tests; real-head Chromium + FFmpeg audio/video decoding (explicit non-speech encoder fixture), repeated exports and exact timeline/frame pose parity.
+- [x] Local 132 Python / 31 JS tests; real-head Chromium + FFmpeg audio/video decoding (explicit non-speech encoder fixture), repeated exports and exact timeline/frame pose parity.
 - [x] Separate newly synthesized stock-Kokoro local speech export: 1.792 s, all 54 fixed-clock frames, verified WAV/cue identity.
-- [ ] New hosted genuine neural export, native artistic layers and Windows/package regression. Initial run 38939255761 passed Windows genuine/package, native and C++ jobs but failed Linux live movie capture; replaced with offline WebCodecs export and rerun required.
+- [ ] New hosted genuine neural export, native artistic layers and Windows/package regression. Initial run 38939255761 passed Windows genuine/package, native and C++ jobs but failed Linux live movie capture; replaced with offline WebCodecs export. Run 38942919396 then exposed a Linux GPU-texture encoder flush stall; CPU-owned RGBA handoff, bounded flush deadlines and pending-flush cancellation added; rerun required.
 - [ ] Human motion/material review, target-device/physical AV and reverse-DCC acceptance.
 
 [Controls, file formats and renderer limits](creative-upgrades.md). Appearance/video

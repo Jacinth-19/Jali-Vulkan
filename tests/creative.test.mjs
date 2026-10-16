@@ -35,3 +35,35 @@ test('fixed media-clock timeline exports schema, rest, zero-filled CSV and audio
 });
 
 test('all-rest CSV has no phantom empty column',()=>{const csv=timelineCSV({frames:[{time:0,pose:{},head:{yaw:0,roll:0},eyes:{yaw:0,pitch:0}}]});assert.equal(csv.split('\n')[0].split(',').length,csv.split('\n')[1].split(',').length);});
+
+// Exercise bounded cancellation/deadlines with an encoder that never flushes.
+// Bundle just as the browser build does, without adding a runtime Node dependency.
+import {createRequire} from 'node:module';
+import vm from 'node:vm';
+import {webcrypto,createHash} from 'node:crypto';
+const require=createRequire(import.meta.url);
+const recorderBundle=require('../tools/node_modules/esbuild').buildSync({entryPoints:['web/neural-studio/recording.mjs'],bundle:true,write:false,format:'cjs',nodePaths:['tools/node_modules']}).outputFiles[0].text;
+function stalledExporter(expire=false){
+ let begun;const flushStarted=new Promise(r=>begun=r),locks=[],offers=[],closed=[];
+ class Encoder{static async isConfigSupported(){return {supported:true};}state='configured';encodeQueueSize=0;configure(){}encode(){this.encodeQueueSize++;}flush(){begun();return new Promise(()=>{});}close(){this.state='closed';closed.push(this);}}
+ class Packet{close(){}}
+ const wav=new Uint8Array([1,2,3,4]),sha=createHash('sha256').update(wav).digest('hex');
+ const canvas={style:{pointerEvents:'auto'}},head={setCaptureMode(){},updateClock(){},getState:()=>({layers:{pose:{}}})};
+ class Decode{async decodeAudioData(){return {duration:.1,numberOfChannels:1,getChannelData:()=>new Float32Array(4800)};}}
+ const codecs={VideoEncoder:Encoder,AudioEncoder:Encoder,AudioData:Packet,VideoFrame:Packet,OfflineAudioContext:Decode};
+ const document={createElement(){return {getContext(){return {drawImage(){},getImageData(){return {data:new Uint8Array(256*256*4)};}};}};}};
+ const module={exports:{}};vm.runInNewContext(recorderBundle,{
+  module,...codecs,window:{...codecs,addEventListener(){}},crypto:webcrypto,DOMException,structuredClone,TextEncoder,document,
+  setTimeout:expire?(fn)=>{queueMicrotask(fn);return 1;}:setTimeout,clearTimeout:expire?()=>{}:clearTimeout,
+  fetch:async()=>({ok:true,arrayBuffer:async()=>wav.buffer})
+ });
+ const exporter=module.exports.recordingController({audio:{currentTime:0,src:'blob:fixture',pause(){}},canvas,head,getClip:()=>({duration:.1,audio:{sha256:sha},analysis:{audio_sha256:sha}}),getSettings:()=>({fps:30,resolution:256}),lock:v=>locks.push(v),offer:(...args)=>offers.push(args),clear(){},status(){}});
+ return {exporter,flushStarted,locks,offers,closed,canvas};
+}
+test('cancelling a stalled encoder closes both codecs, unlocks controls and offers no movie',async()=>{
+ const mock=stalledExporter(),run=mock.exporter.start();await mock.flushStarted;mock.exporter.stop();await assert.rejects(run,/cancelled/);
+ assert.equal(mock.exporter.active,false);assert.deepEqual(mock.locks,[true,false]);assert.equal(mock.closed.length,2);assert.equal(mock.offers.length,0);assert.equal(mock.canvas.style.pointerEvents,'auto');
+});
+test('encoder stall deadline discards output and restores controls',async()=>{
+ const mock=stalledExporter(true);await assert.rejects(mock.exporter.start(),/Encoder stalled/);assert.equal(mock.exporter.active,false);assert.deepEqual(mock.locks,[true,false]);assert.equal(mock.closed.length,2);assert.equal(mock.offers.length,0);
+});

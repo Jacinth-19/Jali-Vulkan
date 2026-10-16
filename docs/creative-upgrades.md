@@ -1,6 +1,6 @@
 # Character calibration, performance, appearance and export
 
-Implemented for the current detailed head. Local checks: **132 Python / 29
+Implemented for the current detailed head. Local checks: **132 Python / 31
 JavaScript tests**, real-head Chromium controls and an actual WebM with both audio
 and video decoded by FFmpeg. The local UI transport/encoder fixture is explicitly
 **non-speech**, not neural synthesis or perceptual approval. New hosted genuine
@@ -10,6 +10,7 @@ upgrade evidence does not certify these new changes.
 After updating source, rebuild the prepared frontend, then start the launcher:
 
 ```powershell
+npm.cmd ci --prefix tools --ignore-scripts
 .\.venv\Scripts\python.exe tools\build_neural_studio.py
 .\windows\launch-studio.cmd
 ```
@@ -89,7 +90,9 @@ video-frame padding may affect container duration. This is **not physical AV
 certification, bit-identical audio, MP4, or universal DCC retargeting**.
 
 Current Chrome with WebCodecs and a secure context (HTTPS or localhost) is
-required for video. Unsupported encoders fail explicitly; JSON/CSV still work.
+required for video. Frames cross into the encoder as CPU-owned RGBA rather
+than shared GPU textures; encoder queues are bounded, stalled flushes time out
+after 15 seconds, and Cancel also interrupts a pending encoder flush. Unsupported encoders fail explicitly; JSON/CSV still work.
 Native supports facial timelines, but video and appearance are WebGL-only.
 The pinned MIT webm-muxer license is included in prepared studio assets. No
 runtime network service, recorder extension or FFmpeg install is required.
@@ -98,7 +101,10 @@ The earlier live MediaRecorder approach was replaced after a Linux genuine-speec
 CI timeout and reproducible zero-byte repeat/partial captures. The regression
 suite now checks repeated complete exports, exact pose/time agreement with the
 fixed-clock timeline, cancellation without stale downloads, and FFmpeg decoding
-of both streams. Local genuine stock-Kokoro speech export also passed (1.792 s,
+of both streams and every expected decoded frame. Browser security stays enabled.
+A separate hosted Linux GPU-frame encoder stall led to CPU-owned frame handoff;
+controlled tests also exercise cancellation and timeout of an encoder that never
+flushes. Local genuine stock-Kokoro speech export also passed (1.792 s,
 54 frames at 30 FPS); this is not a listening-quality approval.
 
 ## Remaining acceptance
