@@ -43,7 +43,8 @@ image hashes and scope](docs/render-captures.md) are retained.
   actionable offline asset/native-device diagnostics.
 
 Start after setup with **`windows/launch-studio.cmd`**. Rebuilt personal EXEs open
-this chooser on double-click. [Controls, commands and exact limits](docs/four-upgrades.md).
+this chooser on double-click. [Controls, commands and exact limits](docs/four-upgrades.md) ·
+[Actual upgraded studio screenshot](docs/images/studio-upgrades.png).
 Local upgrade checks: **130 Python / 22 JavaScript tests** and real-head Chromium
 controls/prebuffer regression passed. New hosted Windows/native/package checks
 are pending; the historical all-green result below applies to the prior baseline.

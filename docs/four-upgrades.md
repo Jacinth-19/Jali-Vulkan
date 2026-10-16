@@ -51,9 +51,13 @@ WAV/cue/rig binding, sample offsets and cancellation remain enforced.
 chunks before handoff. Stop/cancel owns and disposes the requests and blob URLs;
 late responses cannot restore an old performance. The stream report includes
 prebuffer hits, downloaded-ahead counts and observed handoff gaps. Turn prebuffer
-off to compare. The controlled local browser test adds **120 ms per WAV request**
-and checks that prefetched playback reduces handoff gaps by at least 50 ms.
-This is synthetic transport evidence, not a claim about neural synthesis speed.
+off to compare. The controlled browser test suspends the software-GPU render loop during the
+transport A/B comparison (after separately checking actual renderer presets and
+poses), adds **600 ms per WAV request**, and checks that prefetched playback reduces handoff gaps by at least 50 ms.
+This isolates synthetic transport behavior, not combined AV/FPS or neural
+synthesis speed. A genuine local 535-character / four-chunk recording also
+completed and verified (31.488 seconds of PCM); its producer was slower than
+playback, so it had no available-ahead chunks and still experienced underruns.
 It is still sentence-batched Kokoro, **not guaranteed gapless or internally
 incremental inference**; production underruns and prosody changes remain possible.
 
@@ -88,3 +92,12 @@ trusted package into a new empty directory; never fetch random DLLs or disable
 security. The build remains **unsigned/personal-only**, with existing GPL/eSpeak
 corresponding-source and redistribution gates unresolved. No executable/weights
 are published by CI.
+
+## Real application capture and local evidence
+
+[Actual upgraded studio screenshot](images/studio-upgrades.png) shows a genuine
+Kokoro recording, Clear calibration and Low after applying an actual observation's
+recommendation. The pixelated head reflects its **256-pixel Low framebuffer**,
+not a new model or an AI illustration. The local headless/software browser was
+slow; its measured FPS is not a target-laptop benchmark. [Exact local evidence,
+transport measurements and screenshot/audio hashes](evidence/four-upgrades-local.json).

@@ -1,0 +1,201 @@
+{
+  "schema": "jali-four-upgrade-local-evidence-v1",
+  "date": "2026-10-16",
+  "python_tests": 130,
+  "javascript_tests": 22,
+  "transport_fixture": {
+    "passed": true,
+    "fixture": "Non-speech PCM + estimated-class fixture; not TTS or human quality approval",
+    "baseline": 0.95,
+    "clear": 0.9974999999999999,
+    "stream": {
+      "mode": "sentence-batched",
+      "firstPlayableMs": 935,
+      "gapsMs": [
+        85.79999999981374,
+        29.600000000093132
+      ],
+      "chunks": [
+        {
+          "index": 0,
+          "start_sample": 0,
+          "end_sample": 72000,
+          "audio_sha256": "aba9ea6f4d13fd2d232c6827b25014df685d4c0553c07f34c1f57f38c69da0fd"
+        },
+        {
+          "index": 1,
+          "start_sample": 72000,
+          "end_sample": 144000,
+          "audio_sha256": "aba9ea6f4d13fd2d232c6827b25014df685d4c0553c07f34c1f57f38c69da0fd"
+        },
+        {
+          "index": 2,
+          "start_sample": 144000,
+          "end_sample": 216000,
+          "audio_sha256": "aba9ea6f4d13fd2d232c6827b25014df685d4c0553c07f34c1f57f38c69da0fd"
+        }
+      ],
+      "bufferingCount": 2,
+      "prebufferHits": 2,
+      "downloadedAhead": 2
+    },
+    "unbuffered": {
+      "mode": "sentence-batched",
+      "firstPlayableMs": 912.2000000001863,
+      "gapsMs": [
+        640.1999999997206,
+        651
+      ],
+      "chunks": [
+        {
+          "index": 0,
+          "start_sample": 0,
+          "end_sample": 72000,
+          "audio_sha256": "aba9ea6f4d13fd2d232c6827b25014df685d4c0553c07f34c1f57f38c69da0fd"
+        },
+        {
+          "index": 1,
+          "start_sample": 72000,
+          "end_sample": 144000,
+          "audio_sha256": "aba9ea6f4d13fd2d232c6827b25014df685d4c0553c07f34c1f57f38c69da0fd"
+        },
+        {
+          "index": 2,
+          "start_sample": 144000,
+          "end_sample": 216000,
+          "audio_sha256": "aba9ea6f4d13fd2d232c6827b25014df685d4c0553c07f34c1f57f38c69da0fd"
+        }
+      ],
+      "bufferingCount": 2,
+      "prebufferHits": 0,
+      "downloadedAhead": 0
+    },
+    "controlled_wav_delay_ms": 600,
+    "transport_timing_render_loop_suspended": true,
+    "presets": true,
+    "persistence": true,
+    "cancel_stale_guard": true,
+    "errors": []
+  },
+  "genuine_neural": {
+    "source_commit": "8f39d64ff324f0909d590a47b4d550f6aacd21c8",
+    "input_characters": 535,
+    "chunks": 4,
+    "duration_seconds": 31.488,
+    "samples": 755712,
+    "state": {
+      "quality": {
+        "fps": 15,
+        "resolution": 256,
+        "pixelRatio": 0.75
+      },
+      "calibration": {
+        "closure": 1.05,
+        "contact": 1.1,
+        "tongue": 1.12,
+        "jaw": 1,
+        "rounding": 1.05,
+        "transition": 35,
+        "smooth": true
+      },
+      "busy": false,
+      "phase": "ready",
+      "verified": true,
+      "selectedId": "6c8969cc8128491ab0a9d1630c73a3e0",
+      "currentJob": null,
+      "cancelPending": false,
+      "streaming": false,
+      "streamStats": {
+        "mode": "sentence-batched",
+        "firstPlayableMs": 17593.100000000093,
+        "gapsMs": [
+          12158.699999999953,
+          12106.100000000093,
+          12582.100000000093
+        ],
+        "chunks": [
+          {
+            "index": 0,
+            "start_sample": 0,
+            "end_sample": 188928,
+            "audio_sha256": "b30d2ae28fb001c2363ed0a1e880143a39635077d7242fd56af9e32827df8a29"
+          },
+          {
+            "index": 1,
+            "start_sample": 188928,
+            "end_sample": 377856,
+            "audio_sha256": "b30d2ae28fb001c2363ed0a1e880143a39635077d7242fd56af9e32827df8a29"
+          },
+          {
+            "index": 2,
+            "start_sample": 377856,
+            "end_sample": 566784,
+            "audio_sha256": "b30d2ae28fb001c2363ed0a1e880143a39635077d7242fd56af9e32827df8a29"
+          },
+          {
+            "index": 3,
+            "start_sample": 566784,
+            "end_sample": 755712,
+            "audio_sha256": "b30d2ae28fb001c2363ed0a1e880143a39635077d7242fd56af9e32827df8a29"
+          }
+        ],
+        "bufferingCount": 212,
+        "prebufferHits": 0,
+        "downloadedAhead": 0
+      },
+      "nativeInfo": {
+        "frames": 0,
+        "lastTime": null,
+        "lastSession": null,
+        "lastMs": null,
+        "errors": []
+      }
+    },
+    "limits": "Actual CPU neural synthesis and Rhubarb. Producer slower than playback; zero available-ahead chunks/hits is explicitly recorded, not hidden."
+  },
+  "actual_observation": {
+    "fixture": false,
+    "voice": "stock Kokoro af_heart",
+    "audio_sha256": "f8befdef59d9eef09a564fc4966474312128a832dac38a12a1b4a94873400bdf",
+    "session_id": "6c8969cc8128491ab0a9d1630c73a3e0",
+    "actual_frame_observation": {
+      "schema": "jali-playback-observation-v1",
+      "settings": {
+        "fps": 30,
+        "resolution": 512,
+        "pixelRatio": 1
+      },
+      "frames": 21,
+      "span_ms": 7564.199999999953,
+      "observed_fps": 2.6440337378705117,
+      "p95_submission_or_native_response_ms": 1.1000000000931323,
+      "recommended_preset": "low",
+      "limits": "Observed on this browser/device during playback; recommendation is a conservative heuristic, not GPU time, physical AV latency or a certified laptop preset.",
+      "renderer": "webgl",
+      "calibration": {
+        "closure": 1.05,
+        "contact": 1.1,
+        "tongue": 1.12,
+        "jaw": 1,
+        "rounding": 1.05,
+        "transition": 35,
+        "smooth": true
+      },
+      "elapsed_ms": 10000.800000000047
+    },
+    "measured_recommendation_applied": true,
+    "limits": "Actual local browser observation, not target-laptop or physical AV/perceptual acceptance"
+  },
+  "screenshot": {
+    "file": "docs/images/studio-upgrades.png",
+    "sha256": "ecf4b5cc2a4c31bfe52bc3dd3a0a14b04f053dded11e6bb506282c312819a701",
+    "rig": {
+      "profile": "mpfb-rhubarb-9-v1",
+      "source_commit": "2afe6d79779313db8909badebf46f9805a6c7b70",
+      "model_sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+      "retarget_sha256": "96d2d2a82f71bbdf87b7c301d1e79e566c8b66d9c79a645e65309c11b90d8a30",
+      "viewer_sha256": "0b97e46e62fbdf48b9a92cbb7596ca46fbdce976f17941d291d46af1e2de6d81"
+    },
+    "note": "Actual studio screenshot of genuine synthesized recording, Low 256 framebuffer after manually applying measured recommendation. Not a mockup, human quality approval or target-laptop benchmark."
+  }
+}
