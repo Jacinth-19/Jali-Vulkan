@@ -71,19 +71,35 @@ Choose a completed verified recording (not an in-flight sentence chunk):
   are radians in the Jali rig coordinate frame. Download the original WAV alongside
   it; other tools may need coordinate conversion and retargeting. Not FBX/BVH or
   universal Blender/Maya import.
-- **Record WebGL video from start:** captures the canvas and the selected WAV
-  through a single media-element/Web Audio graph into WebM (Opus audio). Audio is
-  encoded, not byte-identical to the WAV. Settings lock during capture. At finish,
-  explicit download links provide the movie and its actual render-submission
-  media-time samples. Finish capture permits an explicitly partial movie;
-  pausing/seeking/rate changes or audio errors discard the interrupted capture.
+- **Export synchronized WebGL video:** offline VP8/Opus WebM at the timeline
+  FPS and selected 256/512/768-pixel quality resolution. Each video frame samples
+  the same source-WAV media clock as the exported weights. Rendering speed only
+  changes how long export takes, not the animation clock. The WAV bytes are
+  re-checked against both audio/cue SHA-256 identities before decoding. Audio is
+  resampled to 48 kHz and encoded as Opus, **not byte-identical PCM**. Settings,
+  audio transport and canvas interactions lock while exporting. Cancel discards
+  incomplete output; successful completion offers explicit movie/frame downloads.
 
-Video is real-time browser capture, **not offline MP4 rendering or physical AV
-certification**. Slow rendering can drop video frames. Its sparse actual-frame
-JSON is distinct from the fixed-clock animation JSON; do not assume one row per
-encoded video frame. WebM support depends on the browser (Chrome is tested).
-Native can export facial timelines, but user video capture is explicitly WebGL-only.
-The older developer offline MP4 capture tools remain available separately.
+`recorded-frames.json` uses **jali-recorded-frames-v2**, mode
+`offline-fixed-media-clock`: one row per submitted encoded video frame with its
+media time, layered weights, head/eye angles, source identities and settings. The
+animation JSON additionally includes the exact clip-end rest sample; video uses
+frame starts strictly before that endpoint. Opus codec delay/padding and final
+video-frame padding may affect container duration. This is **not physical AV
+certification, bit-identical audio, MP4, or universal DCC retargeting**.
+
+Current Chrome with WebCodecs and a secure context (HTTPS or localhost) is
+required for video. Unsupported encoders fail explicitly; JSON/CSV still work.
+Native supports facial timelines, but video and appearance are WebGL-only.
+The pinned MIT webm-muxer license is included in prepared studio assets. No
+runtime network service, recorder extension or FFmpeg install is required.
+
+The earlier live MediaRecorder approach was replaced after a Linux genuine-speech
+CI timeout and reproducible zero-byte repeat/partial captures. The regression
+suite now checks repeated complete exports, exact pose/time agreement with the
+fixed-clock timeline, cancellation without stale downloads, and FFmpeg decoding
+of both streams. Local genuine stock-Kokoro speech export also passed (1.792 s,
+54 frames at 30 FPS); this is not a listening-quality approval.
 
 ## Remaining acceptance
 

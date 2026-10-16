@@ -198,13 +198,13 @@ const chromium=require('@sparticuz/chromium');
     // User-facing export with a freshly synthesized real corpus WAV, not a fixture.
     await page.locator(`#history button[data-session="${sessions[0].id}"]`).first().click();
     await page.evaluate(()=>document.querySelector('#audio').pause());
-    await page.locator('#record-start').click();await page.waitForFunction(()=>JaliCreative.recording.active,null,{timeout:15000});
-    await page.waitForFunction(()=>!JaliCreative.recording.active&&!!document.querySelector('a[download="performance.webm"]'),null,{timeout:45000});
+    await page.locator('#record-start').click();await page.waitForFunction(()=>JaliCreative.recording.active||!!document.querySelector('a[download="performance.webm"]'),null,{timeout:15000});
+    await page.waitForFunction(()=>!JaliCreative.recording.active&&!!document.querySelector('a[download="performance.webm"]'),null,{timeout:45000}).catch(async()=>{throw Error('Genuine capture did not finish: '+JSON.stringify(await page.evaluate(()=>({status:document.querySelector('#creative-status').textContent,stats:JaliCreative.recording.stats,time:document.querySelector('#audio').currentTime,paused:document.querySelector('#audio').paused}))));});
     for(const [name,target] of [['performance.webm','user-export.webm'],['recorded-frames.json','user-export-frames.json']]){
       const pending=page.waitForEvent('download');await page.locator(`a[download="${name}"]`).click();await(await pending).saveAs(path.join(proof,target));
     }
     const exported=JSON.parse(fs.readFileSync(path.join(proof,'user-export-frames.json')));
-    if(!exported.full_session_recorded||exported.audio_sha256!==sessions[0].audio.sha256||exported.frames.length<2)throw Error('Genuine user video export failed WAV/clock binding');
+    if(!exported.full_session_recorded||exported.mode!=='offline-fixed-media-clock'||exported.audio_sha256!==sessions[0].audio.sha256||exported.frames.length!==Math.ceil(sessions[0].duration*exported.fps)||exported.frames.some((f,i)=>f.time!==i/exported.fps))throw Error('Genuine user video export failed WAV/clock binding');
     if(errors.length||external.length)throw new Error(JSON.stringify({errors,external}));
     fs.writeFileSync(path.join(proof,'browser-check.json'),JSON.stringify({passed:true,model,web_security_enabled:true,external_requests:external,errors,
       checks:[`${sessions.length} real form submissions`,'new CPU neural synthesis for each text','actual WAV analyzed with its dialog','downloaded WAV hash verified in browser','audio/face IDs match','actual closure morph','seek','sync off clears speech weights','natural end rests','old session replays with its own cues','mobile layout','cancel real generation hides partial media','cancel then retry','warm/full-closure pixel equality','left/right gaze changes actual render','stop clears audio/morphs/gaze','real sentence batching starts before producer completion','batch stop/cancel then retry','combined PCM offsets/hash verified'],

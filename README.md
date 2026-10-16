@@ -39,7 +39,8 @@ controls with optional FXAA, and user-facing WebM + JSON/CSV animation exports a
 implemented. [Usage and exact renderer/export limits](docs/creative-upgrades.md).
 Local **132 Python / 29 JavaScript tests** and real-head browser/encoder checks
 pass; hosted acceptance for these new features is pending. Manual controls are
-not inferred emotion; browser video is real-time capture, not offline MP4.
+not inferred emotion; video renders offline at fixed media-clock times as VP8/Opus
+WebM, not MP4. Slow rendering takes longer instead of dropping frames.
 
 ### Four new studio upgrades
 

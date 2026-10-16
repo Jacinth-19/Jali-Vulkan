@@ -52,6 +52,7 @@ import {validateStreamChunk,AudioPrefetch} from './streaming.mjs';
       await $('audio').play(); $('resume').hidden = true;
       stage('ready','Playing the new recording with its own mouth cues. Pause or seek below.');
     } catch (failure) {
+      if (failure.name === 'AbortError') return; // A user pause/reload can interrupt a pending play.
       if (failure.name !== 'NotAllowedError') throw failure;
       $('resume').hidden = false;
       stage('ready','Ready. Your browser requires a Play click after generation.');
@@ -284,11 +285,11 @@ import {validateStreamChunk,AudioPrefetch} from './streaming.mjs';
     const value=await json('/api/jobs/'+id);if(value.state!=='ready')throw new Error('Existing session is not ready');
     await load(value.clip,id,{autoplay:false});$('resume').hidden=false;stage('ready','Existing recording verified and loaded.');update();
   },getState:()=>({quality,calibration,busy,phase,verified,selectedId,currentJob,cancelPending,streaming,streamStats,nativeInfo})};
-  window.JaliCreative=installCreativeControls({rig:JALI_HEAD_DATA.rig,getCalibration:()=>calibration,
+  window.JaliCreative=installCreativeControls({rig:JALI_HEAD_DATA.rig,getQuality:()=>quality,getCalibration:()=>calibration,
     setCalibration:value=>{calibration=articulation(value);applySettings();},
     setCreative:value=>{creativeOptions=value;nativeEpoch++;nativeFrame=null;JaliHeadDemo.setCreative(value);},
     isBusy:()=>busy,getClip:()=>verified?sessions.get(selectedId):null,
-    lock:value=>{exporting=value;for(const id of ['renderer','mood','gaze','life','sync','trim','batch','stop','quality-preset','quality-resolution','quality-fps','quality-pixelRatio','art-profile','observe','apply-recommendation',...Object.keys(ARTICULATION.baseline).filter(k=>k!=='smooth').map(k=>'art-'+k)])$(id).disabled=value;update();}
+    lock:value=>{exporting=value;$('audio').controls=!value;for(const id of ['renderer','mood','gaze','life','sync','trim','batch','stop','quality-preset','quality-resolution','quality-fps','quality-pixelRatio','art-profile','observe','apply-recommendation',...Object.keys(ARTICULATION.baseline).filter(k=>k!=='smooth').map(k=>'art-'+k)])$(id).disabled=value;update();}
   });
   json('/api/config').then(value=>{
     if (JSON.stringify(value.rig)!==JSON.stringify(JALI_HEAD_DATA.rig)) throw new Error('Viewer and backend rig versions differ; rebuild the studio.');

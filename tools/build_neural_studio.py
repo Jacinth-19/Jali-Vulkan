@@ -48,7 +48,7 @@ def build(*,prepare_speech=True):
         raise ValueError('Explicit model license statement is missing')
     (OUTPUT / 'licenses/model-source-README.md').write_bytes(readme)
     for package, source, target in (
-        ('three', 'LICENSE', 'three-MIT.txt'), ('meshoptimizer', 'LICENSE.md', 'meshoptimizer-MIT.txt')
+        ('webm-muxer', 'LICENSE', 'webm-muxer-MIT.txt'), ('three', 'LICENSE', 'three-MIT.txt'), ('meshoptimizer', 'LICENSE.md', 'meshoptimizer-MIT.txt')
     ):
         shutil.copy2(ROOT / 'tools/node_modules' / package / source, OUTPUT / 'licenses' / target)
     (OUTPUT / 'licenses/CC0-1.0.txt').write_text(subprocess.check_output(['gh','api','licenses/cc0-1.0','--jq','.body'], text=True, encoding='utf-8'))

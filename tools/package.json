@@ -5,7 +5,8 @@
   "description": "Pinned development shader compiler and optional sandbox software Vulkan runtime",
   "dependencies": {
     "@sparticuz/chromium": "133.0.0",
-    "@webgpu/glslang": "0.0.15"
+    "@webgpu/glslang": "0.0.15",
+    "webm-muxer": "5.1.4"
   },
   "devDependencies": {
     "@gltf-transform/core": "4.3.0",

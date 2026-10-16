@@ -1,35 +1,48 @@
-// Browser real-time capture, not an offline/gapless or physical AV guarantee.
+import {Muxer,ArrayBufferTarget} from 'webm-muxer';
+// Deterministic, bounded offline export. Rendering speed does not change AV time.
 export function recordingController({audio,canvas,head,getClip,getSettings,lock,offer,clear,status}){
- let context,source,destination,recorder=null,tracks=[],timer,observations=[],aborted=false;
- const finish=(reason=null)=>{if(!recorder)return;if(reason){aborted=true;status(reason);}if(recorder.state!=='inactive')recorder.stop();};
- const onRender=e=>{if(recorder?.state==='recording')observations.push({time:e.detail.audioTime,...structuredClone(head.getState().layers)});};
+ let running=false,cancelled=false,frames=[],bytes=0;
+ const check=()=>{if(cancelled)throw new DOMException('Export cancelled; incomplete movie discarded','AbortError');};
  async function start(){
+  if(running)throw Error('An export is already active');
   const clip=getClip(),settings=structuredClone(getSettings());if(!clip)throw Error('Select a completed verified recording first');
-  if(recorder)throw Error('A recording is already active');
-  if(!window.MediaRecorder||!canvas.captureStream)throw Error('Video recording is unavailable in this browser; JSON/CSV export still works');
-  const mime=['video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm'].find(m=>MediaRecorder.isTypeSupported(m));if(!mime)throw Error('This browser has no supported WebM encoder');
-  lock(true);clear();aborted=false;observations=[];
+  if(!window.VideoEncoder||!window.AudioEncoder||!window.AudioData||!window.VideoFrame||!window.OfflineAudioContext||!crypto.subtle)throw Error('Offline video encoding requires a current Chrome browser and HTTPS/localhost. JSON/CSV export still works.');
+  const fps=settings.fps,size=settings.resolution;
+  if(![15,24,30,60].includes(fps)||![256,512,768].includes(size)||!(clip.duration>0&&clip.duration<=60))throw Error('Invalid video export budget');
+  running=true;cancelled=false;frames=[];bytes=0;lock(true);clear();let videoEncoder,audioEncoder,failure=null,capture=false;
+  const previousTime=audio.currentTime,previousPointerEvents=canvas.style.pointerEvents;canvas.style.pointerEvents='none';
   try{
-   audio.pause();audio.playbackRate=1;if(audio.currentTime!==0){await new Promise((resolve,reject)=>{const timeout=setTimeout(()=>{cleanup();reject(Error('Recording seek timed out'));},5000);function cleanup(){clearTimeout(timeout);audio.removeEventListener('seeked',done);}function done(){cleanup();resolve();}audio.addEventListener('seeked',done);audio.currentTime=0;});}
-   if(!context){context=new AudioContext();source=context.createMediaElementSource(audio);source.connect(context.destination);destination=context.createMediaStreamDestination();source.connect(destination);}
-   await context.resume();head.updateClock(0);
-   const video=canvas.captureStream(30);tracks=[...video.getVideoTracks(),...destination.stream.getAudioTracks().map(t=>t.clone())];
-   recorder=new MediaRecorder(new MediaStream(tracks),{mimeType:mime,videoBitsPerSecond:4000000});
-   const chunks=[];recorder.ondataavailable=e=>{if(e.data.size)chunks.push(e.data);};
-   recorder.onerror=()=>finish('Encoder failed; the incomplete recording was discarded');
-   const end=()=>finish(),seek=()=>finish('Seeking interrupted capture; recording discarded'),pause=()=>{if(!audio.ended&&recorder?.state==='recording')finish('Playback paused; recording discarded');};
-   const rate=()=>finish('Playback rate changed; recording discarded'),badAudio=()=>finish('Audio failed; recording discarded');
-   audio.addEventListener('ratechange',rate);audio.addEventListener('error',badAudio);audio.addEventListener('ended',end);audio.addEventListener('seeking',seek);audio.addEventListener('pause',pause);window.addEventListener('jali-render',onRender);
-   const priorDiagnostics=window.JALI_RENDER_DIAGNOSTICS;window.JALI_RENDER_DIAGNOSTICS=true;
-   recorder.onstop=()=>{
-    clearTimeout(timer);audio.removeEventListener('ratechange',rate);audio.removeEventListener('error',badAudio);audio.removeEventListener('ended',end);audio.removeEventListener('seeking',seek);audio.removeEventListener('pause',pause);window.removeEventListener('jali-render',onRender);window.JALI_RENDER_DIAGNOSTICS=priorDiagnostics;
-    for(const t of tracks)t.stop();tracks=[];recorder=null;lock(false);
-    if(!aborted&&chunks.length){offer('performance.webm',new Blob(chunks,{type:mime}));offer('recorded-frames.json',new Blob([JSON.stringify({schema:'jali-recorded-frames-v1',session_id:clip.id,audio_sha256:clip.audio.sha256,rig:clip.rig,settings,capture_frame_rate_requested:30,width:canvas.width,height:canvas.height,audio_context_sample_rate:context.sampleRate,frames:observations,recorded_end:audio.currentTime,full_session_recorded:audio.ended,limits:'Render-submission media-clock samples, potentially sparse/dropped under load. WebM contains the same media-element audio; not physical AV certification or deterministic offline rendering.'},null,2)],{type:'application/json'}));status('Capture ready: download WebM and its actual frame timeline below.');}
-   };
-   recorder.start(250);observations.push({time:0,...structuredClone(head.getState().layers)});await audio.play();
-   timer=setTimeout(()=>finish('Capture deadline exceeded; incomplete recording discarded'),(clip.duration+15)*1000);status('Recording the selected WAV from the start. Do not pause or seek.');
-  }catch(e){if(recorder){finish(e.message);}else{for(const t of tracks)t.stop();tracks=[];lock(false);}throw e;}
+   audio.pause();
+   const response=await fetch(audio.currentSrc||audio.src);if(!response.ok)throw Error('Selected WAV is unavailable');const wav=await response.arrayBuffer();
+   const hash=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',wav)),b=>b.toString(16).padStart(2,'0')).join('');
+   if(hash!==clip.audio.sha256||clip.analysis.audio_sha256!==hash)throw Error('Export WAV/cue identity mismatch');check();
+   const decoded=await new OfflineAudioContext(1,1,48000).decodeAudioData(wav);
+   if(decoded.numberOfChannels!==1||Math.abs(decoded.duration-clip.duration)>.025)throw Error('Export decoded duration/channel mismatch');
+   const videoConfig={codec:'vp8',width:size,height:size,bitrate:4000000,framerate:fps,latencyMode:'realtime'};
+   const audioConfig={codec:'opus',sampleRate:48000,numberOfChannels:1,bitrate:96000};
+   if(!(await VideoEncoder.isConfigSupported(videoConfig)).supported||!(await AudioEncoder.isConfigSupported(audioConfig)).supported)throw Error('VP8/Opus encoding is unavailable in this browser');
+   const target=new ArrayBufferTarget(),muxer=new Muxer({target,video:{codec:'V_VP8',width:size,height:size,frameRate:fps},audio:{codec:'A_OPUS',sampleRate:48000,numberOfChannels:1},firstTimestampBehavior:'offset'});
+   const error=e=>{failure=e;};
+   videoEncoder=new VideoEncoder({output:(chunk,meta)=>{try{muxer.addVideoChunk(chunk,meta);}catch(e){failure=e;}},error});videoEncoder.configure(videoConfig);
+   audioEncoder=new AudioEncoder({output:(chunk,meta)=>{try{muxer.addAudioChunk(chunk,meta);}catch(e){failure=e;}},error});audioEncoder.configure(audioConfig);
+   head.setCaptureMode(true,size);capture=true;const pcm=decoded.getChannelData(0),count=Math.ceil(clip.duration*fps);let sample=0;
+   for(let i=0;i<count;i++){
+    check();if(failure)throw failure;const time=i/fps;head.updateClock(time);
+    const frame=new VideoFrame(canvas,{timestamp:Math.round(time*1e6),duration:Math.round(Math.min(1/fps,clip.duration-time)*1e6)});
+    try{videoEncoder.encode(frame,{keyFrame:i%Math.max(1,fps*2)===0});}finally{frame.close();}
+    frames.push({time,...structuredClone(head.getState().layers)});
+    const until=Math.min(pcm.length,Math.ceil((i+1)/fps*48000));
+    while(sample<until){const end=Math.min(pcm.length,sample+960),packet=new AudioData({format:'f32-planar',sampleRate:48000,numberOfFrames:end-sample,numberOfChannels:1,timestamp:Math.round(sample/48000*1e6),data:pcm.subarray(sample,end)});try{audioEncoder.encode(packet);}finally{packet.close();}sample=end;}
+    if(videoEncoder.encodeQueueSize>=2)await videoEncoder.flush();if(audioEncoder.encodeQueueSize>=8)await audioEncoder.flush();
+    status(`Rendering export frame ${i+1} / ${count}. Cancel discards incomplete output.`);
+   }
+   await videoEncoder.flush();await audioEncoder.flush();check();if(failure)throw failure;muxer.finalize();bytes=target.buffer.byteLength;
+   offer('performance.webm',new Blob([target.buffer],{type:'video/webm'}));
+   offer('recorded-frames.json',new Blob([JSON.stringify({schema:'jali-recorded-frames-v2',mode:'offline-fixed-media-clock',session_id:clip.id,audio_sha256:hash,text_sha256:clip.text_sha256,rig:clip.rig,settings,fps,width:size,height:size,frames,recorded_end:clip.duration,full_session_recorded:true,audio_codec:'Opus, resampled to 48000 Hz',video_codec:'VP8',limits:'Each video frame samples the same source-WAV media clock. Encoded audio has codec delay/padding and is not bit-identical PCM. Not physical AV or universal DCC certification.'},null,2)],{type:'application/json'}));
+   status('Offline export ready: download WebM and its matching fixed-clock frames below.');
+  }catch(e){status(e.message);throw e;}
+  finally{try{for(const encoder of [videoEncoder,audioEncoder])if(encoder&&encoder.state!=='closed')encoder.close();if(capture)head.setCaptureMode(false);head.updateClock(previousTime);}finally{canvas.style.pointerEvents=previousPointerEvents;running=false;lock(false);}}
  }
- window.addEventListener('beforeunload',()=>{aborted=true;finish();for(const t of tracks)t.stop();context?.close();});
- return {start,stop:()=>finish(),get active(){return !!recorder;}};
+ window.addEventListener('beforeunload',()=>{cancelled=true;});
+ return {start,stop:()=>{cancelled=true;},get active(){return running;},get stats(){return {frames:frames.length,bytes};}};
 }
