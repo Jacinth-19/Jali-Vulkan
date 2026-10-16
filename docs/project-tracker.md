@@ -47,6 +47,24 @@ recording -> animate the detailed character -> synchronized playback.
 | M7 | Windows performance and packaging | Partial: Windows backend and one-command benchmark passed hosted CI; user-reported PC run works; frozen CPU/WebGL app passed hosted Windows; licensing, signing and measured laptop acceptance open | Measured target-device results and a tested, understandable launcher/package |
 | M8 | Asset workflow and final QA | Partial: fixtures, provenance and tests exist | Reliable asset round trips, real AV measurements, and release review |
 
+## Four-upgrade implementation — 2026-10-16
+
+- [x] Low/Balanced/High plus custom resolution/FPS; actual WebGL framebuffer checks.
+- [x] Actual-frame observation JSON and manually applicable conservative recommendation.
+- [x] Clear/Baseline/Soft with bounded closure/contact/tongue/transition calibration;
+  exhaustive JS/Python profile and boundary parity.
+- [x] Verified bounded next-audio prebuffer; actual browser hits, controlled-delay
+  gap comparison, Stop/stale-response cleanup, persisted settings.
+- [x] Paragraph budget 1,000 characters / 12 chunks; producer/PCM bounds preserved.
+- [x] Source/frozen renderer/preset chooser, free-port startup and recovery doctor.
+- [x] Local 130 Python / 22 JavaScript tests and real-head browser regression.
+- [ ] New hosted Windows frozen GUI launch/Stop/doctor and 256/512/768 native images.
+- [ ] Target i5 measurements and human lip-seal/contact/tongue/naturalness approval.
+
+[Implementation and usage](four-upgrades.md). The browser transport fixture is
+explicitly non-speech; it is not a replacement for genuine neural integration.
+Existing independent-reference/physical AV/legal gates remain open.
+
 ## B0 — Foundation already delivered
 
 ### Native engine prototype

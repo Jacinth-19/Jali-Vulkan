@@ -18,18 +18,22 @@ from local_neural_speech import validate_request
 from neural_cancel import GenerationCancelled
 
 MAX_PENDING=2
-MAX_CHUNKS=8
+MAX_CHUNKS=12
+MAX_STREAM_CHARACTERS=1000
 CONSUMER_TIMEOUT=75
 
 
 def sentence_batches(text):
-    validate_request(text)
+    if not isinstance(text,str) or len(text)>MAX_STREAM_CHARACTERS:raise ValueError('Sentence mode accepts up to 1000 characters; use shorter paragraphs (60 seconds maximum)')
+    # Apply the same Unicode/control validation without relaxing single-call TTS.
+    for start in range(0,len(text),499):validate_request('x'+text[start:start+499])
+    if not text.strip():raise ValueError('Enter nonblank text')
     pieces=[]
     for sentence in re.split(r'(?<=[.!?])\s+',text.strip()):
         for part in textwrap.wrap(sentence,width=160,break_long_words=False,break_on_hyphens=False):
             if len(part)>160:raise ValueError('Sentence batching needs words shorter than 160 characters')
             pieces.append(part)
-    if not 1<=len(pieces)<=MAX_CHUNKS:raise ValueError('Use at most eight sentence batches or choose whole-utterance mode')
+    if not 1<=len(pieces)<=MAX_CHUNKS:raise ValueError('Use at most twelve sentence batches or choose whole-utterance mode')
     return pieces
 
 

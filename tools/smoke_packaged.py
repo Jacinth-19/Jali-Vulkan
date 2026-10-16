@@ -28,6 +28,16 @@ def main():
             if report['verified']!=expected:raise RuntimeError('Frozen integrity check did not detect damage')
             checks.append(report);return report
         verify(True)
+        ui=subprocess.run([str(app),'--launcher-smoke'],cwd=cwd,env=env,capture_output=True,text=True,timeout=210)
+        if ui.returncode or not json.loads(ui.stdout)['tk_window_created']:raise RuntimeError('Frozen Tk launcher failed: '+ui.stderr)
+        (proof/'launcher-ui.json').write_text(ui.stdout)
+        expected_native=json.loads((app.parent/'build-receipt.json').read_text()).get('native_included',False)
+        if expected_native and not (app.parent/'_internal/native/jali_rich.exe').is_file():raise RuntimeError('Requested native bundle has no native executable')
+        doctor=subprocess.run([str(app),'--doctor',*(['--native'] if expected_native else [])],cwd=cwd,env=env,capture_output=True,text=True,timeout=120)
+        if doctor.returncode:raise RuntimeError('Frozen doctor failed: '+doctor.stderr)
+        report=json.loads(doctor.stdout)
+        if not report['checks'] or not all(c['ok'] for c in report['checks']):raise RuntimeError('Frozen device/assets diagnostics failed: '+doctor.stdout)
+        (proof/'launcher-doctor.json').write_text(doctor.stdout)
         rig=app.parent/'_internal/artifacts/neural-studio/rig.json';original=rig.read_bytes()
         try:
             rig.write_bytes(original+b'\n');verify(False)

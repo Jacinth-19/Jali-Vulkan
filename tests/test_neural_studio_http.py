@@ -95,8 +95,8 @@ class StudioHTTPTests(unittest.TestCase):
     def test_stream_and_ack_route_validation_and_csrf(self):
         for route in ('/api/stream','/api/ack'):
             self.assertEqual(self.request(route,b'{}',headers={'X-Jali-Token':''})[0],403)
-        self.assertEqual(self.request('/api/stream',json.dumps({'text':'Hi. '*10}).encode())[0],400)
-        for index in (-1,True,.5,8,'0'):
+        self.assertEqual(self.request('/api/stream',json.dumps({'text':'Hi. '*13}).encode())[0],400)
+        for index in (-1,True,.5,12,'0'):
             self.assertEqual(self.request('/api/ack',json.dumps({'id':'a'*32,'index':index}).encode())[0],400)
         self.assertEqual(self.request('/api/ack',json.dumps({'id':'a'*32,'index':0}).encode())[0],404)
         self.assertFalse(self.state.busy)

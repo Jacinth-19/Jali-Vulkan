@@ -10,11 +10,21 @@ import webbrowser
 
 
 def main():
+    if getattr(sys,'frozen',False) and len(sys.argv)==1:
+        from studio_launcher import main as launcher_main
+        launcher_main();return
+    if '--launcher-smoke' in sys.argv:
+        from studio_launcher import main as launcher_main
+        print(json.dumps(launcher_main(smoke=True)));return
+    if '--doctor' in sys.argv:
+        from studio_launcher import diagnostics
+        print(json.dumps(diagnostics('--native' in sys.argv),indent=2));return
     if len(sys.argv)>1 and sys.argv[1]=='--speech-worker':
         del sys.argv[1]
         from local_neural_speech import main as speech_main
         speech_main();return
     p=argparse.ArgumentParser(description='Jali portable CPU neural face studio (local browser, no account)')
+    p.add_argument('--serve',action='store_true',help=argparse.SUPPRESS)
     p.add_argument('--port',type=int,default=8082);p.add_argument('--no-browser',action='store_true')
     p.add_argument('--sessions',type=Path);p.add_argument('--ready-file',type=Path)
     p.add_argument('--native',action='store_true',help='Enable optional bundled Vulkan renderer, using the system Vulkan driver')

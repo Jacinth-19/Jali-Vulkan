@@ -39,7 +39,7 @@ class StreamTests(unittest.TestCase):
         self.fail('Stream condition timed out')
     def test_split_preserves_words_and_bounds(self):
         self.assertEqual(sentence_batches('One. Two! Three?'),['One.','Two!','Three?'])
-        for text in ['x'*161,'Hi. '*10]:
+        for text in ['x'*161,'Hi. '*13]:
             with self.assertRaises(ValueError):sentence_batches(text)
         words=' '.join(['longword']*30);self.assertEqual(' '.join(sentence_batches(words)),words)
     def test_backpressure_order_merge_hashes_offsets_and_cleanup(self):

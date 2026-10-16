@@ -26,6 +26,13 @@ const chromium=require('@sparticuz/chromium');
   try{
     await page.goto(base,{waitUntil:'networkidle'});
     await page.waitForFunction(()=>window.JaliHeadDemo?.getState().ready&&!document.querySelector('#generate').disabled,null,{timeout:60000});
+    for(const [preset,size] of [['low',256],['high',768],['balanced',512]]){
+      await page.selectOption('#quality-preset',preset);
+      const q=await page.evaluate(()=>({quality:JaliStudio.getState().quality,canvas:JaliHeadDemo.getDiagnostics().canvas}));
+      if(q.quality.resolution!==size||Math.max(q.canvas.width,q.canvas.height)>size)throw Error('Actual preset framebuffer not bounded');
+    }
+    // Golden articulation recordings retain baseline; Clear is tested separately.
+    await page.selectOption('#art-profile','baseline');
     const model=await page.evaluate(()=>JaliHeadDemo.getState().modelStats);
     if(model.faceControls!==66||model.bones!==67)throw new Error('Detailed character missing');
     // Real UI cancellation, then retry through the same bounded worker.

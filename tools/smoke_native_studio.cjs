@@ -7,6 +7,7 @@ const fs=require('node:fs'),path=require('node:path');
   page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(/^https?:/.test(r.url())&&!r.url().startsWith(origin+'/'))external.push(r.url());});
   await page.goto(process.argv[2]);await page.waitForFunction(()=>window.JaliHeadDemo?.getState().ready&&window.JaliStudio,null,{timeout:60000});
   const report=JSON.parse(fs.readFileSync('artifacts/neural-review/articulation.json')),clip=report.sessions[0],closure=report.frames.find(f=>f.case==='closures'&&f.value==='A');
+  await page.selectOption('#art-profile','baseline');
   await page.evaluate(async id=>{await JaliStudio.loadExisting(id);document.querySelector('#life').checked=false;},clip.id);
   await page.selectOption('#renderer','native');
   await page.waitForFunction(id=>JaliStudio.getState().nativeInfo.lastSession===id,clip.id,{timeout:60000});
@@ -14,6 +15,14 @@ const fs=require('node:fs'),path=require('node:path');
   await page.waitForFunction(t=>Math.abs(JaliStudio.getState().nativeInfo.lastTime-t)<.001,closure.time,{timeout:30000});
   const paused=await page.evaluate(()=>({studio:JaliStudio.getState(),head:JaliHeadDemo.getState(),renderer:JaliHeadDemo.getDiagnostics().activeRenderer}));
   if(!paused.studio.verified||paused.head.pose.viseme_PP!==.95||paused.renderer!=='native-vulkan')throw Error('Native clip/clock/pose verification failed');
+  // Actually recreate native workers at low/high, then restore golden baseline.
+  for(const [preset,size] of [['low',256],['high',768],['balanced',512]]){
+    await page.selectOption('#quality-preset',preset);
+    await page.waitForFunction(size=>document.querySelector('#native-face').naturalWidth===size,size,{timeout:60000});
+  }
+  await page.selectOption('#art-profile','clear');
+  await page.waitForFunction(()=>JaliHeadDemo.getState().pose.viseme_PP>.99,null,{timeout:60000});
+  await page.selectOption('#art-profile','baseline');
   const out=path.resolve('artifacts/native-head-proof');fs.mkdirSync(out,{recursive:true});await page.locator('#native-face').screenshot({path:path.join(out,'native-studio.png')});
   await page.locator('#resume').click();await page.waitForFunction(t=>JaliStudio.getState().nativeInfo.lastTime>t+.25,closure.time,{timeout:30000});await page.evaluate(()=>document.querySelector('#audio').pause());
   const probes=await page.evaluate(async ({id,time,duration})=>{

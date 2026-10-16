@@ -14,7 +14,7 @@ let sourceAssociations;
 let root, controls, camera, renderer, headBone, baseHeadRotation;
 const eyeBones=[], gazeRotation=new THREE.Quaternion(), gazeEuler=new THREE.Euler();
 let selected = 0, speechMeshes = [], ready = false, frameCount = 0, fpsEpoch = performance.now();
-let nativeActive=false;
+let nativeActive=false, renderSettings={fps:30,resolution:Infinity,pixelRatio:Math.min(devicePixelRatio||1,1.5)}, articulationProfile='baseline';
 let currentPose = {}, modelStats = {}, captureOnly = false, resizeViewer;
 const scene = new THREE.Scene();
 scene.background = new THREE.Color('#101a1d');
@@ -49,7 +49,7 @@ function selectClip(index, autoplay = false) {
 function applyAt(time) {
   const clip = track();
   const offset = Number($('trim').value) / 1000;
-  const sample = sampleClipVisemes(clip, time, offset, $('sync').checked);
+  const sample = sampleClipVisemes(clip, time, offset, $('sync').checked,articulationProfile);
   const layers=composePerformance(sample.weights,{time,duration:clip?.duration||0,
     life:$('life').checked,mood:$('mood').value,gaze:$('gaze')?.value||'forward'});
   const pose=layers.pose;
@@ -159,6 +159,7 @@ async function init() {
   const resize = resizeViewer = () => {
     if (captureOnly) return;
     const width = canvas.clientWidth, height = canvas.clientHeight;
+    renderer.setPixelRatio(Math.min(renderSettings.pixelRatio,renderSettings.resolution/Math.max(width,height)));
     renderer.setSize(width, height, false); camera.aspect = width / height; camera.updateProjectionMatrix();
     renderAt(audio.currentTime || 0);
   };
@@ -166,8 +167,8 @@ async function init() {
   let last = 0;
   function tick(now) {
     requestAnimationFrame(tick);
-    if (nativeActive || captureOnly || now - last < 1000 / 30) return;
-    last = now;
+    if (nativeActive || captureOnly || now - last < 1000 / renderSettings.fps) return;
+    last = now-(now-last)%(1000/renderSettings.fps);
     const playing = !audio.paused && !audio.ended;
     const orbitChanged = controls.update();
     if (!playing && !orbitChanged) return; // Idle does not consume a software-rendered core.
@@ -194,11 +195,15 @@ audio.addEventListener('play', () => { fpsEpoch = performance.now(); frameCount 
 audio.addEventListener('error', () => error(data.live ? 'The local recording could not be loaded. Generate again or refresh the studio.' : 'The audio file could not be loaded. Extract the complete ZIP before opening index.html.'));
 if (data.clips.length) selectClip(0);
 window.JaliHeadDemo = {
+  setArticulation: value => {articulationProfile=value;renderAt(audio.currentTime||0);},
+  setPerformance: value => {renderSettings={...value};if(ready&&!captureOnly&&resizeViewer)resizeViewer();},
   setNativeMode: enabled => {nativeActive=Boolean(enabled);canvas.style.visibility=nativeActive?'hidden':'visible';renderAt(audio.currentTime||0);},
   updateClock: time => renderAt(time),
   selectClip: index => selectClip(index, false),
   resetPerformance: (clearStyle=false) => {
     if(clearStyle){$('mood').value='neutral';if($('gaze'))$('gaze').value='forward';}
+    for(const old of data.clips.filter(c=>c._transient))if(old.file.startsWith('blob:'))URL.revokeObjectURL(old.file);
+    data.clips=data.clips.filter(c=>!c._transient);
     audio.pause(); audio.removeAttribute('src'); audio.load(); selected = -1;
     audio.dataset.session = ''; $('timeline').replaceChildren();
     $('clip-title').textContent = 'Preparing a new performance';
@@ -254,7 +259,7 @@ window.JaliHeadDemo = {
       camera.aspect = 1; camera.updateProjectionMatrix();
     } else {
       canvas.style.removeProperty('width'); canvas.style.removeProperty('height');
-      renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.5)); resizeViewer();
+      resizeViewer();
     }
   },
   // Deterministic offline export uses the same sampled cues, not a canned animation.

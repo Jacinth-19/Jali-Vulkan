@@ -1,4 +1,6 @@
-import {validateStreamChunk} from './streaming.mjs';
+import {PRESETS,performanceSettings,summarizeObservation} from './settings.mjs';
+import {ARTICULATION,articulation} from '../neural-head/articulation.mjs';
+import {validateStreamChunk,AudioPrefetch} from './streaming.mjs';
 /* Local CPU neural sessions. All browser requests are relative/same-origin. */
 (() => {
   'use strict';
@@ -6,13 +8,14 @@ import {validateStreamChunk} from './streaming.mjs';
   let config = null, busy = false, phase = 'loading', verified = false, selectedId = null;
   const sessions = new Map();
   let currentJob=null, cancelPending=false, streaming=false;
-  let streamStats=null,nativeFrame=null,nativeImageUrl=null;
+  let streamStats=null,nativeFrame=null,nativeImageUrl=null,activePrefetch=null,nativeEpoch=0;
+  let quality=performanceSettings(),calibration=articulation('clear');
   const nativeInfo={frames:0,lastTime:null,lastSession:null,lastMs:null,errors:[]};
   const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
   const error = message => { $('error').textContent = message; $('error').hidden = !message; };
   const update = () => {
-    $('generate').disabled = busy || !config || !window.JaliHeadDemo?.getState().ready;
-    $('text-count').textContent = `${$('text').value.length} / 500`;
+    $('generate').disabled = $('text').value.length>($('batch').checked?1000:500) || busy || !config || !window.JaliHeadDemo?.getState().ready;
+    $('text-count').textContent = `${$('text').value.length} / ${$('batch').checked?1000:500}`;
     $('text').disabled = busy;
     $('cancel').disabled = !busy || !currentJob || cancelPending;
     document.querySelectorAll('#history button').forEach(button => {button.disabled = busy;});
@@ -73,18 +76,42 @@ import {validateStreamChunk} from './streaming.mjs';
       $('history').querySelector(`[data-session="${old}"]`)?.remove();
     }
   }
-  async function load(clip, expectedId, {autoplay=true,keepHistory=true}={}) {
+  function validateClip(clip,expectedId){
     if (clip.id !== expectedId || !/^[a-f0-9]{32}$/.test(clip.id) || clip.file !== `/sessions/${clip.id}/audio.wav`
         || JSON.stringify(clip.rig) !== JSON.stringify(config.rig)
         || clip.analysis.audio_sha256 !== clip.audio.sha256) throw new Error('Session identity or audio/cue binding mismatch');
-    if (!crypto.subtle) throw new Error('Audio verification needs HTTPS or localhost. Open the secure preview.');
-    const response = await fetch(clip.file, {cache:'no-store'});
-    if (!response.ok) throw new Error('New recording could not be downloaded');
-    const bytes = await response.arrayBuffer();
-    const digest = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)), b=>b.toString(16).padStart(2,'0')).join('');
-    if (digest !== clip.audio.sha256) throw new Error('Downloaded audio differs from the analyzed recording');
-    if(streaming&&cancelPending)return false;
-    const url = URL.createObjectURL(new Blob([bytes], {type:'audio/wav'}));
+  }
+  function disposePrepared(value,revoke=true){
+    if(!value)return;value.preloader?.pause();value.preloader?.removeAttribute('src');value.preloader?.load();
+    if(revoke)URL.revokeObjectURL(value.url);
+  }
+  async function prepareAudio(item,signal){
+    const clip=item.clip;validateClip(clip,item.id);
+    if(!crypto.subtle)throw new Error('Audio verification needs HTTPS or localhost');
+    const response=await fetch(clip.file,{cache:'no-store',signal});if(!response.ok)throw new Error('Recording download failed');
+    const bytes=await response.arrayBuffer();
+    const hash=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)),b=>b.toString(16).padStart(2,'0')).join('');
+    if(hash!==clip.audio.sha256)throw new Error('Downloaded audio differs from analyzed recording');
+    if(signal?.aborted)throw new DOMException('Cancelled','AbortError');
+    const value={url:URL.createObjectURL(new Blob([bytes],{type:'audio/wav'})),preloader:new Audio(),id:clip.id};
+    try{
+      await new Promise((resolve,reject)=>{
+        const audio=value.preloader,timer=setTimeout(()=>done(new Error('Prebuffer decode timed out')),15000);
+        function done(error){clearTimeout(timer);audio.oncanplay=audio.onerror=null;signal?.removeEventListener('abort',aborted);error?reject(error):resolve();}
+        function aborted(){done(new DOMException('Cancelled','AbortError'));}
+        audio.oncanplay=()=>done();audio.onerror=()=>done(new Error('Sentence audio decode failed'));signal?.addEventListener('abort',aborted,{once:true});
+        audio.preload='auto';audio.src=value.url;audio.load();
+      });
+      if(Math.abs(value.preloader.duration-clip.duration)>.025)throw new Error('Decoded audio duration differs from cues');
+      return value;
+    }catch(error){disposePrepared(value);throw error;}
+  }
+  async function load(clip, expectedId, {autoplay=true,keepHistory=true,prepared=null}={}) {
+    validateClip(clip,expectedId);
+    prepared=prepared||await prepareAudio({clip,id:expectedId});
+    if(streaming&&cancelPending){disposePrepared(prepared);return false;}
+    if(prepared.id!==expectedId){disposePrepared(prepared);throw new Error('Wrong prebuffer identity');}
+    const url=prepared.url;disposePrepared(prepared,false);
     try {
       JaliHeadDemo.loadSession({...clip,file:url},!keepHistory);
       const audio = $('audio');
@@ -101,8 +128,15 @@ import {validateStreamChunk} from './streaming.mjs';
     } catch (failure) {URL.revokeObjectURL(url);JaliHeadDemo.resetPerformance();throw failure;}
   }
   async function followStream(id){
-    let next=0,sample=0,lastEnded=null;const deadline=performance.now()+600000;
-    streamStats={mode:'sentence-batched',firstPlayableMs:null,gapsMs:[],chunks:[],bufferingCount:0};
+    const pool=new AudioPrefetch(prepareAudio,disposePrepared);activePrefetch=pool;
+    let next=0,sample=0,lastEnded=null;
+    function ahead(state,index,start){
+      if(!$('prebuffer').checked||!Array.isArray(state.chunks))return;
+      const item=state.chunks.find(c=>c.index===index);
+      if(item){validateStreamChunk(item,index,start,state.sample_rate);if(!pool.entries.has(item.index))streamStats.downloadedAhead++;pool.add(item);}
+    }
+    try{const deadline=performance.now()+600000;
+    streamStats={mode:'sentence-batched',firstPlayableMs:null,gapsMs:[],chunks:[],bufferingCount:0,prebufferHits:0,downloadedAhead:0};
     const began=performance.now();
     while(true){
       if(performance.now()>deadline)throw new Error('Sentence-batched playback deadline exceeded');
@@ -114,57 +148,82 @@ import {validateStreamChunk} from './streaming.mjs';
         if(!await load(state.clip,id,{autoplay:false}))return;
         stage('ready','Sentence batches finished. The sample-concatenated recording is verified and ready to replay.');return;
       }
-      if(!Array.isArray(state.chunks)||state.chunks.length>2||!Number.isInteger(state.chunk_count)||state.chunk_count>8)throw new Error('Invalid batch queue budget');
+      if(!Array.isArray(state.chunks)||state.chunks.length>2||!Number.isInteger(state.chunk_count)||state.chunk_count>12)throw new Error('Invalid batch queue budget');
       const item=state.chunks.find(c=>c.index===next);
       if(!item){stage('buffering',`Buffering sentence batch ${next+1} of ${state.chunk_count}; face rests while audio is unavailable.`);streamStats.bufferingCount++;await sleep(250);continue;}
       const end=validateStreamChunk(item,next,sample,state.sample_rate);
-      if(!await load({...item.clip,title:`Sentence batch ${next+1} / ${state.chunk_count}`,_stream_start_sample:item.start_sample},item.id,{keepHistory:false})){await sleep(150);continue;}
+      pool.add(item);ahead(state,next+1,end);
+      const prepared=await pool.take(item);streamStats.prebufferHits=pool.hits;
+      if(!await load({...item.clip,title:`Sentence batch ${next+1} / ${state.chunk_count}`,_stream_start_sample:item.start_sample},item.id,{keepHistory:false,prepared})){await sleep(150);continue;}
       if(streamStats.firstPlayableMs===null)streamStats.firstPlayableMs=performance.now()-began;
       if(lastEnded!==null)streamStats.gapsMs.push(performance.now()-lastEnded);
       streamStats.chunks.push({index:next,start_sample:sample,end_sample:end,audio_sha256:item.clip.audio.sha256});
       stage('playing-batch',`Playing verified sentence batch ${next+1} of ${state.chunk_count}. Later batches are bounded to two pending chunks.`);
-      let checked=performance.now();
+      let checked=0,endedAt=null;
+      const onEnded=()=>{endedAt=performance.now();};$('audio').addEventListener('ended',onEnded,{once:true});
       while(!$('audio').ended&&!cancelPending){
         if(performance.now()>deadline)throw new Error('Sentence playback timed out');
-        if(performance.now()-checked>1000){const status=await json(`/api/jobs/${id}`);if(status.state==='error')throw new Error(status.error);if(status.state==='cancelled'){cancelPending=true;break;}checked=performance.now();}
-        await sleep(100);
+        if(performance.now()-checked>200){const status=await json(`/api/jobs/${id}`);if(status.state==='error')throw new Error(status.error);ahead(status,next+1,end);if(status.state==='cancelled'){cancelPending=true;break;}checked=performance.now();}
+        await sleep(25);
       }
+      $('audio').removeEventListener('ended',onEnded);
       if(cancelPending)continue;
-      lastEnded=performance.now();selectedId=null;await json('/api/ack',{method:'POST',headers:{'Content-Type':'application/json','X-Jali-Token':config.token},body:JSON.stringify({id,index:next})});
+      lastEnded=endedAt??performance.now();selectedId=null;await json('/api/ack',{method:'POST',headers:{'Content-Type':'application/json','X-Jali-Token':config.token},body:JSON.stringify({id,index:next})});
       sample=end;next++;
     }
+    }finally{pool.close();if(activePrefetch===pool)activePrefetch=null;}
   }
   async function requestCancel(){
-    if(!currentJob||cancelPending)return;cancelPending=true;if(streaming){selectedId=null;JaliHeadDemo.resetPerformance(true);}update();
-    try{await json('/api/cancel',{method:'POST',headers:{'Content-Type':'application/json','X-Jali-Token':config.token},body:JSON.stringify({id:currentJob})});stage('cancelling','Stopping generation and removing partial output…');}
+    if(!currentJob||cancelPending)return;cancelPending=true;activePrefetch?.close();if(streaming){selectedId=null;JaliHeadDemo.resetPerformance(true);}update();
+    const cancelId=currentJob;
+    try{await json('/api/cancel',{method:'POST',headers:{'Content-Type':'application/json','X-Jali-Token':config.token},body:JSON.stringify({id:currentJob})});if(currentJob===cancelId)stage('cancelling','Stopping generation and removing partial output…');}
     catch(failure){cancelPending=false;update();error(failure.message);}
   }
   $('renderer').addEventListener('change',()=>{
-    const native=$('renderer').value==='native';JaliHeadDemo.setNativeMode(native);$('native-face').hidden=!native;if(!native&&nativeImageUrl){URL.revokeObjectURL(nativeImageUrl);nativeImageUrl=null;$('native-face').removeAttribute('src');}
+    nativeEpoch++;const native=$('renderer').value==='native';JaliHeadDemo.setNativeMode(native);$('native-face').hidden=!native;if(!native&&nativeImageUrl){URL.revokeObjectURL(nativeImageUrl);nativeImageUrl=null;$('native-face').removeAttribute('src');}
     $('renderer-label').textContent=native?'MPFB · CC0 · NATIVE VULKAN':'MPFB · CC0 · WEBGL';
     $('camera-label').textContent=native?'FIXED NATIVE PORTRAIT CAMERA':'DRAG TO ORBIT · SCROLL TO ZOOM';nativeFrame=null;
   });
   async function nativeTick(){
+    const tickBegan=performance.now();
     try{
       if(config?.native&&$('renderer').value==='native'){
-        const id=selectedId||'neutral',time=selectedId?($('audio').currentTime||0):0;
-        const query=new URLSearchParams({id,time:String(time),trim:$('trim').value,mood:$('mood').value,gaze:$('gaze').value,life:$('life').checked?'1':'0',sync:$('sync').checked?'1':'0'}),key=query.toString();
+        const epoch=nativeEpoch,id=selectedId||'neutral',time=selectedId?($('audio').currentTime||0):0;
+        const query=new URLSearchParams({id,time:String(time),trim:$('trim').value,mood:$('mood').value,gaze:$('gaze').value,life:$('life').checked?'1':'0',sync:$('sync').checked?'1':'0',resolution:String(quality.resolution),articulation:JSON.stringify(calibration)}),key=query.toString();
         if(nativeFrame!==key){
           const began=performance.now(),response=await fetch('/api/native/frame?'+query,{headers:{'X-Jali-Token':config.token},cache:'no-store'});
-          if(response.status!==409&&$('renderer').value==='native'&&id===(selectedId||'neutral')){
+          if(epoch===nativeEpoch&&response.status!==409&&$('renderer').value==='native'&&id===(selectedId||'neutral')){
             if(!response.ok)throw new Error((await response.json()).error||'Native rendering failed');
             const blob=await response.blob();
-            if($('renderer').value==='native'&&id===(selectedId||'neutral')){
+            if(epoch===nativeEpoch&&$('renderer').value==='native'&&id===(selectedId||'neutral')){
               const url=URL.createObjectURL(blob),old=nativeImageUrl;nativeImageUrl=url;$('native-face').src=url;if(old)URL.revokeObjectURL(old);
               nativeFrame=key;nativeInfo.frames++;nativeInfo.lastTime=time;nativeInfo.lastSession=id;nativeInfo.lastMs=Number(response.headers.get('X-Jali-Render-Ms'));
-              JaliHeadDemo.updateClock(time);$('fps').textContent=`${(performance.now()-began).toFixed(0)} ms native response`;
+              JaliHeadDemo.updateClock(time);if(window.JALI_RENDER_DIAGNOSTICS)window.dispatchEvent(new CustomEvent('jali-native-observation',{detail:{wallTime:performance.now(),renderMs:performance.now()-began,playing:!$('audio').paused}}));$('fps').textContent=`${(performance.now()-began).toFixed(0)} ms native response`;
             }
           }
         }
       }
     }catch(failure){nativeInfo.errors.push(failure.message);if(nativeInfo.errors.length>6)nativeInfo.errors.shift();error(failure.message);await sleep(1000);}
-    setTimeout(nativeTick,33);
+    setTimeout(nativeTick,Math.max(0,1000/quality.fps-(performance.now()-tickBegan)));
   }
+  function saveSettings(){try{localStorage.setItem('jali.settings.'+JALI_HEAD_DATA.rig.model_sha256,JSON.stringify({quality,calibration}));}catch{}}
+  function syncControls(){$('quality-preset').value=Object.keys(PRESETS).find(k=>JSON.stringify(PRESETS[k])===JSON.stringify(quality))||'custom';$('art-profile').value=Object.keys(ARTICULATION).find(k=>JSON.stringify(ARTICULATION[k])===JSON.stringify(calibration))||'custom';for(const k of ['fps','resolution','pixelRatio'])$('quality-'+k).value=String(quality[k]);for(const k of Object.keys(ARTICULATION.baseline))if(k!=='smooth'){$('art-'+k).value=calibration[k];$('art-'+k+'-value').textContent=calibration[k];}}
+  function applySettings(){nativeEpoch++;quality=performanceSettings(quality);calibration=articulation(calibration);JaliHeadDemo.setPerformance(quality);JaliHeadDemo.setArticulation(calibration);nativeFrame=null;syncControls();saveSettings();}
+  try{const saved=JSON.parse(localStorage.getItem('jali.settings.'+JALI_HEAD_DATA.rig.model_sha256));if(saved){quality=performanceSettings(saved.quality);calibration=articulation(saved.calibration);}}catch{}
+  const requested=new URLSearchParams(location.search).get('preset');if(PRESETS[requested])quality=performanceSettings(requested);
+  $('quality-preset').addEventListener('change',()=>{quality=performanceSettings($('quality-preset').value);applySettings();});
+  for(const key of ['fps','resolution','pixelRatio'])$('quality-'+key).addEventListener('change',()=>{quality={...quality,[key]:Number($('quality-'+key).value)};applySettings();});
+  $('art-profile').addEventListener('change',()=>{calibration=articulation($('art-profile').value);applySettings();});
+  for(const key of Object.keys(ARTICULATION.baseline).filter(k=>k!=='smooth'))$('art-'+key).addEventListener('input',()=>{calibration={...calibration,[key]:Number($('art-'+key).value)};applySettings();});
+  $('observe').addEventListener('click',async()=>{
+    if($('audio').paused){error('Play a recording first, then observe it.');return;}
+    const frames=[],settings={...quality};$('observe').disabled=true;const began=performance.now();
+    const capture=e=>{if(e.type==='jali-render'&&$('renderer').value==='native')return;if(e.detail.playing)frames.push({time:e.detail.wallTime,cost:e.detail.renderMs});};
+    window.JALI_RENDER_DIAGNOSTICS=true;window.addEventListener('jali-render',capture);window.addEventListener('jali-native-observation',capture);
+    await sleep(10000);window.removeEventListener('jali-render',capture);window.removeEventListener('jali-native-observation',capture);window.JALI_RENDER_DIAGNOSTICS=false;$('observe').disabled=false;
+    try{if(JSON.stringify(settings)!==JSON.stringify(quality))throw Error('Settings changed during observation; repeat it');const report=summarizeObservation(frames,settings);report.renderer=$('renderer').value;report.calibration=calibration;report.elapsed_ms=performance.now()-began;$('apply-recommendation').hidden=!report.recommended_preset;$('apply-recommendation').onclick=()=>{quality=performanceSettings(report.recommended_preset);applySettings();};$('observation').textContent=JSON.stringify(report,null,2);const url=URL.createObjectURL(new Blob([JSON.stringify(report,null,2)],{type:'application/json'}));const old=$('observation-download').href;if(old.startsWith('blob:'))URL.revokeObjectURL(old);$('observation-download').href=url;$('observation-download').hidden=false;}catch(failure){error(failure.message);}
+  });
+  window.addEventListener('jali-head-ready',applySettings);applySettings();
   nativeTick();
   $('compose').addEventListener('submit', async event => {
     event.preventDefault(); if (busy || !config || !JaliHeadDemo.getState().ready) return;
@@ -188,13 +247,14 @@ import {validateStreamChunk} from './streaming.mjs';
         if (state.stage === 'analyzing') stage('analyzing','Analyzing this exact WAV with its script. No reused speech timings…');
         await sleep(700);
       }
-    } catch (failure) {if(streaming&&currentJob&&!cancelPending)await requestCancel();JaliHeadDemo.resetPerformance(true);stage('error','Generation did not complete. No fallback performance was substituted.');error(failure.message);}
+    } catch (failure) {if(cancelPending){JaliHeadDemo.resetPerformance(true);stage('cancelled','Cancelled. Queued audio was discarded.');return;}if(streaming&&currentJob&&!cancelPending)await requestCancel();JaliHeadDemo.resetPerformance(true);stage('error','Generation did not complete. No fallback performance was substituted.');error(failure.message);}
     finally {busy=false;currentJob=null;cancelPending=false;streaming=false;update();}
   });
   $('cancel').addEventListener('click',requestCancel);
   $('stop').addEventListener('click',()=>{if(busy&&streaming)requestCancel();JaliHeadDemo.resetPerformance(true);selectedId=null;verified=false;$('downloads').hidden=true;$('resume').hidden=true;$('verified').textContent='PLAYBACK STOPPED';if(!busy)stage('idle','Stopped. Choose history to replay or generate new words.');});
   $('resume').addEventListener('click',()=>play().catch(failure=>error(failure.message)));
   $('text').addEventListener('input',update);
+  $('batch').addEventListener('change',()=>{$('text').maxLength=$('batch').checked?1000:500;update();});
   $('audio').addEventListener('pause',()=>{
     if (!busy && selectedId) $('status').textContent = 'Paused. Seek the recording or press Play to continue.';
   });
@@ -214,10 +274,11 @@ import {validateStreamChunk} from './streaming.mjs';
     if(busy||!/^[a-f0-9]{32}$/.test(id))throw new Error('Invalid/busy existing-session request');
     const value=await json('/api/jobs/'+id);if(value.state!=='ready')throw new Error('Existing session is not ready');
     await load(value.clip,id,{autoplay:false});$('resume').hidden=false;stage('ready','Existing recording verified and loaded.');update();
-  },getState:()=>({busy,phase,verified,selectedId,currentJob,cancelPending,streaming,streamStats,nativeInfo})};
+  },getState:()=>({quality,calibration,busy,phase,verified,selectedId,currentJob,cancelPending,streaming,streamStats,nativeInfo})};
   json('/api/config').then(value=>{
     if (JSON.stringify(value.rig)!==JSON.stringify(JALI_HEAD_DATA.rig)) throw new Error('Viewer and backend rig versions differ; rebuild the studio.');
     config=value; if(config.native){$('native-option').disabled=false;$('native-option').textContent='Native Vulkan — '+config.native.device;}
+    if(new URLSearchParams(location.search).get('renderer')==='native'&&config.native){$('renderer').value='native';$('renderer').dispatchEvent(new Event('change'));}
     if (JaliHeadDemo.getState().ready) stage('idle','Ready. Write a sentence, then generate your performance.');update();
   }).catch(failure=>{error(failure.message);stage('error','The local generation service is unavailable.');});
   update();

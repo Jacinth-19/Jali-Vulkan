@@ -23,7 +23,7 @@ from neural_platform import analyzer_path
 from local_neural_speech import validate_request, verify_assets
 from neural_session import build_session, SESSION_ID, MEDIA, ROOT
 from neural_cancel import CancellationToken, GenerationCancelled
-from neural_stream import sentence_batches, perform_stream
+from neural_stream import sentence_batches, perform_stream, MAX_CHUNKS, MAX_STREAM_CHARACTERS
 from preview_server import Handler as FileHandler
 from http.server import ThreadingHTTPServer
 
@@ -50,7 +50,7 @@ class StudioState:
         self.token = secrets.token_hex(32)
 
     def start(self, text, streaming=False):
-        validate_request(text)
+        if not streaming:validate_request(text)
         batches=sentence_batches(text) if streaming else None
         with self.lock:
             if self.busy:
@@ -157,11 +157,11 @@ class Handler(FileHandler):
             if not isinstance(payload, dict) or set(payload) != expected:
                 raise ValueError('Unexpected request fields')
             if self.path in ('/api/generate','/api/stream'):
-                validate_request(payload['text'])
                 if self.path=='/api/stream':sentence_batches(payload['text'])
+                else:validate_request(payload['text'])
             elif not isinstance(payload['id'],str) or not SESSION_ID.fullmatch(payload['id']):
                 raise ValueError('Invalid job identity')
-            if self.path=='/api/ack' and (isinstance(payload['index'],bool) or not isinstance(payload['index'],int) or not 0<=payload['index']<8):raise ValueError('Invalid chunk index')
+            if self.path=='/api/ack' and (isinstance(payload['index'],bool) or not isinstance(payload['index'],int) or not 0<=payload['index']<MAX_CHUNKS):raise ValueError('Invalid chunk index')
         except (ValueError, UnicodeError) as error:
             return self.json_response(400, {'error': str(error)})
         if self.path == '/api/cancel':
@@ -180,7 +180,7 @@ class Handler(FileHandler):
     def do_GET(self, head_only=False):
         route = urlparse(self.path).path
         if route == '/api/config':
-            return self.json_response(200, {'token': self.server.state.token, 'max_characters': 500,
+            return self.json_response(200, {'token': self.server.state.token, 'max_characters': 500, 'max_stream_characters':MAX_STREAM_CHARACTERS,'max_stream_chunks':MAX_CHUNKS,
                 'voice': 'Kokoro af_heart (stock, CPU)', 'rig': self.server.state.rig, 'native':self.server.state.native.metadata if self.server.state.native else None})
         if route=='/api/native/frame':
             if head_only:return self.json_response(405,{'error':'Use GET'})
@@ -188,7 +188,7 @@ class Handler(FileHandler):
             if (origin and urlparse(origin).netloc!=self.headers.get('Host')) or not secrets.compare_digest(self.headers.get('X-Jali-Token','').encode(),self.server.state.token.encode()):return self.json_response(403,{'error':'Same-origin token required'})
             if self.server.state.native is None:return self.json_response(404,{'error':'Native renderer not enabled'})
             q=parse_qs(urlparse(self.path).query,keep_blank_values=True)
-            if not {'id','time'}<=q.keys() or q.keys()-{'id','time','trim','mood','life','gaze','sync'} or any(len(v)!=1 for v in q.values()):return self.json_response(400,{'error':'Invalid native frame query'})
+            if not {'id','time'}<=q.keys() or q.keys()-{'id','time','trim','mood','life','gaze','sync','resolution','articulation'} or any(len(v)!=1 for v in q.values()):return self.json_response(400,{'error':'Invalid native frame query'})
             clip={'state':'ready','clip':{'rig':self.server.state.rig,'duration':0,'cues':[]}} if q['id'][0]=='neutral' else self.server.state.get(q['id'][0])
             if not clip or clip['state']!='ready':return self.json_response(404,{'error':'Unknown/expired native session'})
             try:body,ms=self.server.state.native.frame(clip['clip'],q)

@@ -20,12 +20,14 @@ runtime, stock `af_heart` voice and Windows analyzer—not your session store or
 The generated receipt lists exact installed package versions and source commit.
 
 Output: `artifacts/windows-portable/JaliStudio-Windows-x64.zip`. Extract the **whole
-ZIP**, then double-click `JaliStudio.exe`. Keep its console open. It opens your
-normal browser at `http://127.0.0.1:8082`; Ctrl+C stops it. The built app needs no
+ZIP**, then double-click `JaliStudio.exe`. Choose renderer/preset in the launcher,
+then Launch opens your browser on a free loopback port. Keep the launcher open;
+Stop studio or closing it stops its owned server. The built app needs no
 Python, Node, GitHub account, administrator install or runtime model downloads.
 Windows may warn about the unsigned executable; do **not** disable security checks.
 Use the developer launcher instead if you cannot establish trust in your own build.
-Port 8082 already occupied? Run `JaliStudio.exe --port 8083`.
+For command-line serving without the GUI: `JaliStudio.exe --serve --port 0`.
+See [new launcher, diagnostics and studio controls](four-upgrades.md).
 
 Whole-utterance and bounded sentence-batched speech use CPU inference; presentation
 is WebGL or the explicitly enabled optional native Vulkan backend.

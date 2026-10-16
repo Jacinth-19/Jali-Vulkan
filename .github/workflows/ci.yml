@@ -211,13 +211,15 @@ jobs:
       - name: Check contracts without loading a neural model
         run: |
           .venv/bin/python -m unittest discover -s tests -p 'test_*.py'
-          node --test tests/*.test.mjs
+          node --test tests/visemes.test.mjs tests/measurement.test.mjs tests/performance.test.mjs tests/upgrades.test.mjs
       - name: Explicitly prepare reviewed model, stock voice and CC0 character
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           python tools/ci_command.py .venv/bin/python tools/prepare_kokoro_cpu.py
           python tools/ci_command.py .venv/bin/python tools/build_neural_studio.py
+      - name: Check presets, articulation controls and controlled-delay prebuffer transport
+        run: python tools/ci_command.py .venv/bin/python tools/run_upgrade_fixture_ci.py
       - name: Exercise actual neural synthesis, audio analysis and facial articulation
         run: .venv/bin/python tools/run_neural_ci.py
       - name: Crosscheck all actual corpus WAVs with two-pass phone alignment
@@ -248,6 +250,7 @@ jobs:
             artifacts/neural-studio/licenses/CC0-1.0.txt
             artifacts/neural-studio/licenses/model-source-README.md
             artifacts/neural-runner-resources.txt
+            artifacts/upgrade-proof/
             artifacts/neural-ci-server.log
           retention-days: 3
           if-no-files-found: warn
@@ -331,11 +334,11 @@ jobs:
       - name: Check cross-platform neural contracts without inference
         shell: pwsh
         run: |
-          foreach ($pattern in @('test_neural*.py','test_local_neural.py','test_playback_checkpoint.py','test_benchmark.py','test_native_adapter.py','test_phone_alignment.py')) {
+          foreach ($pattern in @('test_neural*.py','test_local_neural.py','test_playback_checkpoint.py','test_benchmark.py','test_native_adapter.py','test_phone_alignment.py','test_upgrades.py')) {
             .venv/Scripts/python.exe -m unittest discover -s tests -p $pattern
             if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           }
-          node --test tests/visemes.test.mjs tests/measurement.test.mjs tests/performance.test.mjs tests/streaming.test.mjs
+          node --test tests/visemes.test.mjs tests/measurement.test.mjs tests/performance.test.mjs tests/upgrades.test.mjs
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Explicitly prepare stock voice, model, Windows analyzer and CC0 head
         env:
@@ -346,6 +349,8 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python tools/ci_command.py .venv/Scripts/python.exe tools/build_neural_studio.py
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Check Windows preset/articulation/prebuffer browser controls
+        run: python tools/ci_command.py .venv/Scripts/python.exe tools/run_upgrade_fixture_ci.py
       - name: Generate three NEW Windows CPU recordings and animate their live face
         shell: pwsh
         run: python tools/ci_command.py .venv/Scripts/python.exe tools/run_neural_ci.py
@@ -378,6 +383,7 @@ jobs:
           path: |
             artifacts/neural-review/
             artifacts/neural-studio/proof/
+            artifacts/upgrade-proof/
             artifacts/neural-ci-server.log
             artifacts/windows-neural-runner.json
             artifacts/windows-neural-summary.json
@@ -459,7 +465,7 @@ jobs:
           python - <<'PY'
           from pathlib import Path
           import re
-          paths=list(Path('artifacts/native-stress').rglob('*.log'))+list(Path('artifacts/native-head-proof').glob('*.log'))+list(Path('artifacts/native-studio').glob('*.log'))+[Path('build-live/Testing/Temporary/LastTest.log')]
+          paths=list(Path('artifacts/native-stress').rglob('*.log'))+list(Path('artifacts/native-head-proof').glob('*.log'))+list(Path('artifacts/native-studio').rglob('*.log'))+[Path('build-live/Testing/Temporary/LastTest.log')]
           for p in paths:
               if p.is_file() and re.search(r'Validation (?:Error|Warning|Performance Warning)|VUID-|UNASSIGNED-',p.read_text(errors='replace')):
                   raise SystemExit('Vulkan validation diagnostic: '+str(p))

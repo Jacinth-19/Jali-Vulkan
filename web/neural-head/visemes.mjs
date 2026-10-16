@@ -1,3 +1,4 @@
+import {articulation,calibrated} from './articulation.mjs';
 // Rhubarb A–H/X are estimated mouth classes, not literal phoneme labels.
 export const SHAPES = Object.freeze({
   X: { label: 'Rest / silence', weights: {} },
@@ -22,7 +23,7 @@ export function validateCues(cues, duration) {
   return true;
 }
 
-export function sampleVisemes(cues, time, enabled = true) {
+export function sampleVisemes(cues, time, enabled = true, profile = 'baseline') {
   if (!Number.isFinite(time)) throw new Error('Invalid audio time');
   if (!enabled || !cues.length || time < cues[0].start || time >= cues[cues.length - 1].end) return { value: 'X', label: SHAPES.X.label, weights: {} };
   let low = 0, high = cues.length;
@@ -31,15 +32,17 @@ export function sampleVisemes(cues, time, enabled = true) {
     if (cues[mid].start <= time) low = mid + 1; else high = mid;
   }
   const index = Math.max(0, low - 1), cue = cues[index];
+  const calibration=articulation(profile);
   const shape = SHAPES[cue.value], next = cues[index + 1];
-  const weights = { ...shape.weights };
+  const weights = calibrated(shape.weights,calibration);
   if (next) {
     // Preserve the first 65% even of a 10-20ms cue. A fixed 35ms
     // window used to blend an entire short lip closure away.
-    const transition = Math.min(0.035, (cue.end - cue.start) * 0.35);
+    const transition = Math.min(calibration.transition/1000, (cue.end - cue.start) * 0.35);
     const start = cue.end - transition;
-    const alpha = Math.max(0, Math.min(1, (time - start) / (cue.end - start)));
-    const other = SHAPES[next.value].weights;
+    let alpha = transition===0?0:Math.max(0, Math.min(1, (time - start) / transition));
+    if(calibration.smooth)alpha=alpha*alpha*(3-2*alpha);
+    const other = calibrated(SHAPES[next.value].weights,calibration);
     if (alpha > 0) for (const key of new Set([...Object.keys(weights), ...Object.keys(other)])) weights[key] = (weights[key] || 0) * (1 - alpha) + (other[key] || 0) * alpha;
   }
   return { value: cue.value, label: shape.label, weights };
@@ -47,9 +50,9 @@ export function sampleVisemes(cues, time, enabled = true) {
 
 // The audio duration is authoritative: rounded cue ends and negative manual trim
 // must never leave a speaking pose at the actual end of playback.
-export function sampleClipVisemes(clip, time, offset = 0, enabled = true) {
+export function sampleClipVisemes(clip, time, offset = 0, enabled = true, profile = 'baseline') {
   if (!Number.isFinite(time) || !Number.isFinite(offset)) throw new Error('Invalid playback time or trim');
   if (clip && (!Number.isFinite(clip.duration) || clip.duration <= 0)) throw new Error('Invalid clip duration');
   if (!clip || time < 0 || time >= clip.duration) return { value:'X', label:SHAPES.X.label, weights:{} };
-  return sampleVisemes(clip.cues, time + offset, enabled);
+  return sampleVisemes(clip.cues, time + offset, enabled, profile);
 }

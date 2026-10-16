@@ -70,13 +70,15 @@ The old strict three-morph/vertex-color fixture continues to run unchanged.
 Check **Sentence-batched early playback** in the studio. This is bounded
 **whole-sentence/chunk Kokoro inference + exact-chunk WAV analysis**, not internal
 incremental Kokoro inference, gapless audio or a microphone conversation system.
-At most **8 chunks**, **160 characters per chunk**, **2 unacknowledged chunks**,
+At most **1,000 input characters / 12 chunks**, **160 characters per chunk**, **2 unacknowledged chunks**,
 **60 seconds of PCM** and **75 seconds awaiting consumer acknowledgment** are
 allowed. One producer runs outside audio/render callbacks. No hidden resampling:
 all chunks must share a sample rate. Integer absolute sample offsets bind chunks
 to face diagnostics; actual media time drives each chunk's cues.
 
-The browser verifies each WAV before loading it, plays in order, acknowledges only
+The browser can prefetch/hash/prime up to two available upcoming chunks; see
+[prebuffer controls and calibration/performance settings](four-upgrades.md).
+It verifies each WAV before loading it, plays in order, acknowledges only
 after audio `ended`, and rests during underruns. Pause/slow consumers can expire;
 late/missing/reordered data fails rather than playing another recording's face.
 Stop/cancel removes pending audio/face data and permits retry after cleanup.

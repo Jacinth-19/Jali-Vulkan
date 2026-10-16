@@ -4,8 +4,10 @@ import math
 import os
 from pathlib import Path
 import sys
+import threading
+import json
 from audit_native_rig import read_glb
-from neural_visemes import shared_shapes,sample
+from neural_visemes import shared_shapes,sample,articulation
 from rich_worker import RichWorker
 from render_session import ROOT
 
@@ -26,6 +28,8 @@ class NativeStudio:
         if source!=rig['model_sha256']:raise ValueError('Native profile and studio source rig differ')
         self.rig=rig;self.shapes=shared_shapes()
         output=Path(os.environ.get('LOCALAPPDATA',str(Path.home()/'.jali')))/'JaliVulkan/native-engine'/str(os.getpid()) if getattr(sys,'frozen',False) else ROOT/'artifacts/native-studio'
+        self.asset,self.output,self.software=asset,output,software
+        self.frame_lock=threading.Lock();self.size=512
         self.worker=RichWorker(asset,output,software)
         self.metadata={**self.worker.metadata,'source_model_sha256':source,'camera':'fixed native portrait camera; lighting differs from WebGL'}
     def frame(self,clip,query):
@@ -33,9 +37,20 @@ class NativeStudio:
         t=float(query['time'][0]);trim=float(query.get('trim',['0'])[0])/1000
         mood=query.get('mood',['neutral'])[0];gaze=query.get('gaze',['forward'])[0];life=query.get('life',['1'])[0];sync=query.get('sync',['1'])[0]
         if not math.isfinite(t) or not 0<=t<=clip['duration']+.25 or not math.isfinite(trim) or abs(trim)>.15 or mood not in ('neutral','warm','attentive') or gaze not in ('forward','left','right','down') or life not in ('0','1') or sync not in ('0','1'):raise ValueError('Invalid native clock or control')
-        weights=sample(clip,t,self.shapes,trim,sync=='1')
+        size=int(query.get('resolution',['512'])[0])
+        if size not in (256,512,768):raise ValueError('Invalid native resolution')
+        profile=articulation(json.loads(query['articulation'][0]) if 'articulation' in query else 'baseline')
+        weights=sample(clip,t,self.shapes,trim,sync=='1',profile)
         pose,motion=performance(weights,t,clip['duration'],life=='1',mood,gaze)
         from PIL import Image
-        rgba,ms=self.worker.frame(pose,motion);encoded=io.BytesIO();Image.frombytes('RGBA',(512,512),rgba).convert('RGB').save(encoded,format='JPEG',quality=91)
-        return encoded.getvalue(),ms
-    def close(self):self.worker.close()
+        if not self.frame_lock.acquire(blocking=False):raise BlockingIOError('Native frame already pending')
+        try:
+            if size!=self.size:
+                replacement=RichWorker(self.asset,self.output/f'resolution-{size}',self.software,size=size)
+                previous=self.worker;self.worker=replacement;self.size=size
+                self.metadata={**self.metadata,**replacement.metadata};previous.close()
+            rgba,ms=self.worker.frame(pose,motion);encoded=io.BytesIO();Image.frombytes('RGBA',(size,size),rgba).convert('RGB').save(encoded,format='JPEG',quality=91)
+            return encoded.getvalue(),ms
+        finally:self.frame_lock.release()
+    def close(self):
+        with self.frame_lock:self.worker.close()

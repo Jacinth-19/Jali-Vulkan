@@ -31,6 +31,23 @@ Captured on **SwiftShader software Vulkan**, not a hardware-GPU performance resu
 The native fixture is not the detailed human above. [Capture commands, provenance,
 image hashes and scope](docs/render-captures.md) are retained.
 
+### Four new studio upgrades
+
+- **Low / Balanced / High** presets plus custom resolution/FPS and downloadable
+  actual-playback observations. Starting points, not measured laptop profiles.
+- **Clear / Baseline / Soft articulation**, with closure/contact/tongue and
+  transition tuning shared by WebGL/native; human quality review remains open.
+- **Verified next-audio prebuffer**, cancellation-safe cleanup and up to 1,000
+  characters / 12 sentence chunks (still bounded, not guaranteed gapless).
+- **Windows renderer/preset launcher**, free-port startup, owned-server Stop and
+  actionable offline asset/native-device diagnostics.
+
+Start after setup with **`windows/launch-studio.cmd`**. Rebuilt personal EXEs open
+this chooser on double-click. [Controls, commands and exact limits](docs/four-upgrades.md).
+Local upgrade checks: **130 Python / 22 JavaScript tests** and real-head Chromium
+controls/prebuffer regression passed. New hosted Windows/native/package checks
+are pending; the historical all-green result below applies to the prior baseline.
+
 ### Additional runtime hardening
 
 - Windows native source-build/launcher path with pinned Vulkan loader sources;
@@ -69,7 +86,7 @@ frozen-native execution. [Exact verification evidence](docs/evidence/windows-nat
   native Vulkan, with no runtime Python/Node/gh requirement. Local-build-only pending redistribution/source
   compliance; hosted tests publish proof, **not the bundle or weights**.
 
-**Validated:** 123 Python tests, 17 JavaScript tests, 12 local native CTest
+**Prior baseline validated:** 123 Python tests, 17 JavaScript tests, 12 local native CTest
 entries, actual CPU speech/batching, native/source/browser checks and native
 longevity. **All 11 hosted Linux/Windows jobs passed** for source `caa1e95` in
 [Actions run 38913502148](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38913502148),
