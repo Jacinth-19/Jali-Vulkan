@@ -70,14 +70,14 @@ def write_json(path, data):
 
 def seal_pack(output):
     """Update the checksum inventory and ZIP after adding browser-test evidence."""
-    files = {str(path.relative_to(output)): sha256(path)
+    files = {path.relative_to(output).as_posix(): sha256(path)
              for path in sorted(output.rglob('*')) if path.is_file() and path.name != 'checksums.json'}
     write_json(output / 'checksums.json', files)
     archive = output.with_suffix('.zip')
     with zipfile.ZipFile(archive, 'w', compression=zipfile.ZIP_DEFLATED) as bundle:
         for path in sorted(output.rglob('*')):
             if path.is_file():
-                bundle.write(path, str(path.relative_to(output.parent)))
+                bundle.write(path, path.relative_to(output.parent).as_posix())
     return archive
 
 

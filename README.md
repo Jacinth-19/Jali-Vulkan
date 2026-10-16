@@ -36,6 +36,8 @@ image hashes and scope](docs/render-captures.md) are retained.
 - Windows native source-build/launcher path with pinned Vulkan loader sources;
   explicit software-only CI driver selection, never silent hardware substitution.
 - Binary-safe native frame pipes on Windows and no 10,000-frame lifetime cutoff.
+- Optional personal frozen-native bundle with relocatable shaders and system
+  Vulkan driver selection; no driver is bundled.
 - Personal package file manifests, offline `--verify-installation`, fail-closed
   startup and actionable local diagnostics. Integrity checks are **not signatures**.
 - Cross-platform native longevity/stable-frame/resident-memory regression.
@@ -63,8 +65,8 @@ New hosted Windows-native and integrity tests are being run; see the
   combined recording. **Not internal incremental Kokoro or gapless playback.**
 - **Phone-level alignment diagnostics:** optional pinned two-pass PocketSphinx
   crosscheck of the actual WAV/transcript, explicitly not independent ground truth.
-- **Personal Windows portable build:** unsigned CPU/WebGL app with no runtime
-  Python/Node/gh requirement. Local-build-only pending redistribution/source
+- **Personal Windows portable build:** unsigned CPU/WebGL app, optionally including
+  native Vulkan, with no runtime Python/Node/gh requirement. Local-build-only pending redistribution/source
   compliance; hosted tests publish proof, **not the bundle or weights**.
 
 **Validated:** 109 Python tests, 17 JavaScript tests, 12 local native CTest

@@ -40,13 +40,13 @@ for(const id of ['sync','life','mood','trim'])$(id).addEventListener('change',()
 $('trim').addEventListener('input',()=>finish('settings changed'));
 window.addEventListener('jali-render',event=>{
   const f=event.detail;
-  if(active&&f.playing&&!f.seeking&&f.audioTime>0&&!document.hidden){
+  if(active?.phase==='playing'&&f.playing&&!f.seeking&&f.audioTime>0&&!document.hidden){
     if(!active.frames.length||f.wallTime>active.frames.at(-1).wallTime)active.frames.push({wallTime:f.wallTime,audioTime:f.audioTime,renderMs:f.renderMs});
   }
 });
-audio.addEventListener('ended',()=>finish('ended'));
-audio.addEventListener('pause',()=>{if(active&&audio.paused&&!audio.ended)finish('playback paused');});
-audio.addEventListener('seeking',()=>{if(active&&active.frames.length)finish('seek during measurement');});
+audio.addEventListener('ended',()=>{if(active?.phase==='playing')finish('ended');});
+audio.addEventListener('pause',()=>{if(active?.phase==='playing'&&audio.paused&&!audio.ended)finish('playback paused');});
+audio.addEventListener('seeking',()=>{if(active?.phase==='playing'&&active.frames.length)finish('seek during measurement');});
 audio.addEventListener('ratechange',()=>{if(active&&audio.playbackRate!==1)finish('speed changed');});
 audio.addEventListener('error',()=>finish('audio error'));
 document.addEventListener('visibilitychange',()=>{if(active&&document.hidden){active.visible=false;finish('tab hidden');}});
@@ -56,11 +56,14 @@ $('measure').addEventListener('click',async()=>{
   if(active||!loaded)return;
   audio.pause();audio.currentTime=0;audio.playbackRate=1;$('speed').value='1';
   $('sync').checked=true;$('life').checked=false;$('mood').value='neutral';$('trim').value='0';
-  active={clipId:data.clips[selected].id,frames:[],visible:!document.hidden,
+  const captured=active={phase:'starting',clipId:data.clips[selected].id,frames:[],visible:!document.hidden,
     settings:{speed:1,speech_animation:true,procedural_motion:false,mood:'neutral',trim_ms:0,render_target_fps:30},diagnostics:JaliHeadDemo.getDiagnostics()};
   window.JALI_RENDER_DIAGNOSTICS=true;$('measure').disabled=true;$('cancel').disabled=false;status('Measuring actual playback. Keep this tab visible…');
   timer=setTimeout(()=>finish('timeout'),90000);
-  try{await audio.play();}catch{finish('audio playback blocked');}
+  // Pause/seek events queued by the reset must not invalidate the NEW run.
+  // play() completion is owned by this capture; a late completion/rejection
+  // after Cancel must never end or resume a later measurement.
+  try{await audio.play();if(active===captured){captured.phase='playing';if(audio.ended)finish('ended');}}catch{if(active===captured)finish('audio playback blocked');}
 });
 $('cancel').addEventListener('click',()=>finish('cancelled'));
 $('download').addEventListener('click',()=>{
@@ -69,4 +72,4 @@ $('download').addEventListener('click',()=>{
 });
 function ready(){if(!JaliHeadDemo.getState().ready)return;loaded=true;$('measure').disabled=false;document.querySelectorAll('[data-clip]').forEach(b=>b.disabled=false);status('Ready. Listen first, then measure a recording.');}
 window.addEventListener('jali-head-ready',ready);ready();
-window.JaliCheckpoint={exportReport,getRuns:()=>structuredClone(runs),isMeasuring:()=>Boolean(active)};
+window.JaliCheckpoint={exportReport,getRuns:()=>structuredClone(runs),isMeasuring:()=>Boolean(active),getMeasurementPhase:()=>active?.phase??null};

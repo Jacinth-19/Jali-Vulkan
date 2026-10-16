@@ -17,6 +17,7 @@ def main():
     p=argparse.ArgumentParser(description='Jali portable CPU neural face studio (local browser, no account)')
     p.add_argument('--port',type=int,default=8082);p.add_argument('--no-browser',action='store_true')
     p.add_argument('--sessions',type=Path);p.add_argument('--ready-file',type=Path)
+    p.add_argument('--native',action='store_true',help='Enable optional bundled Vulkan renderer, using the system Vulkan driver')
     p.add_argument('--verify-installation',action='store_true',help='Check bundled files and exit without starting a server or modifying sessions')
     p.add_argument('--diagnostics-file',type=Path,help='Write local JSON diagnostics here; contains no session text/audio or environment dump')
     args=p.parse_args()
@@ -32,6 +33,9 @@ def main():
             print(json.dumps(report,indent=2),flush=True)
             if not report['verified']:raise SystemExit(2)
             return
+    if args.native:
+        from runtime_paths import ASSET_ROOT
+        if not (ASSET_ROOT/'native/mpfb-native.glb').is_file():p.error('This personal package has no native renderer. Rebuild with --include-native after windows/setup-native.ps1, or omit --native to use WebGL.')
     data=Path(os.environ.get('LOCALAPPDATA',str(Path.home()/'.jali')))/'JaliVulkan'
     data.mkdir(parents=True,exist_ok=True)
     sessions=args.sessions or data/'sessions'
@@ -48,6 +52,7 @@ def main():
     print(f'Local session files: {sessions}. Previous run UUID folders are cleared at startup.',flush=True)
     from neural_studio_server import main as studio_main
     sys.argv=[sys.argv[0],'--bind','127.0.0.1','--port',str(args.port),'--sessions',str(sessions),'--ready-file',str(ready)]
+    if args.native:sys.argv.extend(['--native-asset',str(ASSET_ROOT/'native/mpfb-native.glb')])
     try:studio_main()
     except Exception as e:
         report={'schema':'jali-startup-error-v1','error_type':type(e).__name__,'detail':str(e),'next_steps':'Check whether the port is in use; try --port 0. Run --verify-installation to check damage. Do not disable security or download replacement DLLs. No session contents/environment variables are collected.'}

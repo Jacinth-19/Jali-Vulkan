@@ -6,14 +6,16 @@ import threading
 import time
 from pathlib import Path
 from render_session import ROOT,runtime_environment
+from runtime_paths import native_runtime
 
 
 class RichWorker:
     def __init__(self,asset,output,software=False,size=512,test=False):
         self.lock=threading.Lock();self.messages=queue.Queue(maxsize=2);self.closed=threading.Event()
         output=Path(output);output.mkdir(parents=True,exist_ok=True);self.log=(output/'engine.log').open('wb')
-        binary=ROOT/('build-live/jali_rich.exe' if __import__('os').name=='nt' else 'build-live/jali_rich')
+        binary,shaders=native_runtime(ROOT)
         args=[str(binary),'--asset',str(asset),'--output',str(output),'--size',str(size)]
+        if shaders:args.extend(['--shader-dir',str(shaders)])
         if test:args.append('--test')
         try:self.process=subprocess.Popen(args,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=self.log,bufsize=0,env=runtime_environment(software))
         except BaseException:self.log.close();raise

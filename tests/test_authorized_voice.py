@@ -12,7 +12,7 @@ from authorized_voice import FILES, sha256, synthesize, validate_grant
 class VoiceGrantTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(); self.addCleanup(self.temp.cleanup)
-        self.root = Path(self.temp.name); self.manifest = self.root / 'grant.json'
+        self.root = Path(self.temp.name).resolve(); self.manifest = self.root / 'grant.json'
         with wave.open(str(self.root / 'reference.wav'), 'wb') as audio:
             audio.setparams((1,2,16000,0,'NONE','not compressed')); audio.writeframes(b'\0\0'*48000)
         (self.root/'model').mkdir()

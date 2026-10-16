@@ -1,6 +1,9 @@
 """Optional native presentation of the studio's same immutable WAV/cue sessions."""
 import io
 import math
+import os
+from pathlib import Path
+import sys
 from audit_native_rig import read_glb
 from neural_visemes import shared_shapes,sample
 from rich_worker import RichWorker
@@ -21,7 +24,9 @@ class NativeStudio:
     def __init__(self,asset,rig,software=False):
         source=read_glb(asset)['extras']['source_sha256']
         if source!=rig['model_sha256']:raise ValueError('Native profile and studio source rig differ')
-        self.rig=rig;self.shapes=shared_shapes();self.worker=RichWorker(asset,ROOT/'artifacts/native-studio',software)
+        self.rig=rig;self.shapes=shared_shapes()
+        output=Path(os.environ.get('LOCALAPPDATA',str(Path.home()/'.jali')))/'JaliVulkan/native-engine'/str(os.getpid()) if getattr(sys,'frozen',False) else ROOT/'artifacts/native-studio'
+        self.worker=RichWorker(asset,output,software)
         self.metadata={**self.worker.metadata,'source_model_sha256':source,'camera':'fixed native portrait camera; lighting differs from WebGL'}
     def frame(self,clip,query):
         if clip['rig']!=self.rig:raise ValueError('Native clip/rig identity mismatch')

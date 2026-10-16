@@ -92,3 +92,28 @@ this code: keep the console error and rebuild from the trusted source instead.
 Hosted tests now explicitly exercise intact, tampered, missing-analyzer and
 restored installations, plus normal startup refusing a corrupted package.
 These new tests are not claimed passed until the new Actions run finishes.
+
+## Optional personal native-Vulkan bundle
+
+The default remains CPU speech + WebGL. To also include the native renderer:
+
+```powershell
+.\windows\setup-native.ps1
+.\windows\build-portable.ps1 -PersonalUseOnly -IncludeNativeVulkan
+```
+
+The explicit option adds the built native EXE, Vulkan loader, decoded human rig,
+four shaders and upstream notices. **No GPU driver or Chrome DLL is bundled.**
+`Native-Studio.cmd` (or `JaliStudio.exe --native`) enables it; choose Native Vulkan
+in the page. Ordinary EXE launch still offers WebGL without Vulkan. Shader paths
+are resolved inside the extracted package, not against the build machine's
+checkout. Native engine logs live under LOCALAPPDATA, outside the verified
+installation. The same personal-use/unsigned/redistribution restrictions apply.
+The new optional frozen-native path is pending hosted Windows verification;
+the prior CPU/WebGL package proof must not be counted as evidence for it.
+
+GitHub-hosted Windows runs elevated, so the secure Vulkan loader intentionally
+ignores `VK_ICD_FILENAMES`. Software CI explicitly registers **only its own**
+temporary ICD manifest on that disposable machine and removes that value in an
+`always()` cleanup step. This is guarded against local/self-hosted use; the
+normal user setup never changes the driver registry or disables loader security.

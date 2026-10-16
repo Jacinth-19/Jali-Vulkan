@@ -161,3 +161,10 @@ baseline). This is a regression budget, not a promised laptop resource target.
 It also tests oversized commands, CRLF quit and a final command without newline.
 The command length is bounded **before allocation**, with no lifetime frame cap.
 Synthetic longevity testing is not sustained physical audio/AV certification.
+
+Native shaders now resolve beside the explicitly supplied face shader. The
+optional [personal frozen-native bundle](windows-portable.md#optional-personal-native-vulkan-bundle)
+uses a packaged shader directory, not baked build-machine paths. A real local
+relocation test moved the EXE/shaders and hid the original shader directory;
+the complete human still rendered successfully. Frozen Windows relocation and
+stripped-PATH loading are separately covered by the new hosted package test.

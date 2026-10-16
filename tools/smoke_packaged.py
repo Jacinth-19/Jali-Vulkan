@@ -39,16 +39,22 @@ def main():
         finally:missing.rename(analyzer)
         verify(True)
         (proof/'installation-checks.json').write_text(json.dumps({'schema':'jali-frozen-installation-proof-v1','positive_tampered_missing_restored':checks,'startup_failed_closed':True},indent=2)+'\n')
-        server=subprocess.Popen([str(app),'--port','0','--no-browser','--ready-file',str(ready),'--sessions',str(proof/'sessions')],cwd=cwd,env=env,stdout=log,stderr=subprocess.STDOUT)
+        native=['--native'] if (app.parent/'_internal/native/jali_rich.exe').is_file() else []
+        server=subprocess.Popen([str(app),*native,'--port','0','--no-browser','--ready-file',str(ready),'--sessions',str(proof/'sessions')],cwd=cwd,env=env,stdout=log,stderr=subprocess.STDOUT)
         try:
             deadline=time.monotonic()+120
             while not ready.is_file():
-                if server.poll() is not None:raise RuntimeError('Portable app exited; inspect server.log')
+                if server.poll() is not None:raise RuntimeError('Portable app exited: '+(proof/'server.log').read_text(encoding='utf-8',errors='replace')[-6000:])
                 if time.monotonic()>deadline:raise TimeoutError('Portable readiness timed out')
                 time.sleep(.1)
             port=json.loads(ready.read_text())['port']
             subprocess.run([shutil.which('node'),str(ROOT/'tools/smoke_packaged.cjs'),f'http://127.0.0.1:{port}',str(proof/'browser.json')],cwd=ROOT,check=True,timeout=540)
-        finally:stop_server(server)
+        finally:
+            stop_server(server)
+            native_log=Path(os.environ.get('LOCALAPPDATA',''))/'JaliVulkan/native-engine'/str(server.pid)/'engine.log'
+            if native_log.is_file():shutil.copy2(native_log,proof/'native-engine.log')
+        verify(True)
+        (proof/'post-runtime-installation.json').write_text(json.dumps(checks[-1],indent=2)+'\n')
     # Session fixtures are test inputs/outputs, not part of the redistributed ZIP.
     shutil.rmtree(proof/'sessions',ignore_errors=True)
 

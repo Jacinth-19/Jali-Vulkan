@@ -474,3 +474,19 @@ use this dated tracker and current evidence to judge present completion.
 - [ ] New eleven-job hosted run, including **native** Windows Vulkan and frozen-package integrity: pending.
 - [ ] Physical laptop GPU/driver/latency/memory/audio-output acceptance remains separate from hosted software tests.
 - [ ] Independent human articulation/naturalness/reference review and redistribution/signing still require real evidence, not generated approval.
+
+- [x] Implement optional frozen native bundle, relocatable shader paths, external logs and native-mode launcher.
+- [x] Actually relocate native executable/shaders locally with original shaders hidden; detailed human readback passes.
+- [x] Fix two Windows-only contracts: canonical short/long temporary paths and POSIX archive inventory separators.
+- [x] Reproduce/reset queued-pause measurement ownership race deterministically; retain real-play cancellation and speed-change rejection tests.
+- [ ] Follow-up hosted verification includes optional frozen native execution and the elevated Windows software-ICD registration fix.
+
+First hardening run `38908847040` completed with nine passing jobs, including
+frozen integrity/tamper/missing-file checks and Linux longevity; Windows native
+compiled but did not execute successfully (`VK_ERROR_INCOMPATIBLE_DRIVER` plus
+two Windows-specific Python contract failures), and offline playback exposed the
+queued-pause cancellation race. These are failures, not a native Windows pass.
+The follow-up preserves secure loader behavior, explicitly registers/cleans up
+the hosted test ICD, fixes paths/separators, and adds a deterministic queued-pause
+regression alongside actual playback cancellation. Local contracts are now
+119 Python / 17 JavaScript / 12 CTest entries; hosted results are still pending.

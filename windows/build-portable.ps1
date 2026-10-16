@@ -1,5 +1,5 @@
 # Personal local build ONLY; do not redistribute the output bundle.
-param([Parameter(Mandatory=$true)][switch]$PersonalUseOnly)
+param([Parameter(Mandatory=$true)][switch]$PersonalUseOnly, [switch]$IncludeNativeVulkan)
 $ErrorActionPreference='Stop'
 $env:PYTHONUTF8='1'
 Push-Location (Split-Path $PSScriptRoot -Parent)
@@ -10,7 +10,9 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'Pinned PyInstaller installation failed.' }
     & .\.venv\Scripts\python.exe tools/build_neural_studio.py
     if ($LASTEXITCODE -ne 0) { throw 'Explicit presentation preparation failed.' }
-    & .\.venv\Scripts\python.exe tools/package_windows.py --personal-build
+    $Options = @()
+    if ($IncludeNativeVulkan) { $Options += '--include-native' }
+    & .\.venv\Scripts\python.exe tools/package_windows.py --personal-build @Options
     if ($LASTEXITCODE -ne 0) { throw 'Personal portable build failed.' }
     Write-Host 'Built artifacts/windows-portable/JaliStudio-Windows-x64.zip for YOUR OWN use. Do not publish it.'
 } finally { Pop-Location }

@@ -354,12 +354,15 @@ jobs:
       - name: Exercise the one-command Windows benchmark launcher
         shell: pwsh
         run: .\windows\benchmark.ps1 -Repeats 1 -Headless -Conditions 'Hosted Windows CI; not target laptop'
-      - name: Build personal-only frozen CPU/WebGL app (no distributable artifact)
+      - name: Build relocatable native renderer for the optional personal package
+        shell: pwsh
+        run: python tools/ci_command.py pwsh -NoProfile -File windows/setup-native.ps1 -SoftwareForTesting
+      - name: Build personal-only frozen CPU/WebGL/native app (no distributable artifact)
         shell: pwsh
         run: |
           .venv/Scripts/python.exe -m pip install pyinstaller==6.16.0
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          python tools/ci_command.py .venv/Scripts/python.exe tools/package_windows.py --personal-build --no-archive
+          python tools/ci_command.py .venv/Scripts/python.exe tools/package_windows.py --personal-build --include-native --no-archive
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Run the frozen app with Python, Node and gh removed from its PATH
         shell: pwsh
@@ -382,6 +385,12 @@ jobs:
             artifacts/windows-portable/proof/*.log
           retention-days: 3
           if-no-files-found: warn
+
+      - name: Remove only this hosted run's temporary software ICD registration
+        if: always()
+        shell: pwsh
+        run: |
+          if (Test-Path .venv/Scripts/python.exe) { & .venv/Scripts/python.exe tools/setup_windows_native.py --unregister-ci-driver }
 
   rich-native:
     name: Detailed human Vulkan, same-WAV native UI and source Three comparison
@@ -479,6 +488,7 @@ jobs:
     env:
       PYTHONUTF8: '1'
       JALI_BROWSER_CHANNEL: chrome
+      VK_LOADER_DEBUG: error,warn,driver
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
         with:
@@ -509,7 +519,7 @@ jobs:
         run: python tools/ci_command.py .venv/Scripts/python.exe tools/prepare_native_ci.py
       - name: Build pinned Vulkan loader and native C++ engine on Windows
         shell: pwsh
-        run: .\windows\setup-native.ps1 -SoftwareForTesting
+        run: python tools/ci_command.py pwsh -NoProfile -File windows/setup-native.ps1 -SoftwareForTesting
       - name: Test Windows native buffers and binary-pipe speech presentation
         shell: pwsh
         run: |
@@ -535,3 +545,8 @@ jobs:
             artifacts/native-studio/*.log
           retention-days: 3
           if-no-files-found: warn
+      - name: Remove only this hosted run's temporary software ICD registration
+        if: always()
+        shell: pwsh
+        run: |
+          if (Test-Path .venv/Scripts/python.exe) { & .venv/Scripts/python.exe tools/setup_windows_native.py --unregister-ci-driver }

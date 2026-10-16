@@ -3,6 +3,7 @@
 #include <json.hpp>
 #include <algorithm>
 #include <cmath>
+#include <cstdio>
 #include <fstream>
 #include <iostream>
 #ifdef _WIN32
@@ -26,13 +27,13 @@ int main(int argc,char** argv){
         if(_setmode(_fileno(stdout),_O_BINARY)==-1||_setmode(_fileno(stdin),_O_BINARY)==-1)throw std::runtime_error("binary pipe setup failed");
 #endif
         std::ios::sync_with_stdio(false);std::cin.tie(nullptr);
-        std::filesystem::path asset,output="artifacts/native-head-proof";std::uint32_t size=512;bool test=false,hardware=false;
+        std::filesystem::path asset,shader_dir,output="artifacts/native-head-proof";std::uint32_t size=512;bool test=false,hardware=false;
         for(int i=1;i<argc;++i){const std::string flag=argv[i];if(flag=="--test"){test=true;continue;}if(flag=="--require-hardware"){hardware=true;continue;}
             if(i+1>=argc)throw std::invalid_argument("missing rich renderer option");const std::string value=argv[++i];
-            if(flag=="--asset")asset=value;else if(flag=="--output")output=value;else if(flag=="--size"){if(value.empty()||value.find_first_not_of("0123456789")!=std::string::npos)throw std::invalid_argument("invalid size");size=std::stoul(value);if(size<32||size>1024)throw std::invalid_argument("size must be 32-1024");}else throw std::invalid_argument("unknown rich renderer option");
+            if(flag=="--asset")asset=value;else if(flag=="--output")output=value;else if(flag=="--shader-dir")shader_dir=value;else if(flag=="--size"){if(value.empty()||value.find_first_not_of("0123456789")!=std::string::npos)throw std::invalid_argument("invalid size");size=std::stoul(value);if(size<32||size>1024)throw std::invalid_argument("size must be 32-1024");}else throw std::invalid_argument("unknown rich renderer option");
         }
         const auto c=jali::load_character_glb(asset);if(c.morph_names.empty())throw std::invalid_argument("requires rich named-morph profile");
-        jali::VulkanFaceRenderer renderer(size,size,JALI_DEFAULT_FACE_SHADER,hardware);renderer.load_character(asset);std::filesystem::create_directories(output);
+        jali::VulkanFaceRenderer renderer(size,size,shader_dir.empty()?std::filesystem::path(JALI_DEFAULT_FACE_SHADER):shader_dir/"face.comp.spv",hardware);renderer.load_character(asset);std::filesystem::create_directories(output);
         json metadata={{"renderer","native-vulkan-rich-v1"},{"device",renderer.device_name()},{"hardware_accelerated",renderer.hardware_accelerated()},{"width",size},{"height",size},{"vertices",c.vertices.size()},{"triangles",c.indices.size()/3},{"palette_nodes",c.joints.size()},{"primitive_groups",c.ranges.size()},{"named_targets",c.morph_names.size()},{"atlas_width",c.atlas_width},{"atlas_height",c.atlas_height}};
         if(test){
             json poses=json::array();

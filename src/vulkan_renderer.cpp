@@ -36,6 +36,7 @@ struct VulkanFaceRenderer::Impl {
     std::uint32_t width, height, family = 0;
     VkDeviceSize bytes;
     std::string name;
+    std::filesystem::path mesh_shaders;
     bool hardware = false, require_hardware = false;
     #include "vulkan_mesh.inc"
 
@@ -65,6 +66,7 @@ struct VulkanFaceRenderer::Impl {
         if (instance) vkDestroyInstance(instance, nullptr);
     }
     void initialize(const std::filesystem::path& shader_path) {
+        mesh_shaders=shader_path.parent_path();
         VkApplicationInfo app{VK_STRUCTURE_TYPE_APPLICATION_INFO};
         app.pApplicationName = "Jali offscreen face";
         app.apiVersion = VK_API_VERSION_1_0;
@@ -215,7 +217,7 @@ VulkanFaceRenderer::~VulkanFaceRenderer() = default;
 std::string VulkanFaceRenderer::device_name() const { return impl_->name; }
 bool VulkanFaceRenderer::hardware_accelerated() const { return impl_->hardware; }
 void VulkanFaceRenderer::load_character(const std::filesystem::path& path) {
-    impl_->load_mesh(load_character_glb(path), std::filesystem::path(JALI_MESH_SHADER_DIR));
+    impl_->load_mesh(load_character_glb(path), impl_->mesh_shaders);
 }
 std::vector<std::uint8_t> VulkanFaceRenderer::render_pose(SpeechPose pose) { return impl_->draw_mesh(pose); }
 std::vector<std::array<float,3>> VulkanFaceRenderer::deformed_positions() const {
