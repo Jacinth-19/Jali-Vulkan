@@ -8,6 +8,8 @@ remote-user authentication. Do not expose as a public service or enter secrets.
 import argparse
 from concurrent.futures import ThreadPoolExecutor
 import json
+import os
+import socket
 from pathlib import Path
 import secrets
 import shutil
@@ -138,8 +140,17 @@ class Handler(FileHandler):
         return self.json_response(404, {'error': 'Not found'})
 
 
+class StudioHTTPServer(ThreadingHTTPServer):
+    allow_reuse_address = os.name != 'nt'
+
+    def server_bind(self):
+        if os.name == 'nt':
+            self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_EXCLUSIVEADDRUSE, 1)
+        super().server_bind()
+
+
 def make_server(assets, state, host='0.0.0.0', port=8082):
-    server = ThreadingHTTPServer((host, port), Handler)
+    server = StudioHTTPServer((host, port), Handler)
     server.assets, server.state = Path(assets), state
     return server
 
@@ -148,6 +159,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--port', type=int, default=8082)
     parser.add_argument('--bind', default='0.0.0.0')
+    parser.add_argument('--sessions', type=Path, help='Explicit session store for isolated benchmarks')
+    parser.add_argument('--ready-file', type=Path, help='Write actual bound port after readiness')
     args = parser.parse_args()
     assets = ROOT / 'artifacts/neural-studio'
     required = ['index.html', 'viewer.js', 'controller.js', 'demo-data.js', 'rig.json']
@@ -162,16 +175,26 @@ def main():
         verify_engine(rhubarb)
     except ValueError as error:
         parser.error(str(error))
-    # Each launch uses a private run directory: previous runs are not exposed.
-    sessions = ROOT / 'artifacts/neural-studio-sessions'
-    sessions.mkdir(exist_ok=True)
-    # Bound stale disk retention too. Only our UUID-named directories are removed.
-    for old in sessions.iterdir():
-        if old.is_dir() and SESSION_ID.fullmatch(old.name):
-            shutil.rmtree(old)
+    sessions = args.sessions or ROOT / 'artifacts/neural-studio-sessions'
+    sessions.mkdir(parents=True, exist_ok=True)
     state = StudioState(sessions, rig, rhubarb)
-    server = make_server(assets, state, args.bind, args.port)
-    print(f'Local neural face studio on {args.bind}:{args.port}; CPU only; development server', flush=True)
+    # Bind before deleting stale sessions: a second instance must not erase the
+    # first instance's recordings when its port is already occupied.
+    try:
+        server = make_server(assets, state, args.bind, args.port)
+    except BaseException:
+        state.pool.shutdown(wait=True)
+        raise
+    try:
+        for old in sessions.iterdir():
+            if old.is_dir() and SESSION_ID.fullmatch(old.name):
+                shutil.rmtree(old)
+        if args.ready_file:
+            args.ready_file.write_text(json.dumps({'port':server.server_address[1]}), encoding='utf-8')
+    except BaseException:
+        server.server_close(); state.pool.shutdown(wait=True)
+        raise
+    print(f'Local neural face studio on {args.bind}:{server.server_address[1]}; CPU only; development server', flush=True)
     try:
         server.serve_forever()
     except KeyboardInterrupt:

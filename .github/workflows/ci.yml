@@ -324,7 +324,7 @@ jobs:
       - name: Check cross-platform neural contracts without inference
         shell: pwsh
         run: |
-          foreach ($pattern in @('test_neural*.py','test_local_neural.py','test_playback_checkpoint.py')) {
+          foreach ($pattern in @('test_neural*.py','test_local_neural.py','test_playback_checkpoint.py','test_benchmark.py')) {
             .venv/Scripts/python.exe -m unittest discover -s tests -p $pattern
             if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           }
@@ -347,6 +347,9 @@ jobs:
         run: |
           .venv/Scripts/python.exe tools/report_windows_neural.py
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Exercise the one-command Windows benchmark launcher
+        shell: pwsh
+        run: .\windows\benchmark.ps1 -Repeats 1 -Headless -Conditions 'Hosted Windows CI; not target laptop'
       - name: Upload public synthetic Windows evidence, never weights or caches
         if: always()
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
@@ -358,5 +361,6 @@ jobs:
             artifacts/neural-ci-server.log
             artifacts/windows-neural-runner.json
             artifacts/windows-neural-summary.json
+            artifacts/jali-benchmark-report.json
           retention-days: 3
           if-no-files-found: warn

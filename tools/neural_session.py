@@ -74,7 +74,7 @@ def build_session(session_id, text, directory, rig, rhubarb, on_stage=lambda _: 
         'duration': metrics['duration_seconds'], 'cues': cues['mouthCues'], 'audio': metrics,
         'rig': rig, 'tts': {key: speech[key] for key in
                            ('method', 'stock_voice', 'providers', 'model_sha256', 'voice_sha256',
-                            'engine_load_seconds', 'process_peak_rss_mib', 'memory_scope', 'platform', 'python')},
+                            'engine_load_seconds', 'dependency_import_seconds', 'process_peak_rss_mib', 'memory_scope', 'platform', 'python')},
         'generation_seconds': speech['clips'][0]['generation_seconds'],
         'analysis_seconds': round(time.perf_counter() - analysis_start, 4),
         'analysis': cues['provenance'], 'total_seconds': round(time.perf_counter() - start, 4),
