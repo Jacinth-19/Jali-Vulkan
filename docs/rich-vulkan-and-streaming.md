@@ -43,8 +43,8 @@ redrawing and displays actual native JPEG readback, not a prerecorded animation.
 Pause/seek, sync/trim, speech-priority styling, procedural blink/head motion and
 manual gaze remain separate controls. Native portrait camera and lighting differ
 from the WebGL orbit view. The renderer is persistent, with only one in-flight
-request; the developer worker currently stops after 10,000 frame requests and
-requires a server restart. Latency/readback is reported, not mislabeled as physical AV accuracy.
+request; the former 10,000-frame lifetime cap has been removed, while each
+protocol command remains capped at 16,384 bytes. Latency/readback is reported, not mislabeled as physical AV accuracy.
 No off-box model calls occur during generation. Development preview tokens/origin
 checks are not remote authentication; use localhost on your own machine.
 
@@ -126,3 +126,38 @@ speech-protected warmth/gaze checks, expired-response-after-Stop regression, and
 Vulkan validation gates. [Evidence](evidence/rich-stream-portable-actions.json)
 records exact source/job/step identities, local results and the prior unexplained
 Windows offline-checkpoint failure; a subsequent pass is not proof of its cause.
+
+## Windows native source build and longevity
+
+After `windows/setup-neural.ps1`, install CMake and Visual Studio C++ x64 build
+tools with the Windows SDK. Then run:
+
+```powershell
+.\windows\setup-native.ps1
+.\windows\start-neural.ps1 -NativeVulkan
+```
+
+The explicit setup downloads checksum-pinned Vulkan Headers/Loader 1.3.290 and
+tinygltf 2.9.3 source, compiles the loader and renderer, and places the loader next
+to `build-live/jali_rich.exe`. No paid SDK is needed. It does not install or change
+your GPU driver. This developer build is separate from the CPU/WebGL frozen app.
+Default device selection still requires a working system Vulkan driver; a native
+Windows source build is not proof that this laptop's GPU/driver works.
+
+For an **explicit software test**, installed Chrome's SwiftShader may be selected
+with `setup-native.ps1 -SoftwareForTesting`, followed by
+`start-neural.ps1 -NativeVulkan -SoftwareVulkanForTesting`. The driver hash/path
+are recorded in `artifacts/windows-native/build.json`; the Chrome DLL is not
+published or bundled. CI uses this mode and compares the same public WAV/cues,
+CPU/GPU poses, all original Three vertices and actual browser native playback.
+Windows raw stdin/stdout use binary mode so pixel byte 0x0A is not expanded to
+CRLF. Browser comparison now shares the installed-Windows-Chrome harness.
+
+`tools/stress_native.py` exercises 10,020 repeated fixture frames beyond the old
+lifetime cap, then 256 detailed-head frames across all nine cue poses. Repeated
+poses must retain identical raw frame hashes. It samples native process resident
+memory after warming each pose and rejects growth over max(64 MiB, 20% of the
+baseline). This is a regression budget, not a promised laptop resource target.
+It also tests oversized commands, CRLF quit and a final command without newline.
+The command length is bounded **before allocation**, with no lifetime frame cap.
+Synthetic longevity testing is not sustained physical audio/AV certification.

@@ -20,9 +20,28 @@ def main():
     env={k:v for k,v in os.environ.items() if k not in ('PYTHONPATH','PYTHONHOME','GH_TOKEN','GITHUB_TOKEN')}
     env['PATH']=str(Path(os.environ['SystemRoot'])/'System32')+';'+os.environ['SystemRoot']
     with tempfile.TemporaryDirectory(prefix='jali-portable-cwd-') as cwd,(proof/'server.log').open('w',encoding='utf-8') as log:
+        checks=[]
+        def verify(expected):
+            result=subprocess.run([str(app),'--verify-installation'],cwd=cwd,env=env,capture_output=True,text=True,timeout=120)
+            if result.returncode!=(0 if expected else 2):raise RuntimeError(f'Unexpected frozen preflight exit: {result.returncode}: {result.stderr}')
+            report=json.loads(result.stdout)
+            if report['verified']!=expected:raise RuntimeError('Frozen integrity check did not detect damage')
+            checks.append(report);return report
+        verify(True)
+        rig=app.parent/'_internal/artifacts/neural-studio/rig.json';original=rig.read_bytes()
+        try:
+            rig.write_bytes(original+b'\n');verify(False)
+            result=subprocess.run([str(app),'--port','0','--no-browser','--ready-file',str(ready)],cwd=cwd,env=env,capture_output=True,text=True,timeout=120)
+            if result.returncode!=2 or ready.exists():raise RuntimeError('Damaged package did not fail closed before serving')
+        finally:rig.write_bytes(original)
+        analyzer=next(app.parent.rglob('rhubarb.exe'));missing=proof/'missing-analyzer.exe';analyzer.rename(missing)
+        try:verify(False)
+        finally:missing.rename(analyzer)
+        verify(True)
+        (proof/'installation-checks.json').write_text(json.dumps({'schema':'jali-frozen-installation-proof-v1','positive_tampered_missing_restored':checks,'startup_failed_closed':True},indent=2)+'\n')
         server=subprocess.Popen([str(app),'--port','0','--no-browser','--ready-file',str(ready),'--sessions',str(proof/'sessions')],cwd=cwd,env=env,stdout=log,stderr=subprocess.STDOUT)
         try:
-            deadline=time.monotonic()+60
+            deadline=time.monotonic()+120
             while not ready.is_file():
                 if server.poll() is not None:raise RuntimeError('Portable app exited; inspect server.log')
                 if time.monotonic()>deadline:raise TimeoutError('Portable readiness timed out')

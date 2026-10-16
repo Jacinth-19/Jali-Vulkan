@@ -1,10 +1,7 @@
 // Independent Three.js source skin+morph CPU evaluation vs canonical native CPU/GPU.
-const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),zlib=require('node:zlib'),{execFileSync}=require('node:child_process');
-const {chromium:playwright}=require('playwright-core');
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
 (async()=>{
- const support=path.resolve('.cache/runtime/browser');fs.mkdirSync(support,{recursive:true});
- const chromium=require('@sparticuz/chromium');fs.writeFileSync(path.join(support,'support.tar'),zlib.brotliDecompressSync(fs.readFileSync(path.join(__dirname,'node_modules/@sparticuz/chromium/bin/al2023.tar.br'))));execFileSync('tar',['-xf',path.join(support,'support.tar'),'-C',support]);
- const browser=await playwright.launch({executablePath:await chromium.executablePath(),args:chromium.args,headless:true,env:{...process.env,LD_LIBRARY_PATH:`${support}/lib:/tmp:${process.env.LD_LIBRARY_PATH||''}`}});
+ const browser=await require('./test_browser.cjs').launch();
  try{
   const page=await browser.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(process.argv[2]);await page.waitForFunction(()=>window.JaliHeadDemo?.getState().ready,null,{timeout:60000});
   await page.evaluate(()=>{JaliHeadDemo.setCaptureMode(true);document.querySelector('#life').checked=false;document.querySelector('#mood').value='neutral';});

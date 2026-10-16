@@ -31,6 +31,20 @@ Captured on **SwiftShader software Vulkan**, not a hardware-GPU performance resu
 The native fixture is not the detailed human above. [Capture commands, provenance,
 image hashes and scope](docs/render-captures.md) are retained.
 
+### Additional runtime hardening
+
+- Windows native source-build/launcher path with pinned Vulkan loader sources;
+  explicit software-only CI driver selection, never silent hardware substitution.
+- Binary-safe native frame pipes on Windows and no 10,000-frame lifetime cutoff.
+- Personal package file manifests, offline `--verify-installation`, fail-closed
+  startup and actionable local diagnostics. Integrity checks are **not signatures**.
+- Cross-platform native longevity/stable-frame/resident-memory regression.
+
+New hosted Windows-native and integrity tests are being run; see the
+[tracker](docs/project-tracker.md) for their result, not the previous CI badge.
+[Windows native commands](docs/rich-vulkan-and-streaming.md#windows-native-source-build-and-longevity) ·
+[Installation verification](docs/windows-portable.md#offline-installation-checks)
+
 ### Implemented next-stage features
 
 - **Cancel generation:** stops the owned speech/analyzer child, hides partial media,

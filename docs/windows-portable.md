@@ -61,3 +61,34 @@ PATH**. Both a fresh whole-utterance recording and a two-chunk completed recordi
 passed actual Chrome/WAV/rig checks. The earlier run 38903183684 also passed all ten.
 See [job-by-job evidence and the separate offline-checkpoint reliability note](evidence/rich-stream-portable-actions.json).
 No executable/ZIP is published by these runs; build your personal copy locally.
+
+## Offline installation checks
+
+Personal builds now generate `installation-manifest.json` covering every bundled
+regular file, including the EXE, libraries, model, rig and notices. Startup checks
+sizes and SHA-256 hashes before importing the studio; missing, changed or extra
+files fail closed. Filesystem links/reparse points and case-colliding names are
+rejected. Keep recordings, notes and diagnostics **outside** the installation.
+
+```powershell
+.\JaliStudio.exe --verify-installation
+.\JaliStudio.exe --verify-installation --diagnostics-file "$env:TEMP\Jali-install-check.json"
+```
+
+This read-only mode does not start a server, run synthesis, or clear sessions.
+Exit 0 means files match; exit 2 means an integrity/access error. Repair by
+extracting your entire original personal-build ZIP into a **new empty folder**,
+or rebuilding from your trusted checkout. Do not mix versions, disable security,
+or download random replacement DLLs. A ZIP build also writes a `.zip.sha256`
+sidecar. Neither that checksum nor the **unsigned** manifest proves authenticity
+against an attacker who replaces both files. This is **not code signing or a
+redistribution license clearance**.
+
+After a successful preflight, ordinary server startup failures emit actionable
+JSON and save `%LOCALAPPDATA%\JaliVulkan\last-startup-error.json` (or your chosen
+external `--diagnostics-file`). An occupied port can be avoided with `--port 0`.
+Bootloader/Windows errors occurring before Python starts cannot be caught by
+this code: keep the console error and rebuild from the trusted source instead.
+Hosted tests now explicitly exercise intact, tampered, missing-analyzer and
+restored installations, plus normal startup refusing a corrupted package.
+These new tests are not claimed passed until the new Actions run finishes.

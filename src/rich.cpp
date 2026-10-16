@@ -5,9 +5,27 @@
 #include <cmath>
 #include <fstream>
 #include <iostream>
+#ifdef _WIN32
+#include <fcntl.h>
+#include <io.h>
+#endif
 using nlohmann::json;
+// Bound input before allocation; no lifetime cap on a persistent renderer.
+bool command_line(std::string& line){
+    line.clear();char c;
+    while(std::cin.get(c)){
+        if(c=='\n'){if(!line.empty()&&line.back()=='\r')line.pop_back();return true;}
+        if(line.size()>=16384)throw std::invalid_argument("protocol command exceeds 16384 bytes");
+        line.push_back(c);
+    }
+    return !line.empty();
+}
 int main(int argc,char** argv){
     try{
+#ifdef _WIN32
+        if(_setmode(_fileno(stdout),_O_BINARY)==-1||_setmode(_fileno(stdin),_O_BINARY)==-1)throw std::runtime_error("binary pipe setup failed");
+#endif
+        std::ios::sync_with_stdio(false);std::cin.tie(nullptr);
         std::filesystem::path asset,output="artifacts/native-head-proof";std::uint32_t size=512;bool test=false,hardware=false;
         for(int i=1;i<argc;++i){const std::string flag=argv[i];if(flag=="--test"){test=true;continue;}if(flag=="--require-hardware"){hardware=true;continue;}
             if(i+1>=argc)throw std::invalid_argument("missing rich renderer option");const std::string value=argv[++i];
@@ -30,9 +48,9 @@ int main(int argc,char** argv){
             metadata["cpu_gpu_poses"]=poses;std::ofstream(output/"gpu-reference.json")<<metadata.dump(2)<<'\n';
         }
         std::cout<<metadata.dump()<<'\n'<<std::flush;
-        std::string line;std::size_t frames=0;
-        while(std::getline(std::cin,line)){
-            if(line=="quit")break;if(line.size()>16384||++frames>10000)throw std::invalid_argument("protocol budget exceeded");
+        std::string line;
+        while(command_line(line)){
+            if(line=="quit")break;
             const auto request=json::parse(line);if(!request.is_object()||request.size()>jali::kMaxCharacterMorphs)throw std::invalid_argument("expected named weights object");
             jali::BoneMotion motion;auto object=request;
             if(request.contains("weights")){

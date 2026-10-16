@@ -50,14 +50,22 @@ coll=COLLECT(exe,a.binaries,a.datas,name='JaliStudio')
     app=dest/'app/JaliStudio'
     (app/'PERSONAL-BUILD-ONLY.txt').write_text('Personal local build only. Do not publish this bundle.\nphonemizer-fork is GPL-3.0 and espeakng-loader embeds eSpeak.\nComplete corresponding source, notices and combined-work redistribution\nobligations have NOT been established. Metadata alone is not compliance.\nThis does not change the repository license.\n',encoding='utf-8')
     (app/'START-HERE.txt').write_text('Jali portable CPU neural face studio\n\nExtract the ENTIRE ZIP to a writable folder, then double-click JaliStudio.exe.\nIt opens your default browser at localhost. No Python, Node, GitHub account,\nadmin installation, speech API, or runtime model download is required.\nKeep the console open; Ctrl+C stops the server. Windows SmartScreen may warn\nbecause this personal build is unsigned. Do not disable system security.\n\nVoice: stock Kokoro af_heart, not a clone. Human rig: CC0 MPFB/MakeHuman.\nWhole utterance or bounded sentence-batched playback; not incremental Kokoro.\nThis package uses WEBGL, not the separate native Vulkan developer renderer.\nSessions live under %LOCALAPPDATA%\\JaliVulkan\\sessions and old UUID folders\nare cleared on startup. Save desired WAVs before closing/restarting.\nNo public authentication; service is restricted to 127.0.0.1.\n\nLicense notices are in _internal/models/kokoro/licenses,\n_internal/artifacts/neural-studio/licenses, _internal/.cache/lipsync/rhubarb-windows,\nand the bundled Python package metadata/third-party notices.\nSource: https://github.com/Jacinth-19/Jali-Vulkan\n',encoding='utf-8')
+    with (app/'START-HERE.txt').open('a',encoding='utf-8') as f:f.write('\nStartup verifies every bundled file against installation-manifest.json.\nFor a machine-readable offline check (no server or session deletion), run:\n  .\\JaliStudio.exe --verify-installation\n  .\\JaliStudio.exe --verify-installation --diagnostics-file %TEMP%\\Jali-install-check.json\nMissing/modified/unexpected files fail closed. Extract into a new EMPTY folder.\nKeep recordings and notes outside the application folder.\nThis manifest detects damage, not authenticity: it is not a digital signature.\nIf the EXE cannot start at all, retain its console error and rebuild from the\ntrusted source; do not disable SmartScreen or fetch random replacement DLLs.\n')
     receipt={'schema':'jali-windows-portable-v1','personal_build_only':True,'redistribution_compliance_reviewed':False,'voice':'stock af_heart','renderer':'WebGL','runtime_downloads':False,'signed':False,
         'source_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
         'build_packages':{d.metadata['Name']:d.version for d in importlib.metadata.distributions() if d.metadata.get('Name')},
         'limits':'Portable personal build, not a signed consumer installer or target-laptop/hardware/perceptual acceptance.'}
     (app/'build-receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
     (dest/'build-receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
+    from package_integrity import create_manifest,verify_installation
+    create_manifest(app)
+    check=verify_installation(app)
+    if not check['verified']:raise RuntimeError(f'New package failed integrity verification: {check}')
+    (dest/'integrity-build-check.json').write_text(json.dumps(check,indent=2)+'\n')
     if args.no_archive:print(app);return
     archive=shutil.make_archive(str(dest/'JaliStudio-Windows-x64'),'zip',root_dir=dest/'app',base_dir='JaliStudio')
+    from package_integrity import digest
+    Path(archive+'.sha256').write_text(digest(Path(archive))+'  '+Path(archive).name+'\n')
     print(archive)
 
 

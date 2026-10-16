@@ -3,7 +3,7 @@ import argparse
 import os
 from pathlib import Path
 import sys
-import tempfile
+import json
 import threading
 import time
 import webbrowser
@@ -17,7 +17,21 @@ def main():
     p=argparse.ArgumentParser(description='Jali portable CPU neural face studio (local browser, no account)')
     p.add_argument('--port',type=int,default=8082);p.add_argument('--no-browser',action='store_true')
     p.add_argument('--sessions',type=Path);p.add_argument('--ready-file',type=Path)
+    p.add_argument('--verify-installation',action='store_true',help='Check bundled files and exit without starting a server or modifying sessions')
+    p.add_argument('--diagnostics-file',type=Path,help='Write local JSON diagnostics here; contains no session text/audio or environment dump')
     args=p.parse_args()
+    from package_integrity import verify_installation
+    if args.diagnostics_file and args.diagnostics_file.resolve().is_relative_to(Path(sys.executable).resolve().parent):
+        p.error('Write diagnostics outside the installation directory (for example under your TEMP folder)')
+    if getattr(sys,'frozen',False) or args.verify_installation:
+        report=verify_installation(Path(sys.executable).resolve().parent)
+        if args.diagnostics_file:
+            args.diagnostics_file.parent.mkdir(parents=True,exist_ok=True)
+            args.diagnostics_file.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
+        if args.verify_installation or not report['verified']:
+            print(json.dumps(report,indent=2),flush=True)
+            if not report['verified']:raise SystemExit(2)
+            return
     data=Path(os.environ.get('LOCALAPPDATA',str(Path.home()/'.jali')))/'JaliVulkan'
     data.mkdir(parents=True,exist_ok=True)
     sessions=args.sessions or data/'sessions'
@@ -35,6 +49,13 @@ def main():
     from neural_studio_server import main as studio_main
     sys.argv=[sys.argv[0],'--bind','127.0.0.1','--port',str(args.port),'--sessions',str(sessions),'--ready-file',str(ready)]
     try:studio_main()
+    except Exception as e:
+        report={'schema':'jali-startup-error-v1','error_type':type(e).__name__,'detail':str(e),'next_steps':'Check whether the port is in use; try --port 0. Run --verify-installation to check damage. Do not disable security or download replacement DLLs. No session contents/environment variables are collected.'}
+        target=args.diagnostics_file or data/'last-startup-error.json'
+        try:target.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
+        except OSError:pass
+        print(json.dumps(report,indent=2),file=sys.stderr,flush=True)
+        raise SystemExit(1) from None
     finally:ready.unlink(missing_ok=True)
 
 

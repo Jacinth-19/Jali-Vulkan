@@ -461,3 +461,16 @@ use this dated tracker and current evidence to judge present completion.
 | 2026-10-16 | M2 connected prototype passed two actual browser-form requests: new CPU WAV + dialog analysis + real facial morph playback, hashes, pause/seek, history and error/retention contracts. Added idle redraw avoidance and a portable new-text MP4. Windows/quality/streaming remain open. |
 | 2026-10-16 | Local Kokoro q8 CPU inference passed on two new sentences: 8.83s / 7.00s of audio, generated in 3.64s / 3.44s; peak RSS 441 MiB. No face integration or Windows performance claim. |
 | 2026-10-16 | Created this tracker from the agreed eight workstreams; recorded the native prototype and detailed-head/actual-WAV delivery; selected local stock neural speech as the next milestone. |
+
+
+## Runtime hardening follow-up (2026-10-16)
+
+- [x] Remove native 10,000-frame lifetime cutoff; cap command input before allocation.
+- [x] Binary-safe Windows pixel pipes and source-build/PowerShell native setup/launch.
+- [x] Pin Vulkan headers/loader sources; explicitly opt into installed Chrome software ICD in CI.
+- [x] Personal package per-file manifest, read-only offline verify mode and fail-closed startup.
+- [x] Reject missing/modified/injected files, unsafe paths, links and case collisions; eight model-free tests pass locally.
+- [x] Add actual frozen integrity/tamper/missing-analyzer checks and native longevity/RSS regression to CI.
+- [ ] New eleven-job hosted run, including **native** Windows Vulkan and frozen-package integrity: pending.
+- [ ] Physical laptop GPU/driver/latency/memory/audio-output acceptance remains separate from hosted software tests.
+- [ ] Independent human articulation/naturalness/reference review and redistribution/signing still require real evidence, not generated approval.

@@ -376,6 +376,7 @@ jobs:
             artifacts/windows-neural-runner.json
             artifacts/windows-neural-summary.json
             artifacts/jali-benchmark-report.json
+            artifacts/windows-portable/integrity-build-check.json
             artifacts/windows-portable/build-receipt.json
             artifacts/windows-portable/proof/*.json
             artifacts/windows-portable/proof/*.log
@@ -438,13 +439,15 @@ jobs:
           ctest --test-dir build-live --output-on-failure --timeout 60
       - name: Render actual speech, compare all source vertices and exercise native UI
         run: python tools/ci_command.py .venv/bin/python tools/run_native_ci.py
+      - name: Native protocol longevity and detailed-head resident-memory regression
+        run: python tools/ci_command.py .venv/bin/python tools/stress_native.py
       - name: Reject Vulkan validation warnings or errors
         if: ${{ !cancelled() }}
         run: |
           python - <<'PY'
           from pathlib import Path
           import re
-          paths=list(Path('artifacts/native-head-proof').glob('*.log'))+list(Path('artifacts/native-studio').glob('*.log'))+[Path('build-live/Testing/Temporary/LastTest.log')]
+          paths=list(Path('artifacts/native-stress').rglob('*.log'))+list(Path('artifacts/native-head-proof').glob('*.log'))+list(Path('artifacts/native-studio').glob('*.log'))+[Path('build-live/Testing/Temporary/LastTest.log')]
           for p in paths:
               if p.is_file() and re.search(r'Validation (?:Error|Warning|Performance Warning)|VUID-|UNASSIGNED-',p.read_text(errors='replace')):
                   raise SystemExit('Vulkan validation diagnostic: '+str(p))
@@ -455,6 +458,7 @@ jobs:
         with:
           name: detailed-human-vulkan-evidence
           path: |
+            artifacts/native-stress/*.json
             artifacts/native-head-proof/*.json
             artifacts/native-head-proof/*.png
             artifacts/native-head-proof/*.mp4
@@ -463,5 +467,71 @@ jobs:
             artifacts/native-head/validation.json
             artifacts/native-studio/*.log
             artifacts/rich-runner-resources.txt
+          retention-days: 3
+          if-no-files-found: warn
+
+  windows-rich-native:
+    name: Windows native Vulkan binary pipes and detailed-head playback
+    needs: neural-studio
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/arena/3284941c-jali-vulkan')
+    runs-on: windows-latest
+    timeout-minutes: 25
+    env:
+      PYTHONUTF8: '1'
+      JALI_BROWSER_CHANNEL: chrome
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.11'
+          architecture: x64
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '22'
+      - name: Install image and browser tools
+        shell: pwsh
+        run: |
+          python -m venv .venv
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          .venv/Scripts/python.exe -m pip install Pillow==11.1.0 imageio-ffmpeg==0.6.0
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          npm ci --prefix tools --ignore-scripts
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
+        with:
+          name: neural-articulation-review
+          path: artifacts
+      - name: Prepare native head from the same licensed source
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python tools/ci_command.py .venv/Scripts/python.exe tools/prepare_native_ci.py
+      - name: Build pinned Vulkan loader and native C++ engine on Windows
+        shell: pwsh
+        run: .\windows\setup-native.ps1 -SoftwareForTesting
+      - name: Test Windows native buffers and binary-pipe speech presentation
+        shell: pwsh
+        run: |
+          python tools/ci_command.py ctest --test-dir build-live -C Release --output-on-failure --timeout 90
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python tools/ci_command.py .venv/Scripts/python.exe tools/run_native_ci.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Run beyond the former lifetime cap and check native resident memory
+        run: python tools/ci_command.py .venv/Scripts/python.exe tools/stress_native.py
+      - name: Upload native Windows proof only (no runtime or driver)
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with:
+          name: windows-detailed-native-evidence
+          path: |
+            artifacts/windows-native/*.json
+            artifacts/native-stress/*.json
+            build-live/Testing/Temporary/LastTest.log
+            artifacts/native-head-proof/*.json
+            artifacts/native-head-proof/*.png
+            artifacts/native-head-proof/*.mp4
+            artifacts/native-head-proof/*.log
+            artifacts/native-studio/*.log
           retention-days: 3
           if-no-files-found: warn

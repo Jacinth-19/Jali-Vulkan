@@ -15,7 +15,8 @@ class RichWorker:
         binary=ROOT/('build-live/jali_rich.exe' if __import__('os').name=='nt' else 'build-live/jali_rich')
         args=[str(binary),'--asset',str(asset),'--output',str(output),'--size',str(size)]
         if test:args.append('--test')
-        self.process=subprocess.Popen(args,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=self.log,bufsize=0,env=runtime_environment(software))
+        try:self.process=subprocess.Popen(args,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=self.log,bufsize=0,env=runtime_environment(software))
+        except BaseException:self.log.close();raise
         self.thread=threading.Thread(target=self._read,args=(size,),daemon=True);self.thread.start()
         try:self.metadata=json.loads(self._message(60))
         except BaseException:self.close();raise
