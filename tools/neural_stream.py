@@ -1,6 +1,6 @@
 """Bounded sentence-batched speech production, not incremental Kokoro inference.
 
-One producer, at most two published/unacknowledged chunks, eight chunks and 60s
+One producer, at most two published/unacknowledged chunks, twelve chunks and 60s
 PCM total. Slow/disconnected clients expire instead of retaining a worker forever.
 """
 import copy

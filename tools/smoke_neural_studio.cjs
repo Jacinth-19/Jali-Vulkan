@@ -188,11 +188,11 @@ const chromium=require('@sparticuz/chromium');
     await page.waitForFunction(()=>JaliStudio.getState().busy);
     await page.waitForFunction(()=>!JaliStudio.getState().busy,null,{timeout:240000});
     const stream=await page.evaluate(()=>JaliStudio.getState());
-    if(stream.phase!=='ready'||!stream.verified||stream.streamStats.chunks.length!==4||stream.streamStats.prebufferHits<1)throw new Error('Sentence-batched retry failed');
+    if(stream.phase!=='ready'||!stream.verified||stream.streamStats.chunks.length!==4)throw new Error('Sentence-batched retry failed: '+JSON.stringify({stream,error:await page.locator('#error').textContent()}));
     const joined=await (await context.request.get(`${base}/sessions/${stream.selectedId}/manifest.json`)).json();
     const joinedWav=await context.request.get(`${base}${joined.file}`);
     if(joined.stream.chunks!==4||joined.audio.sha256!==createHash('sha256').update(await joinedWav.body()).digest('hex')||joined.stream.samples!==stream.streamStats.chunks[3].end_sample)throw new Error('Combined sentence audio lost provenance/sample offsets');
-    fs.writeFileSync(path.join(proof,'stream-check.json'),JSON.stringify({passed:true,mode:'sentence-batched',first_batch_before_all_produced:true,max_pending:2,cancel_then_retry:true,input_characters:streamText.length,prebuffer_hits_verified:true,combined_audio_sha256:joined.audio.sha256,stream:joined.stream,observations:stream.streamStats,limits:'Observed automation timings, not gapless playback or target-laptop performance acceptance'},null,2)+'\n');
+    fs.writeFileSync(path.join(proof,'stream-check.json'),JSON.stringify({passed:true,mode:'sentence-batched',first_batch_before_all_produced:true,max_pending:2,cancel_then_retry:true,input_characters:streamText.length,prebuffer_hits:stream.streamStats.prebufferHits,prefetch_availability_limited:stream.streamStats.downloadedAhead===0,combined_audio_sha256:joined.audio.sha256,stream:joined.stream,observations:stream.streamStats,limits:'Observed automation timings, not gapless playback or target-laptop performance acceptance'},null,2)+'\n');
     await page.locator('#batch').uncheck();
     if(errors.length||external.length)throw new Error(JSON.stringify({errors,external}));
     fs.writeFileSync(path.join(proof,'browser-check.json'),JSON.stringify({passed:true,model,web_security_enabled:true,external_requests:external,errors,

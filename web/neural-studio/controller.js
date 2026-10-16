@@ -252,7 +252,8 @@ import {validateStreamChunk,AudioPrefetch} from './streaming.mjs';
       // An aborted prefetch can reject before the owned producer has exited.
       // Keep retry disabled until cleanup is confirmed, rather than racing 409.
       const deadline=performance.now()+30000;
-      while(currentJob){const state=await json(`/api/jobs/${currentJob}`);if(['cancelled','ready','error'].includes(state.state))break;if(performance.now()>deadline)throw Error('Cancellation cleanup timed out; check the server before retrying');await sleep(100);}
+      try{while(currentJob){const state=await json(`/api/jobs/${currentJob}`);if(['cancelled','ready','error'].includes(state.state))break;if(performance.now()>deadline)throw Error('Cancellation cleanup timed out; check the server before retrying');await sleep(100);}}
+      catch(cleanupFailure){stage('error','Cancellation cleanup could not be confirmed. Check the server before retrying.');error(cleanupFailure.message);return;}
       stage('cancelled','Cancelled. Queued audio was discarded.');return;
     }if(streaming&&currentJob&&!cancelPending)await requestCancel();JaliHeadDemo.resetPerformance(true);stage('error','Generation did not complete. No fallback performance was substituted.');error(failure.message);}
     finally {busy=false;currentJob=null;cancelPending=false;streaming=false;update();}
