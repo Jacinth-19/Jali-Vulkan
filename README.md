@@ -173,6 +173,7 @@ Optional eSpeak is GPL-3.0-or-later. tinygltf and all runtime/compiler/media dep
 
 The offline playback pack adds half-speed articulation review, per-recording notes
 and explicit JSON export of visible-tab render observations. It requires no Python
-or speech-model installation for playback. See [extraction and review instructions](docs/windows-playback-checkpoint.txt).
+or speech-model installation for playback. See [extraction and review instructions](docs/windows-playback-checkpoint.txt)
+and [the eight-job Linux/Windows validation and remaining scope](docs/playback-checkpoint.md).
 This is not a port of the local speech backend, a native Vulkan package, or a
 performance claim for your Windows laptop.

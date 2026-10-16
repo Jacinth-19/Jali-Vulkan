@@ -1,0 +1,171 @@
+{
+  "date": "2026-10-16",
+  "run": {
+    "id": 38841826083,
+    "html_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38841826083",
+    "head_sha": "a8b7175938b192e62add21053094dc6565d0f208",
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "run_started_at": "2026-10-16T02:42:47Z",
+    "updated_at": "2026-10-16T02:49:36Z"
+  },
+  "jobs": [
+    {
+      "id": 116783437067,
+      "name": "Native speech, Vulkan validation layers and browser",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-16T02:42:49Z",
+      "completed_at": "2026-10-16T02:44:09Z",
+      "html_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38841826083/job/116783437067"
+    },
+    {
+      "id": 116783437285,
+      "name": "clang++ / Release",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-16T02:42:50Z",
+      "completed_at": "2026-10-16T02:43:16Z",
+      "html_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38841826083/job/116783437285"
+    },
+    {
+      "id": 116783437313,
+      "name": "g++ / Release",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-16T02:42:49Z",
+      "completed_at": "2026-10-16T02:43:14Z",
+      "html_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38841826083/job/116783437313"
+    },
+    {
+      "id": 116783437337,
+      "name": "g++ / Debug",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-16T02:42:49Z",
+      "completed_at": "2026-10-16T02:43:08Z",
+      "html_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38841826083/job/116783437337"
+    },
+    {
+      "id": 116783437445,
+      "name": "Local neural speech, WebGL and articulation review",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-16T02:42:49Z",
+      "completed_at": "2026-10-16T02:46:32Z",
+      "html_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38841826083/job/116783437445"
+    },
+    {
+      "id": 116783437487,
+      "name": "Address and undefined-behavior checks",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-16T02:42:50Z",
+      "completed_at": "2026-10-16T02:43:07Z",
+      "html_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38841826083/job/116783437487"
+    },
+    {
+      "id": 116783437493,
+      "name": "clang++ / Debug",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-16T02:42:49Z",
+      "completed_at": "2026-10-16T02:43:26Z",
+      "html_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38841826083/job/116783437493"
+    },
+    {
+      "id": 116784449614,
+      "name": "Windows Chrome offline playback (not local TTS)",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-16T02:46:35Z",
+      "completed_at": "2026-10-16T02:49:35Z",
+      "html_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38841826083/job/116784449614"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": 12021901075,
+      "name": "windows-browser-playback-evidence",
+      "size_in_bytes": 884209,
+      "expires_at": "2026-10-19T02:49:30Z",
+      "expired": false,
+      "web_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38841826083/artifacts/12021901075"
+    },
+    {
+      "id": 12021825385,
+      "name": "fixture-g++-Debug",
+      "size_in_bytes": 13230,
+      "expires_at": "2026-10-19T02:43:06Z",
+      "expired": false,
+      "web_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38841826083/artifacts/12021825385"
+    },
+    {
+      "id": 12021618144,
+      "name": "neural-articulation-review",
+      "size_in_bytes": 5390615,
+      "expires_at": "2026-10-19T02:46:29Z",
+      "expired": false,
+      "web_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38841826083/artifacts/12021618144"
+    },
+    {
+      "id": 12021468738,
+      "name": "laptop-playback-checkpoint",
+      "size_in_bytes": 9539274,
+      "expires_at": "2026-10-19T02:46:27Z",
+      "expired": false,
+      "web_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38841826083/artifacts/12021468738"
+    },
+    {
+      "id": 12021453354,
+      "name": "fixture-clang++-Debug",
+      "size_in_bytes": 13228,
+      "expires_at": "2026-10-19T02:43:24Z",
+      "expired": false,
+      "web_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38841826083/artifacts/12021453354"
+    },
+    {
+      "id": 12021413443,
+      "name": "fixture-clang++-Release",
+      "size_in_bytes": 13226,
+      "expires_at": "2026-10-19T02:43:12Z",
+      "expired": false,
+      "web_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38841826083/artifacts/12021413443"
+    },
+    {
+      "id": 12020868800,
+      "name": "native-backend-evidence",
+      "size_in_bytes": 815036,
+      "expires_at": "2026-10-19T02:44:07Z",
+      "expired": false,
+      "web_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38841826083/artifacts/12020868800"
+    },
+    {
+      "id": 12020579191,
+      "name": "fixture-g++-Release",
+      "size_in_bytes": 13225,
+      "expires_at": "2026-10-19T02:43:12Z",
+      "expired": false,
+      "web_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38841826083/artifacts/12020579191"
+    }
+  ],
+  "coverage": {
+    "linux_cpu_speech_analysis_and_browser": true,
+    "linux_checkpoint_http_and_file": true,
+    "windows_installed_chrome_http_and_file": true,
+    "linux_python_tests": 74,
+    "javascript_tests": 12,
+    "javascript_contracts_also_ran_on_windows": true,
+    "windows_speech_backend": false,
+    "target_laptop": false,
+    "hardware_gpu_proof": false,
+    "physical_av_measurement": false,
+    "independent_phoneme_accuracy": false
+  },
+  "notes": [
+    "GitHub API verified all job conclusions and artifact metadata; artifact download redirects are unavailable in this sandbox.",
+    "Windows job tested the CI-built public pack from this source. The separately delivered local ZIP has separate hashes and Linux HTTP/file evidence.",
+    "No Windows TTS backend, native Vulkan rich rig, user-laptop performance or human quality completion is inferred."
+  ]
+}

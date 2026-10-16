@@ -273,6 +273,14 @@ hosted Linux CI results cannot stand in for it.
 - [ ] Define acceptable settings based on these results rather than invented budgets.
 - [ ] Retest chosen reduced-quality/performance settings.
 
+### Early browser-only slice (not the full Windows package)
+
+- [x] Provide a self-contained playback/review ZIP without Python or speech models.
+- [x] Export explicit notes and renderer-update/CPU-submission observations locally.
+- [x] Test HTTP and file playback on hosted Windows Chrome and Linux Chromium.
+- [ ] Collect repeated measurements and quality notes on the actual i5 laptop.
+- [ ] Port/test local speech and analyzer processes on Windows.
+
 ### Usable package
 
 - [ ] Choose a launcher/package layout and document prerequisites.
@@ -305,8 +313,8 @@ measurements and an appropriate quality/performance configuration.
 
 ### Playback quality and regression coverage
 
-- [ ] Add the detailed-head/new-text pipeline to appropriate automated CI coverage.
-- [ ] Keep fast model-free tests separate from heavyweight licensed-model execution.
+- [x] Add the detailed-head/new-text pipeline to appropriate automated CI coverage.
+- [x] Keep fast model-free tests separate from heavyweight licensed-model execution.
 - [ ] Test long utterances, silence, rapid transitions, repeated generation and recovery.
 - [ ] Capture actual presented frames and audio for independent AV evaluation.
 - [ ] Measure audio-output/display latency on the intended device.
@@ -358,7 +366,7 @@ or scope; a roadmap item is not a promise that an arbitrary model will run in re
 
 ## Current next action
 
-**Early browser checkpoint prepared:** see [the extraction/review instructions](windows-playback-checkpoint.txt). The pack needs no Python or models for playback and exports explicit user notes plus visible-tab render observations. Windows-hosted browser validation is being run separately from Linux neural synthesis. This does not port the speech backend or finish M7.
+**Early browser checkpoint prepared:** see [the extraction/review instructions](windows-playback-checkpoint.txt). The pack needs no Python or models for playback and exports explicit user notes plus visible-tab render observations. Windows-hosted Chrome HTTP/file playback passed separately from Linux neural synthesis in eight-job Actions run 38841826083. See [checkpoint evidence](playback-checkpoint.md). This does not port the speech backend or finish M7.
 
 
 **M3 quality review:** listen to and inspect a connected new-text performance,
@@ -392,7 +400,7 @@ use this dated tracker and current evidence to judge present completion.
 
 | Date | Update |
 |---|---|
-| 2026-10-16 | Added a self-contained laptop/browser playback checkpoint with half-speed review, notes and explicit JSON export. Render-completion measurements distinguish CPU submission time from GPU execution/physical AV latency. Public-corpus/hash admission checks and HTTP/file tests added; hosted validation pending. |
+| 2026-10-16 | Added a self-contained laptop/browser playback checkpoint with half-speed review, notes and explicit JSON export. Render-completion measurements distinguish CPU submission time from GPU execution/physical AV latency. Public-corpus/hash admission checks and local HTTP/file tests passed. All eight Actions jobs passed, including actual Windows Chrome HTTP/file playback; target-device and local Windows speech tests remain open. |
 | 2026-10-16 | M3 partial: corrected short-cue blending and actual-duration rest, 9 JavaScript tests and 67 Python tests passed; three fresh browser-generated utterances produced 22 review frames covering nine estimated classes. Human/independent alignment review remains open. All seven jobs passed in Actions run 38837436553; the real neural job took 3m22s after fixing a cold binary-download defect. |
 | 2026-10-16 | M2 connected prototype passed two actual browser-form requests: new CPU WAV + dialog analysis + real facial morph playback, hashes, pause/seek, history and error/retention contracts. Added idle redraw avoidance and a portable new-text MP4. Windows/quality/streaming remain open. |
 | 2026-10-16 | Local Kokoro q8 CPU inference passed on two new sentences: 8.83s / 7.00s of audio, generated in 3.64s / 3.44s; peak RSS 441 MiB. No face integration or Windows performance claim. |
