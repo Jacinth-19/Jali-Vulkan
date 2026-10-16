@@ -174,7 +174,8 @@ const chromium=require('@sparticuz/chromium');
     if(errors.length||external.length)throw new Error(JSON.stringify({errors,external}));
     // Real bounded sentence batching: interrupt during playback, then complete
     // another request. This is intentionally not called incremental Kokoro.
-    const streamText='Mama packed my blue paper bag and brought it back to me. Five vivid voices move very fast. We all know you.';
+    const streamText=Array(4).fill('Mama packed my blue paper bag and brought it back to me, while five vivid voices moved very fast beside the bright blue window today.').join(' ');
+    if(streamText.length<=500||streamText.length>1000)throw Error('Long-paragraph integration must exercise the expanded budget');
     await page.locator('#batch').check();await page.locator('#text').fill(streamText);await page.locator('#generate').click();
     await page.waitForFunction(()=>JaliStudio.getState().streamStats?.chunks.length===1&&document.querySelector('#audio').currentTime>.1,null,{timeout:120000});
     const interruptedId=await page.evaluate(()=>JaliStudio.getState().currentJob);
@@ -187,11 +188,11 @@ const chromium=require('@sparticuz/chromium');
     await page.waitForFunction(()=>JaliStudio.getState().busy);
     await page.waitForFunction(()=>!JaliStudio.getState().busy,null,{timeout:240000});
     const stream=await page.evaluate(()=>JaliStudio.getState());
-    if(stream.phase!=='ready'||!stream.verified||stream.streamStats.chunks.length!==3)throw new Error('Sentence-batched retry failed');
+    if(stream.phase!=='ready'||!stream.verified||stream.streamStats.chunks.length!==4||stream.streamStats.prebufferHits<1)throw new Error('Sentence-batched retry failed');
     const joined=await (await context.request.get(`${base}/sessions/${stream.selectedId}/manifest.json`)).json();
     const joinedWav=await context.request.get(`${base}${joined.file}`);
-    if(joined.stream.chunks!==3||joined.audio.sha256!==createHash('sha256').update(await joinedWav.body()).digest('hex')||joined.stream.samples!==stream.streamStats.chunks[2].end_sample)throw new Error('Combined sentence audio lost provenance/sample offsets');
-    fs.writeFileSync(path.join(proof,'stream-check.json'),JSON.stringify({passed:true,mode:'sentence-batched',first_batch_before_all_produced:true,max_pending:2,cancel_then_retry:true,combined_audio_sha256:joined.audio.sha256,stream:joined.stream,observations:stream.streamStats,limits:'Observed automation timings, not gapless playback or target-laptop performance acceptance'},null,2)+'\n');
+    if(joined.stream.chunks!==4||joined.audio.sha256!==createHash('sha256').update(await joinedWav.body()).digest('hex')||joined.stream.samples!==stream.streamStats.chunks[3].end_sample)throw new Error('Combined sentence audio lost provenance/sample offsets');
+    fs.writeFileSync(path.join(proof,'stream-check.json'),JSON.stringify({passed:true,mode:'sentence-batched',first_batch_before_all_produced:true,max_pending:2,cancel_then_retry:true,input_characters:streamText.length,prebuffer_hits_verified:true,combined_audio_sha256:joined.audio.sha256,stream:joined.stream,observations:stream.streamStats,limits:'Observed automation timings, not gapless playback or target-laptop performance acceptance'},null,2)+'\n');
     await page.locator('#batch').uncheck();
     if(errors.length||external.length)throw new Error(JSON.stringify({errors,external}));
     fs.writeFileSync(path.join(proof,'browser-check.json'),JSON.stringify({passed:true,model,web_security_enabled:true,external_requests:external,errors,

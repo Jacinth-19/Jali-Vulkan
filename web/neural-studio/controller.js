@@ -217,11 +217,11 @@ import {validateStreamChunk,AudioPrefetch} from './streaming.mjs';
   for(const key of Object.keys(ARTICULATION.baseline).filter(k=>k!=='smooth'))$('art-'+key).addEventListener('input',()=>{calibration={...calibration,[key]:Number($('art-'+key).value)};applySettings();});
   $('observe').addEventListener('click',async()=>{
     if($('audio').paused){error('Play a recording first, then observe it.');return;}
-    const frames=[],settings={...quality};$('observe').disabled=true;const began=performance.now();
+    const frames=[],settings={...quality},observedEpoch=nativeEpoch;$('observe').disabled=true;const began=performance.now();
     const capture=e=>{if(e.type==='jali-render'&&$('renderer').value==='native')return;if(e.detail.playing)frames.push({time:e.detail.wallTime,cost:e.detail.renderMs});};
     window.JALI_RENDER_DIAGNOSTICS=true;window.addEventListener('jali-render',capture);window.addEventListener('jali-native-observation',capture);
     await sleep(10000);window.removeEventListener('jali-render',capture);window.removeEventListener('jali-native-observation',capture);window.JALI_RENDER_DIAGNOSTICS=false;$('observe').disabled=false;
-    try{if(JSON.stringify(settings)!==JSON.stringify(quality))throw Error('Settings changed during observation; repeat it');const report=summarizeObservation(frames,settings);report.renderer=$('renderer').value;report.calibration=calibration;report.elapsed_ms=performance.now()-began;$('apply-recommendation').hidden=!report.recommended_preset;$('apply-recommendation').onclick=()=>{quality=performanceSettings(report.recommended_preset);applySettings();};$('observation').textContent=JSON.stringify(report,null,2);const url=URL.createObjectURL(new Blob([JSON.stringify(report,null,2)],{type:'application/json'}));const old=$('observation-download').href;if(old.startsWith('blob:'))URL.revokeObjectURL(old);$('observation-download').href=url;$('observation-download').hidden=false;}catch(failure){error(failure.message);}
+    try{if(observedEpoch!==nativeEpoch||JSON.stringify(settings)!==JSON.stringify(quality))throw Error('Settings or renderer changed during observation; repeat it');const report=summarizeObservation(frames,settings);report.renderer=$('renderer').value;report.calibration=calibration;report.elapsed_ms=performance.now()-began;$('apply-recommendation').hidden=!report.recommended_preset;$('apply-recommendation').onclick=()=>{quality=performanceSettings(report.recommended_preset);applySettings();};$('observation').textContent=JSON.stringify(report,null,2);const url=URL.createObjectURL(new Blob([JSON.stringify(report,null,2)],{type:'application/json'}));const old=$('observation-download').href;if(old.startsWith('blob:'))URL.revokeObjectURL(old);$('observation-download').href=url;$('observation-download').hidden=false;}catch(failure){error(failure.message);}
   });
   window.addEventListener('jali-head-ready',applySettings);applySettings();
   nativeTick();
@@ -247,7 +247,14 @@ import {validateStreamChunk,AudioPrefetch} from './streaming.mjs';
         if (state.stage === 'analyzing') stage('analyzing','Analyzing this exact WAV with its script. No reused speech timings…');
         await sleep(700);
       }
-    } catch (failure) {if(cancelPending){JaliHeadDemo.resetPerformance(true);stage('cancelled','Cancelled. Queued audio was discarded.');return;}if(streaming&&currentJob&&!cancelPending)await requestCancel();JaliHeadDemo.resetPerformance(true);stage('error','Generation did not complete. No fallback performance was substituted.');error(failure.message);}
+    } catch (failure) {if(cancelPending){
+      JaliHeadDemo.resetPerformance(true);
+      // An aborted prefetch can reject before the owned producer has exited.
+      // Keep retry disabled until cleanup is confirmed, rather than racing 409.
+      const deadline=performance.now()+30000;
+      while(currentJob){const state=await json(`/api/jobs/${currentJob}`);if(['cancelled','ready','error'].includes(state.state))break;if(performance.now()>deadline)throw Error('Cancellation cleanup timed out; check the server before retrying');await sleep(100);}
+      stage('cancelled','Cancelled. Queued audio was discarded.');return;
+    }if(streaming&&currentJob&&!cancelPending)await requestCancel();JaliHeadDemo.resetPerformance(true);stage('error','Generation did not complete. No fallback performance was substituted.');error(failure.message);}
     finally {busy=false;currentJob=null;cancelPending=false;streaming=false;update();}
   });
   $('cancel').addEventListener('click',requestCancel);

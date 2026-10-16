@@ -211,7 +211,7 @@ jobs:
       - name: Check contracts without loading a neural model
         run: |
           .venv/bin/python -m unittest discover -s tests -p 'test_*.py'
-          node --test tests/visemes.test.mjs tests/measurement.test.mjs tests/performance.test.mjs tests/upgrades.test.mjs
+          node --test tests/visemes.test.mjs tests/measurement.test.mjs tests/performance.test.mjs tests/streaming.test.mjs tests/upgrades.test.mjs
       - name: Explicitly prepare reviewed model, stock voice and CC0 character
         env:
           GH_TOKEN: ${{ github.token }}
@@ -338,7 +338,7 @@ jobs:
             .venv/Scripts/python.exe -m unittest discover -s tests -p $pattern
             if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           }
-          node --test tests/visemes.test.mjs tests/measurement.test.mjs tests/performance.test.mjs tests/upgrades.test.mjs
+          node --test tests/visemes.test.mjs tests/measurement.test.mjs tests/performance.test.mjs tests/streaming.test.mjs tests/upgrades.test.mjs
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Explicitly prepare stock voice, model, Windows analyzer and CC0 head
         env:
