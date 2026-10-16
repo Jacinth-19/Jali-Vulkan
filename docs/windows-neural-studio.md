@@ -145,3 +145,11 @@ playback and interrupted-process recovery still need coverage. Physical AV
 latency, independently verified phoneme alignment, incremental speech and the
 richer Vulkan renderer remain separate unfinished workstreams. Stock `af_heart`
 is not the earlier external voice-00 and is not a cloned identity.
+
+## Subsequent one-command benchmark
+
+After setup, run `windows/benchmark.ps1` to collect repeated fresh speech and
+browser observations in an isolated run. [Benchmark instructions](windows-benchmark.md)
+explain the one-file report, exact-WAV independent references and M4 compatibility
+audit. The actual PowerShell benchmark entry point passed in later nine-job run
+38844926069; this does not change the distinction between hosted and laptop data.

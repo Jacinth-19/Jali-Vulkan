@@ -1,0 +1,712 @@
+{
+  "schema": "jali-neural-benchmark-v1",
+  "created_at": "2026-10-16T03:18:19.251149+00:00",
+  "status": "completed",
+  "run_id": "20261016T031819Z-bl_jq2u3",
+  "system": {
+    "platform": "linux",
+    "os": "Linux-6.1.158+-x86_64-with-glibc2.36",
+    "python": "3.11.2",
+    "logical_cpu_hint": 2
+  },
+  "conditions": "Automated Linux software rendering; not target laptop",
+  "repeats_per_case": 2,
+  "dataset": "Fixed public synthetic articulation corpus; not private recordings",
+  "privacy": "No automatic upload. OS/CPU/GPU/browser information and your conditions are included; inspect before sharing. Local logs/media stay in the run folder.",
+  "m3": {
+    "human_review_completed": false,
+    "independently_verified_phoneme_alignment": false,
+    "retarget_tuning_validated": false,
+    "quality_score": null
+  },
+  "limits": [
+    "First request is not a reboot-cold benchmark. Every request uses a fresh speech process; later requests are not a persistent warm engine.",
+    "Render metrics count CPU-side renderer updates/submissions, not presented FPS, GPU execution, or physical AV latency.",
+    "Worker peak memory excludes server, browser/GPU and whole-system usage. Short clips do not establish thermal/long-utterance performance.",
+    "This report describes only the machine it was run on; hosted CI is not the user laptop."
+  ],
+  "native_rig_audit": {
+    "schema": "jali-native-rig-audit-v1",
+    "model_sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+    "native_importer_source_sha256": "9ad0544e24a2ce1446170b661071a66753c189558214892bd17dadc51d211a6e",
+    "profile": "existing vertex-color, one-mesh, 64-joint, three-morph native profile",
+    "static_status": "known_incompatible",
+    "counts": {
+      "meshes": 8,
+      "skins": 8,
+      "materials": 7,
+      "images": 7,
+      "nodes": 76,
+      "max_skin_joints": 67,
+      "max_morph_targets": 66
+    },
+    "required_extensions": [
+      "EXT_meshopt_compression",
+      "KHR_mesh_quantization"
+    ],
+    "morph_names_by_mesh": [
+      {
+        "name": "base",
+        "targets": [
+          "browDownRight",
+          "viseme_RR",
+          "mouthShrugLower",
+          "browDownLeft",
+          "jawRight",
+          "mouthFunnel",
+          "eyeSquintRight",
+          "mouthPressRight",
+          "eyeLookOutLeft",
+          "mouthFrownLeft",
+          "eyeWideLeft",
+          "mouthDimpleRight",
+          "jawForward",
+          "viseme_FF",
+          "tongueOut",
+          "cheekPuff",
+          "jawLeft",
+          "noseSneerLeft",
+          "eyeLookOutRight",
+          "viseme_PP",
+          "browInnerUp",
+          "viseme_DD",
+          "viseme_aa",
+          "mouthShrugUpper",
+          "noseSneerRight",
+          "mouthLowerDownRight",
+          "viseme_kk",
+          "viseme_nn",
+          "mouthStretchLeft",
+          "mouthLowerDownLeft",
+          "mouthClose",
+          "cheekSquintLeft",
+          "eyeBlinkLeft",
+          "mouthPressLeft",
+          "eyeLookUpLeft",
+          "eyeSquintLeft",
+          "mouthPucker",
+          "viseme_TH",
+          "viseme_SS",
+          "eyeLookDownRight",
+          "mouthSmileRight",
+          "eyeWideRight",
+          "viseme_E",
+          "mouthDimpleLeft",
+          "eyeBlinkRight",
+          "viseme_I",
+          "eyeLookInRight",
+          "mouthLeft",
+          "mouthRollUpper",
+          "mouthFrownRight",
+          "eyeLookDownLeft",
+          "jawOpen",
+          "viseme_U",
+          "mouthUpperUpRight",
+          "mouthSmileLeft",
+          "browOuterUpLeft",
+          "mouthRollLower",
+          "mouthUpperUpLeft",
+          "mouthStretchRight",
+          "eyeLookUpRight",
+          "mouthRight",
+          "viseme_O",
+          "eyeLookInLeft",
+          "browOuterUpRight",
+          "viseme_CH",
+          "cheekSquintRight"
+        ]
+      },
+      {
+        "name": "female_casualsuit01",
+        "targets": []
+      },
+      {
+        "name": "high-poly",
+        "targets": [
+          "eyeLookOutLeft",
+          "eyeLookOutRight",
+          "eyeLookUpLeft",
+          "eyeLookDownRight",
+          "eyeLookInRight",
+          "eyeLookDownLeft",
+          "eyeLookUpRight",
+          "eyeLookInLeft"
+        ]
+      },
+      {
+        "name": "mind_eyebrows_02",
+        "targets": [
+          "browDownRight",
+          "browDownLeft",
+          "eyeLookOutLeft",
+          "eyeWideLeft",
+          "noseSneerLeft",
+          "eyeLookOutRight",
+          "browInnerUp",
+          "noseSneerRight",
+          "cheekSquintLeft",
+          "eyeBlinkLeft",
+          "eyeLookUpLeft",
+          "eyeLookDownRight",
+          "mouthSmileRight",
+          "eyeWideRight",
+          "eyeBlinkRight",
+          "eyeLookInRight",
+          "eyeLookDownLeft",
+          "mouthSmileLeft",
+          "browOuterUpLeft",
+          "eyeLookUpRight",
+          "eyeLookInLeft",
+          "browOuterUpRight",
+          "cheekSquintRight"
+        ]
+      },
+      {
+        "name": "mind_eyelashes_02",
+        "targets": [
+          "browDownRight",
+          "browDownLeft",
+          "eyeSquintRight",
+          "eyeLookOutLeft",
+          "eyeWideLeft",
+          "mouthDimpleRight",
+          "cheekPuff",
+          "noseSneerLeft",
+          "eyeLookOutRight",
+          "noseSneerRight",
+          "mouthStretchLeft",
+          "cheekSquintLeft",
+          "mouthPressLeft",
+          "eyeLookUpLeft",
+          "eyeSquintLeft",
+          "mouthPucker",
+          "eyeLookDownRight",
+          "mouthSmileRight",
+          "eyeWideRight",
+          "mouthDimpleLeft",
+          "eyeLookInRight",
+          "mouthLeft",
+          "mouthFrownRight",
+          "eyeLookDownLeft",
+          "jawOpen",
+          "mouthSmileLeft",
+          "mouthStretchRight",
+          "eyeLookUpRight",
+          "mouthRight",
+          "eyeLookInLeft",
+          "cheekSquintRight",
+          "eyeBlinkLeft",
+          "eyeBlinkRight"
+        ]
+      },
+      {
+        "name": "ponytail01",
+        "targets": []
+      },
+      {
+        "name": "teeth_base",
+        "targets": [
+          "jawRight",
+          "jawForward",
+          "jawLeft",
+          "viseme_PP",
+          "viseme_DD",
+          "viseme_aa",
+          "viseme_kk",
+          "viseme_nn",
+          "viseme_TH",
+          "viseme_E",
+          "jawOpen",
+          "viseme_O"
+        ]
+      },
+      {
+        "name": "tongue01",
+        "targets": [
+          "jawRight",
+          "jawForward",
+          "tongueOut",
+          "jawLeft",
+          "viseme_PP",
+          "viseme_DD",
+          "viseme_aa",
+          "viseme_kk",
+          "viseme_nn",
+          "viseme_TH",
+          "viseme_E",
+          "jawOpen",
+          "viseme_O"
+        ]
+      }
+    ],
+    "blockers": [
+      {
+        "code": "required_extensions",
+        "required_work": "Decode Meshopt and support quantized attributes or produce a validated native asset profile."
+      },
+      {
+        "code": "multi_mesh_skin",
+        "required_work": "Preserve all meshes/instances and skin bindings, including teeth/tongue."
+      },
+      {
+        "code": "palette_64_limit",
+        "required_work": "Expand importer, palette ABI, shader arrays, buffers and reference tests together; never truncate joints."
+      },
+      {
+        "code": "materials_textures",
+        "required_work": "Implement UV/image upload, materials, color spaces and the relevant alpha/normal paths."
+      },
+      {
+        "code": "three_target_abi",
+        "required_work": "Replace the three fixed deltas with named morph storage and retarget the shared speech session."
+      },
+      {
+        "code": "target_names",
+        "required_work": "Preserve actual named visemes and bind matching targets on secondary meshes."
+      },
+      {
+        "code": "accessor_types",
+        "required_work": "Audit signed/quantized accessor decoding, normalization and bounds."
+      }
+    ],
+    "native_rendering_performed": false,
+    "assets_modified": false,
+    "limits": "Partial metadata gap audit, not a complete importer validator, GPU deformation comparison or completed M4 port."
+  },
+  "server_ready_seconds": 0.2246,
+  "browser": {
+    "browser_ready_seconds": 3.155607741,
+    "channel": "sandbox",
+    "headless": true,
+    "samples": [
+      {
+        "case": "closures",
+        "repeat": 1,
+        "audio_sha256": "cb2aff047d3bee2e7e648af51ed413f3f7962bc8868d5591a339dbc738366f0d",
+        "text_sha256": "b90f2e079dcbec877b655c9ffcae0c236e33f4348dae3c248dca6982e781237e",
+        "duration_seconds": 3.456,
+        "model_load_seconds": 0.8957,
+        "dependency_import_seconds": 0.3678,
+        "generation_seconds": 2.6088,
+        "real_time_factor": 0.7548611111111111,
+        "analysis_seconds": 4.2213,
+        "pipeline_seconds": 8.3769,
+        "peak_worker_memory_mib": 305.01,
+        "memory_scope": "Linux/macOS process high-water RSS; includes dependencies/model; not system RAM or isolated model size",
+        "providers": [
+          "CPUExecutionProvider"
+        ],
+        "rig": {
+          "profile": "mpfb-rhubarb-9-v1",
+          "source_commit": "2afe6d79779313db8909badebf46f9805a6c7b70",
+          "model_sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+          "retarget_sha256": "dffa942e4f0bf5055c727235f4f4ec4110a8a4c9ac5d4cfcce6e6e96ff7ad009",
+          "viewer_sha256": "f84c2d277116c3ed4dbd6b5fbd6e414567be6a772ab3529623fb4fdb70f8d66f"
+        },
+        "playback": {
+          "reason": "ended",
+          "diagnostics": {
+            "modelStats": {
+              "vertices": 53116,
+              "bones": 67,
+              "faceControls": 66,
+              "runtimeFaceControls": 20,
+              "morphMeshes": 6
+            },
+            "webgl": {
+              "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+              "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+              "vendor": "Google Inc. (Google)",
+              "contextLost": false
+            },
+            "canvas": {
+              "width": 687,
+              "height": 535
+            },
+            "pixelRatio": 1,
+            "speechRig": {
+              "profile": "mpfb-rhubarb-9-v1",
+              "source_commit": "2afe6d79779313db8909badebf46f9805a6c7b70",
+              "model_sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+              "retarget_sha256": "dffa942e4f0bf5055c727235f4f4ec4110a8a4c9ac5d4cfcce6e6e96ff7ad009",
+              "viewer_sha256": "f84c2d277116c3ed4dbd6b5fbd6e414567be6a772ab3529623fb4fdb70f8d66f"
+            }
+          },
+          "rendered_frames": 5,
+          "observed_span_seconds": 3.0541000000000933,
+          "observed_render_fps": 1.3097148096001696,
+          "median_frame_gap_ms": 445.80000000004657,
+          "p95_frame_gap_ms": 1362.6999999999534,
+          "max_frame_gap_ms": 1362.6999999999534,
+          "p95_cpu_submission_ms": 1.2000000001862645,
+          "first_audio_time": 0.008068,
+          "last_audio_time": 3.018932,
+          "method": "Visible-tab render-completion samples during actual audio playback; CPU submission time, not GPU execution or physical AV latency",
+          "valid_sample": true
+        },
+        "files": {
+          "wav": "closures-1.wav",
+          "clip": "closures-1-clip.json",
+          "reference": "closures-1-reference.json"
+        }
+      },
+      {
+        "case": "contacts",
+        "repeat": 1,
+        "audio_sha256": "a762e20fa7809a2487ca41c7cd5b86627ae4ba144f1c408ba98679250db282e3",
+        "text_sha256": "879515f4274a809cb80a00c411f13db6ef10f519993b7117fc695669025b47e5",
+        "duration_seconds": 4.074666666666666,
+        "model_load_seconds": 0.9253,
+        "dependency_import_seconds": 0.3263,
+        "generation_seconds": 3.0189,
+        "real_time_factor": 0.7408949607329843,
+        "analysis_seconds": 4.8499,
+        "pipeline_seconds": 9.4177,
+        "peak_worker_memory_mib": 316.22,
+        "memory_scope": "Linux/macOS process high-water RSS; includes dependencies/model; not system RAM or isolated model size",
+        "providers": [
+          "CPUExecutionProvider"
+        ],
+        "rig": {
+          "profile": "mpfb-rhubarb-9-v1",
+          "source_commit": "2afe6d79779313db8909badebf46f9805a6c7b70",
+          "model_sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+          "retarget_sha256": "dffa942e4f0bf5055c727235f4f4ec4110a8a4c9ac5d4cfcce6e6e96ff7ad009",
+          "viewer_sha256": "f84c2d277116c3ed4dbd6b5fbd6e414567be6a772ab3529623fb4fdb70f8d66f"
+        },
+        "playback": {
+          "reason": "ended",
+          "diagnostics": {
+            "modelStats": {
+              "vertices": 53116,
+              "bones": 67,
+              "faceControls": 66,
+              "runtimeFaceControls": 20,
+              "morphMeshes": 6
+            },
+            "webgl": {
+              "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+              "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+              "vendor": "Google Inc. (Google)",
+              "contextLost": false
+            },
+            "canvas": {
+              "width": 687,
+              "height": 535
+            },
+            "pixelRatio": 1,
+            "speechRig": {
+              "profile": "mpfb-rhubarb-9-v1",
+              "source_commit": "2afe6d79779313db8909badebf46f9805a6c7b70",
+              "model_sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+              "retarget_sha256": "dffa942e4f0bf5055c727235f4f4ec4110a8a4c9ac5d4cfcce6e6e96ff7ad009",
+              "viewer_sha256": "f84c2d277116c3ed4dbd6b5fbd6e414567be6a772ab3529623fb4fdb70f8d66f"
+            }
+          },
+          "rendered_frames": 8,
+          "observed_span_seconds": 3.6398000000000468,
+          "observed_render_fps": 1.92318259245011,
+          "median_frame_gap_ms": 423.30000000004657,
+          "p95_frame_gap_ms": 824.3000000000466,
+          "max_frame_gap_ms": 824.3000000000466,
+          "p95_cpu_submission_ms": 1.1999999999534339,
+          "first_audio_time": 0.318782,
+          "last_audio_time": 3.957455,
+          "method": "Visible-tab render-completion samples during actual audio playback; CPU submission time, not GPU execution or physical AV latency",
+          "valid_sample": true
+        },
+        "files": {
+          "wav": "contacts-1.wav",
+          "clip": "contacts-1-clip.json",
+          "reference": "contacts-1-reference.json"
+        }
+      },
+      {
+        "case": "vowels",
+        "repeat": 1,
+        "audio_sha256": "fa36bc15385794b892fbbf8e1b33f2220cd721a22a0fab015cf986ea9223e12f",
+        "text_sha256": "0052ef681dd102afc96d53ec0d27f264fc6834e04d1be04b0ab1de2f78848ad6",
+        "duration_seconds": 3.6053333333333333,
+        "model_load_seconds": 0.7831,
+        "dependency_import_seconds": 0.3374,
+        "generation_seconds": 3.3824,
+        "real_time_factor": 0.9381656804733728,
+        "analysis_seconds": 6.0162,
+        "pipeline_seconds": 10.8572,
+        "peak_worker_memory_mib": 305.73,
+        "memory_scope": "Linux/macOS process high-water RSS; includes dependencies/model; not system RAM or isolated model size",
+        "providers": [
+          "CPUExecutionProvider"
+        ],
+        "rig": {
+          "profile": "mpfb-rhubarb-9-v1",
+          "source_commit": "2afe6d79779313db8909badebf46f9805a6c7b70",
+          "model_sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+          "retarget_sha256": "dffa942e4f0bf5055c727235f4f4ec4110a8a4c9ac5d4cfcce6e6e96ff7ad009",
+          "viewer_sha256": "f84c2d277116c3ed4dbd6b5fbd6e414567be6a772ab3529623fb4fdb70f8d66f"
+        },
+        "playback": {
+          "reason": "ended",
+          "diagnostics": {
+            "modelStats": {
+              "vertices": 53116,
+              "bones": 67,
+              "faceControls": 66,
+              "runtimeFaceControls": 20,
+              "morphMeshes": 6
+            },
+            "webgl": {
+              "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+              "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+              "vendor": "Google Inc. (Google)",
+              "contextLost": false
+            },
+            "canvas": {
+              "width": 687,
+              "height": 535
+            },
+            "pixelRatio": 1,
+            "speechRig": {
+              "profile": "mpfb-rhubarb-9-v1",
+              "source_commit": "2afe6d79779313db8909badebf46f9805a6c7b70",
+              "model_sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+              "retarget_sha256": "dffa942e4f0bf5055c727235f4f4ec4110a8a4c9ac5d4cfcce6e6e96ff7ad009",
+              "viewer_sha256": "f84c2d277116c3ed4dbd6b5fbd6e414567be6a772ab3529623fb4fdb70f8d66f"
+            }
+          },
+          "rendered_frames": 7,
+          "observed_span_seconds": 3.604,
+          "observed_render_fps": 1.664816870144284,
+          "median_frame_gap_ms": 442.19999999995343,
+          "p95_frame_gap_ms": 1284.3000000000466,
+          "max_frame_gap_ms": 1284.3000000000466,
+          "p95_cpu_submission_ms": 3.300000000046566,
+          "first_audio_time": 0.002565,
+          "last_audio_time": 3.542326,
+          "method": "Visible-tab render-completion samples during actual audio playback; CPU submission time, not GPU execution or physical AV latency",
+          "valid_sample": true
+        },
+        "files": {
+          "wav": "vowels-1.wav",
+          "clip": "vowels-1-clip.json",
+          "reference": "vowels-1-reference.json"
+        }
+      },
+      {
+        "case": "closures",
+        "repeat": 2,
+        "audio_sha256": "cb2aff047d3bee2e7e648af51ed413f3f7962bc8868d5591a339dbc738366f0d",
+        "text_sha256": "b90f2e079dcbec877b655c9ffcae0c236e33f4348dae3c248dca6982e781237e",
+        "duration_seconds": 3.456,
+        "model_load_seconds": 0.8166,
+        "dependency_import_seconds": 0.3235,
+        "generation_seconds": 3.3548,
+        "real_time_factor": 0.9707175925925926,
+        "analysis_seconds": 4.2658,
+        "pipeline_seconds": 9.0893,
+        "peak_worker_memory_mib": 307.15,
+        "memory_scope": "Linux/macOS process high-water RSS; includes dependencies/model; not system RAM or isolated model size",
+        "providers": [
+          "CPUExecutionProvider"
+        ],
+        "rig": {
+          "profile": "mpfb-rhubarb-9-v1",
+          "source_commit": "2afe6d79779313db8909badebf46f9805a6c7b70",
+          "model_sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+          "retarget_sha256": "dffa942e4f0bf5055c727235f4f4ec4110a8a4c9ac5d4cfcce6e6e96ff7ad009",
+          "viewer_sha256": "f84c2d277116c3ed4dbd6b5fbd6e414567be6a772ab3529623fb4fdb70f8d66f"
+        },
+        "playback": {
+          "reason": "ended",
+          "diagnostics": {
+            "modelStats": {
+              "vertices": 53116,
+              "bones": 67,
+              "faceControls": 66,
+              "runtimeFaceControls": 20,
+              "morphMeshes": 6
+            },
+            "webgl": {
+              "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+              "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+              "vendor": "Google Inc. (Google)",
+              "contextLost": false
+            },
+            "canvas": {
+              "width": 687,
+              "height": 535
+            },
+            "pixelRatio": 1,
+            "speechRig": {
+              "profile": "mpfb-rhubarb-9-v1",
+              "source_commit": "2afe6d79779313db8909badebf46f9805a6c7b70",
+              "model_sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+              "retarget_sha256": "dffa942e4f0bf5055c727235f4f4ec4110a8a4c9ac5d4cfcce6e6e96ff7ad009",
+              "viewer_sha256": "f84c2d277116c3ed4dbd6b5fbd6e414567be6a772ab3529623fb4fdb70f8d66f"
+            }
+          },
+          "rendered_frames": 5,
+          "observed_span_seconds": 3.3617999999998136,
+          "observed_render_fps": 1.1898387768458034,
+          "median_frame_gap_ms": 455.5,
+          "p95_frame_gap_ms": 2093.399999999907,
+          "max_frame_gap_ms": 2093.399999999907,
+          "p95_cpu_submission_ms": 1.1000000000931323,
+          "first_audio_time": 0.016486,
+          "last_audio_time": 3.314273,
+          "method": "Visible-tab render-completion samples during actual audio playback; CPU submission time, not GPU execution or physical AV latency",
+          "valid_sample": true
+        },
+        "files": {
+          "wav": "closures-2.wav",
+          "clip": "closures-2-clip.json",
+          "reference": "closures-2-reference.json"
+        }
+      },
+      {
+        "case": "contacts",
+        "repeat": 2,
+        "audio_sha256": "a762e20fa7809a2487ca41c7cd5b86627ae4ba144f1c408ba98679250db282e3",
+        "text_sha256": "879515f4274a809cb80a00c411f13db6ef10f519993b7117fc695669025b47e5",
+        "duration_seconds": 4.074666666666666,
+        "model_load_seconds": 0.723,
+        "dependency_import_seconds": 0.2765,
+        "generation_seconds": 3.4492,
+        "real_time_factor": 0.8464986910994764,
+        "analysis_seconds": 4.2781,
+        "pipeline_seconds": 9.0098,
+        "peak_worker_memory_mib": 314.93,
+        "memory_scope": "Linux/macOS process high-water RSS; includes dependencies/model; not system RAM or isolated model size",
+        "providers": [
+          "CPUExecutionProvider"
+        ],
+        "rig": {
+          "profile": "mpfb-rhubarb-9-v1",
+          "source_commit": "2afe6d79779313db8909badebf46f9805a6c7b70",
+          "model_sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+          "retarget_sha256": "dffa942e4f0bf5055c727235f4f4ec4110a8a4c9ac5d4cfcce6e6e96ff7ad009",
+          "viewer_sha256": "f84c2d277116c3ed4dbd6b5fbd6e414567be6a772ab3529623fb4fdb70f8d66f"
+        },
+        "playback": {
+          "reason": "ended",
+          "diagnostics": {
+            "modelStats": {
+              "vertices": 53116,
+              "bones": 67,
+              "faceControls": 66,
+              "runtimeFaceControls": 20,
+              "morphMeshes": 6
+            },
+            "webgl": {
+              "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+              "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+              "vendor": "Google Inc. (Google)",
+              "contextLost": false
+            },
+            "canvas": {
+              "width": 687,
+              "height": 535
+            },
+            "pixelRatio": 1,
+            "speechRig": {
+              "profile": "mpfb-rhubarb-9-v1",
+              "source_commit": "2afe6d79779313db8909badebf46f9805a6c7b70",
+              "model_sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+              "retarget_sha256": "dffa942e4f0bf5055c727235f4f4ec4110a8a4c9ac5d4cfcce6e6e96ff7ad009",
+              "viewer_sha256": "f84c2d277116c3ed4dbd6b5fbd6e414567be6a772ab3529623fb4fdb70f8d66f"
+            }
+          },
+          "rendered_frames": 8,
+          "observed_span_seconds": 3.7367000000001864,
+          "observed_render_fps": 1.8733106751945972,
+          "median_frame_gap_ms": 495.39999999990687,
+          "p95_frame_gap_ms": 941.8000000002794,
+          "max_frame_gap_ms": 941.8000000002794,
+          "p95_cpu_submission_ms": 1,
+          "first_audio_time": 0.000907,
+          "last_audio_time": 3.673161,
+          "method": "Visible-tab render-completion samples during actual audio playback; CPU submission time, not GPU execution or physical AV latency",
+          "valid_sample": true
+        },
+        "files": {
+          "wav": "contacts-2.wav",
+          "clip": "contacts-2-clip.json",
+          "reference": "contacts-2-reference.json"
+        }
+      },
+      {
+        "case": "vowels",
+        "repeat": 2,
+        "audio_sha256": "fa36bc15385794b892fbbf8e1b33f2220cd721a22a0fab015cf986ea9223e12f",
+        "text_sha256": "0052ef681dd102afc96d53ec0d27f264fc6834e04d1be04b0ab1de2f78848ad6",
+        "duration_seconds": 3.6053333333333333,
+        "model_load_seconds": 1.071,
+        "dependency_import_seconds": 0.3565,
+        "generation_seconds": 3.5442,
+        "real_time_factor": 0.9830436390532544,
+        "analysis_seconds": 5.8473,
+        "pipeline_seconds": 11.1115,
+        "peak_worker_memory_mib": 309.27,
+        "memory_scope": "Linux/macOS process high-water RSS; includes dependencies/model; not system RAM or isolated model size",
+        "providers": [
+          "CPUExecutionProvider"
+        ],
+        "rig": {
+          "profile": "mpfb-rhubarb-9-v1",
+          "source_commit": "2afe6d79779313db8909badebf46f9805a6c7b70",
+          "model_sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+          "retarget_sha256": "dffa942e4f0bf5055c727235f4f4ec4110a8a4c9ac5d4cfcce6e6e96ff7ad009",
+          "viewer_sha256": "f84c2d277116c3ed4dbd6b5fbd6e414567be6a772ab3529623fb4fdb70f8d66f"
+        },
+        "playback": {
+          "reason": "ended",
+          "diagnostics": {
+            "modelStats": {
+              "vertices": 53116,
+              "bones": 67,
+              "faceControls": 66,
+              "runtimeFaceControls": 20,
+              "morphMeshes": 6
+            },
+            "webgl": {
+              "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+              "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+              "vendor": "Google Inc. (Google)",
+              "contextLost": false
+            },
+            "canvas": {
+              "width": 687,
+              "height": 535
+            },
+            "pixelRatio": 1,
+            "speechRig": {
+              "profile": "mpfb-rhubarb-9-v1",
+              "source_commit": "2afe6d79779313db8909badebf46f9805a6c7b70",
+              "model_sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+              "retarget_sha256": "dffa942e4f0bf5055c727235f4f4ec4110a8a4c9ac5d4cfcce6e6e96ff7ad009",
+              "viewer_sha256": "f84c2d277116c3ed4dbd6b5fbd6e414567be6a772ab3529623fb4fdb70f8d66f"
+            }
+          },
+          "rendered_frames": 7,
+          "observed_span_seconds": 3.525399999999907,
+          "observed_render_fps": 1.7019345322517043,
+          "median_frame_gap_ms": 453.5,
+          "p95_frame_gap_ms": 1196.8999999999069,
+          "max_frame_gap_ms": 1196.8999999999069,
+          "p95_cpu_submission_ms": 0.900000000372529,
+          "first_audio_time": 0.011216,
+          "last_audio_time": 3.472165,
+          "method": "Visible-tab render-completion samples during actual audio playback; CPU submission time, not GPU execution or physical AV latency",
+          "valid_sample": true
+        },
+        "files": {
+          "wav": "vowels-2.wav",
+          "clip": "vowels-2-clip.json",
+          "reference": "vowels-2-reference.json"
+        }
+      }
+    ],
+    "external_request_count": 0,
+    "browser_error_count": 0
+  }
+}

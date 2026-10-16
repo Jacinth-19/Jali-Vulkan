@@ -44,7 +44,7 @@ recording -> animate the detailed character -> synchronized playback.
 | M4 | Detailed character in Vulkan | Not integrated | Native engine renders the richer textured rig with verified deformation |
 | M5 | Expressive facial performance | Basic procedural/manual controls only | Controllable, evaluated speech-related expression and gaze/gesture behavior |
 | M6 | Streaming and interruption | Partial: whole-utterance playback works | Bounded incremental audio/face playback with cancellation and recovery |
-| M7 | Windows performance and packaging | Partial: real Windows CPU speech/analyzer/live face CI passed; developer launchers added; target laptop and installer unverified | Measured target-device results and a tested, understandable launcher/package |
+| M7 | Windows performance and packaging | Partial: Windows backend and one-command benchmark passed hosted CI; target laptop and installer unverified | Measured target-device results and a tested, understandable launcher/package |
 | M8 | Asset workflow and final QA | Partial: fixtures, provenance and tests exist | Reliable asset round trips, real AV measurements, and release review |
 
 ## B0 — Foundation already delivered
@@ -163,6 +163,9 @@ This is not verified phoneme-level alignment.
 
 ### Alignment and independent evaluation
 
+- [x] Generate empty reference templates bound to each exact benchmark WAV/text; do not derive expected events from Rhubarb.
+- [x] Add an attributed-reference comparator with actual-WAV checks, window coverage and signed boundary differences; synthetic unit tests are not actual alignment validation.
+
 - [ ] Compare the baseline against a permitted local aligner or trustworthy provider timings.
 - [ ] If adding a forced aligner, review/pin its weights and validate its own outputs.
 - [ ] Handle inaccurate transcripts, unknown words and low-confidence alignment explicitly.
@@ -183,7 +186,7 @@ unseen speech, with documented review. No universal millisecond accuracy claim i
 **Depends on:** the already available licensed character. This follows the first
 working local-speech/WebGL integration, rather than blocking it.
 
-- [ ] Audit the optimized asset's extensions and the native importer's current restrictions.
+- [x] Audit the optimized asset's static extensions/counts/targets against the native profile; 67-joint/66-target multi-mesh/material gaps are recorded, not silently removed.
 - [ ] Choose an explicit supported native profile and report unsupported features clearly.
 - [ ] Support the actual skeleton/palette needs; do not silently truncate the 67-bone rig.
 - [ ] Preserve hierarchy, mesh transforms, inverse bind matrices and joint weights.
@@ -269,6 +272,16 @@ hosted Linux/Windows CI results cannot stand in for it.
 
 Actual hosted metrics and remaining setup scope: [Windows neural studio](windows-neural-studio.md),
 [Actions evidence](evidence/windows-neural-actions.json). All nine jobs passed in run 38843451199.
+
+### One-command measurement collector
+
+- [x] Add `windows/benchmark.ps1` after explicit setup; normal runs use a visible installed Chrome/Edge.
+- [x] Collect repeated new CPU speech, model/import times, peak worker memory and renderer-update observations into one inspectable JSON.
+- [x] Use an isolated session store/loopback port; never clear an interactive preview's recordings for a benchmark.
+- [x] Test the actual PowerShell benchmark entry point on hosted Windows, not only equivalent Python commands.
+- [ ] Collect and review the resulting report from the user's actual laptop.
+
+See [benchmark, independent references and native blockers](windows-benchmark.md).
 
 ### Target-laptop execution and measurements
 
@@ -379,6 +392,13 @@ or scope; a roadmap item is not a promise that an arbitrary model will run in re
 
 ## Current next action
 
+**Delivered collector:** after Windows setup, run `windows/benchmark.ps1` on the
+actual laptop and inspect/share `artifacts/jali-benchmark-report.json` if comfortable.
+[Instructions and limits](windows-benchmark.md). M3 references must be independently
+marked on the newly recorded WAVs; no rig strengths have been declared tuned.
+M4 is at static audit only; implementing a rich native profile/ABI is still open.
+
+
 **Early browser checkpoint prepared:** see [the extraction/review instructions](windows-playback-checkpoint.txt). The pack needs no Python or models for playback and exports explicit user notes plus visible-tab render observations. Windows-hosted Chrome HTTP/file playback passed separately from Linux neural synthesis in eight-job Actions run 38841826083. See [checkpoint evidence](playback-checkpoint.md). The separately ported developer backend subsequently passed nine-job run 38843451199; neither hosted check finishes target-device M7 acceptance.
 
 
@@ -417,6 +437,7 @@ use this dated tracker and current evidence to judge present completion.
 
 | Date | Update |
 |---|---|
+| 2026-10-16 | Delivered isolated one-command Windows benchmark (actual PowerShell entry point passed in nine-job run 38844926069); six local fresh samples, 87 Python/12 JS tests. Added exact-WAV independent-reference templates/comparison and static M4 blockers for 8 meshes/skins, 67 joints, 66 targets and materials. No independent alignment, rig tuning, rich Vulkan rendering or target-laptop acceptance is claimed. |
 | 2026-10-16 | Windows x64 developer backend passed three actual new CPU recordings, Windows exact-WAV/dialog analysis and live Chrome face checks. All nine Actions jobs passed; pipeline 4.99–5.30 s, worker peak working set 291–297 MiB on the runner. Added platform pins, safe extraction, Windows cleanup/UTF-8 handling and developer PowerShell launchers; target laptop/installer/quality remain open. |
 | 2026-10-16 | Added a self-contained laptop/browser playback checkpoint with half-speed review, notes and explicit JSON export. Render-completion measurements distinguish CPU submission time from GPU execution/physical AV latency. Public-corpus/hash admission checks and local HTTP/file tests passed. All eight Actions jobs passed, including actual Windows Chrome HTTP/file playback; target-device and local Windows speech tests remain open. |
 | 2026-10-16 | M3 partial: corrected short-cue blending and actual-duration rest, 9 JavaScript tests and 67 Python tests passed; three fresh browser-generated utterances produced 22 review frames covering nine estimated classes. Human/independent alignment review remains open. All seven jobs passed in Actions run 38837436553; the real neural job took 3m22s after fixing a cold binary-download defect. |

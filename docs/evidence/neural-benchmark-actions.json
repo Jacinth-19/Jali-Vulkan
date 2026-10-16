@@ -1,0 +1,191 @@
+{
+  "date": "2026-10-16",
+  "run": {
+    "id": 38844926069,
+    "html_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38844926069",
+    "head_sha": "358d4e3e7994d674393501d79d9bfd22e90df671",
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "run_started_at": "2026-10-16T03:19:21Z",
+    "updated_at": "2026-10-16T03:24:35Z"
+  },
+  "jobs": [
+    {
+      "id": 116793177154,
+      "name": "g++ / Release",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-16T03:19:23Z",
+      "completed_at": "2026-10-16T03:19:45Z",
+      "html_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38844926069/job/116793177154"
+    },
+    {
+      "id": 116793177311,
+      "name": "Native speech, Vulkan validation layers and browser",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-16T03:19:23Z",
+      "completed_at": "2026-10-16T03:20:32Z",
+      "html_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38844926069/job/116793177311"
+    },
+    {
+      "id": 116793177316,
+      "name": "g++ / Debug",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-16T03:19:23Z",
+      "completed_at": "2026-10-16T03:19:40Z",
+      "html_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38844926069/job/116793177316"
+    },
+    {
+      "id": 116793177343,
+      "name": "Local neural speech, WebGL and articulation review",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-16T03:19:23Z",
+      "completed_at": "2026-10-16T03:22:59Z",
+      "html_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38844926069/job/116793177343"
+    },
+    {
+      "id": 116793177369,
+      "name": "clang++ / Debug",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-16T03:19:24Z",
+      "completed_at": "2026-10-16T03:19:45Z",
+      "html_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38844926069/job/116793177369"
+    },
+    {
+      "id": 116793177382,
+      "name": "Windows local neural speech, analyzer and live face",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-16T03:19:24Z",
+      "completed_at": "2026-10-16T03:24:00Z",
+      "html_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38844926069/job/116793177382"
+    },
+    {
+      "id": 116793177407,
+      "name": "Address and undefined-behavior checks",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-16T03:19:23Z",
+      "completed_at": "2026-10-16T03:19:38Z",
+      "html_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38844926069/job/116793177407"
+    },
+    {
+      "id": 116793177571,
+      "name": "clang++ / Release",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-16T03:19:23Z",
+      "completed_at": "2026-10-16T03:19:53Z",
+      "html_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38844926069/job/116793177571"
+    },
+    {
+      "id": 116794132137,
+      "name": "Windows Chrome offline playback (not local TTS)",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-16T03:23:01Z",
+      "completed_at": "2026-10-16T03:24:35Z",
+      "html_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38844926069/job/116794132137"
+    }
+  ],
+  "windows_benchmark_launcher": {
+    "job_id": 116793177382,
+    "actual_powershell_script_executed": true,
+    "repeats_per_case": 1,
+    "expected_completed_samples": 3,
+    "headless": true,
+    "target_laptop_tested": false
+  },
+  "artifacts": [
+    {
+      "id": 12023091658,
+      "name": "laptop-playback-checkpoint",
+      "size_in_bytes": 9537565,
+      "expired": false,
+      "expires_at": "2026-10-19T03:22:55Z",
+      "web_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38844926069/artifacts/12023091658"
+    },
+    {
+      "id": 12023026705,
+      "name": "neural-articulation-review",
+      "size_in_bytes": 5231517,
+      "expired": false,
+      "expires_at": "2026-10-19T03:22:56Z",
+      "web_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38844926069/artifacts/12023026705"
+    },
+    {
+      "id": 12022986412,
+      "name": "fixture-clang++-Debug",
+      "size_in_bytes": 13231,
+      "expired": false,
+      "expires_at": "2026-10-19T03:19:43Z",
+      "web_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38844926069/artifacts/12022986412"
+    },
+    {
+      "id": 12022889083,
+      "name": "windows-browser-playback-evidence",
+      "size_in_bytes": 884093,
+      "expired": false,
+      "expires_at": "2026-10-19T03:24:31Z",
+      "web_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38844926069/artifacts/12022889083"
+    },
+    {
+      "id": 12022763835,
+      "name": "native-backend-evidence",
+      "size_in_bytes": 815476,
+      "expired": false,
+      "expires_at": "2026-10-19T03:20:29Z",
+      "web_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38844926069/artifacts/12022763835"
+    },
+    {
+      "id": 12022658943,
+      "name": "fixture-g++-Release",
+      "size_in_bytes": 13227,
+      "expired": false,
+      "expires_at": "2026-10-19T03:19:43Z",
+      "web_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38844926069/artifacts/12022658943"
+    },
+    {
+      "id": 12022654065,
+      "name": "fixture-g++-Debug",
+      "size_in_bytes": 13231,
+      "expired": false,
+      "expires_at": "2026-10-19T03:19:37Z",
+      "web_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38844926069/artifacts/12022654065"
+    },
+    {
+      "id": 12022614687,
+      "name": "windows-local-neural-evidence",
+      "size_in_bytes": 5926646,
+      "expired": false,
+      "expires_at": "2026-10-19T03:23:53Z",
+      "web_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38844926069/artifacts/12022614687"
+    },
+    {
+      "id": 12022263159,
+      "name": "fixture-clang++-Release",
+      "size_in_bytes": 13225,
+      "expired": false,
+      "expires_at": "2026-10-19T03:19:51Z",
+      "web_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38844926069/artifacts/12022263159"
+    }
+  ],
+  "local_execution": {
+    "full_python_tests": 87,
+    "javascript_tests": 12,
+    "benchmark_repeats_per_case": 2,
+    "fresh_cpu_samples": 6,
+    "browser_sample_collection_completed": true
+  },
+  "limits": [
+    "API verified completed jobs and the actual Windows launcher step. Hosted artifact contents not independently downloaded in this sandbox.",
+    "M3 independent references remain pending; no validated rig-strength tuning or full-utterance quality conclusion.",
+    "M4 audit only; no rich native Vulkan renderer implemented.",
+    "Hosted Windows headless Chrome does not establish physical laptop/GPU/AV performance."
+  ]
+}

@@ -188,3 +188,13 @@ With Python 3.11 x64, Node 22 and GitHub CLI public-source access installed, run
 URL printed by the launcher. Setup is explicit/networked; generation is local CPU
 with no hosted-speech fallback. These are developer scripts, not a standalone
 installer. [Prerequisites, results and remaining limitations](docs/windows-neural-studio.md).
+
+### One-command Windows benchmark
+
+After explicit Windows setup, run `windows/benchmark.ps1`. It generates six new
+public test recordings by default and writes model/import/generation/analysis
+times, peak worker memory and visible-browser rendering observations to
+`artifacts/jali-benchmark-report.json`. Nothing uploads automatically; inspect the
+report before sharing. Independent-reference templates and a static native-rig
+gap audit are included, not a completed quality score or Vulkan port.
+[Commands, actual Windows CI evidence and remaining M3/M4 work](docs/windows-benchmark.md).
