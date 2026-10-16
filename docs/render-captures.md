@@ -1,6 +1,6 @@
 # Actual README renderer images
 
-The four PNGs in [`images/`](images/) are **actual application renderer output**,
+The original four PNGs in [`images/`](images/) are **actual application renderer output**,
 not generated concept art. [`render-evidence.json`](images/render-evidence.json)
 records their SHA-256 hashes, source-file hashes, exact audio hashes, sampled
 speech times and renderer identities. They are point-in-time captures, not a
@@ -25,6 +25,26 @@ device is **SwiftShader Device (Subzero)**, `hardware_accelerated: false`. This 
 software Vulkan, not a hardware benchmark and **not a Vulkan render of MPFB**.
 The 67-joint test fixture retains the original android geometry and three morphs;
 it is not a claim of equivalent visual complexity to the detailed human.
+
+## New detailed-human Vulkan captures
+
+The README now also embeds `native-human-closure.png`, `native-human-contact.png`
+and `native-human-rounding.png`. These **are the detailed human rendered in native
+Vulkan**, unlike the historical android above. [Separate evidence](images/native-human-evidence.json)
+records their hashes, exact neural WAV identities, sampled estimated cue times,
+source rig, 66-target/seven-material profile, actual SwiftShader device and
+CPU/GPU/source-Three/browser proofs. All are 512² genuine raster readback, with
+neutral styling and no procedural head/blink motion. There is no perceptual pass.
+
+From a prepared public-corpus studio run, collect review and stage the comparison
+assets using `tools/build_native_compare.py`, build `tools/build_native_head.py`,
+and run `tools/run_native_ci.py --software-vulkan`. Then run
+`tools/publish_native_evidence.py` to copy the three real PNGs and small metadata.
+The publisher accepts only the exact fixed public synthetic corpus and verifies
+recording/image hashes. The optional phone-alignment diagnostics must be generated
+first as documented in [the guide](rich-vulkan-and-streaming.md). Binaries, neural
+weights, WAVs and the 171-MB decoded GLB remain outside Git. Public CI publishes
+small render/diagnostic artifacts, not caches or model weights.
 
 ## Reproduce (prepared Linux development environment)
 

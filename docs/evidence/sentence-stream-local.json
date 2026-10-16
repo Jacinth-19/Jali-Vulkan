@@ -1,0 +1,45 @@
+{
+  "passed": true,
+  "mode": "sentence-batched",
+  "first_batch_before_all_produced": true,
+  "max_pending": 2,
+  "cancel_then_retry": true,
+  "combined_audio_sha256": "e677fc97de65464b4443ad856d966eb12f51ec6a1588753f6c5008071724c40e",
+  "stream": {
+    "mode": "sentence-batched",
+    "chunks": 3,
+    "sample_rate": 24000,
+    "samples": 150528,
+    "max_pending": 2
+  },
+  "observations": {
+    "mode": "sentence-batched",
+    "firstPlayableMs": 11468.299999999814,
+    "gapsMs": [
+      6512.4000000003725,
+      5731.899999999907
+    ],
+    "chunks": [
+      {
+        "index": 0,
+        "start_sample": 0,
+        "end_sample": 72704,
+        "audio_sha256": "21575c1d19fc6df26875d91e879d49f359a5485dc26114233dbbc36aeadd7c49"
+      },
+      {
+        "index": 1,
+        "start_sample": 72704,
+        "end_sample": 125440,
+        "audio_sha256": "1061830fcc031e77fcb9701e3029863e15cee36ae0ac0b19f784dd88e271f38e"
+      },
+      {
+        "index": 2,
+        "start_sample": 125440,
+        "end_sample": 150528,
+        "audio_sha256": "d70b6b8908948ae7c4d3ced2cc41ea741667146bdfc7cae2dc4e012df5c265cb"
+      }
+    ],
+    "bufferingCount": 92
+  },
+  "limits": "Observed automation timings, not gapless playback or target-laptop performance acceptance"
+}

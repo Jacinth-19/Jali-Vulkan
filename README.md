@@ -1,6 +1,6 @@
 # Jali-Vulkan
 
-C++17 voice-to-face engine with **native Vulkan morphing/skinning and rasterization**, plus a connected **local CPU neural-speech / detailed WebGL face studio**. These are separate rendering paths: the detailed textured human is not yet ported to Vulkan.
+C++17 voice-to-face engine with **native Vulkan morphing/skinning and rasterization**, plus a connected **local CPU neural-speech / detailed WebGL face studio**. These are separate rendering paths sharing verified neural WAV/cue sessions: **the detailed textured human now also renders in native Vulkan**.
 
 ## Actual renderer captures
 
@@ -11,6 +11,18 @@ The human poses below follow estimated cues from freshly synthesized local speec
 |:---:|:---:|:---:|
 | ![Actual detailed WebGL head at an estimated P/B/M closure cue](docs/images/webgl-closure.png) | ![Actual detailed WebGL head at an estimated F/V cue](docs/images/webgl-contact.png) | ![Actual detailed WebGL head at an estimated rounded vowel cue](docs/images/webgl-rounding.png) |
 
+**Detailed human — actual native Vulkan raster output:**
+
+| P/B/M closure — Vulkan | F/V contact — Vulkan | OO/W rounding — Vulkan |
+|:---:|:---:|:---:|
+| ![Actual detailed human Vulkan lip-closure frame](docs/images/native-human-closure.png) | ![Actual detailed human Vulkan lip-to-teeth cue frame](docs/images/native-human-contact.png) | ![Actual detailed human Vulkan rounded-vowel frame](docs/images/native-human-rounding.png) |
+
+These use the **same actual neural WAV/cue contract**, not eSpeak retiming or a
+prerendered replacement. Eight mesh groups, 53,116 vertices, 66 named facial
+targets, 68 palette nodes and seven textured materials are preserved. Captured on
+**SwiftShader software Vulkan**, not a hardware-GPU performance result.
+[Exact image/audio hashes and deformation/browser evidence](docs/images/native-human-evidence.json).
+
 **Native Vulkan — original android, 67-joint test fixture:**
 
 <img src="docs/images/native-vulkan.png" width="320" alt="Actual native Vulkan raster output of the original Jali android fixture">
@@ -19,7 +31,7 @@ Captured on **SwiftShader software Vulkan**, not a hardware-GPU performance resu
 The native fixture is not the detailed human above. [Capture commands, provenance,
 image hashes and scope](docs/render-captures.md) are retained.
 
-### Newly implemented controls and native capacity
+### Implemented next-stage features
 
 - **Cancel generation:** stops the owned speech/analyzer child, hides partial media,
   cleans up, and allows a fresh request after the worker exits.
@@ -28,15 +40,27 @@ image hashes and scope](docs/render-captures.md) are retained.
 - **Separate performance layers:** manual gaze, restrained head/blink motion, and
   neutral/warm/attentive styling. Speech closures, F/V and rounding take priority
   over warm smiles; these controls are not emotion inference.
-- **128-joint native palette:** importer, C++/GLSL pose ABI and GPU buffers expanded
-  together. Real 67- and 128-joint fixtures exercise weighted joints 66/127 and
-  compare GPU positions with the CPU reference. This alone does **not** complete
-  rich multi-mesh/material/morph support.
+- **Rich native Vulkan:** named position/normal morph storage, complete skin
+  hierarchy, textured multi-material rendering, normal maps and alpha handling.
+  CPU/GPU position/normal probes and all-vertex source Three.js comparisons pass.
+  Select native presentation in the studio when its decoded backend is enabled.
+- **Bounded sentence-batched early playback:** ordered, verified WAV/cue chunks,
+  two-pending backpressure, sample offsets, cancellation/retry and a completed
+  combined recording. **Not internal incremental Kokoro or gapless playback.**
+- **Phone-level alignment diagnostics:** optional pinned two-pass PocketSphinx
+  crosscheck of the actual WAV/transcript, explicitly not independent ground truth.
+- **Personal Windows portable build:** unsigned CPU/WebGL app with no runtime
+  Python/Node/gh requirement. Local-build-only pending redistribution/source
+  compliance; hosted tests publish proof, **not the bundle or weights**.
 
-**Validation:** 94 local Python tests, 15 JavaScript tests, 11 native CTest entries,
-and the real new-speech/browser review passed. All nine Linux/Windows jobs passed
-in [Actions run 38847212709](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38847212709).
+**Local checks:** 109 Python tests, 17 JavaScript tests, native contracts, real
+new-speech/batching cancellation/retry, and detailed native/source/browser checks.
+Hosted CI is being refreshed for this implementation; the earlier nine-job
+[run 38847212709](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38847212709)
+covered the preceding foundations, not these new features.
 
+See [rich Vulkan, streaming and alignment usage/limits](docs/rich-vulkan-and-streaming.md)
+and [personal Windows portable-build instructions](docs/windows-portable.md).
 See [implementation details and remaining work](docs/performance-controls.md) and
 [the milestone tracker](docs/project-tracker.md). The user reports that the Windows
 command runs on their PC; quantitative target-laptop results have not been supplied.
@@ -61,9 +85,9 @@ On a hardware Vulkan machine, omit `--software-vulkan`. Use `--require-hardware`
 |---|---|
 | Real built-in eSpeak speech and phoneme timing events | Neural cloning needs an authorized reference and reviewed local weights |
 | Lip closure, jaw opening, rounding, and short coarticulation | Learned facial solving / broader language-specific viseme sets |
-| Imported GLB: 11,392 vertices, two joints, three named morph targets | General FBX/Assimp/DCC rig compatibility and unrestricted glTF |
+| Detailed human: 53,116 vertices, 68 palette nodes, 66 named targets, textured multi-material profile | General FBX/Assimp/DCC rig compatibility and unrestricted glTF |
 | GPU morph-then-skin compute pass + rasterized triangles | Hardware-GPU validation in this CPU-only sandbox |
-| Persistent native renderer, Web Audio clock, live frame requests, pause/seek | Incremental neural audio inference and microphone conversation |
+| Persistent native renderer, Web Audio clock, live frame requests, pause/seek | Internal incremental neural inference, gapless batching and microphone conversation |
 | CPU/GPU deformation comparison, malformed-asset tests, official glTF validation | Physical display/speaker sync certification and target-device p95 budgets |
 
 A local Chatterbox provider entry point is available in `tools/authorized_voice.py`, with authorization/expiry/hash admission checks. **Chatterbox cloning inference is not installed, exercised, or connected to the preview here.** A separate local stock-voice Kokoro CPU experiment has now succeeded; see below. No human voice reference was supplied. Another voice's audio requires its own true alignment; eSpeak timings are not reused to fake alignment.

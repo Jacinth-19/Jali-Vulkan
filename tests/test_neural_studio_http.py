@@ -92,6 +92,27 @@ class StudioHTTPTests(unittest.TestCase):
         self.assertEqual(self.post({'text':'bad\ud800'})[0],400)
         self.assertFalse(self.state.busy)
 
+    def test_stream_and_ack_route_validation_and_csrf(self):
+        for route in ('/api/stream','/api/ack'):
+            self.assertEqual(self.request(route,b'{}',headers={'X-Jali-Token':''})[0],403)
+        self.assertEqual(self.request('/api/stream',json.dumps({'text':'Hi. '*10}).encode())[0],400)
+        for index in (-1,True,.5,8,'0'):
+            self.assertEqual(self.request('/api/ack',json.dumps({'id':'a'*32,'index':index}).encode())[0],400)
+        self.assertEqual(self.request('/api/ack',json.dumps({'id':'a'*32,'index':0}).encode())[0],404)
+        self.assertFalse(self.state.busy)
+
+    def test_optional_native_frame_auth_query_and_expired_identity(self):
+        self.assertEqual(self.request('/api/native/frame?id=neutral&time=0')[0],404)
+        from types import SimpleNamespace
+        self.state.native=SimpleNamespace(metadata={'fixture':True},frame=lambda clip,query:(b'explicit-test-image-fixture',1.25))
+        route='/api/native/frame?id=neutral&time=0'
+        self.assertEqual(self.request(route,headers={'X-Jali-Token':''})[0],403)
+        self.assertEqual(self.request(route,headers={'Origin':'https://other.invalid'})[0],403)
+        self.assertEqual(self.request(route+'&time=1')[0],400)
+        self.assertEqual(self.request(route+'&model_url=bad')[0],400)
+        self.assertEqual(self.request('/api/native/frame?id=unknown&time=0')[0],404)
+        code,body,headers=self.request(route);self.assertEqual((code,body),(200,b'explicit-test-image-fixture'));self.assertEqual(headers['X-Jali-Render-Ms'],'1.250')
+
     def test_config_and_root(self):
         code, data, headers = self.request('/api/config')
         self.assertEqual(code, 200)

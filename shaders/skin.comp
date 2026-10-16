@@ -2,16 +2,26 @@
 layout(local_size_x=64) in;
 layout(set=0,binding=0,std430) readonly buffer Rest { uint words[]; } rest;
 layout(set=0,binding=1,std430) writeonly buffer Deformed { float words[]; } mesh;
-layout(set=0,binding=2,std140) uniform Pose { mat4 bones[128]; vec4 morph; } pose;
-layout(push_constant) uniform Count { uint vertices; } count;
+layout(set=0,binding=2,std140) uniform Pose { mat4 bones[128]; vec4 morph; vec4 weights[20]; vec4 camera; } pose;
+layout(set=0,binding=3,std430) readonly buffer Deltas { float words[]; } delta;
+layout(set=0,binding=4,std430) readonly buffer Surface { float words[]; } surface;
+layout(push_constant) uniform Count { uint vertices; uint targets; } count;
 vec3 read3(uint o) { return vec3(uintBitsToFloat(rest.words[o]),uintBitsToFloat(rest.words[o+1]),uintBitsToFloat(rest.words[o+2])); }
 void main() {
     uint v=gl_GlobalInvocationID.x;if(v>=count.vertices)return;uint s=v*26;
-    vec3 p=read3(s)+read3(s+17)*pose.morph.x+read3(s+20)*pose.morph.y+read3(s+23)*pose.morph.z;
+    vec3 p=read3(s)+read3(s+17)*pose.morph.x+read3(s+20)*pose.morph.y+read3(s+23)*pose.morph.z,n=read3(s+3);
+    for(uint t=0;t<count.targets;t++){
+        float w=pose.weights[t/4][t%4];if(w==0)continue;
+        uint d=(t*count.vertices+v)*6;
+        p+=vec3(delta.words[d],delta.words[d+1],delta.words[d+2])*w;
+        n+=vec3(delta.words[d+3],delta.words[d+4],delta.words[d+5])*w;
+    }
     mat4 skin=mat4(0);
     for(uint i=0;i<4;i++)skin+=pose.bones[rest.words[s+9+i]]*uintBitsToFloat(rest.words[s+13+i]);
-    p=(skin*vec4(p,1)).xyz;vec3 n=mat3(skin)*read3(s+3);
-    float length2=dot(n,n);n=length2>1e-12 ? n*inversesqrt(length2) : read3(s+3);vec3 color=read3(s+6);
-    uint o=v*9;
+    p=(skin*vec4(p,1)).xyz;
+    n=count.targets>0?transpose(inverse(mat3(skin)))*n:mat3(skin)*n;
+    float length2=dot(n,n);n=length2>1e-25?n*inversesqrt(length2):read3(s+3);vec3 color=read3(s+6);
+    uint o=v*20;
     for(uint k=0;k<3;k++){mesh.words[o+k]=p[k];mesh.words[o+3+k]=n[k];mesh.words[o+6+k]=color[k];}
+    for(uint k=0;k<11;k++)mesh.words[o+9+k]=surface.words[v*11+k];
 }

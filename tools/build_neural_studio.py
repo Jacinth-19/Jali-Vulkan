@@ -19,9 +19,10 @@ ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / 'artifacts/neural-studio'
 
 
-def build():
-    verify_assets(ASSETS)
-    ensure_engine()
+def build(*,prepare_speech=True):
+    if prepare_speech:
+        verify_assets(ASSETS)
+        ensure_engine()
     model = ROOT / 'artifacts/neural-head-demo/model/mpfb-head.glb'
     if not model.is_file():
         prepare_model()
@@ -29,8 +30,9 @@ def build():
         prepare_model()
     (OUTPUT / 'licenses').mkdir(parents=True, exist_ok=True)
     (OUTPUT / 'model').mkdir(exist_ok=True)
-    for name in ('index.html','style.css','controller.js'):
+    for name in ('index.html','style.css'):
         shutil.copy2(ROOT / 'web/neural-studio' / name, OUTPUT / name)
+    subprocess.run(['node','tools/bundle_head.cjs',str(OUTPUT/'controller.js'),'web/neural-studio/controller.js'],cwd=ROOT,check=True,timeout=60)
     shutil.copy2(model, OUTPUT / 'model/mpfb-head.glb')
     subprocess.run(['node', 'tools/bundle_head.cjs', str(OUTPUT / 'viewer.js')], cwd=ROOT, check=True, timeout=60)
     subprocess.run(['node', 'tools/validate_head.cjs', str(model), str(OUTPUT / 'proof/decoded-model-validation.json')], cwd=ROOT, check=True, timeout=60)

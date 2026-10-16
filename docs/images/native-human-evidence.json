@@ -1,0 +1,350 @@
+{
+  "schema": "jali-real-native-human-captures-v1",
+  "images": [
+    {
+      "file": "native-human-closure.png",
+      "time": 1.72,
+      "estimated_class": "A",
+      "weights": {
+        "viseme_PP": 0.95
+      },
+      "readback_ms": 126.20026900003722,
+      "sha256": "2908585dc80ad92b25c902456693f89c7c4d0c50cf6abd7506489fe3ec0fe4be",
+      "renderer": "native-vulkan-rich-v1",
+      "session_id": "0d36111365d34c3781dd5f59e5623f36",
+      "audio_sha256": "cb2aff047d3bee2e7e648af51ed413f3f7962bc8868d5591a339dbc738366f0d",
+      "native_asset_sha256": "26aee8693111e05e144fe64acf2dbd2484182716b3a320184c8da7b96cdcaad7",
+      "source_rig": {
+        "profile": "mpfb-rhubarb-9-v1",
+        "source_commit": "2afe6d79779313db8909badebf46f9805a6c7b70",
+        "model_sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+        "retarget_sha256": "dffa942e4f0bf5055c727235f4f4ec4110a8a4c9ac5d4cfcce6e6e96ff7ad009",
+        "viewer_sha256": "09c59e5fe43e04225548c47fafc0eada325ed8672a0dfab896072d268008535f"
+      },
+      "device": "SwiftShader Device (Subzero)",
+      "hardware_accelerated": false,
+      "independent_phoneme_verification": false
+    },
+    {
+      "file": "native-human-contact.png",
+      "time": 0.44499999999999995,
+      "estimated_class": "G",
+      "weights": {
+        "viseme_FF": 0.85
+      },
+      "readback_ms": 119.62450500004707,
+      "sha256": "0f75a02eb42ad738a51e57ad281f187a301c19ce5e8e13d4c3210887e34224b0",
+      "renderer": "native-vulkan-rich-v1",
+      "session_id": "1e2eb8f50bc2487a9c3db811c7a20929",
+      "audio_sha256": "a762e20fa7809a2487ca41c7cd5b86627ae4ba144f1c408ba98679250db282e3",
+      "native_asset_sha256": "26aee8693111e05e144fe64acf2dbd2484182716b3a320184c8da7b96cdcaad7",
+      "source_rig": {
+        "profile": "mpfb-rhubarb-9-v1",
+        "source_commit": "2afe6d79779313db8909badebf46f9805a6c7b70",
+        "model_sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+        "retarget_sha256": "dffa942e4f0bf5055c727235f4f4ec4110a8a4c9ac5d4cfcce6e6e96ff7ad009",
+        "viewer_sha256": "09c59e5fe43e04225548c47fafc0eada325ed8672a0dfab896072d268008535f"
+      },
+      "device": "SwiftShader Device (Subzero)",
+      "hardware_accelerated": false,
+      "independent_phoneme_verification": false
+    },
+    {
+      "file": "native-human-rounding.png",
+      "time": 2.565,
+      "estimated_class": "F",
+      "weights": {
+        "viseme_U": 0.88,
+        "viseme_O": 0.12
+      },
+      "readback_ms": 122.38257700028043,
+      "sha256": "44dba19fbfe5164f50934e1256f49032f56a03b785f39b83a221b255699e53db",
+      "renderer": "native-vulkan-rich-v1",
+      "session_id": "0d36111365d34c3781dd5f59e5623f36",
+      "audio_sha256": "cb2aff047d3bee2e7e648af51ed413f3f7962bc8868d5591a339dbc738366f0d",
+      "native_asset_sha256": "26aee8693111e05e144fe64acf2dbd2484182716b3a320184c8da7b96cdcaad7",
+      "source_rig": {
+        "profile": "mpfb-rhubarb-9-v1",
+        "source_commit": "2afe6d79779313db8909badebf46f9805a6c7b70",
+        "model_sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+        "retarget_sha256": "dffa942e4f0bf5055c727235f4f4ec4110a8a4c9ac5d4cfcce6e6e96ff7ad009",
+        "viewer_sha256": "09c59e5fe43e04225548c47fafc0eada325ed8672a0dfab896072d268008535f"
+      },
+      "device": "SwiftShader Device (Subzero)",
+      "hardware_accelerated": false,
+      "independent_phoneme_verification": false
+    }
+  ],
+  "source_files_sha256": {
+    "src/character.cpp": "95c764bd959a15a414ce147ab60ff54dbd0434d2b39cf610e3563e217a948d03",
+    "src/character_rich.inc": "772280112f1879e3634e0d6e5557e56973f16b67b594c56d91bc8cd3360b8ecb",
+    "src/vulkan_renderer.cpp": "d0c73b3d2c6e0ce429130d954419330e464edbf4293e719c38e072f332d14789",
+    "src/vulkan_mesh.inc": "82f0f98283bb761d1cbd2e28d4fd91b2880efbc53cf586d7598cd6e435d11741",
+    "src/rich.cpp": "48c5a62944b6c518196a95e8b42d91cc49d03e9a01764181b306faa791b53afc",
+    "include/jali/character.hpp": "051ff4bd692f35cd38b5277e5554927143885508e4e474456ad63f502af978c0",
+    "shaders/skin.comp": "b05843b31611268b4fbae983ca7dc0d21153ae6b26293fb89a9b827f9d1367db",
+    "shaders/mesh.vert": "2ad7e16d35af29dc717f78e710669f854b3bd16ddbefdc8507d14247c496524e",
+    "shaders/mesh.frag": "0f0902074a9aab75b527403d2edf94f15e96ab4c05a7f308dbdb236bdb8a7349",
+    "tools/build_native_head.py": "2a64bde975b8d44a27d606eb93441106e9419c93667b2170db982469bb48b7c4",
+    "tools/prepare_native_head.cjs": "6d6aebeffa90518257c314afffa52d925b70b035a9814443376deb2306f315a2",
+    "tools/render_native_session.py": "1cef2415872cb9f638856e4d92c6f186d24fa63c4a4d48b3a359fbdc9dd6d8df"
+  },
+  "native_profile": {
+    "schema": "jali-native-head-profile-v1",
+    "source_sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+    "native_sha256": "26aee8693111e05e144fe64acf2dbd2484182716b3a320184c8da7b96cdcaad7",
+    "meshes_preserved_as_primitive_groups": 8,
+    "vertices": 53116,
+    "palette_nodes": 68,
+    "named_targets": 66,
+    "materials": 7,
+    "atlas_size": [
+      3084,
+      3084
+    ],
+    "limits": "Offline decoded profile, base-color/normal/alpha/metallic/roughness PBR. Emissive/occlusion/metallic-roughness maps and inconsistent non-common inverse binds fail explicitly; no runtime Meshopt decoder."
+  },
+  "cpu_gpu": {
+    "atlas_height": 3084,
+    "atlas_width": 3084,
+    "cpu_gpu_poses": [
+      {
+        "max_normal_error": 2.384185791015625e-07,
+        "max_position_error": 0.0,
+        "position_file": "reference-0.bin",
+        "weights": {}
+      },
+      {
+        "max_normal_error": 2.384185791015625e-07,
+        "max_position_error": 0.0,
+        "position_file": "reference-1.bin",
+        "weights": {
+          "viseme_PP": 0.949999988079071
+        }
+      },
+      {
+        "max_normal_error": 2.384185791015625e-07,
+        "max_position_error": 0.0,
+        "position_file": "reference-2.bin",
+        "weights": {
+          "viseme_aa": 0.8799999952316284
+        }
+      },
+      {
+        "max_normal_error": 2.384185791015625e-07,
+        "max_position_error": 0.0,
+        "position_file": "reference-3.bin",
+        "weights": {
+          "viseme_FF": 0.8500000238418579
+        }
+      },
+      {
+        "max_normal_error": 2.384185791015625e-07,
+        "max_position_error": 0.0,
+        "position_file": "reference-4.bin",
+        "weights": {
+          "viseme_O": 0.11999999731779099,
+          "viseme_U": 0.8799999952316284
+        }
+      },
+      {
+        "max_normal_error": 2.384185791015625e-07,
+        "max_position_error": 0.0,
+        "position_file": "reference-5.bin",
+        "weights": {
+          "viseme_DD": 0.2199999988079071,
+          "viseme_nn": 0.6499999761581421
+        }
+      },
+      {
+        "max_normal_error": 2.384185791015625e-07,
+        "max_position_error": 0.0,
+        "position_file": "reference-6.bin",
+        "weights": {
+          "eyeBlinkLeft": 1.0,
+          "eyeBlinkRight": 1.0
+        }
+      },
+      {
+        "max_normal_error": 2.384185791015625e-07,
+        "max_position_error": 0.0,
+        "position_file": "reference-7.bin",
+        "weights": {
+          "mouthSmileLeft": 0.1599999964237213,
+          "mouthSmileRight": 0.1599999964237213
+        }
+      }
+    ],
+    "device": "SwiftShader Device (Subzero)",
+    "hardware_accelerated": false,
+    "height": 512,
+    "named_targets": 66,
+    "palette_nodes": 68,
+    "primitive_groups": 8,
+    "renderer": "native-vulkan-rich-v1",
+    "triangles": 83686,
+    "vertices": 53116,
+    "width": 512
+  },
+  "source_three_comparison": {
+    "passed": true,
+    "method": "Three SkinnedMesh.getVertexPosition on ORIGINAL compressed source, all 8 primitive groups in preserved source order, vs native canonical CPU reference already GPU-position/normal tested",
+    "probes": [
+      {
+        "estimated_class": "X",
+        "session_id": "0d36111365d34c3781dd5f59e5623f36",
+        "audio_sha256": "cb2aff047d3bee2e7e648af51ed413f3f7962bc8868d5591a339dbc738366f0d",
+        "time": 3.41,
+        "vertices": 53116,
+        "maximum_component_error": 3.5762786865234375e-07,
+        "rms_component_error": 6.748579768213434e-08
+      },
+      {
+        "estimated_class": "A",
+        "session_id": "0d36111365d34c3781dd5f59e5623f36",
+        "audio_sha256": "cb2aff047d3bee2e7e648af51ed413f3f7962bc8868d5591a339dbc738366f0d",
+        "time": 1.72,
+        "vertices": 53116,
+        "maximum_component_error": 3.5762786865234375e-07,
+        "rms_component_error": 6.746414635854362e-08
+      },
+      {
+        "estimated_class": "D",
+        "session_id": "0d36111365d34c3781dd5f59e5623f36",
+        "audio_sha256": "cb2aff047d3bee2e7e648af51ed413f3f7962bc8868d5591a339dbc738366f0d",
+        "time": 0.14500000000000002,
+        "vertices": 53116,
+        "maximum_component_error": 3.5762786865234375e-07,
+        "rms_component_error": 6.739024781718034e-08
+      },
+      {
+        "estimated_class": "G",
+        "session_id": "1e2eb8f50bc2487a9c3db811c7a20929",
+        "audio_sha256": "a762e20fa7809a2487ca41c7cd5b86627ae4ba144f1c408ba98679250db282e3",
+        "time": 0.44499999999999995,
+        "vertices": 53116,
+        "maximum_component_error": 3.5762786865234375e-07,
+        "rms_component_error": 6.747449039057665e-08
+      },
+      {
+        "estimated_class": "F",
+        "session_id": "0d36111365d34c3781dd5f59e5623f36",
+        "audio_sha256": "cb2aff047d3bee2e7e648af51ed413f3f7962bc8868d5591a339dbc738366f0d",
+        "time": 2.565,
+        "vertices": 53116,
+        "maximum_component_error": 3.5762786865234375e-07,
+        "rms_component_error": 6.718515186898883e-08
+      },
+      {
+        "estimated_class": "H",
+        "session_id": "1e2eb8f50bc2487a9c3db811c7a20929",
+        "audio_sha256": "a762e20fa7809a2487ca41c7cd5b86627ae4ba144f1c408ba98679250db282e3",
+        "time": 2.425,
+        "vertices": 53116,
+        "maximum_component_error": 3.5762786865234375e-07,
+        "rms_component_error": 6.751297958285598e-08
+      }
+    ],
+    "layout": [
+      {
+        "sourceNodeIndex": 67,
+        "primitiveIndex": 0,
+        "count": 11779
+      },
+      {
+        "sourceNodeIndex": 68,
+        "primitiveIndex": 0,
+        "count": 2377
+      },
+      {
+        "sourceNodeIndex": 69,
+        "primitiveIndex": 0,
+        "count": 1076
+      },
+      {
+        "sourceNodeIndex": 70,
+        "primitiveIndex": 0,
+        "count": 12243
+      },
+      {
+        "sourceNodeIndex": 71,
+        "primitiveIndex": 0,
+        "count": 16992
+      },
+      {
+        "sourceNodeIndex": 72,
+        "primitiveIndex": 0,
+        "count": 3902
+      },
+      {
+        "sourceNodeIndex": 73,
+        "primitiveIndex": 0,
+        "count": 4494
+      },
+      {
+        "sourceNodeIndex": 74,
+        "primitiveIndex": 0,
+        "count": 253
+      }
+    ],
+    "source_model_sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+    "comparison_viewer_sha256": "09c59e5fe43e04225548c47fafc0eada325ed8672a0dfab896072d268008535f",
+    "limits": "Positions at actual corpus cue-center times, neutral/no secondary styling. Not identical lighting/pixels, independent phoneme correctness or perceptual acceptance."
+  },
+  "native_browser": {
+    "passed": true,
+    "session_id": "0d36111365d34c3781dd5f59e5623f36",
+    "audio_sha256": "cb2aff047d3bee2e7e648af51ed413f3f7962bc8868d5591a339dbc738366f0d",
+    "seek_time": 1.72,
+    "actual_native_frames": 5,
+    "last_readback_ms": 151.738,
+    "probes": {
+      "normal": {
+        "status": 200,
+        "hash": "7815af56d8dabe31b25acf8859733e7821ac5574fa49bc7415dad060dfa73f0e"
+      },
+      "warm": {
+        "status": 200,
+        "hash": "7815af56d8dabe31b25acf8859733e7821ac5574fa49bc7415dad060dfa73f0e"
+      },
+      "gaze": {
+        "status": 200,
+        "hash": "faac109185b2abf220eb017787478e8df6b90aec0e576116f58708251aa58310"
+      },
+      "rest": {
+        "status": 200,
+        "hash": "a2fe2ed96af7fb4271f8ca50986860f3056f146be346b46fb6b0238e1186eb4a"
+      },
+      "neutral": {
+        "status": 200,
+        "hash": "a2fe2ed96af7fb4271f8ca50986860f3056f146be346b46fb6b0238e1186eb4a"
+      },
+      "bad": {
+        "status": 400
+      },
+      "wrongToken": {
+        "status": 403
+      },
+      "device": {
+        "atlas_height": 3084,
+        "atlas_width": 3084,
+        "device": "SwiftShader Device (Subzero)",
+        "hardware_accelerated": false,
+        "height": 512,
+        "named_targets": 66,
+        "palette_nodes": 68,
+        "primitive_groups": 8,
+        "renderer": "native-vulkan-rich-v1",
+        "triangles": 83686,
+        "vertices": 53116,
+        "width": 512,
+        "source_model_sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+        "camera": "fixed native portrait camera; lighting differs from WebGL"
+      }
+    },
+    "errors": [],
+    "external": [],
+    "limits": "Real native image requests selected by the SAME verified recording media clock; no claim of physical AV synchronization, laptop hardware FPS or independent articulation quality."
+  },
+  "limits": "Real textured human Vulkan raster readback at exact neural-corpus cue times, not illustration, hardware/laptop FPS, independent articulation or physical AV acceptance."
+}

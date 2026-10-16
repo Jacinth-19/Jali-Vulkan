@@ -21,6 +21,8 @@ public:
     bool hardware_accelerated() const;
     void load_character(const std::filesystem::path& glb);
     std::vector<std::uint8_t> render_pose(SpeechPose pose);
+    std::vector<std::uint8_t> render_named_pose(const MorphWeights& weights,BoneMotion motion={});
+    std::vector<std::array<float,3>> deformed_normals() const;
     std::vector<std::array<float,3>> deformed_positions() const;
 private:
     struct Impl;

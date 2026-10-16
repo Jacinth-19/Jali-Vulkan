@@ -41,10 +41,10 @@ recording -> animate the detailed character -> synchronized playback.
 | M1 | Local neural speech | CPU inference proven on Linux/hosted Windows; user PC run works; listening review open | New text generates playable speech locally, with reviewed artifacts and measured CPU cost |
 | M2 | Automatic end-to-end generation | Delivered Linux/Windows-hosted WebGL prototype; new form-to-face sessions passed | One action produces and plays a newly synthesized, clip-driven performance |
 | M3 | Better lip-sync fidelity | Partial: short-cue/end-rest fixes and repeatable nine-class review checks pass | Rig tuning, independent reference checks, and full-utterance quality review |
-| M4 | Detailed character in Vulkan | Partial foundation: 128-joint ABI tested; rich head not integrated | Native engine renders the richer textured rig with verified deformation |
+| M4 | Detailed character in Vulkan | Rich head rendered; same-WAV native UI, CPU/GPU and source Three positions passed locally; hosted refresh pending | Native engine renders the richer textured rig with verified deformation |
 | M5 | Expressive facial performance | Separate manual layers, speech-priority warmth and gaze implemented; quality review open | Controllable, evaluated speech-related expression and gaze/gesture behavior |
-| M6 | Streaming and interruption | Partial: whole-utterance playback + owned-child cancellation/stop/retry | Bounded incremental audio/face playback with cancellation and recovery |
-| M7 | Windows performance and packaging | Partial: Windows backend and one-command benchmark passed hosted CI; user-reported PC run works; measured laptop acceptance and installer open | Measured target-device results and a tested, understandable launcher/package |
+| M6 | Streaming and interruption | Bounded sentence batching, ordered verified chunks and cancel/retry delivered; not internal incremental inference | Bounded incremental audio/face playback with cancellation and recovery |
+| M7 | Windows performance and packaging | Partial: Windows backend and one-command benchmark passed hosted CI; user-reported PC run works; personal portable-build implementation added; hosted frozen validation, licensing and measured laptop acceptance open | Measured target-device results and a tested, understandable launcher/package |
 | M8 | Asset workflow and final QA | Partial: fixtures, provenance and tests exist | Reliable asset round trips, real AV measurements, and release review |
 
 ## B0 — Foundation already delivered
@@ -166,8 +166,9 @@ This is not verified phoneme-level alignment.
 - [x] Generate empty reference templates bound to each exact benchmark WAV/text; do not derive expected events from Rhubarb.
 - [x] Add an attributed-reference comparator with actual-WAV checks, window coverage and signed boundary differences; synthetic unit tests are not actual alignment validation.
 
-- [ ] Compare the baseline against a permitted local aligner or trustworthy provider timings.
-- [ ] If adding a forced aligner, review/pin its weights and validate its own outputs.
+- [x] Add a permitted pinned two-pass PocketSphinx phone-alignment crosscheck of actual WAVs; same Sphinx family, **not** independent ground truth. All three corpus WAVs produced 105 phones locally.
+- [ ] Complete a genuinely independent reference/quality review; do not promote the crosscheck to ground truth.
+- [x] Pin optional PocketSphinx 5.0.4, retain code/acoustic-model notices, hash dictionary/model files and validate full word/phone ordering; no bundled aligner is added to the consumer build.
 - [ ] Handle inaccurate transcripts, unknown words and low-confidence alignment explicitly.
 - [ ] Create independently reviewed expected events for the three existing clips.
 - [x] Add unseen utterances so tuning is not limited to the original recordings.
@@ -183,25 +184,31 @@ unseen speech, with documented review. No universal millisecond accuracy claim i
 
 ## M4 — Detailed character inside Vulkan
 
+**Implemented profile/evidence:** [rich-v1 guide](rich-vulkan-and-streaming.md),
+[real images and CPU/GPU/source comparisons](images/native-human-evidence.json).
+Current source Three/native position maximum component error: 3.58e-7 across
+53,116 vertices × six poses. Native lighting is not pixel-identical to WebGL.
+Hosted Vulkan validation refresh remains pending.
+
 **Depends on:** the already available licensed character. This follows the first
 working local-speech/WebGL integration, rather than blocking it.
 
 - [x] Audit the optimized asset's static extensions/counts/targets against the native profile; 67-joint/66-target multi-mesh/material gaps are recorded, not silently removed.
-- [ ] Choose an explicit supported native profile and report unsupported features clearly.
+- [x] Choose an explicit supported native profile and report unsupported features clearly.
 - [x] Remove the 64-joint capacity blocker: 128-joint C++/GLSL ABI, weighted 67/128-joint GPU-vs-CPU fixtures and device buffer checks. Full rich-asset hierarchy integration remains below.
-- [ ] Preserve hierarchy, mesh transforms, inverse bind matrices and joint weights.
-- [ ] Support the required named facial targets and consistent target ordering.
-- [ ] Apply matching facial animation to the main face and secondary meshes.
-- [ ] Add the necessary UV, texture and material paths.
-- [ ] Handle normals/tangents, color spaces, transparency and relevant PBR properties.
-- [ ] Decide whether to decode Meshopt at import or generate a separate native-ready asset.
-- [ ] Verify resource limits, descriptor layouts and buffer bounds.
-- [ ] Verify upload/deformation/raster barriers and in-flight resource lifetimes.
-- [ ] Compare deformed positions and normals against a CPU reference.
-- [ ] Compare canonical poses against the known-good WebGL presentation.
+- [x] Preserve hierarchy, mesh transforms, inverse bind matrices and joint weights.
+- [x] Support the required named facial targets and consistent target ordering.
+- [x] Apply matching facial animation to the main face and secondary meshes.
+- [x] Add the necessary UV, texture and material paths.
+- [x] Handle normals/tangents, color spaces, transparency and relevant PBR properties.
+- [x] Decide whether to decode Meshopt at import or generate a separate native-ready asset.
+- [x] Verify resource limits, descriptor layouts and buffer bounds.
+- [x] Verify upload/deformation/raster barriers and in-flight resource lifetimes.
+- [x] Compare deformed positions and normals against a CPU reference.
+- [x] Compare canonical poses against the known-good WebGL presentation.
 - [ ] Run Vulkan validation layers and fail on relevant errors.
 - [ ] Validate on real target hardware, not only software Vulkan.
-- [ ] Connect the same audio/cue session contract to the native character renderer.
+- [x] Connect the same audio/cue session contract to the native character renderer.
 
 **Exit gate:** the detailed human is genuinely rendered and animated by the native
 Vulkan path, with supported features stated and deformation evidence retained.
@@ -229,22 +236,22 @@ performance without breaking articulation. The implementation method stays discl
 
 ## M6 — Streaming and interruption
 
-**Current baseline:** whole-utterance synthesis/analysis, owned-child cancellation with cleanup, stop/reset and retry. No incremental neural generation or chunk streaming is claimed.
+**Current baseline:** bounded sentence-batched early playback, max two pending/eight total chunks, integer PCM offsets and per-chunk exact-WAV analysis. Actual cancellation/retry and completed sample-concatenated replay passed. [Implementation and measured limits](rich-vulkan-and-streaming.md). This is **not** internal incremental Kokoro or gapless audio; human boundary/prosody review remains open.
 Streaming playback is not the same as incremental neural generation.
 
-- [ ] Determine whether the selected TTS model genuinely supports incremental output.
-- [ ] If sentence batching is used instead, label it accurately and evaluate boundary quality.
-- [ ] Define chunk IDs, ordering, sample rate, starting sample offsets and end-of-stream behavior.
-- [ ] Run inference/analysis outside render and audio callbacks.
-- [ ] Introduce bounded audio and facial-data queues.
-- [ ] Define lookahead and buffering policy for cues that need future audio.
-- [ ] Use playback sample position as the shared clock.
-- [ ] Handle underruns, late chunks, missing chunks and resampling explicitly.
-- [x] Cancel owned whole-utterance speech/analyzer child, hide partial media and clean up before reuse; cancellation resets the face. Incremental queues are still absent.
+- [x] Determine whether the selected TTS model genuinely supports incremental output.
+- [x] If sentence batching is used instead, label it accurately and evaluate boundary quality.
+- [x] Define chunk IDs, ordering, sample rate, starting sample offsets and end-of-stream behavior.
+- [x] Run inference/analysis outside render and audio callbacks.
+- [x] Introduce bounded audio and facial-data queues.
+- [x] Define lookahead and buffering policy for cues that need future audio.
+- [x] Use playback sample position as the shared clock.
+- [x] Handle underruns, late chunks, missing chunks and resampling explicitly.
+- [x] Cancel owned whole-utterance speech/analyzer child, hide partial media and clean up before reuse; cancellation resets the face. Bounded sentence queues are also cancelled/discarded.
 - [x] Stop/reset playback and cancel/retry generation, tested through the real UI.
 - [x] Return to neutral on cancellation or failure.
-- [x] Reject overlapping whole-utterance requests while running/cancelling; tests cover retry and ready/cancel races. Chunk backpressure remains unimplemented.
-- [ ] Measure first-playable-audio latency separately from steady-state throughput.
+- [x] Reject overlapping whole-utterance requests while running/cancelling; tests cover retry and ready/cancel races. Chunk backpressure and acknowledgment ordering are tested.
+- [x] Measure first-playable-audio latency separately from steady-state throughput.
 - [ ] Test synchronization and memory over extended playback.
 
 **Optional extension, not a prerequisite for typed-text completion:** microphone
@@ -308,14 +315,14 @@ See [benchmark, independent references and native blockers](windows-benchmark.md
 
 ### Usable package
 
-- [ ] Choose a launcher/package layout and document prerequisites.
-- [ ] Provide understandable model setup with integrity/license checks.
+- [x] Implement personal PyInstaller 6.16.0 onedir CPU/WebGL layout and explicit launcher; hosted frozen execution pending. [Build/licensing guide](windows-portable.md).
+- [x] Provide understandable model setup with integrity/license checks.
 - [ ] Include required runtime libraries and notices where redistribution is permitted.
-- [ ] Avoid requiring the user to manage multiple terminals for normal use.
+- [x] Avoid requiring the user to manage multiple terminals for normal use.
 - [ ] Show actionable errors for missing models, drivers or dependencies.
-- [ ] Keep recordings/models/cache out of Git and public logs.
-- [ ] Explain which operations work offline after setup.
-- [ ] Document cache cleanup, updating and uninstalling.
+- [x] Keep recordings/models/cache out of Git and public logs.
+- [x] Explain which operations work offline after setup.
+- [x] Document cache cleanup, updating and uninstalling.
 - [ ] Test a clean Windows installation/user profile, not only the developer environment.
 
 **Exit gate:** a tested, understandable Windows launch path with honest target-device
@@ -326,12 +333,12 @@ measurements and an appropriate quality/performance configuration.
 ### Asset pipeline and optimization
 
 - [ ] Preserve a canonical licensed DCC/source asset and documented rig schema.
-- [ ] Pin chosen import/export tools and versions.
+- [x] Pin NodeIO/Meshopt, Three, Pillow and validation tools for the decoded GLB export.
 - [ ] Test source-to-runtime-to-source pose preservation where supported.
-- [ ] Verify coordinate systems, units, handedness, winding and scale.
+- [x] Verify chosen source/canonical coordinate and bind transforms via all-vertex source comparison and real native captures; this is scoped to rich-v1.
 - [ ] Verify skinning, facial deltas, animated joint transforms and animated morph weights.
 - [ ] Verify normals, tangents, UVs, materials, transparency and texture references.
-- [ ] Add malformed/unsupported-feature fixtures for the expanded native profile.
+- [x] Add tiny original rich multi-material/alpha/morph fixture and expand native malformed-input suite to 27 cases; tests remain model-free.
 - [ ] Generate LODs without silently breaking facial controls or secondary meshes.
 - [ ] Test active-shape budgets and compare visual quality against the canonical model.
 - [ ] Profile representative character counts before claiming multi-character scale.
@@ -391,28 +398,25 @@ or scope; a roadmap item is not a promise that an arbitrary model will run in re
 
 ## Current next action
 
-The user reports that the Windows command works on their PC. Record that as a
-functional user confirmation, not a reviewed benchmark report. This increment
-implements cancellation/reset, expression/gaze arbitration and native palette
-capacity, and adds [actual rendered README images](render-captures.md).
-All nine hosted jobs passed in [run 38847212709](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38847212709) for source `e2f133b`; [evidence](evidence/feature-foundations-actions.json) records the exact jobs/steps.
-Next implementation priorities are the rich native mesh/morph/material paths and
-true bounded incremental playback. Independent articulation/naturalness review,
-measured laptop acceptance and packaging remain open. [Implementation details and
-remaining scope](performance-controls.md) distinguish completed foundations from
-those larger gates.
+The user reports the Windows developer command works on their PC; this is
+functional confirmation, not a quantitative laptop report. This increment adds
+rich Vulkan + same verified WAV/cues + selectable native presentation, bounded
+sentence batching and interruption, optional phone-alignment diagnostics, and a
+personal frozen Windows CPU/WebGL build path. Actual human Vulkan captures are
+in the README. Local CPU/GPU/source/browser and speech/batching checks passed.
 
-**Early browser checkpoint prepared:** see [the extraction/review instructions](windows-playback-checkpoint.txt). The pack needs no Python or models for playback and exports explicit user notes plus visible-tab render observations. Windows-hosted Chrome HTTP/file playback passed separately from Linux neural synthesis in eight-job Actions run 38841826083. See [checkpoint evidence](playback-checkpoint.md). The separately ported developer backend subsequently passed nine-job run 38843451199; neither hosted check finishes target-device M7 acceptance.
+Next: **actually run the expanded hosted jobs**, verify the frozen Windows app,
+record their exact results and keep failures visible. Do not publish the portable
+bundle until GPL/eSpeak corresponding-source/notices obligations are reviewed.
+No signed consumer installer or native-Windows hardware result is claimed.
 
-
-**Windows target checkpoint + M3 quality review:** use the developer setup in
-[Windows neural studio](windows-neural-studio.md) to generate new text on the
-actual laptop, then listen to and inspect a connected new-text performance,
-then tune pronunciation/articulation/transition timing on the actual rig. Use the
-new public corpus and review page; do not equate passing morph contracts with
-correct phoneme alignment. Fresh hosted neural CI passed in run 38837436553. Keep the
-working M2 baseline. After this review, perform the early M7 Windows laptop
-checkpoint before investing in native Vulkan expansion or more complexity.
+Remaining acceptance is explicit: independent phone/visible contact/naturalness
+and whole-utterance review; target i5/16-GB Windows memory/latency/physical-AV
+measurements; native Windows hardware execution; broad reverse-DCC round trips,
+LODs/multi-character scale if needed; and release licensing/signing/security.
+These are not silently inferred from automated pose or hosted-platform tests.
+See [usage and limits](rich-vulkan-and-streaming.md), [personal build](windows-portable.md),
+and [one-command laptop measurements](windows-benchmark.md).
 
 ## Evidence and existing deliverables
 
@@ -440,6 +444,7 @@ use this dated tracker and current evidence to judge present completion.
 
 | Date | Update |
 |---|---|
+| 2026-10-16 | Implemented rich-v1 textured human Vulkan pipeline and shared neural-session native UI; eight CPU/GPU and six all-vertex source Three probes, native media-clock browser playback, bounded sentence batches/cancel/retry, 105-phone forced-alignment crosscheck, personal frozen Windows build source. Local 109 Python/17 JS tests pass; hosted/frozen refresh pending. Added actual native human README captures. Human/laptop/release acceptance remains open. |
 | 2026-10-16 | Implemented owned-child cancellation/cleanup and stop/reset/retry; separate speech/style/head/blink/manual-gaze layers with closure pixel protection; expanded native palette to 128 with weighted 67/128-joint CPU/GPU tests. Added four real README renderer captures with provenance. Local 94 Python/15 JS/11 CTest entries and real browser review passed; all nine hosted jobs passed in Actions run 38847212709, including Windows neural/browser/benchmark and native Vulkan validation. Rich Vulkan, independent quality, incremental streaming and measured laptop gates remain open. |
 | 2026-10-16 | Delivered isolated one-command Windows benchmark (actual PowerShell entry point passed in nine-job run 38844926069); six local fresh samples, 87 Python/12 JS tests. Added exact-WAV independent-reference templates/comparison and static M4 blockers for 8 meshes/skins, 67 joints, 66 targets and materials. No independent alignment, rig tuning, rich Vulkan rendering or target-laptop acceptance is claimed. |
 | 2026-10-16 | Windows x64 developer backend passed three actual new CPU recordings, Windows exact-WAV/dialog analysis and live Chrome face checks. All nine Actions jobs passed; pipeline 4.99–5.30 s, worker peak working set 291–297 MiB on the runner. Added platform pins, safe extraction, Windows cleanup/UTF-8 handling and developer PowerShell launchers; target laptop/installer/quality remain open. |

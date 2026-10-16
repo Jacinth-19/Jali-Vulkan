@@ -96,6 +96,17 @@ int main() {
         };
         check_palette(JALI_LARGE_CHARACTER,67);
         check_palette(JALI_MAX_CHARACTER,128);
+        const auto rich=jali::load_character_glb(JALI_RICH_FIXTURE);renderer.load_character(JALI_RICH_FIXTURE);
+        expect(rich.ranges.size()==2&&rich.morph_names.size()==3,"rich groups/morphs lost");
+        for(const auto& weights:std::vector<jali::MorphWeights>{{},{{"viseme_aa",.8f}},{{"viseme_U",.88f},{"viseme_PP",.1f}}}){
+            const jali::BoneMotion motion{.018f,.008f,0,0};renderer.render_named_pose(weights,motion);
+            const auto cpu=jali::deform_named_reference(rich,weights,motion);const auto gpu=renderer.deformed_positions(),normals=renderer.deformed_normals();
+            for(std::size_t i=0;i<gpu.size();++i)for(int k=0;k<3;++k){expect(std::abs(gpu[i][k]-cpu.positions[i][k])<2e-5,"rich fixture GPU position");expect(std::abs(normals[i][k]-cpu.normals[i][k])<2e-5,"rich fixture GPU normal");}
+        }
+        rejects([&]{renderer.render_named_pose({{"unknown",1}});});
+        rejects([&]{renderer.render_named_pose({{"viseme_PP",2}});});
+        rejects([&]{renderer.render_named_pose({},jali::BoneMotion{1,0,0,0});});
+
 
         if(!renderer.hardware_accelerated()) {
             bool failed=false;try { jali::VulkanFaceRenderer required(96,96,JALI_DEFAULT_FACE_SHADER,true); } catch(const std::runtime_error&) {failed=true;}

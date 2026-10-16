@@ -7,7 +7,7 @@ from pathlib import Path
 import subprocess
 import time
 
-ROOT = Path(__file__).resolve().parents[1]
+from runtime_paths import ASSET_ROOT as ROOT
 
 
 def runtime_environment(software=False):

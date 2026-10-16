@@ -13,7 +13,7 @@ import shutil
 import tarfile
 from urllib.request import urlopen
 
-ROOT = Path(__file__).resolve().parents[1]
+from runtime_paths import ASSET_ROOT as ROOT
 ASSETS = ROOT / 'models/kokoro'
 MODEL_SHA = 'fbae9257e1e05ffc727e951ef9b9c98418e6d79f1c9b6b13bd59f5c9028a1478'
 VOICE_SHA = 'd583ccff3cdca2f7fae535cb998ac07e9fcb90f09737b9a41fa2734ec44a8f0b'

@@ -165,8 +165,30 @@ const chromium=require('@sparticuz/chromium');
       }finally{fs.rmSync(temp,{recursive:true,force:true});await page.evaluate(()=>JaliHeadDemo.setCaptureMode(false)).catch(()=>{});}
     }
     if(errors.length||external.length)throw new Error(JSON.stringify({errors,external}));
+    // Real bounded sentence batching: interrupt during playback, then complete
+    // another request. This is intentionally not called incremental Kokoro.
+    const streamText='Mama packed my blue paper bag and brought it back to me. Five vivid voices move very fast. We all know you.';
+    await page.locator('#batch').check();await page.locator('#text').fill(streamText);await page.locator('#generate').click();
+    await page.waitForFunction(()=>JaliStudio.getState().streamStats?.chunks.length===1&&document.querySelector('#audio').currentTime>.1,null,{timeout:120000});
+    const interruptedId=await page.evaluate(()=>JaliStudio.getState().currentJob);
+    const pending=await (await context.request.get(`${base}/api/jobs/${interruptedId}`)).json();
+    if(pending.state!=='running'||pending.produced>=3||pending.chunks.length>2)throw new Error('First batch did not play before bounded producer completion');
+    await page.locator('#stop').click();
+    await page.waitForFunction(()=>!JaliStudio.getState().busy&&JaliStudio.getState().phase==='cancelled',null,{timeout:20000});
+    if(await page.locator('#audio').getAttribute('src'))throw new Error('Stream stop retained stale audio');
+    await page.locator('#text').fill(streamText);await page.locator('#generate').click();
+    await page.waitForFunction(()=>JaliStudio.getState().busy);
+    await page.waitForFunction(()=>!JaliStudio.getState().busy,null,{timeout:240000});
+    const stream=await page.evaluate(()=>JaliStudio.getState());
+    if(stream.phase!=='ready'||!stream.verified||stream.streamStats.chunks.length!==3)throw new Error('Sentence-batched retry failed');
+    const joined=await (await context.request.get(`${base}/sessions/${stream.selectedId}/manifest.json`)).json();
+    const joinedWav=await context.request.get(`${base}${joined.file}`);
+    if(joined.stream.chunks!==3||joined.audio.sha256!==createHash('sha256').update(await joinedWav.body()).digest('hex')||joined.stream.samples!==stream.streamStats.chunks[2].end_sample)throw new Error('Combined sentence audio lost provenance/sample offsets');
+    fs.writeFileSync(path.join(proof,'stream-check.json'),JSON.stringify({passed:true,mode:'sentence-batched',first_batch_before_all_produced:true,max_pending:2,cancel_then_retry:true,combined_audio_sha256:joined.audio.sha256,stream:joined.stream,observations:stream.streamStats,limits:'Observed automation timings, not gapless playback or target-laptop performance acceptance'},null,2)+'\n');
+    await page.locator('#batch').uncheck();
+    if(errors.length||external.length)throw new Error(JSON.stringify({errors,external}));
     fs.writeFileSync(path.join(proof,'browser-check.json'),JSON.stringify({passed:true,model,web_security_enabled:true,external_requests:external,errors,
-      checks:[`${sessions.length} real form submissions`,'new CPU neural synthesis for each text','actual WAV analyzed with its dialog','downloaded WAV hash verified in browser','audio/face IDs match','actual closure morph','seek','sync off clears speech weights','natural end rests','old session replays with its own cues','mobile layout','cancel real generation hides partial media','cancel then retry','warm/full-closure pixel equality','left/right gaze changes actual render','stop clears audio/morphs/gaze'],
+      checks:[`${sessions.length} real form submissions`,'new CPU neural synthesis for each text','actual WAV analyzed with its dialog','downloaded WAV hash verified in browser','audio/face IDs match','actual closure morph','seek','sync off clears speech weights','natural end rests','old session replays with its own cues','mobile layout','cancel real generation hides partial media','cancel then retry','warm/full-closure pixel equality','left/right gaze changes actual render','stop clears audio/morphs/gaze','real sentence batching starts before producer completion','batch stop/cancel then retry','combined PCM offsets/hash verified'],
       sessions:sessions.map(c=>({id:c.id,text:c.text,audio_sha256:c.audio.sha256,duration:c.duration,cues:c.cues.length,total_seconds:c.total_seconds}))},null,2)+'\n');
     fs.rmSync(path.join(proof,'failure.png'),{force:true});
     console.log('M2/M3 real neural studio browser checks passed');

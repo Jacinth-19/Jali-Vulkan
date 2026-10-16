@@ -10,9 +10,11 @@ const $ = id => document.getElementById(id);
 const data = window.JALI_HEAD_DATA;
 const audio = $('audio');
 const canvas = $('face');
+let sourceAssociations;
 let root, controls, camera, renderer, headBone, baseHeadRotation;
 const eyeBones=[], gazeRotation=new THREE.Quaternion(), gazeEuler=new THREE.Euler();
 let selected = 0, speechMeshes = [], ready = false, frameCount = 0, fpsEpoch = performance.now();
+let nativeActive=false;
 let currentPose = {}, modelStats = {}, captureOnly = false, resizeViewer;
 const scene = new THREE.Scene();
 scene.background = new THREE.Color('#101a1d');
@@ -73,6 +75,7 @@ function applyAt(time) {
   $('clock').textContent = clip ? `${time.toFixed(2)} / ${clip.duration.toFixed(2)} s` : 'Ready for a new performance';
   $('trim-value').textContent = `${$('trim').value} ms`;
   canvas.dataset.audioTime = time.toFixed(6);
+  canvas.dataset.streamSample = clip?String((clip._stream_start_sample||0)+Math.round(time*(clip.audio?.sample_rate||24000))):'';
   canvas.dataset.shape = sample.value;
   canvas.dataset.speechWeight = String(Math.max(0, ...Object.values(sample.weights)));
   canvas.dataset.playing = String(!audio.paused && !audio.ended);
@@ -85,7 +88,7 @@ function renderAt(time, updateOrbit = true) {
   const started = performance.now();
   applyAt(time);
   if (updateOrbit) controls.update();
-  renderer.render(scene, camera);
+  if(!nativeActive)renderer.render(scene, camera);
   if (window.JALI_RENDER_DIAGNOSTICS) window.dispatchEvent(new CustomEvent('jali-render', {detail:{
     wallTime:performance.now(), audioTime:time, renderMs:performance.now()-started,
     playing:!audio.paused && !audio.ended, seeking:audio.seeking
@@ -109,6 +112,7 @@ async function init() {
   const bytes = Uint8Array.from(atob(window.JALI_HEAD_BASE64), c => c.charCodeAt(0));
   const loader = new GLTFLoader().setMeshoptDecoder(MeshoptDecoder);
   const gltf = await loader.parseAsync(bytes.buffer, '');
+  sourceAssociations=gltf.parser.associations;
   root = gltf.scene; scene.add(root); root.updateMatrixWorld(true);
   const geometries = new Set(), bones = new Set();
   root.traverse(object => {
@@ -162,7 +166,7 @@ async function init() {
   let last = 0;
   function tick(now) {
     requestAnimationFrame(tick);
-    if (captureOnly || now - last < 1000 / 30) return;
+    if (nativeActive || captureOnly || now - last < 1000 / 30) return;
     last = now;
     const playing = !audio.paused && !audio.ended;
     const orbitChanged = controls.update();
@@ -190,6 +194,8 @@ audio.addEventListener('play', () => { fpsEpoch = performance.now(); frameCount 
 audio.addEventListener('error', () => error(data.live ? 'The local recording could not be loaded. Generate again or refresh the studio.' : 'The audio file could not be loaded. Extract the complete ZIP before opening index.html.'));
 if (data.clips.length) selectClip(0);
 window.JaliHeadDemo = {
+  setNativeMode: enabled => {nativeActive=Boolean(enabled);canvas.style.visibility=nativeActive?'hidden':'visible';renderAt(audio.currentTime||0);},
+  updateClock: time => renderAt(time),
   selectClip: index => selectClip(index, false),
   resetPerformance: (clearStyle=false) => {
     if(clearStyle){$('mood').value='neutral';if($('gaze'))$('gaze').value='forward';}
@@ -199,13 +205,15 @@ window.JaliHeadDemo = {
     $('transcript').textContent = ''; $('cue-count').textContent = '';
     renderAt(0);
   },
-  loadSession: clip => {
+  loadSession: (clip,transient=false) => {
     validateCues(clip.cues, clip.duration);
     if (!ready || !data.live || !/^[a-f0-9]{32}$/.test(clip.id) || typeof clip.text !== 'string'
         || JSON.stringify(clip.rig) !== JSON.stringify(data.rig)) throw new Error('Session does not match the loaded rig');
     audio.pause();
-    data.clips.push(clip);
-    if (data.clips.length > 6) {
+    for(const old of data.clips.filter(c=>c._transient))if(old.file.startsWith('blob:'))URL.revokeObjectURL(old.file);
+    data.clips=data.clips.filter(c=>!c._transient);
+    data.clips.push({...clip,_transient:transient});
+    if (!transient && data.clips.length > 6) {
       const old = data.clips.shift();
       if (old.file.startsWith('blob:')) URL.revokeObjectURL(old.file);
     }
@@ -215,7 +223,7 @@ window.JaliHeadDemo = {
   },
   getDiagnostics: () => {
     const gl = renderer?.getContext(), extension = gl?.getExtension('WEBGL_debug_renderer_info');
-    return { modelStats, webgl:gl ? {
+    return { activeRenderer:nativeActive?'native-vulkan':'WebGL', modelStats, webgl:gl ? {
       version:gl.getParameter(gl.VERSION),
       renderer:gl.getParameter(extension ? extension.UNMASKED_RENDERER_WEBGL : gl.RENDERER),
       vendor:gl.getParameter(extension ? extension.UNMASKED_VENDOR_WEBGL : gl.VENDOR),
@@ -225,6 +233,17 @@ window.JaliHeadDemo = {
   },
   getState: () => ({ ready, sessionId: track()?.id || null, clips: data.clips.map(c => ({id:c.id, title:c.title})), modelStats, gazeBones:eyeBones.map(({bone,base})=>{const e=new THREE.Euler().setFromQuaternion(bone.quaternion.clone().multiply(base.clone().invert()));return {name:bone.name,delta:{x:Math.abs(e.x)<1e-12?0:e.x,y:Math.abs(e.y)<1e-12?0:e.y}};}), pose: currentPose, time: audio.currentTime, clip: selected,
     activeMorphs: speechMeshes.map(mesh => ({ mesh: mesh.name, values: Object.fromEntries(Object.entries(mesh.morphTargetDictionary).filter(([, i]) => mesh.morphTargetInfluences[i] > 0.01).map(([name,i]) => [name, mesh.morphTargetInfluences[i]])) })) }),
+  referenceVertices: (layout,time,index=selected) => {
+    if(index!==selected)selectClip(index,false);renderAt(time);root.updateMatrixWorld(true);
+    const meshes=[];root.traverse(o=>{if(o.isSkinnedMesh)meshes.push(o);});const positions=[];
+    for(const item of layout){
+      const mesh=meshes.find(m=>{const a=sourceAssociations.get(m);return a?.nodes===item.sourceNodeIndex&&(a.primitives??0)===item.primitiveIndex;});
+      if(!mesh||mesh.geometry.attributes.position.count!==item.count)throw new Error('Native/source primitive correspondence differs');
+      mesh.skeleton.update();const point=new THREE.Vector3();
+      for(let i=0;i<item.count;i++){mesh.getVertexPosition(i,point).applyMatrix4(mesh.matrixWorld);positions.push(point.x,point.y,point.z);}
+    }
+    const bytes=new Uint8Array(new Float32Array(positions).buffer);let binary='';for(let i=0;i<bytes.length;i+=32768)binary+=String.fromCharCode(...bytes.subarray(i,i+32768));return btoa(binary);
+  },
   setCaptureMode: (enabled, size = 512) => {
     if (!ready) throw new Error('Model is not ready');
     if (enabled && (!Number.isInteger(size) || size < 128 || size > 2048)) throw new Error('Invalid capture size');
@@ -240,6 +259,7 @@ window.JaliHeadDemo = {
   },
   // Deterministic offline export uses the same sampled cues, not a canned animation.
   capture: (time, index = selected, mime = 'image/png') => {
+    if(nativeActive)throw new Error('Use native renderer capture, not WebGL canvas export');
     if (index !== selected) selectClip(index, false);
     renderAt(time); return canvas.toDataURL(mime, 0.92);
   }

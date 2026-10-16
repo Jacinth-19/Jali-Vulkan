@@ -3,7 +3,7 @@ import platform
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
+from runtime_paths import ASSET_ROOT as ROOT
 PROFILES = {
     'linux': {'platform':'linux-x64','cache':'rhubarb','executable':'rhubarb','format':'tar',
         'marker':'package/.tools/rhubarb-Lip-Sync-1.13.0-Linux/',

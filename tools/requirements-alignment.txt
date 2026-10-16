@@ -1,0 +1,3 @@
+# Optional development-only forced-alignment crosscheck, not part of portable app.
+# Install with --no-deps: LiveSpeech/sounddevice is not used (no microphone access).
+pocketsphinx==5.0.4

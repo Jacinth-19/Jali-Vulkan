@@ -222,8 +222,14 @@ std::vector<std::array<float,3>> VulkanFaceRenderer::deformed_positions() const 
     if (!impl_->mesh_rendered) throw std::invalid_argument("render a mesh pose before reading deformed positions");
     std::vector<std::array<float,3>> out(impl_->character.vertices.size());
     const auto* words=static_cast<const float*>(impl_->deformed_vertices.mapped);
-    for(std::size_t i=0;i<out.size();++i) std::copy_n(words+i*9,3,out[i].begin());
+    for(std::size_t i=0;i<out.size();++i) std::copy_n(words+i*20,3,out[i].begin());
     return out;
+}
+std::vector<std::uint8_t> VulkanFaceRenderer::render_named_pose(const MorphWeights& weights,BoneMotion motion) { return impl_->draw_mesh({},weights,motion); }
+std::vector<std::array<float,3>> VulkanFaceRenderer::deformed_normals() const {
+    if(!impl_->mesh_rendered)throw std::invalid_argument("render before normals readback");
+    std::vector<std::array<float,3>> out(impl_->character.vertices.size());const auto* words=static_cast<const float*>(impl_->deformed_vertices.mapped);
+    for(std::size_t i=0;i<out.size();++i)std::copy_n(words+i*20+3,3,out[i].begin());return out;
 }
 void VulkanFaceRenderer::submit(const Rig& rig, const std::vector<FaceFrame>& frames) {
     validate_frames(rig, frames);

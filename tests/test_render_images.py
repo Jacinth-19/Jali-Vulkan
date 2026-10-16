@@ -35,3 +35,21 @@ class ReadmeImageTests(unittest.TestCase):
         self.assertEqual(len(native),1);self.assertIn('NOT detailed MPFB',native[0]['model'])
         self.assertEqual(native[0]['metadata']['bones'],67)
         self.assertIsInstance(native[0]['metadata']['hardware_accelerated'],bool)
+
+    def test_native_human_images_are_real_bound_captures(self):
+        evidence=json.loads((ROOT/'docs/images/native-human-evidence.json').read_text());self.assertEqual(len(evidence['images']),3)
+        self.assertEqual(evidence['native_profile']['named_targets'],66);self.assertEqual(evidence['native_profile']['vertices'],53116)
+        hashes=set()
+        for image in evidence['images']:
+            path=ROOT/'docs/images'/image['file'];data=path.read_bytes();self.assertEqual(struct.unpack('>II',data[16:24]),(512,512))
+            self.assertEqual(hashlib.sha256(data).hexdigest(),image['sha256']);hashes.add(image['sha256'])
+            self.assertFalse(image['independent_phoneme_verification']);self.assertEqual(image['renderer'],'native-vulkan-rich-v1')
+            self.assertIn('docs/images/'+image['file'],(ROOT/'README.md').read_text());self.assertEqual(len(image['audio_sha256']),64)
+        self.assertEqual(len(hashes),3)
+
+    def test_native_evidence_has_gpu_source_and_actual_browser_checks(self):
+        evidence=json.loads((ROOT/'docs/images/native-human-evidence.json').read_text())
+        self.assertTrue(evidence['source_three_comparison']['passed']);self.assertTrue(evidence['native_browser']['passed'])
+        self.assertEqual(len(evidence['cpu_gpu']['cpu_gpu_poses']),8)
+        for probe in evidence['source_three_comparison']['probes']:
+            self.assertEqual(probe['vertices'],53116);self.assertLess(probe['maximum_component_error'],5e-5)

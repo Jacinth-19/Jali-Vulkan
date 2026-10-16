@@ -1,0 +1,59 @@
+[
+  {
+    "case": "closures",
+    "audio_sha256": "cb2aff047d3bee2e7e648af51ed413f3f7962bc8868d5591a339dbc738366f0d",
+    "method": "PocketSphinx 5.0.4 two-pass transcript-constrained word and phone alignment, 16 kHz resample, 100 frames/sec",
+    "phones": 33,
+    "model_files": {
+      "en-us/cmudict-en-us.dict": "cb01cf8b6a47f5a97ed46b01e96ea8a924d07d1abfd770f787836013df8537da",
+      "en-us/en-us/README": "8b88de980568509c646d0527b8414beef136964391903b40996d32f737bf752e",
+      "en-us/en-us/feat.params": "c982c5f75e2a30c34d2c9ef1f6b129a5a00e67e3e927565076b58664cc2404c9",
+      "en-us/en-us/mdef": "2360f9a86889c1cfee8bd618a0269387911e5fb2920a594f506b18b8c79683b0",
+      "en-us/en-us/means": "832019e32cac12eb318964f96f469034acb12d0348eeddc3831831a100cb4dd4",
+      "en-us/en-us/noisedict": "7295b07df2c204c4f87c6782b6be1a3859d7006d4e3864181c955d6dab105a33",
+      "en-us/en-us/sendump": "8c9564c0d5bef69ca9d9bf1014abe162f071644cf02cf1fa8a483c3dc165a7a8",
+      "en-us/en-us/transition_matrices": "c1f7f28ea43177be734be1f88bd7f1b9a853d0e660f8599c67c6eaeca8bb539a",
+      "en-us/en-us/variances": "b00d696f85e96834fc10f8e5f06428d8c4db6bffdbe5845b6f69bf6efbc48fa5"
+    },
+    "independent_of_rhubarb": false,
+    "human_review_completed": false
+  },
+  {
+    "case": "contacts",
+    "audio_sha256": "a762e20fa7809a2487ca41c7cd5b86627ae4ba144f1c408ba98679250db282e3",
+    "method": "PocketSphinx 5.0.4 two-pass transcript-constrained word and phone alignment, 16 kHz resample, 100 frames/sec",
+    "phones": 44,
+    "model_files": {
+      "en-us/cmudict-en-us.dict": "cb01cf8b6a47f5a97ed46b01e96ea8a924d07d1abfd770f787836013df8537da",
+      "en-us/en-us/README": "8b88de980568509c646d0527b8414beef136964391903b40996d32f737bf752e",
+      "en-us/en-us/feat.params": "c982c5f75e2a30c34d2c9ef1f6b129a5a00e67e3e927565076b58664cc2404c9",
+      "en-us/en-us/mdef": "2360f9a86889c1cfee8bd618a0269387911e5fb2920a594f506b18b8c79683b0",
+      "en-us/en-us/means": "832019e32cac12eb318964f96f469034acb12d0348eeddc3831831a100cb4dd4",
+      "en-us/en-us/noisedict": "7295b07df2c204c4f87c6782b6be1a3859d7006d4e3864181c955d6dab105a33",
+      "en-us/en-us/sendump": "8c9564c0d5bef69ca9d9bf1014abe162f071644cf02cf1fa8a483c3dc165a7a8",
+      "en-us/en-us/transition_matrices": "c1f7f28ea43177be734be1f88bd7f1b9a853d0e660f8599c67c6eaeca8bb539a",
+      "en-us/en-us/variances": "b00d696f85e96834fc10f8e5f06428d8c4db6bffdbe5845b6f69bf6efbc48fa5"
+    },
+    "independent_of_rhubarb": false,
+    "human_review_completed": false
+  },
+  {
+    "case": "vowels",
+    "audio_sha256": "fa36bc15385794b892fbbf8e1b33f2220cd721a22a0fab015cf986ea9223e12f",
+    "method": "PocketSphinx 5.0.4 two-pass transcript-constrained word and phone alignment, 16 kHz resample, 100 frames/sec",
+    "phones": 28,
+    "model_files": {
+      "en-us/cmudict-en-us.dict": "cb01cf8b6a47f5a97ed46b01e96ea8a924d07d1abfd770f787836013df8537da",
+      "en-us/en-us/README": "8b88de980568509c646d0527b8414beef136964391903b40996d32f737bf752e",
+      "en-us/en-us/feat.params": "c982c5f75e2a30c34d2c9ef1f6b129a5a00e67e3e927565076b58664cc2404c9",
+      "en-us/en-us/mdef": "2360f9a86889c1cfee8bd618a0269387911e5fb2920a594f506b18b8c79683b0",
+      "en-us/en-us/means": "832019e32cac12eb318964f96f469034acb12d0348eeddc3831831a100cb4dd4",
+      "en-us/en-us/noisedict": "7295b07df2c204c4f87c6782b6be1a3859d7006d4e3864181c955d6dab105a33",
+      "en-us/en-us/sendump": "8c9564c0d5bef69ca9d9bf1014abe162f071644cf02cf1fa8a483c3dc165a7a8",
+      "en-us/en-us/transition_matrices": "c1f7f28ea43177be734be1f88bd7f1b9a853d0e660f8599c67c6eaeca8bb539a",
+      "en-us/en-us/variances": "b00d696f85e96834fc10f8e5f06428d8c4db6bffdbe5845b6f69bf6efbc48fa5"
+    },
+    "independent_of_rhubarb": false,
+    "human_review_completed": false
+  }
+]

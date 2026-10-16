@@ -18,7 +18,7 @@ struct Reader {
     std::vector<double> read(int id, int type, std::size_t expected=0) {
         ensure(id>=0 && std::size_t(id)<m.accessors.size(),"missing/invalid accessor");
         const auto& a=m.accessors[id];
-        ensure(!a.sparse.isSparse && a.type==type && a.count<=100000 && (!expected || a.count==expected),"unsupported accessor shape/count/sparsity");
+        ensure(!a.sparse.isSparse && a.type==type && a.count<=(type==TINYGLTF_TYPE_SCALAR?600000:100000) && (!expected || a.count==expected),"unsupported accessor shape/count/sparsity");
         ensure(a.bufferView>=0 && std::size_t(a.bufferView)<m.bufferViews.size(),"invalid buffer view");
         const auto& view=m.bufferViews[a.bufferView];
         ensure(view.buffer>=0 && std::size_t(view.buffer)<m.buffers.size(),"invalid buffer");
@@ -64,6 +64,7 @@ Mat4 node_matrix(const tinygltf::Node& node) {
     if(!node.translation.empty()) { ensure(node.translation.size()==3,"invalid translation");for(int i=0;i<3;++i) {ensure(std::isfinite(node.translation[i]) && std::abs(node.translation[i])<100,"invalid translation");out[12+i]=float(node.translation[i]);} }
     return out;
 }
+#include "character_rich.inc"
 }
 Mat4 identity_matrix() { return {1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1}; }
 Mat4 multiply(const Mat4& a,const Mat4& b) {
@@ -71,9 +72,10 @@ Mat4 multiply(const Mat4& a,const Mat4& b) {
 }
 Character load_character_glb(const std::filesystem::path& path) {
     std::ifstream file(path,std::ios::binary|std::ios::ate);
-    ensure(bool(file),"cannot open GLB");const auto size=file.tellg();ensure(size>=20 && size<=16*1024*1024,"GLB must be 20 bytes to 16 MiB");
+    ensure(bool(file),"cannot open GLB");const auto size=file.tellg();ensure(size>=20 && size<=192*1024*1024,"GLB must be 20 bytes to 192 MiB");
     std::vector<unsigned char> bytes(static_cast<std::size_t>(size));file.seekg(0);file.read(reinterpret_cast<char*>(bytes.data()),size);ensure(bool(file),"truncated GLB file");
     tinygltf::TinyGLTF loader;
+    loader.SetImageLoader([](tinygltf::Image*,int,std::string*,std::string*,int,int,const unsigned char*,int,void*){return true;},nullptr);
     tinygltf::FsCallbacks fs;
     fs.FileExists=[](const std::string&,void*){return false;};
     fs.ExpandFilePath=[](const std::string& p,void*){return p;};
@@ -83,6 +85,8 @@ Character load_character_glb(const std::filesystem::path& path) {
     ensure(loader.SetFsCallbacks(fs),"cannot disable external asset files");
     tinygltf::Model model;std::string error,warning;
     ensure(loader.LoadBinaryFromMemory(&model,&error,&warning,bytes.data(),static_cast<unsigned>(bytes.size())),"invalid or unsupported GLB");
+    if(model.extras.IsObject() && model.extras.Has("jaliNativeProfile"))return load_rich_character(model);
+    ensure(size<=16*1024*1024,"legacy GLB exceeds 16 MiB");
     ensure(model.extensionsRequired.empty() && model.images.empty() && model.animations.empty() && model.materials.empty(),"extensions, materials/textures, and authored animation tracks are outside this vertex-color facial profile");
     ensure(model.scenes.size()==1 && model.defaultScene==0,"requires one explicitly selected scene");
     ensure(model.meshes.size()==1 && model.skins.size()==1 && model.nodes.size()<=kMaxCharacterNodes,"requires one skinned mesh and <=256 nodes");
@@ -147,12 +151,30 @@ Character load_character_glb(const std::filesystem::path& path) {
     }
     ensure(!result.indices.empty(),"empty mesh");character_palette(result,{});return result;
 }
-JointPalette character_palette(const Character& c,SpeechPose pose) {
+JointPalette character_palette(const Character& c,SpeechPose pose,BoneMotion motion) {
+    for(float v:{motion.head_yaw,motion.head_roll,motion.eye_yaw,motion.eye_pitch})ensure(std::isfinite(v)&&std::abs(v)<=.12f,"bone motion bounds");
     ensure(c.joints.size()<=kMaxCharacterJoints && !c.joints.empty(),"invalid joint count");
     for(auto v:{pose.jaw,pose.round,pose.close}) ensure(std::isfinite(v) && v>=0 && v<=1,"invalid facial pose");
     JointPalette out,global;for(auto& m:out)m=identity_matrix();std::array<int,kMaxCharacterJoints> visit{};
     std::function<void(int)> solve=[&](int i) {ensure(i>=0 && std::size_t(i)<c.joints.size(),"invalid hierarchy link");ensure(visit[i]!=1,"cyclic joint hierarchy");if(visit[i]==2)return;visit[i]=1;
         auto local=c.joints[i].local;if(i==c.jaw_joint) {auto r=identity_matrix();float angle=pose.jaw*(1-pose.close)*0.22f;r[5]=r[10]=std::cos(angle);r[6]=std::sin(angle);r[9]=-r[6];local=multiply(local,r);}
+        const auto& name=c.joints[i].name;
+        float yaw=0,pitch=0,roll=0;
+        if(name=="Head"){yaw=motion.head_yaw;roll=motion.head_roll;}
+        if(name=="LeftEye"||name=="RightEye"){yaw=motion.eye_yaw;pitch=motion.eye_pitch;}
+        if(yaw!=0||pitch!=0||roll!=0){
+            auto x=identity_matrix(),y=x,z=x;x[5]=x[10]=std::cos(pitch);x[6]=std::sin(pitch);x[9]=-x[6];y[0]=y[10]=std::cos(yaw);y[8]=std::sin(yaw);y[2]=-y[8];z[0]=z[5]=std::cos(roll);z[1]=std::sin(roll);z[4]=-z[1];
+            if(name=="Head"){
+                float sx=std::sqrt(local[0]*local[0]+local[1]*local[1]+local[2]*local[2]),sy=std::sqrt(local[4]*local[4]+local[5]*local[5]+local[6]*local[6]),sz=std::sqrt(local[8]*local[8]+local[9]*local[9]+local[10]*local[10]);
+                const float det=local[0]*(local[5]*local[10]-local[9]*local[6])-local[4]*(local[1]*local[10]-local[9]*local[2])+local[8]*(local[1]*local[6]-local[5]*local[2]);if(det<0)sx=-sx;
+                ensure(std::abs(sx)>1e-8f&&sy>1e-8f&&sz>1e-8f,"head scale singular");
+                const float m13=std::clamp(local[8]/sz,-1.f,1.f),ey=std::asin(m13)+yaw,ex=std::abs(m13)<.9999999f?std::atan2(-local[9]/sz,local[10]/sz):std::atan2(local[6]/sy,local[5]/sy),ez=(std::abs(m13)<.9999999f?std::atan2(-local[4]/sy,local[0]/sx):0)+roll;
+                x[5]=x[10]=std::cos(ex);x[6]=std::sin(ex);x[9]=-x[6];y[0]=y[10]=std::cos(ey);y[8]=std::sin(ey);y[2]=-y[8];z[0]=z[5]=std::cos(ez);z[1]=std::sin(ez);z[4]=-z[1];
+                auto r=multiply(multiply(x,y),z);for(int k=0;k<3;++k){r[k]*=sx;r[k+4]*=sy;r[k+8]*=sz;r[k+12]=local[k+12];}local=r;
+            }else{
+            const auto translation=std::array<float,3>{local[12],local[13],local[14]};local[12]=local[13]=local[14]=0;local=multiply(multiply(multiply(x,y),z),local);for(int k=0;k<3;++k)local[k+12]=translation[k];
+            }
+        }
         const auto parent=c.joints[i].parent;if(parent!=-1) {solve(parent);global[i]=multiply(global[parent],local);}else global[i]=local;
         out[i]=multiply(global[i],c.joints[i].inverse_bind);visit[i]=2;};
     for(std::size_t i=0;i<c.joints.size();++i)solve(int(i));return out;
@@ -161,6 +183,24 @@ std::vector<std::array<float,3>> deform_reference(const Character& c,SpeechPose 
     const auto palette=character_palette(c,pose);std::vector<std::array<float,3>> out;
     for(const auto& v:c.vertices) {std::array<float,3> p{},q{};for(int k=0;k<3;++k)p[k]=v.position[k]+v.jaw_delta[k]*pose.jaw+v.round_delta[k]*pose.round+v.close_delta[k]*pose.close;
         for(int b=0;b<4;++b) for(int k=0;k<3;++k) {const auto& m=palette.at(v.joints[b]);q[k]+=v.weights[b]*(m[k]*p[0]+m[4+k]*p[1]+m[8+k]*p[2]+m[12+k]);}out.push_back(q);}
+    return out;
+}
+std::array<float,kMaxCharacterMorphs> character_morph_weights(const Character& c,const MorphWeights& weights) {
+    std::array<float,kMaxCharacterMorphs> out{};
+    for(const auto& [name,value]:weights){ensure(std::isfinite(value)&&value>=0&&value<=1,"invalid named morph weight");const auto it=std::find(c.morph_names.begin(),c.morph_names.end(),name);ensure(it!=c.morph_names.end(),"unknown named morph");out[std::size_t(it-c.morph_names.begin())]=value;}
+    return out;
+}
+DeformedMesh deform_named_reference(const Character& c,const MorphWeights& weights,BoneMotion motion) {
+    const auto w=character_morph_weights(c,weights);const auto palette=character_palette(c,{},motion);DeformedMesh out;
+    for(std::size_t i=0;i<c.vertices.size();++i){const auto& v=c.vertices[i];auto p=v.position,n=v.normal;
+        for(std::size_t t=0;t<c.morphs.size();++t)if(w[t]>0)for(int k=0;k<3;++k){p[k]+=c.morphs[t][i].position[k]*w[t];n[k]+=c.morphs[t][i].normal[k]*w[t];}
+        Mat4 skin{};for(int j=0;j<4;++j)for(int k=0;k<16;++k)skin[k]+=v.weights[j]*palette.at(v.joints[j])[k];
+        std::array<float,3> q{};for(int k=0;k<3;++k)q[k]=skin[k]*p[0]+skin[k+4]*p[1]+skin[k+8]*p[2]+skin[k+12];out.positions.push_back(q);
+        auto cross=[](const std::array<float,3>& a,const std::array<float,3>& b){return std::array<float,3>{a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]};};
+        const std::array<float,3> a{skin[0],skin[1],skin[2]},b{skin[4],skin[5],skin[6]},d{skin[8],skin[9],skin[10]};
+        const auto x=cross(b,d),y=cross(d,a),z=cross(a,b);const float det=a[0]*x[0]+a[1]*x[1]+a[2]*x[2];ensure(std::abs(det)>1e-25f,"singular skin transform");
+        float length=0;for(int k=0;k<3;++k){q[k]=(x[k]*n[0]+y[k]*n[1]+z[k]*n[2])/det;length+=q[k]*q[k];}ensure(length>1e-25f,"zero morphed normal");for(auto& value:q)value/=std::sqrt(length);out.normals.push_back(q);
+    }
     return out;
 }
 } // namespace jali

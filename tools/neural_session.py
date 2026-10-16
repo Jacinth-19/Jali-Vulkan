@@ -13,7 +13,7 @@ from analyze_neural_clips import analyze_wav, audio_metadata, digest, validate_t
 from local_neural_speech import validate_request
 from prepare_kokoro_cpu import MODEL_SHA, VOICE_SHA
 
-ROOT = Path(__file__).resolve().parents[1]
+from runtime_paths import ASSET_ROOT as ROOT, speech_worker_command
 SESSION_ID = re.compile(r'[a-f0-9]{32}\Z')
 MEDIA = {'audio.wav', 'cues.json', 'requested-text.txt', 'manifest.json'}
 
@@ -51,8 +51,7 @@ def build_session(session_id, text, directory, rig, rhubarb, on_stage=lambda _: 
     on_stage('synthesizing')
     # Isolate the neural runtime and bound each request. No shell, user commands,
     # model URLs, uploaded conditioning, or cached speech from another session.
-    result = runner([sys.executable, str(ROOT / 'tools/local_neural_speech.py'),
-                             '--text', text, '--output', str(directory / 'speech'), '--threads', '2'],
+    result = runner(speech_worker_command(ROOT,['--text', text, '--output', str(directory / 'speech'), '--threads', '2']),
                             cwd=ROOT, check=True, capture_output=True, text=True, encoding='utf-8', timeout=90)
     (directory / 'worker.log').write_text((result.stdout + result.stderr)[-32000:], encoding='utf-8')
     speech = json.loads((directory / 'speech/manifest.json').read_text())
@@ -82,7 +81,7 @@ def build_session(session_id, text, directory, rig, rhubarb, on_stage=lambda _: 
         'analysis_seconds': round(time.perf_counter() - analysis_start, 4),
         'analysis': cues['provenance'], 'total_seconds': round(time.perf_counter() - start, 4),
         'transcript_independently_verified': False,
-        'limits': 'Estimated nine-class visemes, not verified phoneme alignment; procedural/manual expression; WebGL, not native Vulkan.',
+        'limits': 'Estimated nine-class visemes, not verified phoneme alignment; procedural/manual expression. Presentation can use WebGL or the explicitly prepared matching native Vulkan profile.',
     }
     validate_binding(clip, wav, cues, rig)
     if cues['provenance']['dialog_sha256'] != digest(dialog):

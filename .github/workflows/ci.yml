@@ -206,6 +206,8 @@ jobs:
           python -m venv .venv
           .venv/bin/python -m pip install -r tools/requirements-neural-studio.txt
           npm ci --prefix tools --ignore-scripts
+      - name: Install optional pinned phone-alignment crosscheck (no microphone)
+        run: .venv/bin/python -m pip install --no-deps -r tools/requirements-alignment.txt
       - name: Check contracts without loading a neural model
         run: |
           .venv/bin/python -m unittest discover -s tests -p 'test_*.py'
@@ -218,6 +220,8 @@ jobs:
           python tools/ci_command.py .venv/bin/python tools/build_neural_studio.py
       - name: Exercise actual neural synthesis, audio analysis and facial articulation
         run: .venv/bin/python tools/run_neural_ci.py
+      - name: Crosscheck all actual corpus WAVs with two-pass phone alignment
+        run: .venv/bin/python tools/align_neural_session.py --review artifacts/neural-review --output artifacts/neural-review/phone-alignment
       - name: Build and test the offline laptop playback checkpoint
         run: |
           .venv/bin/python tools/build_playback_checkpoint.py
@@ -289,7 +293,7 @@ jobs:
     name: Windows local neural speech, analyzer and live face
     if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/arena/3284941c-jali-vulkan')
     runs-on: windows-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     env:
       PYTHONUTF8: '1'
       JALI_BROWSER_CHANNEL: chrome
@@ -324,11 +328,11 @@ jobs:
       - name: Check cross-platform neural contracts without inference
         shell: pwsh
         run: |
-          foreach ($pattern in @('test_neural*.py','test_local_neural.py','test_playback_checkpoint.py','test_benchmark.py')) {
+          foreach ($pattern in @('test_neural*.py','test_local_neural.py','test_playback_checkpoint.py','test_benchmark.py','test_native_adapter.py','test_phone_alignment.py')) {
             .venv/Scripts/python.exe -m unittest discover -s tests -p $pattern
             if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           }
-          node --test tests/visemes.test.mjs tests/measurement.test.mjs tests/performance.test.mjs
+          node --test tests/visemes.test.mjs tests/measurement.test.mjs tests/performance.test.mjs tests/streaming.test.mjs
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Explicitly prepare stock voice, model, Windows analyzer and CC0 head
         env:
@@ -350,6 +354,16 @@ jobs:
       - name: Exercise the one-command Windows benchmark launcher
         shell: pwsh
         run: .\windows\benchmark.ps1 -Repeats 1 -Headless -Conditions 'Hosted Windows CI; not target laptop'
+      - name: Build personal-only frozen CPU/WebGL app (no distributable artifact)
+        shell: pwsh
+        run: |
+          .venv/Scripts/python.exe -m pip install pyinstaller==6.16.0
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python tools/ci_command.py .venv/Scripts/python.exe tools/package_windows.py --personal-build --no-archive
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Run the frozen app with Python, Node and gh removed from its PATH
+        shell: pwsh
+        run: python tools/ci_command.py .venv/Scripts/python.exe tools/smoke_packaged.py
       - name: Upload public synthetic Windows evidence, never weights or caches
         if: always()
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
@@ -362,5 +376,92 @@ jobs:
             artifacts/windows-neural-runner.json
             artifacts/windows-neural-summary.json
             artifacts/jali-benchmark-report.json
+            artifacts/windows-portable/build-receipt.json
+            artifacts/windows-portable/proof/*.json
+            artifacts/windows-portable/proof/*.log
+          retention-days: 3
+          if-no-files-found: warn
+
+  rich-native:
+    name: Detailed human Vulkan, same-WAV native UI and source Three comparison
+    needs: neural-studio
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/arena/3284941c-jali-vulkan')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out source
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Select Python 3.11
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.11'
+      - name: Select Node 22
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '22'
+      - name: Install Vulkan build and validation tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libvulkan-dev mesa-vulkan-drivers vulkan-validationlayers glslang-tools
+          mkdir -p artifacts "$RUNNER_TEMP/jali-xdg"
+          chmod 700 "$RUNNER_TEMP/jali-xdg"
+          icd=$(find /usr/share/vulkan/icd.d -name '*lvp*json' -print -quit)
+          test -n "$icd"
+          echo "VK_ICD_FILENAMES=$icd" >> "$GITHUB_ENV"
+          echo "VK_INSTANCE_LAYERS=VK_LAYER_KHRONOS_validation" >> "$GITHUB_ENV"
+          echo "XDG_RUNTIME_DIR=$RUNNER_TEMP/jali-xdg" >> "$GITHUB_ENV"
+          { uname -a; lscpu; free -h; } > artifacts/rich-runner-resources.txt
+          python -m venv .venv
+          .venv/bin/python -m pip install Pillow==11.1.0 imageio-ffmpeg==0.6.0
+          npm ci --prefix tools --ignore-scripts
+          mkdir -p .cache/deps
+          curl -fL https://codeload.github.com/syoyo/tinygltf/tar.gz/refs/tags/v2.9.3 -o .cache/deps/tinygltf.tar.gz
+          echo "c34443de2e9afaaf005713f69f5b061101a24ab2e9ee4021d882ac1d7983dbc0  .cache/deps/tinygltf.tar.gz" | sha256sum -c -
+          tar -xzf .cache/deps/tinygltf.tar.gz -C .cache/deps
+      - name: Download only verified public synthetic WAV/cue review recordings
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6
+        with:
+          name: neural-articulation-review
+          path: artifacts
+      - name: Explicitly prepare the decoded native head and comparison presentation
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python tools/ci_command.py .venv/bin/python tools/prepare_native_ci.py
+          node tools/validate_native_head.cjs artifacts/native-head/mpfb-native.glb artifacts/native-head/validation.json
+      - name: Build and test expanded native importer and GPU ABI
+        run: |
+          cmake -S . -B build-live -DCMAKE_BUILD_TYPE=Release -DJALI_ENABLE_VULKAN=ON -DPython3_EXECUTABLE="$PWD/.venv/bin/python" -DTINYGLTF_INCLUDE_DIR="$PWD/.cache/deps/tinygltf-2.9.3"
+          cmake --build build-live --parallel 2
+          ctest --test-dir build-live --output-on-failure --timeout 60
+      - name: Render actual speech, compare all source vertices and exercise native UI
+        run: python tools/ci_command.py .venv/bin/python tools/run_native_ci.py
+      - name: Reject Vulkan validation warnings or errors
+        if: ${{ !cancelled() }}
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          paths=list(Path('artifacts/native-head-proof').glob('*.log'))+list(Path('artifacts/native-studio').glob('*.log'))+[Path('build-live/Testing/Temporary/LastTest.log')]
+          for p in paths:
+              if p.is_file() and re.search(r'Validation (?:Error|Warning|Performance Warning)|VUID-|UNASSIGNED-',p.read_text(errors='replace')):
+                  raise SystemExit('Vulkan validation diagnostic: '+str(p))
+          PY
+      - name: Upload rendered evidence and metrics, never native model or weights
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: detailed-human-vulkan-evidence
+          path: |
+            artifacts/native-head-proof/*.json
+            artifacts/native-head-proof/*.png
+            artifacts/native-head-proof/*.mp4
+            artifacts/native-head-proof/*.log
+            artifacts/native-head/profile.json
+            artifacts/native-head/validation.json
+            artifacts/native-studio/*.log
+            artifacts/rich-runner-resources.txt
           retention-days: 3
           if-no-files-found: warn
