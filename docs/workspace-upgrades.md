@@ -5,11 +5,12 @@ multi-speaker dialogue with durable local WAVs, an opt-in loopback command/event
 API and a personal per-user installer. This is **not universal character support,
 simultaneous multi-avatar rendering, a public API or a legally cleared release**.
 
-Local checks so far: 141 Python / 33 JavaScript tests, real-head secure Chromium
+Local checks so far: 142 Python / 33 JavaScript tests, real-head secure Chromium
 controls/storage/control API/LOD/unload checks, alias-mapped synthetic import and
-custom-studio preparation. Hosted Blender, actual alternate voices and installer
-acceptance are pending; see the tracker rather than treating earlier green runs
-as evidence for this change.
+custom-studio preparation. Hosted Blender and actual alternate-voice checks have passed; unsigned Windows installer
+install/update/uninstall has also passed. Final full-workflow acceptance remains
+pending. See the tracker rather than treating
+earlier green runs as evidence for this change.
 
 ## Updating a source Windows installation
 
@@ -68,8 +69,9 @@ native representation/parity is explicitly ported. Separate prepared studios can
 use different meshes; the cast editor below shares the currently prepared mesh.
 
 The hosted Blender test uses factory-startup Blender to actually import/export a
-synthetic **3-joint / 13-morph alias-mapped rig**, then compares three skinned,
-morphed world-space poses bidirectionally, plus triangle counts. Its scope is that
+synthetic **3-joint / 13-morph alias-mapped rig**, then compares 16 skinned,
+morphed world-space poses bidirectionally (including all 13 required morphs), plus
+triangle counts. Its scope is that
 fixture and recorded Blender version, not arbitrary production avatars or DCCs.
 
 ## 2. LOD and resource management
@@ -123,6 +125,12 @@ a different rig regenerates speech/cues instead of reusing another rig's archive
 
 ## 4. Multiple characters, voices and budgets
 
+The active cast is saved atomically beside the session folder (`sessions-cast.json`
+in portable user data), bound to its rig, so it survives launcher restarts/free-port
+changes. A damaged, different-rig or unavailable-voice cast file is kept with an
+explicit warning, not silently overwritten on page load. Restore the voice/rig
+or back up the file before explicitly saving a replacement.
+
 Up to eight cast profiles have separate ID/name, installed stock voice, speed and
 captured calibration/manual performance/appearance. Save a character with the
 current facial controls, select it and queue its turns. Voice/speaker snapshots
@@ -159,6 +167,10 @@ stop the server, remove the key file and restart. Never commit/share it. Open th
 studio and check **Allow paired local app playback control**. No browser means
 no playback consumer. The normal UI token is a CSRF token, not public-service
 authentication; neither this nor the existing server should be exposed publicly.
+
+The examples below use the source server's default port 8082. The GUI launcher
+chooses a free port: pass `--url` with the actual loopback URL displayed by the
+launcher when using this client with the GUI.
 
 Example standard-library client (reads the key file, not the command line):
 
@@ -210,7 +222,7 @@ sentinel survives. This is a clean application-data profile on a hosted Windows
 image, **not every Windows version or a fresh physical PC**. The installer and
 bundle are never uploaded as CI artifacts.
 
-[Release gates](release-gates.json) and `tools/release_inventory.py --output ...`
+[Engineering licensing review](licensing-review.md), [release gates](release-gates.json) and `tools/release_inventory.py --output ...`
 record an engineering license/notice inventory. **Public redistribution is still
 not approved**: GPL phonemizer/eSpeak corresponding-source/combined-work duties,
 upstream q8 provenance and all user-imported licenses require resolution. An

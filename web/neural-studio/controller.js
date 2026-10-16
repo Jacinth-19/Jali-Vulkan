@@ -287,14 +287,14 @@ import {validateStreamChunk,AudioPrefetch} from './streaming.mjs';
     if(busy||exporting||!/^[a-f0-9]{32}$/.test(id))throw new Error('Invalid/busy existing-session request');
     const value=await json('/api/jobs/'+id);if(value.state!=='ready')throw new Error('Existing session is not ready');
     await load(value.clip,id,{autoplay:false});$('resume').hidden=false;stage('ready','Existing recording verified and loaded.');update();
-  },getState:()=>({quality,calibration,busy,phase,verified,selectedId,currentJob,cancelPending,streaming,streamStats,nativeInfo})};
+  },getState:()=>({quality,calibration,busy,exporting,phase,verified,selectedId,currentJob,cancelPending,streaming,streamStats,nativeInfo})};
   Object.assign(window.JaliStudio,{
     generate:async(text,speaker)=>{
       if(busy||exporting)throw Error('Wait for the active operation');managedPlayback=true;
       try{managedSpeaker=typeof speaker==='object'?speaker:null;$('speaker').value=typeof speaker==='object'?speaker.id:speaker;$('batch').checked=false;$('text').value=text;$('compose').requestSubmit();while(busy)await sleep(50);if(!verified||phase!=='ready')throw Error($('error').textContent||'Generation interrupted');return sessions.get(selectedId);}finally{managedPlayback=false;managedSpeaker=null;}
     },
     unloadView:()=>{nativeEpoch++;if(nativeImageUrl){URL.revokeObjectURL(nativeImageUrl);nativeImageUrl=null;}$('native-face').removeAttribute('src');$('native-face').hidden=true;},
-    interrupt:async()=>{const began=performance.now();while(busy&&!currentJob){if(performance.now()-began>5000)throw Error('Generation request is still pending');await sleep(25);}if(busy)await requestCancel();while(busy){if(performance.now()-began>35000)throw Error('Worker cleanup is still pending');await sleep(50);}$('stop').click();},
+    interrupt:async()=>{const began=performance.now();if(exporting){JaliCreative.recording.stop();while(exporting){if(performance.now()-began>20000)throw Error('Export cleanup is still pending');await sleep(25);}}while(busy&&!currentJob){if(performance.now()-began>5000)throw Error('Generation request is still pending');await sleep(25);}if(busy)await requestCancel();while(busy){if(performance.now()-began>35000)throw Error('Worker cleanup is still pending');await sleep(50);}$('stop').click();},
     play:async()=>{await play();return !$('audio').paused;}
   });
   window.JaliCreative=installCreativeControls({rig:JALI_HEAD_DATA.rig,getQuality:()=>quality,getCalibration:()=>calibration,

@@ -36,7 +36,10 @@ service is used. Generation files remain under `%LOCALAPPDATA%\JaliVulkan\sessio
 **UUID session directories are cleared on the next startup.** Save wanted WAVs and
 manifests before restarting. Delete that local app-data directory to erase retained
 recordings; deleting the extracted app removes its model/runtime files. Rebuild to
-update; this prototype has no background updater, registry installer or auto-upload.
+update; the portable ZIP itself has no background updater or auto-upload. An
+[optional unsigned personal per-user installer](workspace-upgrades.md#6-personal-installer-and-release-boundaries)
+now supports manual reinstall/update and data-preserving uninstall. Saved dialogue
+WAV archives live separately from ephemeral sessions and survive startup cleanup.
 
 ## Redistribution is deliberately blocked as a release claim
 
@@ -141,3 +144,7 @@ passed hosted Windows in [run 38935343354](https://github.com/Jacinth-19/Jali-Vu
 The same run passed all eleven jobs, including detailed native 256/512/768 images.
 [Exact evidence and remaining gates](evidence/four-upgrades-actions.json).
 This does not replace physical laptop, perceptual, legal or signing acceptance.
+
+See the dated [engineering licensing review](licensing-review.md) for additional
+notice/provenance/owner-license blockers. Signing is optional for your personal
+version; no public redistribution clearance is claimed.

@@ -400,6 +400,8 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python tools/ci_command.py pwsh -NoProfile -File windows/test-personal-installer.ps1
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $result=Get-Content artifacts/installer-proof/result.json -Raw | ConvertFrom-Json | ConvertTo-Json -Compress
+          Write-Output "::notice title=Unsigned personal installer checks::$result"
           .venv/Scripts/python.exe tools/release_inventory.py --output artifacts/installer-proof/license-inventory.json
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Upload public synthetic Windows evidence, never weights or caches
@@ -613,7 +615,7 @@ jobs:
         run: node tools/test_character_import.mjs
       - name: Actually import/export skin and all morphs in clean Blender
         run: python tools/ci_command.py blender --background --factory-startup --python-exit-code 1 --python tools/blender_character_roundtrip.py -- artifacts/character-import-proof
-      - name: Verify three world-space posed mesh round trips
+      - name: Verify all required morphs and world-space posed mesh round trips
         run: python tools/ci_command.py node tools/test_character_import.mjs artifacts/character-import-proof --roundtrip
       - name: Prepare and actually render imported rig through dialogue/export controls
         env:

@@ -109,6 +109,20 @@ class WorkspaceTests(unittest.TestCase):
    with patch.object(sys,'argv',['JaliStudio','--serve','--no-browser','--port','0','--integration-key-file',str(key)]),patch('neural_studio_server.main') as serve:portable_entry.main();serve.assert_called_once();self.assertIn(str(key),sys.argv)
    command=server_command('webgl','low',Path(directory)/'ready.json',True);self.assertIn('--integration-key-file',command);self.assertEqual(Path(command[command.index('--integration-key-file')+1]),Path(directory)/'JaliVulkan/integration.key')
    self.assertNotIn('--integration-key-file',server_command('webgl','low',Path('ready.json')))
+ def test_cast_survives_restart_and_preserves_invalid_file(self):
+  with tempfile.TemporaryDirectory() as directory:
+   root=Path(directory)/'sessions';state=StudioState(root,{},None,pipeline=fixture_pipeline)
+   try:state.set_cast([{**SP,'speed':1.1}]);path=state.cast_file
+   finally:state.pool.shutdown(wait=True)
+   state=StudioState(root,{},None,pipeline=fixture_pipeline)
+   try:self.assertEqual(state.cast[0]['speed'],1.1);self.assertIsNone(state.cast_warning)
+   finally:state.pool.shutdown(wait=True)
+   for damaged in ['damaged JSON','['*2000,json.dumps({'schema':'jali-cast-state-v1','rig':{'different':True},'cast':[SP]}),json.dumps({'schema':'jali-cast-state-v1','rig':{},'cast':[{**SP,'voice':'removed_voice'}]})]:
+    path.write_text(damaged)
+    for _ in range(2):
+     state=StudioState(root,{},None,pipeline=fixture_pipeline)
+     try:self.assertIn('Original file kept',state.cast_warning);self.assertEqual(path.read_text(),damaged)
+     finally:state.pool.shutdown(wait=True)
  def test_loopback_control_and_ui_tokens_are_separate(self):
   with tempfile.TemporaryDirectory() as directory:
    state=StudioState(Path(directory)/'sessions',{},None,pipeline=fixture_pipeline);state.control=ControlBroker('private-key');server=make_server(directory,state,'127.0.0.1',0);thread=threading.Thread(target=server.serve_forever);thread.start();base=f'http://127.0.0.1:{server.server_port}'

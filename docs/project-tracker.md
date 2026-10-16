@@ -55,8 +55,10 @@ recording -> animate the detailed character -> synchronized playback.
 - [x] Opt-in loopback command/event broker; private key file, bounded commands/events, single browser lease, at-most-once semantics and a standard-library client.
 - [x] Eight validated cast profiles; separate explicitly installed stock voice/speed/calibration/manual performance/appearance, pinned per-job snapshots. One active prepared mesh, speaker and inference worker; not concurrent distinct avatars.
 - [x] Optional unsigned personal per-user installer source, dependency/integrity doctor, reinstall/update and data-preserving uninstall test; explicit personal-use acknowledgement.
-- [x] Local 141 Python / 33 JS, secure-browser dialogue/storage/API/LOD/unload fixture and mapped synthetic GLB import passed.
-- [ ] Hosted actual Blender skin/morph roundtrip, additional genuine voice identities and Windows installer acceptance (running next).
+- [x] Local 142 Python / 33 JS, secure-browser dialogue/storage/API/LOD/unload fixture and mapped synthetic GLB import passed.
+- [x] Actual Blender 4.0.2 import/export: 16 world-space poses, all 13 required morphs; maximum error 8.702152625862784e-8 < 0.001. Genuine af_bella/am_michael CPU recordings and saved turn-taking passed locally.
+- [x] Hosted Windows source speech/live face, frozen app with Python/Node/gh removed from PATH, and unsigned clean-profile install/update/uninstall passed in [38957696799](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38957696799/job/117164609631).
+- [ ] Final full-workflow regression after cast persistence/export isolation and explicit offscreen-selector scrolling. Run 38957696799 remains failed: Linux genuine smoke timed out selecting an above-viewport quality control; other dependent jobs were skipped. A focused reproduction verified explicit scrolling, but a full local rerun still stalled waiting for stability after mobile-to-desktop resizing. Responsive checks now run last, leaving export in its original desktop viewport; final acceptance is still pending.
 - [ ] Broad production-avatar/DCC acceptance, simultaneous distinct-mesh scene management and measured target-device budgets.
 - [ ] Public release licensing/source/provenance approval; engineering inventory/gates added, NOT legal clearance. Signing optional for personal use.
 

@@ -110,9 +110,6 @@ const chromium=require('@sparticuz/chromium');
     await page.waitForFunction(id=>JaliHeadDemo.getState().sessionId===id,sessions[0].id);
     await page.locator('#audio').evaluate(a=>a.pause());
     await page.screenshot({path:path.join(proof,'desktop.png'),fullPage:true});
-    await page.setViewportSize({width:390,height:844});await page.waitForTimeout(200);
-    if(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth))throw new Error('Mobile overflow');
-    await page.screenshot({path:path.join(proof,'mobile.png'),fullPage:true});
     if(errors.length||external.length)throw new Error(JSON.stringify({errors,external}));
     if(reviewMode){
       const {SHAPES,sampleVisemes}=await import('../web/neural-head/visemes.mjs');
@@ -199,9 +196,8 @@ const chromium=require('@sparticuz/chromium');
     await page.locator(`#history button[data-session="${sessions[0].id}"]`).first().click();
     await page.evaluate(()=>document.querySelector('#audio').pause());
     // CPU-first personal capture budget; full-size rig/preset checks ran above.
-    await page.setViewportSize({width:1440,height:1100});
-    console.log('Export preflight',await page.evaluate(()=>({recording:JaliCreative.recording.active,disabled:document.querySelector('#quality-preset').disabled,display:getComputedStyle(document.querySelector('#quality-preset')).display,rect:document.querySelector('#quality-preset').getBoundingClientRect().toJSON(),clip:JaliStudio.getState().selectedId})));
-    await page.selectOption('#quality-preset','low');await page.selectOption('#export-fps','15');
+    await page.locator('#quality-preset').scrollIntoViewIfNeeded();await page.selectOption('#quality-preset','low');
+    await page.locator('#export-fps').scrollIntoViewIfNeeded();await page.selectOption('#export-fps','15');
     await page.locator('#record-start').click();await page.waitForFunction(()=>JaliCreative.recording.active||!!document.querySelector('a[download="performance.webm"]'),null,{timeout:15000});
     await page.waitForFunction(()=>!JaliCreative.recording.active&&!!document.querySelector('a[download="performance.webm"]'),null,{timeout:180000}).catch(async()=>{throw Error('Genuine capture did not finish: '+JSON.stringify(await page.evaluate(()=>({status:document.querySelector('#creative-status').textContent,stats:JaliCreative.recording.stats,time:document.querySelector('#audio').currentTime,paused:document.querySelector('#audio').paused}))));});
     for(const [name,target] of [['performance.webm','user-export.webm'],['recorded-frames.json','user-export-frames.json']]){
@@ -210,6 +206,10 @@ const chromium=require('@sparticuz/chromium');
     const exported=JSON.parse(fs.readFileSync(path.join(proof,'user-export-frames.json')));
     if(!exported.full_session_recorded||exported.mode!=='offline-fixed-media-clock'||exported.audio_sha256!==sessions[0].audio.sha256||exported.frames.length!==Math.ceil(sessions[0].duration*exported.fps)||exported.frames.some((f,i)=>f.time!==i/exported.fps))throw Error('Genuine user video export failed WAV/clock binding');
     await require('./smoke_character_voices.cjs').checkVoices(page,context,base,proof);
+    // Responsive smoke last: offline capture stays in its original fixed desktop viewport.
+    await page.setViewportSize({width:390,height:844});await page.waitForTimeout(200);
+    if(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth))throw new Error('Mobile overflow');
+    await page.screenshot({path:path.join(proof,'mobile.png'),fullPage:true});
     if(errors.length||external.length)throw new Error(JSON.stringify({errors,external}));
     fs.writeFileSync(path.join(proof,'browser-check.json'),JSON.stringify({passed:true,model,web_security_enabled:true,external_requests:external,errors,
       checks:[`${sessions.length} real form submissions`,'new CPU neural synthesis for each text','actual WAV analyzed with its dialog','downloaded WAV hash verified in browser','audio/face IDs match','actual closure morph','seek','sync off clears speech weights','natural end rests','old session replays with its own cues','mobile layout','cancel real generation hides partial media','cancel then retry','warm/full-closure pixel equality','left/right gaze changes actual render','stop clears audio/morphs/gaze','real sentence batching starts before producer completion','batch stop/cancel then retry','combined PCM offsets/hash verified'],

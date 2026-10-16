@@ -54,9 +54,28 @@ class StudioState:
         self.token = secrets.token_hex(32)
         self.voices=sorted(set(['af_heart',*available()]))
         self.cast=[dict(id='default',name='Default',voice='af_heart',speed=1.0)]
+        self.cast_file=self.root.parent/(self.root.name+'-cast.json');self.cast_warning=None
+        if self.cast_file.exists():
+            try:
+                if self.cast_file.is_symlink() or self.cast_file.stat().st_size>262144:raise ValueError('Invalid cast file')
+                saved=json.loads(self.cast_file.read_text(encoding='utf-8'))
+                if saved.get('schema')!='jali-cast-state-v1' or saved.get('rig')!=self.rig:raise ValueError('Cast rig mismatch')
+                self.cast=cast(saved['cast'],self.voices)
+            except (ValueError,OSError,KeyError,TypeError,AttributeError,RecursionError):self.cast_warning='Saved cast could not load (damaged file, changed rig or missing voice). Original file kept. Restore the voice/rig, or back it up before explicitly saving a replacement cast.'
         self.speakers={}
         self.conversations=ConversationStore(self.root.parent/(self.root.name+'-conversations'),self.voices)
         self.control=None
+
+    def set_cast(self,value):
+        value=cast(value,self.voices)
+        body=json.dumps({'schema':'jali-cast-state-v1','rig':self.rig,'cast':value},ensure_ascii=False)
+        if len(body.encode())>262144:raise ValueError('Cast file exceeds budget')
+        with self.lock:
+            if self.busy:raise ValueError('Wait for generation before editing cast')
+            temporary=self.cast_file.with_suffix('.part')
+            try:temporary.write_text(body,encoding='utf-8');temporary.replace(self.cast_file)
+            finally:temporary.unlink(missing_ok=True)
+            self.cast=value;self.cast_warning=None
 
     def start(self, text, streaming=False, speaker_id="default"):
         if not streaming:validate_request(text)
@@ -220,7 +239,7 @@ class Handler(FileHandler):
                 return self.json_response(200,{'released':True})
             if self.path=='/api/cast':
                 if state.busy:raise ValueError('Wait for generation before editing cast')
-                state.cast=cast(v,state.voices);return self.json_response(200,{'cast':state.cast})
+                state.set_cast(v);return self.json_response(200,{'cast':state.cast})
             if self.path=='/api/conversations/save':return self.json_response(200,store.save(v,state))
             if self.path=='/api/conversations/delete':
                 if not isinstance(v,dict) or set(v)!={'id'}:raise ValueError('Expected conversation ID')
@@ -234,7 +253,7 @@ class Handler(FileHandler):
                 return self.json_response(200,{'command':state.control.poll(v['consumer'])})
             if not isinstance(v,dict) or set(v)!={'consumer','type','data'}:raise ValueError('Invalid playback event')
             state.control.event(v['consumer'],v['type'],v['data']);return self.json_response(200,{'recorded':True})
-        except (ValueError,TypeError,KeyError,FileNotFoundError,UnicodeError,EOFError,wave.Error) as error:return self.json_response(400,{'error':str(error)})
+        except (ValueError,TypeError,KeyError,OSError,UnicodeError,EOFError,wave.Error) as error:return self.json_response(400,{'error':str(error)})
 
     def integration_auth(self):
         control=self.server.state.control
@@ -267,7 +286,7 @@ class Handler(FileHandler):
             except (ValueError,FileNotFoundError):return self.json_response(404,{'error':'Unknown/invalid saved conversation'})
         if route == '/api/config':
             return self.json_response(200, {'token': self.server.state.token, 'max_characters': 500, 'max_stream_characters':MAX_STREAM_CHARACTERS,'max_stream_chunks':MAX_CHUNKS,
-                'voices':self.server.state.voices,'cast':self.server.state.cast,'integration':self.server.state.control is not None,'voice': 'Kokoro af_heart (stock, CPU)', 'rig': self.server.state.rig, 'native':{**self.server.state.native.metadata,'resources_loaded':self.server.state.native.resources_loaded} if self.server.state.native else None})
+                'voices':self.server.state.voices,'cast':self.server.state.cast,'cast_warning':self.server.state.cast_warning,'integration':self.server.state.control is not None,'voice': 'Kokoro af_heart (stock, CPU)', 'rig': self.server.state.rig, 'native':{**self.server.state.native.metadata,'resources_loaded':self.server.state.native.resources_loaded} if self.server.state.native else None})
         if route=='/api/native/frame':
             if head_only:return self.json_response(405,{'error':'Use GET'})
             origin=self.headers.get('Origin')

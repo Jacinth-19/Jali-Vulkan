@@ -6,11 +6,21 @@
   "review_date": "2026-10-16",
   "review_scope": "Engineering notice/source inventory, not a legal opinion or completed redistribution clearance.",
   "blockers": [
+    "Establish the owner-authorized license for original repository code; the reviewed checkout has no top-level LICENSE file.",
     "Establish complete corresponding source, build/install information and combined-work obligations for GPL-3.0 phonemizer-fork and embedded eSpeak NG before distributing bundles.",
     "Independently establish provenance/identity of the redistributed q8 model against its original upstream asset and retain applicable model/voice notices.",
     "Verify license and provenance for every user-imported character, texture and voice. A declared import profile license is not approval.",
-    "Review installer/third-party notices and fulfill all applicable distribution obligations before any public release."
+    "Review installer/third-party notices and fulfill all applicable distribution obligations before any public release.",
+    "Resolve discovered espeakng-loader/FlatBuffers notice gaps and review actual frozen native/Python payload third-party notices/source, not only metadata."
   ],
-  "optional_for_personal_use": ["Code signing", "Online update service"],
-  "not_certified": ["Target laptop throughput", "Human articulation and naturalness", "Physical AV synchronization", "Arbitrary Blender/DCC rig round trips"]
+  "optional_for_personal_use": [
+    "Code signing",
+    "Online update service"
+  ],
+  "not_certified": [
+    "Target laptop throughput",
+    "Human articulation and naturalness",
+    "Physical AV synchronization",
+    "Arbitrary Blender/DCC rig round trips"
+  ]
 }
