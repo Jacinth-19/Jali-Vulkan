@@ -39,8 +39,12 @@ queues with durable verified WAV replay; an opt-in loopback command/event API;
 and a personal unsigned per-user installer are implemented.
 [Setup, API, supported rig contract and exact limits](docs/workspace-upgrades.md).
 Local **142 Python / 33 JavaScript tests**, real-head workspace browser checks and
-synthetic alias-map import pass. Hosted Blender round-trip/custom-runtime checks and local genuine two-voice
-dialogue pass; final hosted voice/installer verification is pending. Cast profiles share one active prepared mesh and one inference worker;
+synthetic alias-map import pass. Actual Blender 4.0.2 round trips cover **16 poses /
+all 13 required morphs**. Genuine two-voice dialogue and unsigned Windows
+install/update/uninstall checks have passed. **All 12 hosted jobs passed** in
+[run 38960192424](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38960192424)
+for implementation `1b527c0`; [exact evidence and prior failures](docs/evidence/workspace-upgrades-actions.json). Cast profiles persist
+across launches and share one active prepared mesh and one inference worker;
 this is not simultaneous multi-avatar rendering or universal rig importing.
 **Public redistribution/licensing approval remains blocked**; signing is optional
 for your personal version. Existing native render captures above are unchanged.
@@ -219,7 +223,9 @@ This is a development service, not authenticated public hosting; do not enter
 sensitive content. The Windows x64 developer backend now passed real CPU speech,
 Windows audio analysis and live Chrome integration in [nine-job Actions run 38843451199](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38843451199).
 See [Windows developer setup and actual measurements](docs/windows-neural-studio.md).
-A standalone installer and measured target-laptop acceptance remain open.
+An optional unsigned personal installer now passes hosted install/update/uninstall
+checks; measured target-laptop acceptance remains open. See [current personal-build
+setup and boundaries](docs/workspace-upgrades.md).
 
 ## Personal face and voice test assets
 

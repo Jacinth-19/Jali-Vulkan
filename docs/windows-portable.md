@@ -16,7 +16,8 @@ First complete [developer setup](windows-neural-studio.md). Then, from the check
 The explicit preparation step can download pinned assets/license notices; building
 requires Python 3.11, Node, GitHub CLI and internet as documented in developer setup.
 PyInstaller **6.16.0** collects only prepared studio assets, the pinned CPU speech
-runtime, stock `af_heart` voice and Windows analyzer—not your session store or home.
+runtime, stock `af_heart` voice (plus explicitly installed optional stock voices)
+and Windows analyzer—not your session store or home.
 The generated receipt lists exact installed package versions and source commit.
 
 Output: `artifacts/windows-portable/JaliStudio-Windows-x64.zip`. Extract the **whole
@@ -60,7 +61,15 @@ laptop benchmark, an installer-security audit or human acceptance.
 
 ## Executed evidence
 
-Current [run 38913502148](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38913502148)
+Current [run 38960192424](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38960192424)
+passed all **12 jobs** for source `1b527c0`, including frozen native/WebGL execution
+and unsigned per-user installation, clean application-data doctor, reinstall/update
+with retired-file cleanup, payload re-verification and data-preserving uninstall.
+[Exact current evidence and earlier failures](evidence/workspace-upgrades-actions.json).
+
+Historical native/integrity foundation:
+
+[Run 38913502148](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38913502148)
 passed all **11 jobs** for source `caa1e95`: native Windows source execution,
 optional frozen native/WebGL package, real CPU speech/batches, integrity failure
 and recovery tests, runtime readback and untouched-installation checks. Only

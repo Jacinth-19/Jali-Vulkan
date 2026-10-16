@@ -1,861 +1,247 @@
 {
-  "conclusion": "failure",
-  "databaseId": 38957696799,
+  "databaseId": 38960192424,
+  "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38960192424",
   "event": "push",
-  "headSha": "d6d3873d2eafdd605e343ab80607bac07994bdde",
+  "headSha": "1b527c051e724668608da4953ab22eded1a06f67",
+  "status": "completed",
+  "conclusion": "success",
   "jobs": [
     {
-      "completedAt": "2026-10-16T19:55:53Z",
-      "conclusion": "success",
-      "databaseId": 117164609195,
+      "databaseId": 117173014523,
       "name": "Native speech, Vulkan validation layers and browser",
-      "startedAt": "2026-10-16T19:49:07Z",
       "status": "completed",
-      "steps": [
-        {
-          "conclusion": "success",
-          "name": "Set up job",
-          "number": 1,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Check out source",
-          "number": 2,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Install platform speech and Vulkan development dependencies",
-          "number": 3,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Select software Vulkan and record actual runner resources",
-          "number": 4,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Record Vulkan device and validation layer inventory",
-          "number": 5,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Install pinned Python image transport dependency",
-          "number": 6,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Fetch the pinned self-contained glTF parser",
-          "number": 7,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Configure real backends",
-          "number": 8,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Build",
-          "number": 9,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Test real PCM and Vulkan readback",
-          "number": 10,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Exercise the full native CLI",
-          "number": 11,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Verify hardware-required mode rejects the software driver",
-          "number": 12,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Exercise live Web Audio and native frames in Chromium",
-          "number": 13,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Fail on Vulkan validation diagnostics",
-          "number": 14,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Upload built-in synthetic speech and native frame evidence",
-          "number": 15,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Post Check out source",
-          "number": 30,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Complete job",
-          "number": 31,
-          "status": "completed"
-        }
-      ],
-      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38957696799/job/117164609195"
+      "conclusion": "success",
+      "startedAt": "2026-10-16T20:09:37Z",
+      "completedAt": "2026-10-16T20:19:07Z",
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38960192424/job/117173014523"
     },
     {
-      "completedAt": "2026-10-16T19:55:53Z",
-      "conclusion": "success",
-      "databaseId": 117164609441,
+      "databaseId": 117173014791,
       "name": "Address and undefined-behavior checks",
-      "startedAt": "2026-10-16T19:49:08Z",
       "status": "completed",
-      "steps": [
-        {
-          "conclusion": "success",
-          "name": "Set up job",
-          "number": 1,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Check out source",
-          "number": 2,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Configure",
-          "number": 3,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Build",
-          "number": 4,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Run sanitized contracts",
-          "number": 5,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Post Check out source",
-          "number": 10,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Complete job",
-          "number": 11,
-          "status": "completed"
-        }
-      ],
-      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38957696799/job/117164609441"
+      "conclusion": "success",
+      "startedAt": "2026-10-16T20:09:37Z",
+      "completedAt": "2026-10-16T20:19:07Z",
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38960192424/job/117173014791"
     },
     {
-      "completedAt": "2026-10-16T19:55:53Z",
-      "conclusion": "success",
-      "databaseId": 117164609443,
+      "databaseId": 117173014822,
       "name": "g++ / Debug",
-      "startedAt": "2026-10-16T19:49:07Z",
       "status": "completed",
-      "steps": [
-        {
-          "conclusion": "success",
-          "name": "Set up job",
-          "number": 1,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Check out source",
-          "number": 2,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Confirm Python analyzer is available",
-          "number": 3,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Configure",
-          "number": 4,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Build",
-          "number": 5,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Run contracts and serialized-artifact gauntlet",
-          "number": 6,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Upload synthetic fixture and test log",
-          "number": 7,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Post Check out source",
-          "number": 14,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Complete job",
-          "number": 15,
-          "status": "completed"
-        }
-      ],
-      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38957696799/job/117164609443"
+      "conclusion": "success",
+      "startedAt": "2026-10-16T20:09:37Z",
+      "completedAt": "2026-10-16T20:19:07Z",
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38960192424/job/117173014822"
     },
     {
-      "completedAt": "2026-10-16T19:55:53Z",
-      "conclusion": "success",
-      "databaseId": 117164609465,
+      "databaseId": 117173014824,
       "name": "g++ / Release",
-      "startedAt": "2026-10-16T19:49:08Z",
       "status": "completed",
-      "steps": [
-        {
-          "conclusion": "success",
-          "name": "Set up job",
-          "number": 1,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Check out source",
-          "number": 2,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Confirm Python analyzer is available",
-          "number": 3,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Configure",
-          "number": 4,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Build",
-          "number": 5,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Run contracts and serialized-artifact gauntlet",
-          "number": 6,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Upload synthetic fixture and test log",
-          "number": 7,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Post Check out source",
-          "number": 14,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Complete job",
-          "number": 15,
-          "status": "completed"
-        }
-      ],
-      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38957696799/job/117164609465"
-    },
-    {
-      "completedAt": "2026-10-16T19:55:53Z",
       "conclusion": "success",
-      "databaseId": 117164609487,
-      "name": "clang++ / Debug",
-      "startedAt": "2026-10-16T19:49:07Z",
-      "status": "completed",
-      "steps": [
-        {
-          "conclusion": "success",
-          "name": "Set up job",
-          "number": 1,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Check out source",
-          "number": 2,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Confirm Python analyzer is available",
-          "number": 3,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Configure",
-          "number": 4,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Build",
-          "number": 5,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Run contracts and serialized-artifact gauntlet",
-          "number": 6,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Upload synthetic fixture and test log",
-          "number": 7,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Post Check out source",
-          "number": 14,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Complete job",
-          "number": 15,
-          "status": "completed"
-        }
-      ],
-      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38957696799/job/117164609487"
+      "startedAt": "2026-10-16T20:09:37Z",
+      "completedAt": "2026-10-16T20:19:07Z",
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38960192424/job/117173014824"
     },
     {
-      "completedAt": "2026-10-16T19:55:53Z",
-      "conclusion": "success",
-      "databaseId": 117164609514,
-      "name": "clang++ / Release",
-      "startedAt": "2026-10-16T19:49:08Z",
-      "status": "completed",
-      "steps": [
-        {
-          "conclusion": "success",
-          "name": "Set up job",
-          "number": 1,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Check out source",
-          "number": 2,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Confirm Python analyzer is available",
-          "number": 3,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Configure",
-          "number": 4,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Build",
-          "number": 5,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Run contracts and serialized-artifact gauntlet",
-          "number": 6,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Upload synthetic fixture and test log",
-          "number": 7,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Post Check out source",
-          "number": 14,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Complete job",
-          "number": 15,
-          "status": "completed"
-        }
-      ],
-      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38957696799/job/117164609514"
-    },
-    {
-      "completedAt": "2026-10-16T19:55:53Z",
-      "conclusion": "failure",
-      "databaseId": 117164609539,
+      "databaseId": 117173014835,
       "name": "Local neural speech, WebGL and articulation review",
-      "startedAt": "2026-10-16T19:49:07Z",
       "status": "completed",
-      "steps": [
-        {
-          "conclusion": "success",
-          "name": "Set up job",
-          "number": 1,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Check out source",
-          "number": 2,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Select Python 3.11",
-          "number": 3,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Select Node 22",
-          "number": 4,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Record actual hosted CPU resources",
-          "number": 5,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Install pinned CPU dependencies",
-          "number": 6,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Install optional pinned phone-alignment crosscheck (no microphone)",
-          "number": 7,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Check contracts without loading a neural model",
-          "number": 8,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Explicitly prepare reviewed model, stock voice and CC0 character",
-          "number": 9,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Check presets, articulation controls and controlled-delay prebuffer transport",
-          "number": 10,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Check dialogue, saved WAVs, cast, local API, LOD and unload (explicit non-speech fixture)",
-          "number": 11,
-          "status": "completed"
-        },
-        {
-          "conclusion": "failure",
-          "name": "Exercise actual neural synthesis, audio analysis and facial articulation",
-          "number": 12,
-          "status": "completed"
-        },
-        {
-          "conclusion": "skipped",
-          "name": "Crosscheck all actual corpus WAVs with two-pass phone alignment",
-          "number": 13,
-          "status": "completed"
-        },
-        {
-          "conclusion": "skipped",
-          "name": "Build and test the offline laptop playback checkpoint",
-          "number": 14,
-          "status": "completed"
-        },
-        {
-          "conclusion": "skipped",
-          "name": "Upload offline browser checkpoint (not a Windows backend)",
-          "number": 15,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Upload public corpus, exact CC0 rig and review evidence (never speech weights)",
-          "number": 16,
-          "status": "completed"
-        },
-        {
-          "conclusion": "skipped",
-          "name": "Post Select Node 22",
-          "number": 30,
-          "status": "completed"
-        },
-        {
-          "conclusion": "skipped",
-          "name": "Post Select Python 3.11",
-          "number": 31,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Post Check out source",
-          "number": 32,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Complete job",
-          "number": 33,
-          "status": "completed"
-        }
-      ],
-      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38957696799/job/117164609539"
+      "conclusion": "success",
+      "startedAt": "2026-10-16T20:09:37Z",
+      "completedAt": "2026-10-16T20:19:07Z",
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38960192424/job/117173014835"
     },
     {
-      "completedAt": "2026-10-16T19:55:53Z",
-      "conclusion": "success",
-      "databaseId": 117164609597,
-      "name": "Character import validation and Blender skin/morph round trip",
-      "startedAt": "2026-10-16T19:49:07Z",
+      "databaseId": 117173014871,
+      "name": "clang++ / Release",
       "status": "completed",
-      "steps": [
-        {
-          "conclusion": "success",
-          "name": "Set up job",
-          "number": 1,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
-          "number": 2,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38",
-          "number": 3,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Install pinned Node tools and distribution Blender",
-          "number": 4,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
-          "number": 5,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Install image resizing dependency",
-          "number": 6,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Validate synthetic import, alias mapping and reusable profile",
-          "number": 7,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Actually import/export skin and all morphs in clean Blender",
-          "number": 8,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Verify three world-space posed mesh round trips",
-          "number": 9,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Prepare and actually render imported rig through dialogue/export controls",
-          "number": 10,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Upload only synthetic fixture and roundtrip evidence",
-          "number": 11,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Post Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
-          "number": 20,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Post Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38",
-          "number": 21,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
-          "number": 22,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Complete job",
-          "number": 23,
-          "status": "completed"
-        }
-      ],
-      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38957696799/job/117164609597"
+      "conclusion": "success",
+      "startedAt": "2026-10-16T20:09:37Z",
+      "completedAt": "2026-10-16T20:19:07Z",
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38960192424/job/117173014871"
     },
     {
-      "completedAt": "2026-10-16T19:55:53Z",
+      "databaseId": 117173014924,
+      "name": "clang++ / Debug",
+      "status": "completed",
       "conclusion": "success",
-      "databaseId": 117164609631,
+      "startedAt": "2026-10-16T20:09:37Z",
+      "completedAt": "2026-10-16T20:19:07Z",
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38960192424/job/117173014924"
+    },
+    {
+      "databaseId": 117173015057,
       "name": "Windows local neural speech, analyzer and live face",
-      "startedAt": "2026-10-16T19:49:08Z",
       "status": "completed",
-      "steps": [
-        {
-          "conclusion": "success",
-          "name": "Set up job",
-          "number": 1,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Check out source",
-          "number": 2,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Select Python 3.11 x64",
-          "number": 3,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Select Node 22",
-          "number": 4,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Record actual Windows runner inventory",
-          "number": 5,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Install pinned neural dependencies and browser tooling",
-          "number": 6,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Check cross-platform neural contracts without inference",
-          "number": 7,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Explicitly prepare stock voice, model, Windows analyzer and CC0 head",
-          "number": 8,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Check Windows preset/articulation/prebuffer browser controls",
-          "number": 9,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Check Windows dialogue, saved WAVs, cast, local API, LOD and unload",
-          "number": 10,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Generate three NEW Windows CPU recordings and animate their live face",
-          "number": 11,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Assert actual Windows CPU and analyzer measurements",
-          "number": 12,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Exercise the one-command Windows benchmark launcher",
-          "number": 13,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Build relocatable native renderer for the optional personal package",
-          "number": 14,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Build personal-only frozen CPU/WebGL/native app (no distributable artifact)",
-          "number": 15,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Run the frozen app with Python, Node and gh removed from its PATH",
-          "number": 16,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Build and test unsigned personal per-user installer (never uploaded)",
-          "number": 17,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Upload public synthetic Windows evidence, never weights or caches",
-          "number": 18,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Remove only this hosted run's temporary software ICD registration",
-          "number": 19,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Post Select Node 22",
-          "number": 36,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Post Select Python 3.11 x64",
-          "number": 37,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Post Check out source",
-          "number": 38,
-          "status": "completed"
-        },
-        {
-          "conclusion": "success",
-          "name": "Complete job",
-          "number": 39,
-          "status": "completed"
-        }
-      ],
-      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38957696799/job/117164609631"
+      "conclusion": "success",
+      "startedAt": "2026-10-16T20:09:37Z",
+      "completedAt": "2026-10-16T20:19:07Z",
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38960192424/job/117173015057"
     },
     {
-      "completedAt": "2026-10-16T19:55:53Z",
-      "conclusion": "skipped",
-      "databaseId": 117167357456,
-      "name": "Detailed human Vulkan, same-WAV native UI and source Three comparison",
-      "startedAt": "2026-10-16T19:55:53Z",
+      "databaseId": 117173015094,
+      "name": "Character import validation and Blender skin/morph round trip",
       "status": "completed",
-      "steps": [],
-      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38957696799/job/117167357456"
+      "conclusion": "success",
+      "startedAt": "2026-10-16T20:09:37Z",
+      "completedAt": "2026-10-16T20:19:07Z",
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38960192424/job/117173015094"
     },
     {
-      "completedAt": "2026-10-16T19:55:53Z",
-      "conclusion": "skipped",
-      "databaseId": 117167357677,
+      "databaseId": 117175590930,
       "name": "Windows Chrome offline playback (not local TTS)",
-      "startedAt": "2026-10-16T19:55:53Z",
       "status": "completed",
-      "steps": [],
-      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38957696799/job/117167357677"
+      "conclusion": "success",
+      "startedAt": "2026-10-16T20:15:50Z",
+      "completedAt": "2026-10-16T20:19:07Z",
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38960192424/job/117175590930"
     },
     {
-      "completedAt": "2026-10-16T19:55:53Z",
-      "conclusion": "skipped",
-      "databaseId": 117167358554,
+      "databaseId": 117175590948,
       "name": "Windows native Vulkan binary pipes and detailed-head playback",
-      "startedAt": "2026-10-16T19:55:54Z",
       "status": "completed",
-      "steps": [],
-      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38957696799/job/117167358554"
+      "conclusion": "success",
+      "startedAt": "2026-10-16T20:15:50Z",
+      "completedAt": "2026-10-16T20:19:07Z",
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38960192424/job/117175590948"
+    },
+    {
+      "databaseId": 117175590976,
+      "name": "Detailed human Vulkan, same-WAV native UI and source Three comparison",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-16T20:15:51Z",
+      "completedAt": "2026-10-16T20:19:07Z",
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38960192424/job/117175590976"
     }
   ],
-  "status": "completed",
-  "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38957696799",
-  "scope": "Partial hosted acceptance; not a green run. Windows actual speech/frozen/installer and Blender passed, Linux final selector failed, downstream jobs skipped.",
-  "blender": {
-    "version": "4.0.2",
-    "poses": 16,
-    "all_required_morphs": 13,
-    "max_world_position_error": 8.702152625862784e-08,
-    "tolerance": 0.001
+  "hosted_windows": {
+    "Unsigned personal installer checks": {
+      "retired_payload_file_removed": true,
+      "reinstall_update_preserves_data": true,
+      "clean_user_data": true,
+      "uninstall_preserves_data": true,
+      "install": true,
+      "updated_payload_verified": true,
+      "redistribution_approved": false,
+      "passed": true,
+      "signing": "unsigned personal build"
+    },
+    "Actual Windows neural summary": {
+      "platform": "win32",
+      "cpu_only": true,
+      "new_recordings": [
+        {
+          "case": "closures",
+          "audio_seconds": 3.4133333333333336,
+          "generation_seconds": 2.1331,
+          "analysis_seconds": 4.1497,
+          "total_seconds": 9.2649,
+          "peak_working_set_mib": 290.93,
+          "audio_sha256": "e0d9fb8345d9d3b4547ce4c2dde223d37da55702fdca2bcc4168a4209c502009",
+          "analyzer_binary_sha256": "d31a3030bcb11c39c175cdba45f8152456d7d2a288a8198b820f3b8c4f37ab2b"
+        },
+        {
+          "case": "contacts",
+          "audio_seconds": 4.074666666666666,
+          "generation_seconds": 2.2299,
+          "analysis_seconds": 3.4287,
+          "total_seconds": 8.2334,
+          "peak_working_set_mib": 297.11,
+          "audio_sha256": "735738fc34ad062eff499482edb242c2f5469a0d80494339dea6264f25188db2",
+          "analyzer_binary_sha256": "d31a3030bcb11c39c175cdba45f8152456d7d2a288a8198b820f3b8c4f37ab2b"
+        },
+        {
+          "case": "vowels",
+          "audio_seconds": 3.6053333333333333,
+          "generation_seconds": 2.4648,
+          "analysis_seconds": 4.2575,
+          "total_seconds": 9.6082,
+          "peak_working_set_mib": 290.95,
+          "audio_sha256": "f26e466068028f7afbc7bc55d1fe786a1efce8300a314f820e4f4f8e5e9b9b6b",
+          "analyzer_binary_sha256": "d31a3030bcb11c39c175cdba45f8152456d7d2a288a8198b820f3b8c4f37ab2b"
+        }
+      ],
+      "review_frames": 21,
+      "estimated_classes": [
+        "X",
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H"
+      ],
+      "human_review_completed": false,
+      "target_laptop_tested": false,
+      "scope": "Actual Windows hosted CPU inference and exact-WAV/dialog analysis plus live Chrome/WebGL; not laptop or physical AV validation"
+    }
   },
+  "blender": {
+    "max_world_position_error": 8.702152625862784e-08,
+    "poses": 16,
+    "tolerance": 0.001,
+    "blender": "4.0.2",
+    "required_morphs_exercised": 13
+  },
+  "local_validation": {
+    "python_tests": 142,
+    "javascript_tests": 33,
+    "export_controls_and_disabled_state_restoration": true,
+    "studio_interrupt_cancels_export": true,
+    "transport_fixture_fully_decoded_video_frames": 90,
+    "genuine_export_fully_decoded_video_frames": 79,
+    "genuine_export_resolution": 256,
+    "genuine_export_fps": 15,
+    "cast_persistence_verified_after_server_restart": true,
+    "actual_voice_dialogue": {
+      "passed": true,
+      "fixture": false,
+      "sequential_dialogue": true,
+      "saved": true,
+      "shared_active_meshes": 1,
+      "limits": "Actual new stock-voice sessions; not voice-00, cloned identity, subjective quality or target-laptop performance"
+    },
+    "voices": [
+      {
+        "voice": "af_bella",
+        "voice_sha256": "f69d836209b78eb8c66e75e3cda491e26ea838a3674257e9d4e5703cbaf55c8b",
+        "audio_sha256": "3fe4f2d62fac65bf6e12a693fac5b280036ba642772c3024ec376ea2d5d5fc1c",
+        "duration": 1.472,
+        "total_seconds": 5.0555
+      },
+      {
+        "voice": "am_michael",
+        "voice_sha256": "1d1f21dd8da39c30705cd4c75d039d265e9bc4a2a93ed09bc9e1b1225eb95ba1",
+        "audio_sha256": "d7040eb4167b803c355ec0be20216c80ce815b561a211fbae2302a375d039e65",
+        "duration": 1.6213333333333333,
+        "total_seconds": 7.502
+      }
+    ]
+  },
+  "previous_attempts": [
+    {
+      "databaseId": 38956156725,
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38956156725",
+      "conclusion": "failure",
+      "notes": "Windows controlled-delay prebuffer fixture entered error; same fixture later passed locally and hosted, original transport cause not reproduced. Linux final quality selector timed out."
+    },
+    {
+      "databaseId": 38957696799,
+      "headSha": "d6d3873d2eafdd605e343ab80607bac07994bdde",
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38957696799",
+      "conclusion": "failure",
+      "notes": "Blender 16-pose and Windows genuine/frozen/unsigned-installer checks passed; Linux final quality selector timed out and dependent jobs were skipped."
+    }
+  ],
+  "automation_followup": "Focused fixture scrolling passed, but a full local rerun still stalled waiting for stability after mobile-to-desktop resizing. Responsive checks now run last, leaving genuine export in its original desktop viewport. This passed locally and in the final full hosted run; it is not universal software-context resize recovery certification.",
   "remaining_gates": [
-    "Latest source full-workflow regression",
-    "Target i5 laptop and physical AV measurements",
-    "Human articulation review",
-    "Public redistribution legal/provenance/source/notices clearance"
+    "Broad production-avatar/DCC acceptance; import supports the explicit canonical self-contained GLB contract, not arbitrary rigs.",
+    "Different personas share one prepared mesh and one active worker, not concurrent distinct avatars.",
+    "Target i5 laptop throughput and physical AV measurements.",
+    "Human articulation/naturalness and independent timing review.",
+    "Public redistribution legal/provenance/source/notices clearance; code signing remains optional for personal use."
   ]
 }

@@ -5,12 +5,13 @@ multi-speaker dialogue with durable local WAVs, an opt-in loopback command/event
 API and a personal per-user installer. This is **not universal character support,
 simultaneous multi-avatar rendering, a public API or a legally cleared release**.
 
-Local checks so far: 142 Python / 33 JavaScript tests, real-head secure Chromium
-controls/storage/control API/LOD/unload checks, alias-mapped synthetic import and
-custom-studio preparation. Hosted Blender and actual alternate-voice checks have passed; unsigned Windows installer
-install/update/uninstall has also passed. Final full-workflow acceptance remains
-pending. See the tracker rather than treating
-earlier green runs as evidence for this change.
+Validation: **142 Python / 33 JavaScript tests** and **all 12 hosted jobs passed**
+in [38960192424](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38960192424),
+source `1b527c0`. This includes actual Blender round trips, custom-runtime
+rendering, genuine alternate-voice dialogue, Linux/Windows speech/WebGL/Vulkan,
+frozen runtime and unsigned installer install/update/uninstall. Local genuine
+256 / 15 FPS export decoded all 79 frames.
+[Exact evidence, scope and earlier failed attempts](evidence/workspace-upgrades-actions.json).
 
 ## Updating a source Windows installation
 
@@ -205,8 +206,19 @@ First rebuild your personal portable bundle, then use free Inno Setup 6.3+:
 .\windows\build-personal-installer.ps1 -PersonalUseOnly
 ```
 
-Without an explicit native port for a custom imported character, omit
-`-IncludeNativeVulkan`. The **unsigned** installer uses per-user installation,
+The wrapper above deliberately rebuilds the **stock head**. For a previously
+imported custom character, instead install the pinned packager, explicitly prepare
+that character into the default packaging directory and package it directly:
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install pyinstaller==6.16.0
+.\.venv\Scripts\python.exe tools\build_neural_studio.py --character artifacts/my-character
+.\.venv\Scripts\python.exe tools\package_windows.py --personal-build
+.\windows\build-personal-installer.ps1 -PersonalUseOnly
+```
+
+Do not include native Vulkan for a custom import without an explicit native port.
+The **unsigned** installer uses per-user installation,
 no admin requirement, Start-menu launcher/uninstaller, app-process closure during
 updates and same-AppId reinstall/update support. Dependency/asset diagnostics
 remain in the launcher/`--doctor`; verification is fail-closed. Updates are manual
