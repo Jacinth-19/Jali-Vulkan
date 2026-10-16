@@ -2,9 +2,10 @@
 
 Implemented 2026-10-16. Local verification: **130 Python tests, 22 JavaScript
 tests**, and an actual Chromium/WebGL control/transport test using the real head
-and explicitly synthetic **non-speech** PCM/cue fixtures. Current hosted Windows,
-frozen-launcher and native-resolution acceptance is pending the new Actions run;
-the older all-green run is not evidence for these changes.
+and explicitly synthetic **non-speech** PCM/cue fixtures. **All 11 hosted jobs passed** for implementation `00d9859` in
+[Actions run 38935343354](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38935343354),
+including Windows frozen GUI Launch/Stop/doctor and actual native 256/768/512
+images. [Exact scope and job evidence](evidence/four-upgrades-actions.json).
 
 ## Performance presets and device observation
 

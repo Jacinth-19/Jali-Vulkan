@@ -40,11 +40,11 @@ recording -> animate the detailed character -> synchronized playback.
 | B0 | Existing foundation | Delivered prototype, scoped below | Keep regression tests passing |
 | M1 | Local neural speech | CPU inference proven on Linux/hosted Windows; user PC run works; listening review open | New text generates playable speech locally, with reviewed artifacts and measured CPU cost |
 | M2 | Automatic end-to-end generation | Delivered Linux/Windows-hosted WebGL prototype; new form-to-face sessions passed | One action produces and plays a newly synthesized, clip-driven performance |
-| M3 | Better lip-sync fidelity | Partial: short-cue/end-rest fixes and repeatable nine-class review checks pass | Rig tuning, independent reference checks, and full-utterance quality review |
+| M3 | Better lip-sync fidelity | Partial: calibrated Clear/Soft/Baseline closure/contact/tongue/transition controls and repeatable nine-class review checks pass | Rig tuning, independent reference checks, and full-utterance quality review |
 | M4 | Detailed character in Vulkan | Implemented/validated on software Vulkan: rich head, same-WAV UI, CPU/GPU and source Three positions; target hardware open | Native engine renders the richer textured rig with verified deformation |
 | M5 | Expressive facial performance | Separate manual layers, speech-priority warmth and gaze implemented; quality review open | Controllable, evaluated speech-related expression and gaze/gesture behavior |
-| M6 | Streaming and interruption | Bounded sentence batching, ordered verified chunks and cancel/retry delivered; not internal incremental inference | Bounded incremental audio/face playback with cancellation and recovery |
-| M7 | Windows performance and packaging | Partial: Windows backend and one-command benchmark passed hosted CI; user-reported PC run works; frozen CPU/WebGL app passed hosted Windows; licensing, signing and measured laptop acceptance open | Measured target-device results and a tested, understandable launcher/package |
+| M6 | Streaming and interruption | Bounded sentence batching, verified next-audio prebuffer, 1,000-character paragraphs and cancel/retry delivered; not internal incremental inference | Bounded incremental audio/face playback with cancellation and recovery |
+| M7 | Windows performance and packaging | Partial: source/frozen renderer/preset GUI, Launch/Stop/device doctor and one-command benchmark passed hosted CI; user-reported PC run works; licensing, signing and measured laptop acceptance open | Measured target-device results and a tested, understandable launcher/package |
 | M8 | Asset workflow and final QA | Partial: fixtures, provenance and tests exist | Reliable asset round trips, real AV measurements, and release review |
 
 ## Four-upgrade implementation — 2026-10-16
@@ -58,7 +58,9 @@ recording -> animate the detailed character -> synchronized playback.
 - [x] Paragraph budget 1,000 characters / 12 chunks; producer/PCM bounds preserved.
 - [x] Source/frozen renderer/preset chooser, free-port startup and recovery doctor.
 - [x] Local 130 Python / 22 JavaScript tests and real-head browser regression.
-- [ ] New hosted Windows frozen GUI launch/Stop/doctor and 256/512/768 native images.
+- [x] All 11 hosted jobs passed: Windows frozen GUI launch/Stop/doctor, real
+  535-character neural paragraphs, and 256/512/768 native images.
+  [Run 38935343354 / source 00d9859 evidence](evidence/four-upgrades-actions.json).
 - [ ] Target i5 measurements and human lip-seal/contact/tongue/naturalness approval.
 
 [Implementation and usage](four-upgrades.md). The browser transport fixture is

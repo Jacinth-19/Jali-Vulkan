@@ -132,3 +132,12 @@ ignores `VK_ICD_FILENAMES`. Software CI explicitly registers **only its own**
 temporary ICD manifest on that disposable machine and removes that value in an
 `always()` cleanup step. This is guarded against local/self-hosted use; the
 normal user setup never changes the driver registry or disables loader security.
+
+## New launcher verification
+
+The upgraded chooser's actual frozen **Launch/Stop**, stripped-PATH execution,
+Tk/Tcl collection, offline integrity checks and real native device-readback doctor
+passed hosted Windows in [run 38935343354](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38935343354).
+The same run passed all eleven jobs, including detailed native 256/512/768 images.
+[Exact evidence and remaining gates](evidence/four-upgrades-actions.json).
+This does not replace physical laptop, perceptual, legal or signing acceptance.
