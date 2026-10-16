@@ -18,7 +18,16 @@ def main():
         print(json.dumps(launcher_main(smoke=True)));return
     if '--doctor' in sys.argv:
         from studio_launcher import diagnostics
-        print(json.dumps(diagnostics('--native' in sys.argv),indent=2));return
+        p=argparse.ArgumentParser(description='Offline dependency/device diagnostics')
+        p.add_argument('--doctor',action='store_true');p.add_argument('--native',action='store_true');p.add_argument('--diagnostics-file',type=Path)
+        a=p.parse_args()
+        if a.diagnostics_file and a.diagnostics_file.resolve().is_relative_to(Path(sys.executable).resolve().parent):p.error('Write diagnostics outside the installation directory')
+        report=diagnostics(a.native)
+        if a.diagnostics_file:
+            a.diagnostics_file.parent.mkdir(parents=True,exist_ok=True);a.diagnostics_file.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
+        print(json.dumps(report,indent=2))
+        if not report.get('checks') or not all(c['ok'] for c in report['checks']):raise SystemExit(2)
+        return
     if len(sys.argv)>1 and sys.argv[1]=='--speech-worker':
         del sys.argv[1]
         from local_neural_speech import main as speech_main
@@ -26,6 +35,7 @@ def main():
     p=argparse.ArgumentParser(description='Jali portable CPU neural face studio (local browser, no account)')
     p.add_argument('--serve',action='store_true',help=argparse.SUPPRESS)
     p.add_argument('--port',type=int,default=8082);p.add_argument('--no-browser',action='store_true')
+    p.add_argument('--integration-key-file',type=Path,help='Explicitly enable loopback local-app API; keep pairing key outside application directory')
     p.add_argument('--sessions',type=Path);p.add_argument('--ready-file',type=Path)
     p.add_argument('--native',action='store_true',help='Enable optional bundled Vulkan renderer, using the system Vulkan driver')
     p.add_argument('--verify-installation',action='store_true',help='Check bundled files and exit without starting a server or modifying sessions')
@@ -46,6 +56,7 @@ def main():
     if args.native:
         from runtime_paths import ASSET_ROOT
         if not (ASSET_ROOT/'native/mpfb-native.glb').is_file():p.error('This personal package has no native renderer. Rebuild with --include-native after windows/setup-native.ps1, or omit --native to use WebGL.')
+    if args.integration_key_file and args.integration_key_file.resolve().is_relative_to(Path(sys.executable).resolve().parent):p.error('Keep the private pairing key outside the installation directory')
     data=Path(os.environ.get('LOCALAPPDATA',str(Path.home()/'.jali')))/'JaliVulkan'
     data.mkdir(parents=True,exist_ok=True)
     sessions=args.sessions or data/'sessions'
@@ -62,6 +73,7 @@ def main():
     print(f'Local session files: {sessions}. Previous run UUID folders are cleared at startup.',flush=True)
     from neural_studio_server import main as studio_main
     sys.argv=[sys.argv[0],'--bind','127.0.0.1','--port',str(args.port),'--sessions',str(sessions),'--ready-file',str(ready)]
+    if args.integration_key_file:sys.argv.extend(['--integration-key-file',str(args.integration_key_file)])
     if args.native:sys.argv.extend(['--native-asset',str(ASSET_ROOT/'native/mpfb-native.glb')])
     try:studio_main()
     except Exception as e:

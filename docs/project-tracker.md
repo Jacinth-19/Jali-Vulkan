@@ -55,7 +55,7 @@ recording -> animate the detailed character -> synchronized playback.
 - [x] Opt-in loopback command/event broker; private key file, bounded commands/events, single browser lease, at-most-once semantics and a standard-library client.
 - [x] Eight validated cast profiles; separate explicitly installed stock voice/speed/calibration/manual performance/appearance, pinned per-job snapshots. One active prepared mesh, speaker and inference worker; not concurrent distinct avatars.
 - [x] Optional unsigned personal per-user installer source, dependency/integrity doctor, reinstall/update and data-preserving uninstall test; explicit personal-use acknowledgement.
-- [x] Local 138 Python / 33 JS, secure-browser dialogue/storage/API/LOD/unload fixture and mapped synthetic GLB import passed.
+- [x] Local 141 Python / 33 JS, secure-browser dialogue/storage/API/LOD/unload fixture and mapped synthetic GLB import passed.
 - [ ] Hosted actual Blender skin/morph roundtrip, additional genuine voice identities and Windows installer acceptance (running next).
 - [ ] Broad production-avatar/DCC acceptance, simultaneous distinct-mesh scene management and measured target-device budgets.
 - [ ] Public release licensing/source/provenance approval; engineering inventory/gates added, NOT legal clearance. Signing optional for personal use.

@@ -48,12 +48,24 @@ class NativeStudio:
         from PIL import Image
         if not self.frame_lock.acquire(blocking=False):raise BlockingIOError('Native frame already pending')
         try:
-            if size!=self.size:
+            if self.worker is None or size!=self.size:
                 replacement=RichWorker(self.asset,self.output/f'resolution-{size}',self.software,size=size)
-                previous=self.worker;self.worker=replacement;self.size=size
-                self.metadata={**self.metadata,**replacement.metadata};previous.close()
+                previous=self.worker;self.worker=replacement;self.size=size;self.metadata={**self.metadata,**replacement.metadata}
+                if previous is not None:previous.close()
             rgba,ms=self.worker.frame(pose,motion);encoded=io.BytesIO();Image.frombytes('RGBA',(size,size),rgba).convert('RGB').save(encoded,format='JPEG',quality=91)
             return encoded.getvalue(),ms
         finally:self.frame_lock.release()
+    @property
+    def resources_loaded(self):
+        worker=self.worker
+        return worker is not None and worker.process.poll() is None
+    def unload(self):
+        if not self.frame_lock.acquire(timeout=8):raise BlockingIOError('Native frame still pending; retry Unload shortly')
+        try:
+            previous=self.worker;self.worker=None
+            if previous is not None:previous.close()
+        finally:self.frame_lock.release()
     def close(self):
-        with self.frame_lock:self.worker.close()
+        with self.frame_lock:
+            previous=self.worker;self.worker=None
+            if previous is not None:previous.close()

@@ -38,12 +38,18 @@ mesh/texture LOD and explicit unload; bounded multi-speaker paragraph/sentence
 queues with durable verified WAV replay; an opt-in loopback command/event API;
 and a personal unsigned per-user installer are implemented.
 [Setup, API, supported rig contract and exact limits](docs/workspace-upgrades.md).
-Local **138 Python / 33 JavaScript tests**, real-head workspace browser checks and
-synthetic alias-map import pass. Hosted Blender/voice/installer verification is
-pending. Cast profiles share one active prepared mesh and one inference worker;
+Local **141 Python / 33 JavaScript tests**, real-head workspace browser checks and
+synthetic alias-map import pass. Hosted Blender round-trip/custom-runtime checks and local genuine two-voice
+dialogue pass; final hosted voice/installer verification is pending. Cast profiles share one active prepared mesh and one inference worker;
 this is not simultaneous multi-avatar rendering or universal rig importing.
 **Public redistribution/licensing approval remains blocked**; signing is optional
 for your personal version. Existing native render captures above are unchanged.
+
+<img src="docs/images/studio-low-lod.png" width="380" alt="Actual low-LOD head rendered in the studio at the CPU-first low-resolution setting">
+
+*Actual lower-detail WebGL render: 33,520 vertices / 37,842 triangles and 512px
+textures. Screenshot captured at the low-resolution preset; not an articulation
+or target-laptop frame-rate certification.*
 
 ### Creative upgrades (5–9)
 

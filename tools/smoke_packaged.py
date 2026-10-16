@@ -50,7 +50,7 @@ def main():
         verify(True)
         (proof/'installation-checks.json').write_text(json.dumps({'schema':'jali-frozen-installation-proof-v1','positive_tampered_missing_restored':checks,'startup_failed_closed':True},indent=2)+'\n')
         native=['--native'] if (app.parent/'_internal/native/jali_rich.exe').is_file() else []
-        server=subprocess.Popen([str(app),*native,'--port','0','--no-browser','--ready-file',str(ready),'--sessions',str(proof/'sessions')],cwd=cwd,env=env,stdout=log,stderr=subprocess.STDOUT)
+        server=subprocess.Popen([str(app),*native,'--port','0','--no-browser','--ready-file',str(ready),'--sessions',str(proof/'sessions'),'--integration-key-file',str(proof/'private-integration.key')],cwd=cwd,env=env,stdout=log,stderr=subprocess.STDOUT)
         try:
             deadline=time.monotonic()+120
             while not ready.is_file():
@@ -58,6 +58,11 @@ def main():
                 if time.monotonic()>deadline:raise TimeoutError('Portable readiness timed out')
                 time.sleep(.1)
             port=json.loads(ready.read_text())['port']
+            from urllib.request import Request,urlopen
+            key=(proof/'private-integration.key').read_text().strip()
+            with urlopen(Request(f'http://127.0.0.1:{port}/api/integration/cast',headers={'Authorization':'Bearer '+key}),timeout=10) as response:control=json.load(response)
+            if control['limits']['inference_jobs']!=1:raise RuntimeError('Frozen loopback integration unavailable')
+            (proof/'integration.json').write_text(json.dumps({'passed':True,'frozen_cli_key_forwarding':True,'private_key_uploaded':False,'limits':control['limits']}))
             subprocess.run([shutil.which('node'),str(ROOT/'tools/smoke_packaged.cjs'),f'http://127.0.0.1:{port}',str(proof/'browser.json')],cwd=ROOT,check=True,timeout=540)
         finally:
             stop_server(server)

@@ -152,7 +152,7 @@ class Handler(FileHandler):
     def do_POST(self):
         if self.path.startswith('/api/integration/'):
             return self.integration_post()
-        if self.path not in ('/api/generate','/api/cancel','/api/stream','/api/ack','/api/cast','/api/conversations/save','/api/conversations/delete','/api/conversations/replay','/api/control/poll','/api/control/event'):
+        if self.path not in ('/api/generate','/api/cancel','/api/stream','/api/ack','/api/cast','/api/conversations/save','/api/conversations/delete','/api/conversations/replay','/api/control/poll','/api/control/event','/api/native/unload'):
             return self.json_response(404, {'error': 'Not found'})
         origin = self.headers.get('Origin')
         try:
@@ -162,7 +162,7 @@ class Handler(FileHandler):
             return self.json_response(403, {'error': 'Invalid origin'})
         if not secrets.compare_digest(self.headers.get('X-Jali-Token', '').encode('utf-8'), self.server.state.token.encode('ascii')):
             return self.json_response(403, {'error': 'Refresh the page to obtain its request token'})
-        if self.path in ('/api/cast','/api/conversations/save','/api/conversations/delete','/api/conversations/replay','/api/control/poll','/api/control/event'):return self.workspace_post()
+        if self.path in ('/api/cast','/api/conversations/save','/api/conversations/delete','/api/conversations/replay','/api/control/poll','/api/control/event','/api/native/unload'):return self.workspace_post()
         try:
             length = int(self.headers.get('Content-Length', '0'))
             if not 0 < length <= 8192 or self.headers.get_content_type() != 'application/json' or self.headers.get('Transfer-Encoding'):
@@ -212,6 +212,12 @@ class Handler(FileHandler):
     def workspace_post(self):
         try:
             v=self.read_body(262144);state=self.server.state;store=state.conversations
+            if self.path=='/api/native/unload':
+                if not isinstance(v,dict) or v:raise ValueError('Expected empty unload request')
+                if state.native:
+                    try:state.native.unload()
+                    except BlockingIOError as error:return self.json_response(409,{'error':str(error)})
+                return self.json_response(200,{'released':True})
             if self.path=='/api/cast':
                 if state.busy:raise ValueError('Wait for generation before editing cast')
                 state.cast=cast(v,state.voices);return self.json_response(200,{'cast':state.cast})
@@ -261,7 +267,7 @@ class Handler(FileHandler):
             except (ValueError,FileNotFoundError):return self.json_response(404,{'error':'Unknown/invalid saved conversation'})
         if route == '/api/config':
             return self.json_response(200, {'token': self.server.state.token, 'max_characters': 500, 'max_stream_characters':MAX_STREAM_CHARACTERS,'max_stream_chunks':MAX_CHUNKS,
-                'voices':self.server.state.voices,'cast':self.server.state.cast,'integration':self.server.state.control is not None,'voice': 'Kokoro af_heart (stock, CPU)', 'rig': self.server.state.rig, 'native':self.server.state.native.metadata if self.server.state.native else None})
+                'voices':self.server.state.voices,'cast':self.server.state.cast,'integration':self.server.state.control is not None,'voice': 'Kokoro af_heart (stock, CPU)', 'rig': self.server.state.rig, 'native':{**self.server.state.native.metadata,'resources_loaded':self.server.state.native.resources_loaded} if self.server.state.native else None})
         if route=='/api/native/frame':
             if head_only:return self.json_response(405,{'error':'Use GET'})
             origin=self.headers.get('Origin')

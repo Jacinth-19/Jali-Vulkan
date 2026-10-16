@@ -5,7 +5,7 @@ multi-speaker dialogue with durable local WAVs, an opt-in loopback command/event
 API and a personal per-user installer. This is **not universal character support,
 simultaneous multi-avatar rendering, a public API or a legally cleared release**.
 
-Local checks so far: 138 Python / 33 JavaScript tests, real-head secure Chromium
+Local checks so far: 141 Python / 33 JavaScript tests, real-head secure Chromium
 controls/storage/control API/LOD/unload checks, alias-mapped synthetic import and
 custom-studio preparation. Hosted Blender, actual alternate voices and installer
 acceptance are pending; see the tracker rather than treating earlier green runs
@@ -90,7 +90,8 @@ keeps the selected performance cap. These are caps, not target-i5 measurements.
 
 **Unload character and audio** explicitly interrupts playback, revokes viewer
 WAV URLs, removes mesh references and disposes geometry/materials/textures,
-postprocessing, controls and the WebGL context. Reload restores the scene. Server
+postprocessing, controls and the WebGL context. It also closes the optional native
+worker, releasing its Vulkan allocation; a busy frame can require retrying Unload. Reload restores the scene. Server
 sessions/saved WAVs remain on disk; this is not deletion of user data. CPU speech
 workers already exit after each job, releasing their model runtime. No second
 neural model is loaded for a second voice.
@@ -143,6 +144,13 @@ Start the source server bound to loopback with a private pairing key file:
 
 ```powershell
 .\.venv\Scripts\python.exe tools\neural_studio_server.py --bind 127.0.0.1 --integration-key-file "$env:LOCALAPPDATA\JaliVulkan\integration.key"
+```
+
+In the personal frozen app, check **Enable local-application control** in the
+launcher (off by default), or run:
+
+```powershell
+.\JaliStudio.exe --serve --integration-key-file "$env:LOCALAPPDATA\JaliVulkan\integration.key"
 ```
 
 The file is created if absent, never printed or served in `/api/config`. Protect

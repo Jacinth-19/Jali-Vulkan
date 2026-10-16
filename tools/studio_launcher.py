@@ -19,9 +19,10 @@ def data_directory():
     return Path(os.environ.get('LOCALAPPDATA',str(Path.home()/'.jali')))/'JaliVulkan'
 
 
-def server_command(mode,preset,ready):
+def server_command(mode,preset,ready,integration=False):
     if mode not in ('webgl','native') or preset not in ('low','balanced','high'):raise ValueError('Invalid launch selection')
     args=['--port','0','--ready-file',str(ready)]
+    if integration:args.extend(['--integration-key-file',str(data_directory()/'integration.key')])
     if getattr(sys,'frozen',False):
         args=['--serve','--no-browser',*args]
         if mode=='native':args.append('--native')
@@ -88,15 +89,18 @@ def stop_owned(process):
 def main(smoke=False):
     import tkinter as tk
     from tkinter import ttk,messagebox
-    root=tk.Tk();root.title('Jali Studio — local launcher');root.geometry('710x580')
+    root=tk.Tk();root.title('Jali Studio — local launcher');root.geometry('710x640')
     parent=ttk.Frame(root,padding=20);parent.pack(fill='both',expand=True)
     ttk.Label(parent,text='Jali Studio',font=('Segoe UI',22,'bold')).pack(anchor='w')
     ttk.Label(parent,text='Local CPU speech · choose your renderer · no runtime downloads').pack(anchor='w',pady=(0,16))
+    integration=tk.BooleanVar(value=False)
     mode=tk.StringVar(value='webgl');preset=tk.StringVar(value='balanced');status=tk.StringVar(value='Choose WebGL for the simplest start. Native Vulkan requires its bundled/developer backend.')
     row=ttk.Frame(parent);row.pack(fill='x')
     ttk.Label(row,text='Renderer').pack(side='left',padx=(0,12));ttk.Radiobutton(row,text='WebGL (browser)',variable=mode,value='webgl').pack(side='left')
     ttk.Radiobutton(row,text='Native Vulkan',variable=mode,value='native').pack(side='left',padx=12)
     row=ttk.Frame(parent);row.pack(fill='x',pady=12);ttk.Label(row,text='Performance starting point').pack(side='left',padx=(0,12));ttk.Combobox(row,textvariable=preset,values=['low','balanced','high'],state='readonly',width=14).pack(side='left')
+    ttk.Checkbutton(parent,text='Enable local-application control (private pairing key; browser must also opt in)',variable=integration).pack(anchor='w')
+    ttk.Label(parent,text='Pairing file if enabled: '+str(data_directory()/'integration.key'),wraplength=660).pack(anchor='w')
     ttk.Label(parent,textvariable=status,wraplength=660).pack(fill='x',pady=12)
     output=tk.Text(parent,height=14,wrap='word');output.pack(fill='both',expand=True)
     events=queue.Queue();running={'process':None,'log':None,'starting':False,'closing':False,'epoch':0,'launch_thread':None}
@@ -116,14 +120,14 @@ def main(smoke=False):
         threading.Thread(target=worker,args=(operation,)).start()
     def launch():
         if running['starting'] or running['process'] is not None:return
-        selected=mode.get();choice=preset.get()
+        selected=mode.get();choice=preset.get();local_control=integration.get()
         if selected=='native' and not native_asset().is_file():messagebox.showerror('Native not prepared','Run windows/setup-native.ps1 or build with -IncludeNativeVulkan. Select WebGL to continue without native.');return
         running['epoch']+=1;epoch=running['epoch'];running['closing']=False
         running['starting']=True;status.set('Starting on a free loopback port…');start.configure(state='disabled')
         def operation():
             ready=folder/f'launcher-ready-{os.getpid()}-{epoch}.json';ready.unlink(missing_ok=True)
             log=(folder/'launcher-server.log').open('w',encoding='utf-8');running['log']=log
-            process=subprocess.Popen(server_command(selected,choice,ready),stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,start_new_session=os.name!='nt')
+            process=subprocess.Popen(server_command(selected,choice,ready,local_control),stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,start_new_session=os.name!='nt')
             if epoch!=running['epoch']:stop_owned(process);log.close();raise RuntimeError('Launch cancelled')
             running['process']=process
             deadline=time.monotonic()+150

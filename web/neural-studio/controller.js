@@ -293,6 +293,7 @@ import {validateStreamChunk,AudioPrefetch} from './streaming.mjs';
       if(busy||exporting)throw Error('Wait for the active operation');managedPlayback=true;
       try{managedSpeaker=typeof speaker==='object'?speaker:null;$('speaker').value=typeof speaker==='object'?speaker.id:speaker;$('batch').checked=false;$('text').value=text;$('compose').requestSubmit();while(busy)await sleep(50);if(!verified||phase!=='ready')throw Error($('error').textContent||'Generation interrupted');return sessions.get(selectedId);}finally{managedPlayback=false;managedSpeaker=null;}
     },
+    unloadView:()=>{nativeEpoch++;if(nativeImageUrl){URL.revokeObjectURL(nativeImageUrl);nativeImageUrl=null;}$('native-face').removeAttribute('src');$('native-face').hidden=true;},
     interrupt:async()=>{const began=performance.now();while(busy&&!currentJob){if(performance.now()-began>5000)throw Error('Generation request is still pending');await sleep(25);}if(busy)await requestCancel();while(busy){if(performance.now()-began>35000)throw Error('Worker cleanup is still pending');await sleep(50);}$('stop').click();},
     play:async()=>{await play();return !$('audio').paused;}
   });
@@ -304,7 +305,7 @@ import {validateStreamChunk,AudioPrefetch} from './streaming.mjs';
   });
   json('/api/config').then(value=>{
     if (JSON.stringify(value.rig)!==JSON.stringify(JALI_HEAD_DATA.rig)) throw new Error('Viewer and backend rig versions differ; rebuild the studio.');
-    config=value;installWorkspace({json,generate:(text,speaker)=>JaliStudio.generate(text,speaker),interrupt:()=>JaliStudio.interrupt(),play:()=>JaliStudio.play(),state:()=>JaliStudio.getState(),loadExisting:id=>JaliStudio.loadExisting(id),update},config); if(config.native){$('native-option').disabled=false;$('native-option').textContent='Native Vulkan — '+config.native.device;}
+    config=value;installWorkspace({json,generate:(text,speaker)=>JaliStudio.generate(text,speaker),interrupt:()=>JaliStudio.interrupt(),play:()=>JaliStudio.play(),state:()=>JaliStudio.getState(),loadExisting:id=>JaliStudio.loadExisting(id),unloadView:()=>JaliStudio.unloadView(),update},config); if(config.native){$('native-option').disabled=false;$('native-option').textContent='Native Vulkan — '+config.native.device;}
     if(new URLSearchParams(location.search).get('renderer')==='native'&&config.native){$('renderer').value='native';$('renderer').dispatchEvent(new Event('change'));}
     if (JaliHeadDemo.getState().ready) stage('idle','Ready. Write a sentence, then generate your performance.');update();
   }).catch(failure=>{error(failure.message);stage('error','The local generation service is unavailable.');});

@@ -396,9 +396,9 @@ jobs:
             choco install innosetup --version=6.4.3 --no-progress -y
             if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           }
-          ./windows/build-personal-installer.ps1 -PersonalUseOnly
+          python tools/ci_command.py pwsh -NoProfile -File windows/build-personal-installer.ps1 -PersonalUseOnly
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          ./windows/test-personal-installer.ps1
+          python tools/ci_command.py pwsh -NoProfile -File windows/test-personal-installer.ps1
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           .venv/Scripts/python.exe tools/release_inventory.py --output artifacts/installer-proof/license-inventory.json
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

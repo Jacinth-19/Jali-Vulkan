@@ -86,6 +86,29 @@ class WorkspaceTests(unittest.TestCase):
      with self.assertRaisesRegex(ValueError,'50 MiB'):state.conversations.save(value,state)
     self.assertFalse((state.conversations.folder(value['id'])/'conversation.json').exists());state.conversations.delete(value['id'])
    finally:state.pool.shutdown(wait=True)
+ def test_portable_doctor_writes_report_and_fails_on_bad_dependency(self):
+  import contextlib,io,sys
+  from unittest.mock import patch
+  import portable_entry
+  for ok in (True,False):
+   with tempfile.TemporaryDirectory() as directory:
+    target=Path(directory)/'doctor.json';report={'checks':[{'check':'fixture','ok':ok}]}
+    with patch.object(sys,'argv',['JaliStudio','--doctor','--diagnostics-file',str(target)]),patch('studio_launcher.diagnostics',return_value=report),contextlib.redirect_stdout(io.StringIO()):
+     if ok:portable_entry.main()
+     else:
+      with self.assertRaises(SystemExit) as error:portable_entry.main()
+      self.assertEqual(error.exception.code,2)
+    self.assertEqual(json.loads(target.read_text()),report)
+ def test_portable_and_launcher_forward_opt_in_key_without_contents(self):
+  import os,sys
+  from unittest.mock import patch
+  import portable_entry
+  from studio_launcher import server_command
+  with tempfile.TemporaryDirectory() as directory,patch.dict(os.environ,{'LOCALAPPDATA':directory}):
+   key=Path(directory)/'pair.key'
+   with patch.object(sys,'argv',['JaliStudio','--serve','--no-browser','--port','0','--integration-key-file',str(key)]),patch('neural_studio_server.main') as serve:portable_entry.main();serve.assert_called_once();self.assertIn(str(key),sys.argv)
+   command=server_command('webgl','low',Path(directory)/'ready.json',True);self.assertIn('--integration-key-file',command);self.assertEqual(Path(command[command.index('--integration-key-file')+1]),Path(directory)/'JaliVulkan/integration.key')
+   self.assertNotIn('--integration-key-file',server_command('webgl','low',Path('ready.json')))
  def test_loopback_control_and_ui_tokens_are_separate(self):
   with tempfile.TemporaryDirectory() as directory:
    state=StudioState(Path(directory)/'sessions',{},None,pipeline=fixture_pipeline);state.control=ControlBroker('private-key');server=make_server(directory,state,'127.0.0.1',0);thread=threading.Thread(target=server.serve_forever);thread.start();base=f'http://127.0.0.1:{server.server_port}'
@@ -94,7 +117,7 @@ class WorkspaceTests(unittest.TestCase):
     with urlopen(req,timeout=3) as r:return json.load(r)
    try:
     self.assertEqual(call('/api/integration/cast',headers={'Authorization':'Bearer private-key'})['limits']['inference_jobs'],1)
-    config=call('/api/config');self.assertNotIn('private-key',json.dumps(config));self.assertTrue(config['integration'])
+    config=call('/api/config');self.assertTrue(call('/api/native/unload',{}, {'X-Jali-Token':config['token']})['released']);self.assertNotIn('private-key',json.dumps(config));self.assertTrue(config['integration'])
     for h in [{},{'X-Jali-Token':state.token},{'Authorization':'Bearer private-key','Origin':base}]:
      with self.assertRaises(HTTPError) as e:call('/api/integration/commands',{'type':'pause'},h)
      self.assertEqual(e.exception.code,403)

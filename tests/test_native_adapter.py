@@ -35,6 +35,11 @@ class AdapterTests(unittest.TestCase):
         for query in [{'time':['nan']},{'time':['-1']},{'time':['2']},{'time':['0'],'trim':['151']},{'time':['0'],'life':['maybe']},{'time':['0'],'mood':['inferred']},{'time':['0'],'gaze':['unknown']}]:
             with self.assertRaises(ValueError):native.frame(clip,query)
         with self.assertRaises(ValueError):sample(clip,float('inf'),native.shapes)
+    def test_native_unload_is_idempotent_and_releases_worker(self):
+        import threading
+        from unittest.mock import Mock
+        native=NativeStudio.__new__(NativeStudio);native.frame_lock=threading.Lock();worker=Mock();worker.process.poll.return_value=None;native.worker=worker
+        self.assertTrue(native.resources_loaded);native.unload();self.assertFalse(native.resources_loaded);self.assertIsNone(native.worker);native.unload();native.close();worker.close.assert_called_once()
     def test_frozen_asset_root_and_worker_dispatch(self):
         with patch.object(sys,'frozen',True,create=True),patch.object(sys,'_MEIPASS','frozen-assets',create=True):
             self.assertEqual(asset_root(),Path('frozen-assets'))
