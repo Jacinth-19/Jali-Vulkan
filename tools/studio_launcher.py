@@ -163,7 +163,8 @@ def main(smoke=False):
             else:
                 name,content=value
                 if name=='diagnostics':output.delete('1.0','end');output.insert('end',json.dumps(content,indent=2));status.set('Diagnostics saved locally: '+str(folder/'launcher-diagnostics.json'))
-                if name=='launched':running['starting']=False;status.set('Running: '+content+' — close/Stop here to end this owned server.');
+                if name=='launched':
+                    running['starting']=False;status.set('Running: '+content+' — close/Stop here to end this owned server.')
                     if not smoke:webbrowser.open(content)
                 if name=='stopped':
                     running['process']=None;running['starting']=False;running['closing']=False
