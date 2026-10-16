@@ -14,8 +14,8 @@ def main():
     try:
         for script in (['tools/smoke_creative_controls.cjs'] if '--creative-only' in sys.argv else ['tools/smoke_upgrade_controls.cjs','tools/smoke_creative_controls.cjs']):
             subprocess.run(['node',script,f'http://127.0.0.1:{server.server_port}'],cwd=ROOT,check=True,timeout=180)
-        import imageio_ffmpeg
-        subprocess.run([imageio_ffmpeg.get_ffmpeg_exe(),'-hide_banner','-v','error','-i',str(ROOT/'artifacts/creative-proof/performance.webm'),'-map','0:v:0','-map','0:a:0','-f','null','-'],check=True,timeout=30)
+        from verify_export_video import verify_export_video
+        verify_export_video(ROOT/'artifacts/creative-proof/performance.webm', ROOT/'artifacts/creative-proof/recorded-frames.json')
 
     finally:server.shutdown();server.server_close();state.cancel_active();state.pool.shutdown(wait=True)
 

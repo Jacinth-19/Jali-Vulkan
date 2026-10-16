@@ -9,7 +9,7 @@ export function recordingController({audio,canvas,head,getClip,getSettings,lock,
   if(!window.VideoEncoder||!window.AudioEncoder||!window.AudioData||!window.VideoFrame||!window.OfflineAudioContext||!crypto.subtle)throw Error('Offline video encoding requires a current Chrome browser and HTTPS/localhost. JSON/CSV export still works.');
   const fps=settings.fps,size=settings.resolution;
   if(![15,24,30,60].includes(fps)||![256,512,768].includes(size)||!(clip.duration>0&&clip.duration<=60))throw Error('Invalid video export budget');
-  running=true;cancelled=false;frames=[];bytes=0;lock(true);clear();let videoEncoder,audioEncoder,failure=null,capture=false;
+  running=true;cancelled=false;frames=[];bytes=0;lock(true);clear();let videoEncoder,audioEncoder,failure=null,capture=false,videoChunks=0,audioChunks=0;
   const previousTime=audio.currentTime,previousPointerEvents=canvas.style.pointerEvents;canvas.style.pointerEvents='none';
   try{
    audio.pause();
@@ -23,8 +23,8 @@ export function recordingController({audio,canvas,head,getClip,getSettings,lock,
    if(!(await VideoEncoder.isConfigSupported(videoConfig)).supported||!(await AudioEncoder.isConfigSupported(audioConfig)).supported)throw Error('VP8/Opus encoding is unavailable in this browser');
    const target=new ArrayBufferTarget(),muxer=new Muxer({target,video:{codec:'V_VP8',width:size,height:size,frameRate:fps},audio:{codec:'A_OPUS',sampleRate:48000,numberOfChannels:1},firstTimestampBehavior:'offset'});
    const error=e=>{failure=e;};
-   videoEncoder=new VideoEncoder({output:(chunk,meta)=>{try{muxer.addVideoChunk(chunk,meta);}catch(e){failure=e;}},error});videoEncoder.configure(videoConfig);
-   audioEncoder=new AudioEncoder({output:(chunk,meta)=>{try{muxer.addAudioChunk(chunk,meta);}catch(e){failure=e;}},error});audioEncoder.configure(audioConfig);
+   videoEncoder=new VideoEncoder({output:(chunk,meta)=>{try{if(chunk.timestamp!==Math.round(videoChunks/fps*1e6))throw Error('Encoded video timestamp diverged from source clock');muxer.addVideoChunk(chunk,meta);videoChunks++;}catch(e){failure=e;}},error});videoEncoder.configure(videoConfig);
+   audioEncoder=new AudioEncoder({output:(chunk,meta)=>{try{muxer.addAudioChunk(chunk,meta);audioChunks++;}catch(e){failure=e;}},error});audioEncoder.configure(audioConfig);
    head.setCaptureMode(true,size);capture=true;const pcm=decoded.getChannelData(0),count=Math.ceil(clip.duration*fps);let sample=0;
    for(let i=0;i<count;i++){
     check();if(failure)throw failure;const time=i/fps;head.updateClock(time);
@@ -36,9 +36,9 @@ export function recordingController({audio,canvas,head,getClip,getSettings,lock,
     if(videoEncoder.encodeQueueSize>=2)await videoEncoder.flush();if(audioEncoder.encodeQueueSize>=8)await audioEncoder.flush();
     status(`Rendering export frame ${i+1} / ${count}. Cancel discards incomplete output.`);
    }
-   await videoEncoder.flush();await audioEncoder.flush();check();if(failure)throw failure;muxer.finalize();bytes=target.buffer.byteLength;
+   await videoEncoder.flush();await audioEncoder.flush();check();if(failure)throw failure;if(videoChunks!==frames.length||audioChunks<1)throw Error('Encoder dropped output; incomplete movie discarded');muxer.finalize();bytes=target.buffer.byteLength;
    offer('performance.webm',new Blob([target.buffer],{type:'video/webm'}));
-   offer('recorded-frames.json',new Blob([JSON.stringify({schema:'jali-recorded-frames-v2',mode:'offline-fixed-media-clock',session_id:clip.id,audio_sha256:hash,text_sha256:clip.text_sha256,rig:clip.rig,settings,fps,width:size,height:size,frames,recorded_end:clip.duration,full_session_recorded:true,audio_codec:'Opus, resampled to 48000 Hz',video_codec:'VP8',limits:'Each video frame samples the same source-WAV media clock. Encoded audio has codec delay/padding and is not bit-identical PCM. Not physical AV or universal DCC certification.'},null,2)],{type:'application/json'}));
+   offer('recorded-frames.json',new Blob([JSON.stringify({schema:'jali-recorded-frames-v2',mode:'offline-fixed-media-clock',session_id:clip.id,audio_sha256:hash,text_sha256:clip.text_sha256,rig:clip.rig,settings,fps,encoded_video_frames:videoChunks,width:size,height:size,frames,recorded_end:clip.duration,full_session_recorded:true,audio_codec:'Opus, resampled to 48000 Hz',video_codec:'VP8',limits:'Each video frame samples the same source-WAV media clock. Encoded audio has codec delay/padding and is not bit-identical PCM. Not physical AV or universal DCC certification.'},null,2)],{type:'application/json'}));
    status('Offline export ready: download WebM and its matching fixed-clock frames below.');
   }catch(e){status(e.message);throw e;}
   finally{try{for(const encoder of [videoEncoder,audioEncoder])if(encoder&&encoder.state!=='closed')encoder.close();if(capture)head.setCaptureMode(false);head.updateClock(previousTime);}finally{canvas.style.pointerEvents=previousPointerEvents;running=false;lock(false);}}

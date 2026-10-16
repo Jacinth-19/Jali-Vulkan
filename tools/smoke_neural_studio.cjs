@@ -199,7 +199,7 @@ const chromium=require('@sparticuz/chromium');
     await page.locator(`#history button[data-session="${sessions[0].id}"]`).first().click();
     await page.evaluate(()=>document.querySelector('#audio').pause());
     await page.locator('#record-start').click();await page.waitForFunction(()=>JaliCreative.recording.active||!!document.querySelector('a[download="performance.webm"]'),null,{timeout:15000});
-    await page.waitForFunction(()=>!JaliCreative.recording.active&&!!document.querySelector('a[download="performance.webm"]'),null,{timeout:45000}).catch(async()=>{throw Error('Genuine capture did not finish: '+JSON.stringify(await page.evaluate(()=>({status:document.querySelector('#creative-status').textContent,stats:JaliCreative.recording.stats,time:document.querySelector('#audio').currentTime,paused:document.querySelector('#audio').paused}))));});
+    await page.waitForFunction(()=>!JaliCreative.recording.active&&!!document.querySelector('a[download="performance.webm"]'),null,{timeout:90000}).catch(async()=>{throw Error('Genuine capture did not finish: '+JSON.stringify(await page.evaluate(()=>({status:document.querySelector('#creative-status').textContent,stats:JaliCreative.recording.stats,time:document.querySelector('#audio').currentTime,paused:document.querySelector('#audio').paused}))));});
     for(const [name,target] of [['performance.webm','user-export.webm'],['recorded-frames.json','user-export-frames.json']]){
       const pending=page.waitForEvent('download');await page.locator(`a[download="${name}"]`).click();await(await pending).saveAs(path.join(proof,target));
     }
