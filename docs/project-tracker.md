@@ -47,6 +47,21 @@ recording -> animate the detailed character -> synchronized playback.
 | M7 | Windows performance and packaging | Partial: source/frozen renderer/preset GUI, Launch/Stop/device doctor and one-command benchmark passed hosted CI; user-reported PC run works; licensing, signing and measured laptop acceptance open | Measured target-device results and a tested, understandable launcher/package |
 | M8 | Asset workflow and final QA | Partial: fixtures, provenance and tests exist | Reliable asset round trips, real AV measurements, and release review |
 
+## Creative upgrades 5–9 — 2026-10-16
+
+- [x] Named rig-scoped calibration profiles with bounded import/export and browser persistence.
+- [x] Optional deterministic irregular blinks, eased gaze, eye-contact and head-motion controls; native/JS numerical parity.
+- [x] Five manual styles, intensity and bounded timed expression editor with speech-mouth protection.
+- [x] WebGL light/material/background/camera controls and actual optional FXAA rendering.
+- [x] User-facing fixed-clock JSON/CSV timelines and same-media-element WebM capture with actual sampled frame metadata and interruption cleanup.
+- [x] Local 132 Python / 29 JS tests; real-head Chromium + FFmpeg audio/video decoding (explicit non-speech encoder fixture).
+- [ ] New hosted genuine neural export, native artistic layers and Windows/package regression.
+- [ ] Human motion/material review, target-device/physical AV and reverse-DCC acceptance.
+
+[Controls, file formats and renderer limits](creative-upgrades.md). Appearance/video
+capture are explicitly WebGL-only; facial timelines and authored performance also
+support native. Existing legal/release gates remain open.
+
 ## Four-upgrade implementation — 2026-10-16
 
 - [x] Low/Balanced/High plus custom resolution/FPS; actual WebGL framebuffer checks.

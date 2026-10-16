@@ -36,9 +36,10 @@ const fs=require('node:fs'),path=require('node:path');
     // Let the UI's single in-flight request settle before serialized direct probes.
     document.querySelector('#renderer').value='webgl';document.querySelector('#renderer').dispatchEvent(new Event('change'));await new Promise(r=>setTimeout(r,300));
     const normal=await image({}),warm=await image({mood:'warm'}),gaze=await image({gaze:'right'}),rest=await image({time:String(duration)}),neutral=await image({id:'neutral',time:'0'}),bad=await image({time:'nan'}),wrongToken=await image({},'wrong');
-    return {normal,warm,gaze,rest,neutral,bad,wrongToken,device:config.native};
+    const creative=await image({life:'1',mood:'serious',creative:JSON.stringify({natural:true,intensity:.5,contact:.4,head:.5,sequence:[{start:0,end:3,expression:'surprise',intensity:.6,fade:.1}]})}),badCreative=await image({creative:JSON.stringify({intensity:9})});
+    return {normal,warm,gaze,rest,neutral,bad,wrongToken,creative,badCreative,device:config.native};
   },{id:clip.id,time:closure.time,duration:clip.duration});
-  if(probes.normal.status!==200||probes.warm.hash!==probes.normal.hash||probes.gaze.hash===probes.normal.hash||probes.rest.hash!==probes.neutral.hash||probes.bad.status!==400||probes.wrongToken.status!==403)throw Error('Native image/control/bounds probes failed: '+JSON.stringify(probes));
+  if(probes.normal.status!==200||probes.warm.hash!==probes.normal.hash||probes.gaze.hash===probes.normal.hash||probes.rest.hash!==probes.neutral.hash||probes.bad.status!==400||probes.wrongToken.status!==403||probes.creative.status!==200||probes.creative.hash===probes.normal.hash||probes.badCreative.status!==400)throw Error('Native image/control/bounds probes failed: '+JSON.stringify(probes));
   // Controlled protocol regression: a consumed/cancelled clip can expire while
   // its frame request is in flight. That stale 404 must not poison the new view.
   let injected=false;

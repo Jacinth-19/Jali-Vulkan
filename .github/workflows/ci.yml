@@ -211,7 +211,7 @@ jobs:
       - name: Check contracts without loading a neural model
         run: |
           .venv/bin/python -m unittest discover -s tests -p 'test_*.py'
-          node --test tests/visemes.test.mjs tests/measurement.test.mjs tests/performance.test.mjs tests/streaming.test.mjs tests/upgrades.test.mjs
+          node --test tests/visemes.test.mjs tests/measurement.test.mjs tests/performance.test.mjs tests/streaming.test.mjs tests/upgrades.test.mjs tests/creative.test.mjs
       - name: Explicitly prepare reviewed model, stock voice and CC0 character
         env:
           GH_TOKEN: ${{ github.token }}
@@ -251,6 +251,7 @@ jobs:
             artifacts/neural-studio/licenses/model-source-README.md
             artifacts/neural-runner-resources.txt
             artifacts/upgrade-proof/
+            artifacts/creative-proof/
             artifacts/neural-ci-server.log
           retention-days: 3
           if-no-files-found: warn
@@ -334,11 +335,11 @@ jobs:
       - name: Check cross-platform neural contracts without inference
         shell: pwsh
         run: |
-          foreach ($pattern in @('test_neural*.py','test_local_neural.py','test_playback_checkpoint.py','test_benchmark.py','test_native_adapter.py','test_phone_alignment.py','test_upgrades.py')) {
+          foreach ($pattern in @('test_neural*.py','test_local_neural.py','test_playback_checkpoint.py','test_benchmark.py','test_native_adapter.py','test_phone_alignment.py','test_upgrades.py','test_creative.py')) {
             .venv/Scripts/python.exe -m unittest discover -s tests -p $pattern
             if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           }
-          node --test tests/visemes.test.mjs tests/measurement.test.mjs tests/performance.test.mjs tests/streaming.test.mjs tests/upgrades.test.mjs
+          node --test tests/visemes.test.mjs tests/measurement.test.mjs tests/performance.test.mjs tests/streaming.test.mjs tests/upgrades.test.mjs tests/creative.test.mjs
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Explicitly prepare stock voice, model, Windows analyzer and CC0 head
         env:
@@ -384,6 +385,7 @@ jobs:
             artifacts/neural-review/
             artifacts/neural-studio/proof/
             artifacts/upgrade-proof/
+            artifacts/creative-proof/
             artifacts/neural-ci-server.log
             artifacts/windows-neural-runner.json
             artifacts/windows-neural-summary.json

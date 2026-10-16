@@ -4,3 +4,5 @@
 
 #observation { white-space:pre-wrap; overflow-wrap:anywhere; font-size:.72rem; max-height:14rem; overflow:auto; }
 .adjust output {float:right;color:var(--accent,#a5c7b2)}
+
+fieldset{border:0;padding:0;margin:0;min-width:0}.toolrow{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}.adjust input[type=text],.adjust input:not([type]),.adjust input[type=number]{background:#101a1d;color:#eee;border:1px solid #40575c;border-radius:5px;padding:7px;max-width:100%;box-sizing:border-box}.expression-event{display:grid;grid-template-columns:1fr 1fr;gap:8px;border:1px solid #40575c;border-radius:6px;padding:10px;margin:10px 0}.expression-event input,.expression-event select{width:100%;min-width:0}.adjust input[type=file]{font-size:11px;max-width:100%}.adjust>label{display:block;margin:10px 0}#export-links{display:flex;flex-wrap:wrap;gap:10px}#creative-status{white-space:pre-wrap;overflow-wrap:anywhere}

@@ -188,7 +188,7 @@ class Handler(FileHandler):
             if (origin and urlparse(origin).netloc!=self.headers.get('Host')) or not secrets.compare_digest(self.headers.get('X-Jali-Token','').encode(),self.server.state.token.encode()):return self.json_response(403,{'error':'Same-origin token required'})
             if self.server.state.native is None:return self.json_response(404,{'error':'Native renderer not enabled'})
             q=parse_qs(urlparse(self.path).query,keep_blank_values=True)
-            if not {'id','time'}<=q.keys() or q.keys()-{'id','time','trim','mood','life','gaze','sync','resolution','articulation'} or any(len(v)!=1 for v in q.values()):return self.json_response(400,{'error':'Invalid native frame query'})
+            if not {'id','time'}<=q.keys() or q.keys()-{'id','time','trim','mood','life','gaze','sync','resolution','articulation','creative'} or any(len(v)!=1 for v in q.values()):return self.json_response(400,{'error':'Invalid native frame query'})
             clip={'state':'ready','clip':{'rig':self.server.state.rig,'duration':0,'cues':[]}} if q['id'][0]=='neutral' else self.server.state.get(q['id'][0])
             if not clip or clip['state']!='ready':return self.json_response(404,{'error':'Unknown/expired native session'})
             try:body,ms=self.server.state.native.frame(clip['clip'],q)

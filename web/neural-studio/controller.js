@@ -1,3 +1,4 @@
+import {installCreativeControls} from './creative-controller.js';
 import {PRESETS,performanceSettings,summarizeObservation} from './settings.mjs';
 import {ARTICULATION,articulation} from '../neural-head/articulation.mjs';
 import {validateStreamChunk,AudioPrefetch} from './streaming.mjs';
@@ -7,18 +8,18 @@ import {validateStreamChunk,AudioPrefetch} from './streaming.mjs';
   const $ = id => document.getElementById(id);
   let config = null, busy = false, phase = 'loading', verified = false, selectedId = null;
   const sessions = new Map();
-  let currentJob=null, cancelPending=false, streaming=false;
+  let currentJob=null, cancelPending=false, streaming=false,exporting=false,creativeOptions=null;
   let streamStats=null,nativeFrame=null,nativeImageUrl=null,activePrefetch=null,nativeEpoch=0;
   let quality=performanceSettings(),calibration=articulation('clear');
   const nativeInfo={frames:0,lastTime:null,lastSession:null,lastMs:null,errors:[]};
   const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
   const error = message => { $('error').textContent = message; $('error').hidden = !message; };
   const update = () => {
-    $('generate').disabled = $('text').value.length>($('batch').checked?1000:500) || busy || !config || !window.JaliHeadDemo?.getState().ready;
+    $('generate').disabled = $('text').value.length>($('batch').checked?1000:500) || busy || exporting || !config || !window.JaliHeadDemo?.getState().ready;
     $('text-count').textContent = `${$('text').value.length} / ${$('batch').checked?1000:500}`;
     $('text').disabled = busy;
     $('cancel').disabled = !busy || !currentJob || cancelPending;
-    document.querySelectorAll('#history button').forEach(button => {button.disabled = busy;});
+    document.querySelectorAll('#history button').forEach(button => {button.disabled = busy||exporting;});
   };
   function stage(value, message) {
     phase = value; $('status').textContent = message;
@@ -64,7 +65,7 @@ import {validateStreamChunk,AudioPrefetch} from './streaming.mjs';
     const detail = document.createElement('small'); detail.textContent = `${clip.duration.toFixed(2)} s · ${clip.id.slice(0,8)} · actual-WAV cues`;
     button.append(label,detail);
     button.addEventListener('click', async () => {
-      if (busy) return;
+      if (busy||exporting) return;
       try {
         const index = JaliHeadDemo.getState().clips.findIndex(c => c.id === clip.id);
         JaliHeadDemo.selectClip(index); await play();
@@ -189,7 +190,7 @@ import {validateStreamChunk,AudioPrefetch} from './streaming.mjs';
     try{
       if(config?.native&&$('renderer').value==='native'){
         const epoch=nativeEpoch,id=selectedId||'neutral',time=selectedId?($('audio').currentTime||0):0;
-        const query=new URLSearchParams({id,time:String(time),trim:$('trim').value,mood:$('mood').value,gaze:$('gaze').value,life:$('life').checked?'1':'0',sync:$('sync').checked?'1':'0',resolution:String(quality.resolution),articulation:JSON.stringify(calibration)}),key=query.toString();
+        const query=new URLSearchParams({id,time:String(time),trim:$('trim').value,mood:$('mood').value,gaze:$('gaze').value,life:$('life').checked?'1':'0',sync:$('sync').checked?'1':'0',resolution:String(quality.resolution),articulation:JSON.stringify(calibration),...(creativeOptions?{creative:JSON.stringify({...creativeOptions,offset:JaliHeadDemo.getState().streamOffset||0,idle:!selectedId,idleTime:!selectedId&&creativeOptions.natural?JaliHeadDemo.getState().idleTime:0})}:{})}),key=query.toString();
         if(nativeFrame!==key){
           const began=performance.now(),response=await fetch('/api/native/frame?'+query,{headers:{'X-Jali-Token':config.token},cache:'no-store'});
           if(epoch===nativeEpoch&&response.status!==409&&$('renderer').value==='native'&&id===(selectedId||'neutral')){
@@ -226,7 +227,7 @@ import {validateStreamChunk,AudioPrefetch} from './streaming.mjs';
   window.addEventListener('jali-head-ready',applySettings);applySettings();
   nativeTick();
   $('compose').addEventListener('submit', async event => {
-    event.preventDefault(); if (busy || !config || !JaliHeadDemo.getState().ready) return;
+    event.preventDefault(); if (busy || exporting || !config || !JaliHeadDemo.getState().ready) return;
     currentJob=null;cancelPending=false;streaming=$('batch').checked;streamStats=null;
     busy = true; verified = false; selectedId = null; error('');
     $('verified').textContent = 'PREPARING NEW RECORDING'; $('metrics').textContent = '';
@@ -279,10 +280,16 @@ import {validateStreamChunk,AudioPrefetch} from './streaming.mjs';
     const clip = sessions.get(event.detail.id); if (clip) selectDetails(clip);
   });
   window.JaliStudio = {loadExisting:async id=>{
-    if(busy||!/^[a-f0-9]{32}$/.test(id))throw new Error('Invalid/busy existing-session request');
+    if(busy||exporting||!/^[a-f0-9]{32}$/.test(id))throw new Error('Invalid/busy existing-session request');
     const value=await json('/api/jobs/'+id);if(value.state!=='ready')throw new Error('Existing session is not ready');
     await load(value.clip,id,{autoplay:false});$('resume').hidden=false;stage('ready','Existing recording verified and loaded.');update();
   },getState:()=>({quality,calibration,busy,phase,verified,selectedId,currentJob,cancelPending,streaming,streamStats,nativeInfo})};
+  window.JaliCreative=installCreativeControls({rig:JALI_HEAD_DATA.rig,getCalibration:()=>calibration,
+    setCalibration:value=>{calibration=articulation(value);applySettings();},
+    setCreative:value=>{creativeOptions=value;nativeEpoch++;nativeFrame=null;JaliHeadDemo.setCreative(value);},
+    isBusy:()=>busy,getClip:()=>verified?sessions.get(selectedId):null,
+    lock:value=>{exporting=value;for(const id of ['renderer','mood','gaze','life','sync','trim','batch','stop','quality-preset','quality-resolution','quality-fps','quality-pixelRatio','art-profile','observe','apply-recommendation',...Object.keys(ARTICULATION.baseline).filter(k=>k!=='smooth').map(k=>'art-'+k)])$(id).disabled=value;update();}
+  });
   json('/api/config').then(value=>{
     if (JSON.stringify(value.rig)!==JSON.stringify(JALI_HEAD_DATA.rig)) throw new Error('Viewer and backend rig versions differ; rebuild the studio.');
     config=value; if(config.native){$('native-option').disabled=false;$('native-option').textContent='Native Vulkan — '+config.native.device;}

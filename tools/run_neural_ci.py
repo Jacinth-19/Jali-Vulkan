@@ -88,6 +88,8 @@ def main():
             env = {**os.environ, 'JALI_REVIEW': '1', 'EXPORT_VIDEO': '1','JALI_PYTHON':sys.executable}
             subprocess.run(['node','tools/smoke_neural_studio.cjs', f'http://127.0.0.1:{port}'],
                            cwd=ROOT, env=env, check=True, timeout=720)
+            import imageio_ffmpeg
+            subprocess.run([imageio_ffmpeg.get_ffmpeg_exe(),'-hide_banner','-v','error','-i',str(ROOT/'artifacts/neural-studio/proof/user-export.webm'),'-map','0:v:0','-map','0:a:0','-f','null','-'],check=True,timeout=30)
             collect_review()
         finally:
             stop_server(server)

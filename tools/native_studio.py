@@ -36,12 +36,15 @@ class NativeStudio:
         if clip['rig']!=self.rig:raise ValueError('Native clip/rig identity mismatch')
         t=float(query['time'][0]);trim=float(query.get('trim',['0'])[0])/1000
         mood=query.get('mood',['neutral'])[0];gaze=query.get('gaze',['forward'])[0];life=query.get('life',['1'])[0];sync=query.get('sync',['1'])[0]
-        if not math.isfinite(t) or not 0<=t<=clip['duration']+.25 or not math.isfinite(trim) or abs(trim)>.15 or mood not in ('neutral','warm','attentive') or gaze not in ('forward','left','right','down') or life not in ('0','1') or sync not in ('0','1'):raise ValueError('Invalid native clock or control')
+        if not math.isfinite(t) or not 0<=t<=clip['duration']+.25 or not math.isfinite(trim) or abs(trim)>.15 or mood not in ('neutral','warm','attentive','serious','surprise') or gaze not in ('forward','left','right','down') or life not in ('0','1') or sync not in ('0','1'):raise ValueError('Invalid native clock or control')
         size=int(query.get('resolution',['512'])[0])
         if size not in (256,512,768):raise ValueError('Invalid native resolution')
         profile=articulation(json.loads(query['articulation'][0]) if 'articulation' in query else 'baseline')
         weights=sample(clip,t,self.shapes,trim,sync=='1',profile)
-        pose,motion=performance(weights,t,clip['duration'],life=='1',mood,gaze)
+        if 'creative' in query or mood in ('serious','surprise'):
+            from creative_performance import compose
+            pose,motion=compose(weights,t,clip['duration'],life=='1',mood,gaze,json.loads(query['creative'][0]) if 'creative' in query else {})
+        else:pose,motion=performance(weights,t,clip['duration'],life=='1',mood,gaze)
         from PIL import Image
         if not self.frame_lock.acquire(blocking=False):raise BlockingIOError('Native frame already pending')
         try:

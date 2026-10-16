@@ -1,6 +1,8 @@
+import {creativePerformance} from './creative.mjs';
 // Deterministic manual/cosmetic layers; no inferred emotion or gaze tracking.
 // Speech owns the mouth: suppress warmth at full closures, F/V and rounding.
-export function composePerformance(weights, {time=0, duration=0, life=false, mood='neutral', gaze='forward'}={}) {
+export function composePerformance(weights, {time=0, duration=0, life=false, mood='neutral', gaze='forward',creative=null}={}) {
+  if(creative)return creativePerformance(weights,{time,duration,life,mood,gaze},creative);
   if (!Number.isFinite(time) || !Number.isFinite(duration) || duration<0) throw new Error('Invalid performance clock');
   if (!['neutral','warm','attentive'].includes(mood) || !['forward','left','right','down'].includes(gaze)) throw new Error('Unknown manual style or gaze');
   if (Object.values(weights).some(v=>!Number.isFinite(v)||v<0||v>1)) throw new Error('Invalid speech weight');

@@ -31,6 +31,16 @@ Captured on **SwiftShader software Vulkan**, not a hardware-GPU performance resu
 The native fixture is not the detailed human above. [Capture commands, provenance,
 image hashes and scope](docs/render-captures.md) are retained.
 
+### Creative upgrades (5–9)
+
+Named per-character calibration profiles, optional natural eyes/idle, speech-safe
+manual expression intensity and timed sequences, WebGL lighting/material/camera
+controls with optional FXAA, and user-facing WebM + JSON/CSV animation exports are
+implemented. [Usage and exact renderer/export limits](docs/creative-upgrades.md).
+Local **132 Python / 29 JavaScript tests** and real-head browser/encoder checks
+pass; hosted acceptance for these new features is pending. Manual controls are
+not inferred emotion; browser video is real-time capture, not offline MP4.
+
 ### Four new studio upgrades
 
 - **Low / Balanced / High** presets plus custom resolution/FPS and downloadable

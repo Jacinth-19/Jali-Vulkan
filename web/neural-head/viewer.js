@@ -3,6 +3,13 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
+import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
+import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js';
+import {creativeSettings} from './creative.mjs';
+import {appearanceSettings,BACKGROUNDS} from './appearance.mjs';
 import { composePerformance } from './performance.mjs';
 import { sampleClipVisemes, validateCues } from './visemes.mjs';
 
@@ -15,6 +22,8 @@ let root, controls, camera, renderer, headBone, baseHeadRotation;
 const eyeBones=[], gazeRotation=new THREE.Quaternion(), gazeEuler=new THREE.Euler();
 let selected = 0, speechMeshes = [], ready = false, frameCount = 0, fpsEpoch = performance.now();
 let nativeActive=false, renderSettings={fps:30,resolution:Infinity,pixelRatio:Math.min(devicePixelRatio||1,1.5)}, articulationProfile='baseline';
+let creativeOptions=null, appearance=null, composer=null,fxaaPass=null, lights=null,portraitTarget=null,currentLayers=null;
+const idleEpoch=performance.now();
 let currentPose = {}, modelStats = {}, captureOnly = false, resizeViewer;
 const scene = new THREE.Scene();
 scene.background = new THREE.Color('#101a1d');
@@ -51,7 +60,8 @@ function applyAt(time) {
   const offset = Number($('trim').value) / 1000;
   const sample = sampleClipVisemes(clip, time, offset, $('sync').checked,articulationProfile);
   const layers=composePerformance(sample.weights,{time,duration:clip?.duration||0,
-    life:$('life').checked,mood:$('mood').value,gaze:$('gaze')?.value||'forward'});
+    life:$('life').checked,mood:$('mood').value,gaze:$('gaze')?.value||'forward',creative:creativeOptions?{...creativeOptions,offset:(clip?._stream_start_sample||0)/(clip?.audio?.sample_rate||24000),idle:!clip,idleTime:((performance.now()-idleEpoch)/1000)%3600}:null});
+  currentLayers=layers;
   const pose=layers.pose;
   for (const mesh of speechMeshes) {
     mesh.morphTargetInfluences.fill(0);
@@ -88,7 +98,7 @@ function renderAt(time, updateOrbit = true) {
   const started = performance.now();
   applyAt(time);
   if (updateOrbit) controls.update();
-  if(!nativeActive)renderer.render(scene, camera);
+  if(!nativeActive){if(appearance?.fxaa&&composer)composer.render();else renderer.render(scene, camera);}
   if (window.JALI_RENDER_DIAGNOSTICS) window.dispatchEvent(new CustomEvent('jali-render', {detail:{
     wallTime:performance.now(), audioTime:time, renderMs:performance.now()-started,
     playing:!audio.paused && !audio.ended, seeking:audio.seeking
@@ -106,9 +116,9 @@ async function init() {
   const room = new RoomEnvironment();
   scene.environment = pmrem.fromScene(room, 0.04).texture;
   room.dispose(); pmrem.dispose();
-  scene.add(new THREE.HemisphereLight(0xfaf4e9, 0x36545c, 1.1));
+  const fill=new THREE.HemisphereLight(0xfaf4e9, 0x36545c, 1.1);scene.add(fill);
   const key = new THREE.DirectionalLight(0xffebd0, 2); key.position.set(-2, 3, 4); scene.add(key);
-  const rim = new THREE.DirectionalLight(0x8dcced, 1.3); rim.position.set(2, 2, -1); scene.add(rim);
+  const rim = new THREE.DirectionalLight(0x8dcced, 1.3); rim.position.set(2, 2, -1); scene.add(rim);lights={key,rim,fill};
   const bytes = Uint8Array.from(atob(window.JALI_HEAD_BASE64), c => c.charCodeAt(0));
   const loader = new GLTFLoader().setMeshoptDecoder(MeshoptDecoder);
   const gltf = await loader.parseAsync(bytes.buffer, '');
@@ -129,7 +139,7 @@ async function init() {
   // The downloadable asset retains all 66 facial controls. The viewer uploads
   // only controls used by this demo, avoiding 66-way zero-weight shader loops.
   const originalFaceControls = Object.keys(facial.morphTargetDictionary).length;
-  const used = new Set(['viseme_PP','viseme_I','viseme_SS','viseme_E','viseme_aa','viseme_O','viseme_RR','viseme_U','viseme_FF','viseme_nn','viseme_DD','eyeBlinkLeft','eyeBlinkRight','mouthSmileLeft','mouthSmileRight','cheekSquintLeft','cheekSquintRight','browInnerUp','browOuterUpLeft','browOuterUpRight']);
+  const used = new Set(['viseme_PP','viseme_I','viseme_SS','viseme_E','viseme_aa','viseme_O','viseme_RR','viseme_U','viseme_FF','viseme_nn','viseme_DD','eyeBlinkLeft','eyeBlinkRight','mouthSmileLeft','mouthSmileRight','cheekSquintLeft','cheekSquintRight','browInnerUp','browOuterUpLeft','browOuterUpRight','browDownLeft','browDownRight','mouthFrownLeft','mouthFrownRight','eyeWideLeft','eyeWideRight']);
   for (const mesh of speechMeshes) {
     const entries = Object.entries(mesh.morphTargetDictionary).filter(([name]) => used.has(name));
     for (const type of Object.keys(mesh.geometry.morphAttributes)) {
@@ -143,7 +153,7 @@ async function init() {
   baseHeadRotation = headBone.rotation.clone();
   const target = headBone.getWorldPosition(new THREE.Vector3()); target.y += 0.04;
   camera.position.copy(target).add(new THREE.Vector3(0.035, 0.005, 0.82));
-  controls = new OrbitControls(camera, canvas); controls.target.copy(target);
+  controls = new OrbitControls(camera, canvas); controls.target.copy(target);portraitTarget=target.clone();
   controls.enableDamping = true; controls.enablePan = false;
   controls.minDistance = 0.38; controls.maxDistance = 2.8;
   controls.maxPolarAngle = Math.PI * 0.68;
@@ -160,7 +170,7 @@ async function init() {
     if (captureOnly) return;
     const width = canvas.clientWidth, height = canvas.clientHeight;
     renderer.setPixelRatio(Math.min(renderSettings.pixelRatio,renderSettings.resolution/Math.max(width,height)));
-    renderer.setSize(width, height, false); camera.aspect = width / height; camera.updateProjectionMatrix();
+    renderer.setSize(width, height, false);syncPost(); camera.aspect = width / height; camera.updateProjectionMatrix();
     renderAt(audio.currentTime || 0);
   };
   new ResizeObserver(resize).observe(canvas); resize();
@@ -171,7 +181,7 @@ async function init() {
     last = now-(now-last)%(1000/renderSettings.fps);
     const playing = !audio.paused && !audio.ended;
     const orbitChanged = controls.update();
-    if (!playing && !orbitChanged) return; // Idle does not consume a software-rendered core.
+    if (!playing && !orbitChanged && !(!track()&&creativeOptions?.natural&&$('life').checked)) return; // Idle does not consume a software-rendered core.
     renderAt(audio.currentTime || 0, false); frameCount++;
     if (now - fpsEpoch >= 1000) {
       $('fps').textContent = `${(frameCount * 1000 / (now - fpsEpoch)).toFixed(0)} fps`;
@@ -194,7 +204,28 @@ for (const event of ['seeked','loadedmetadata','pause','ended']) audio.addEventL
 audio.addEventListener('play', () => { fpsEpoch = performance.now(); frameCount = 0; });
 audio.addEventListener('error', () => error(data.live ? 'The local recording could not be loaded. Generate again or refresh the studio.' : 'The audio file could not be loaded. Extract the complete ZIP before opening index.html.'));
 if (data.clips.length) selectClip(0);
+function syncPost(){
+ if(composer){composer.setPixelRatio(renderer.getPixelRatio());composer.setSize(canvas.width/renderer.getPixelRatio(),canvas.height/renderer.getPixelRatio());fxaaPass.material.uniforms.resolution.value.set(1/canvas.width,1/canvas.height);}
+}
+function setAppearance(value){
+ if(!ready)throw Error('Wait for the head to load');
+ const previousCamera=appearance?.camera||'portrait';appearance=appearanceSettings(value);const a=appearance;
+ scene.background.set(BACKGROUNDS[a.background]);renderer.toneMappingExposure=a.exposure;
+ const l={studio:[2,1.3,1.1],soft:[1.3,.6,1.7],dramatic:[3,.9,.4]}[a.lighting];
+ lights.key.intensity=l[0];lights.rim.intensity=l[1];lights.fill.intensity=l[2];
+ root.traverse(o=>{if(!o.isMesh)return;for(const m of (Array.isArray(o.material)?o.material:[o.material])){
+  if(m.name==='Human.body'){m.roughness=a.skin;m.envMapIntensity=.9;}
+  if(m.name==='Human.high-poly'){m.roughness=a.eyes;m.metalness=0;m.envMapIntensity=1.4;}
+ }});
+ const position={portrait:[.035,.005,.82],close:[.015,.015,.57],threequarter:[.33,.025,.78],wide:[.02,-.04,1.22]}[a.camera];
+ if(previousCamera!==a.camera){controls.target.copy(portraitTarget);camera.position.copy(portraitTarget).add(new THREE.Vector3(...position));controls.update();}
+ if(a.fxaa&&!composer){composer=new EffectComposer(renderer);composer.addPass(new RenderPass(scene,camera));fxaaPass=new ShaderPass(FXAAShader);composer.addPass(fxaaPass);composer.addPass(new OutputPass());}
+ syncPost();renderAt(audio.currentTime||0);
+}
 window.JaliHeadDemo = {
+  setCreative: value=>{creativeOptions=creativeSettings(value);renderAt(audio.currentTime||0);},
+  setAppearance,
+
   setArticulation: value => {articulationProfile=value;renderAt(audio.currentTime||0);},
   setPerformance: value => {renderSettings={...value};if(ready&&!captureOnly&&resizeViewer)resizeViewer();},
   setNativeMode: enabled => {nativeActive=Boolean(enabled);canvas.style.visibility=nativeActive?'hidden':'visible';renderAt(audio.currentTime||0);},
@@ -236,7 +267,7 @@ window.JaliHeadDemo = {
     } : null, canvas:{width:canvas.width,height:canvas.height}, pixelRatio:renderer?.getPixelRatio(),
     speechRig:data.rig || null };
   },
-  getState: () => ({ ready, sessionId: track()?.id || null, clips: data.clips.map(c => ({id:c.id, title:c.title})), modelStats, gazeBones:eyeBones.map(({bone,base})=>{const e=new THREE.Euler().setFromQuaternion(bone.quaternion.clone().multiply(base.clone().invert()));return {name:bone.name,delta:{x:Math.abs(e.x)<1e-12?0:e.x,y:Math.abs(e.y)<1e-12?0:e.y}};}), pose: currentPose, time: audio.currentTime, clip: selected,
+  getState: () => ({ ready, layers:currentLayers, creative:creativeOptions,appearance,streamOffset:(track()?._stream_start_sample||0)/(track()?.audio?.sample_rate||24000),idleTime:creativeOptions?.natural?((performance.now()-idleEpoch)/1000)%3600:0, sessionId: track()?.id || null, clips: data.clips.map(c => ({id:c.id, title:c.title})), modelStats, gazeBones:eyeBones.map(({bone,base})=>{const e=new THREE.Euler().setFromQuaternion(bone.quaternion.clone().multiply(base.clone().invert()));return {name:bone.name,delta:{x:Math.abs(e.x)<1e-12?0:e.x,y:Math.abs(e.y)<1e-12?0:e.y}};}), pose: currentPose, time: audio.currentTime, clip: selected,
     activeMorphs: speechMeshes.map(mesh => ({ mesh: mesh.name, values: Object.fromEntries(Object.entries(mesh.morphTargetDictionary).filter(([, i]) => mesh.morphTargetInfluences[i] > 0.01).map(([name,i]) => [name, mesh.morphTargetInfluences[i]])) })) }),
   referenceVertices: (layout,time,index=selected) => {
     if(index!==selected)selectClip(index,false);renderAt(time);root.updateMatrixWorld(true);
@@ -255,7 +286,7 @@ window.JaliHeadDemo = {
     captureOnly = Boolean(enabled);
     if (captureOnly) {
       canvas.style.width = `${size}px`; canvas.style.height = `${size}px`;
-      renderer.setPixelRatio(1); renderer.setSize(size, size, false);
+      renderer.setPixelRatio(1); renderer.setSize(size, size, false);syncPost();
       camera.aspect = 1; camera.updateProjectionMatrix();
     } else {
       canvas.style.removeProperty('width'); canvas.style.removeProperty('height');
