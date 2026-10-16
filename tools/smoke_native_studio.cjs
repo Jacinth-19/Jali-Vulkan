@@ -25,7 +25,18 @@ const fs=require('node:fs'),path=require('node:path');
     return {normal,warm,gaze,rest,neutral,bad,wrongToken,device:config.native};
   },{id:clip.id,time:closure.time,duration:clip.duration});
   if(probes.normal.status!==200||probes.warm.hash!==probes.normal.hash||probes.gaze.hash===probes.normal.hash||probes.rest.hash!==probes.neutral.hash||probes.bad.status!==400||probes.wrongToken.status!==403)throw Error('Native image/control/bounds probes failed: '+JSON.stringify(probes));
+  // Controlled protocol regression: a consumed/cancelled clip can expire while
+  // its frame request is in flight. That stale 404 must not poison the new view.
+  let injected=false;
+  await page.route('**/api/native/frame?**',async route=>{
+    if(injected)return route.continue();injected=true;
+    await page.locator('#stop').click();
+    await route.fulfill({status:404,contentType:'application/json',body:JSON.stringify({error:'Injected stale previous-session response'})});
+  });
+  await page.selectOption('#renderer','native');
+  await page.waitForFunction(()=>JaliStudio.getState().nativeInfo.lastSession==='neutral',null,{timeout:30000});
+  await page.unroute('**/api/native/frame?**');if(!injected)throw Error('Stale-response regression was not exercised');
   const state=await page.evaluate(()=>JaliStudio.getState());if(errors.length||external.length||state.nativeInfo.errors.length)throw Error(JSON.stringify({errors,external,native:state.nativeInfo.errors}));
-  fs.writeFileSync(path.join(out,'native-browser.json'),JSON.stringify({passed:true,session_id:clip.id,audio_sha256:clip.audio.sha256,seek_time:closure.time,actual_native_frames:state.nativeInfo.frames,last_readback_ms:state.nativeInfo.lastMs,probes,errors,external,limits:'Real native image requests selected by the SAME verified recording media clock; no claim of physical AV synchronization, laptop hardware FPS or independent articulation quality.'},null,2)+'\n');
+  fs.writeFileSync(path.join(out,'native-browser.json'),JSON.stringify({passed:true,stale_previous_session_response_ignored:true,session_id:clip.id,audio_sha256:clip.audio.sha256,seek_time:closure.time,actual_native_frames:state.nativeInfo.frames,last_readback_ms:state.nativeInfo.lastMs,probes,errors,external,limits:'Real native image requests selected by the SAME verified recording media clock; no claim of physical AV synchronization, laptop hardware FPS or independent articulation quality.'},null,2)+'\n');
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});

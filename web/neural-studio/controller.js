@@ -151,13 +151,13 @@ import {validateStreamChunk} from './streaming.mjs';
         const query=new URLSearchParams({id,time:String(time),trim:$('trim').value,mood:$('mood').value,gaze:$('gaze').value,life:$('life').checked?'1':'0',sync:$('sync').checked?'1':'0'}),key=query.toString();
         if(nativeFrame!==key){
           const began=performance.now(),response=await fetch('/api/native/frame?'+query,{headers:{'X-Jali-Token':config.token},cache:'no-store'});
-          if(response.status!==409){
+          if(response.status!==409&&$('renderer').value==='native'&&id===(selectedId||'neutral')){
             if(!response.ok)throw new Error((await response.json()).error||'Native rendering failed');
             const blob=await response.blob();
             if($('renderer').value==='native'&&id===(selectedId||'neutral')){
               const url=URL.createObjectURL(blob),old=nativeImageUrl;nativeImageUrl=url;$('native-face').src=url;if(old)URL.revokeObjectURL(old);
               nativeFrame=key;nativeInfo.frames++;nativeInfo.lastTime=time;nativeInfo.lastSession=id;nativeInfo.lastMs=Number(response.headers.get('X-Jali-Render-Ms'));
-              JaliHeadDemo.updateClock(time);$('fps').textContent=`${(1000/(performance.now()-began)).toFixed(1)} native updates/s`;
+              JaliHeadDemo.updateClock(time);$('fps').textContent=`${(performance.now()-began).toFixed(0)} ms native response`;
             }
           }
         }
