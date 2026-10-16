@@ -39,12 +39,12 @@ recording -> animate the detailed character -> synchronized playback.
 |---|---|---|---|
 | B0 | Existing foundation | Delivered prototype, scoped below | Keep regression tests passing |
 | M1 | Local neural speech | CPU inference proven on Linux; listening review and Windows verification remain | New text generates playable speech locally, with reviewed artifacts and measured CPU cost |
-| M2 | Automatic end-to-end generation | Delivered Linux/WebGL prototype; two real form-to-face sessions passed | One action produces and plays a newly synthesized, clip-driven performance |
+| M2 | Automatic end-to-end generation | Delivered Linux/Windows-hosted WebGL prototype; new form-to-face sessions passed | One action produces and plays a newly synthesized, clip-driven performance |
 | M3 | Better lip-sync fidelity | Partial: short-cue/end-rest fixes and repeatable nine-class review checks pass | Rig tuning, independent reference checks, and full-utterance quality review |
 | M4 | Detailed character in Vulkan | Not integrated | Native engine renders the richer textured rig with verified deformation |
 | M5 | Expressive facial performance | Basic procedural/manual controls only | Controllable, evaluated speech-related expression and gaze/gesture behavior |
 | M6 | Streaming and interruption | Partial: whole-utterance playback works | Bounded incremental audio/face playback with cancellation and recovery |
-| M7 | Windows performance and packaging | Partial: offline browser review/measurement pack implemented; target laptop and Windows speech backend unverified | Measured target-device results and a tested, understandable launcher/package |
+| M7 | Windows performance and packaging | Partial: real Windows CPU speech/analyzer/live face CI passed; developer launchers added; target laptop and installer unverified | Measured target-device results and a tested, understandable launcher/package |
 | M8 | Asset workflow and final QA | Partial: fixtures, provenance and tests exist | Reliable asset round trips, real AV measurements, and release review |
 
 ## B0 — Foundation already delivered
@@ -255,9 +255,22 @@ interruption, or the delivered non-streaming limitations are explicitly retained
 ## M7 — Windows performance and packaging
 
 **Target-device verification must happen on the user's laptop.** Sandbox and
-hosted Linux CI results cannot stand in for it.
+hosted Linux/Windows CI results cannot stand in for it.
 
-### Windows execution and measurements
+### Hosted Windows developer backend (not target-device acceptance)
+
+- [x] Inventory official Windows analyzer bytes without executing, then pin archive/executable hashes.
+- [x] Select Windows executable/resources with safe extraction and no Linux fallback.
+- [x] Generate three genuinely new Windows CPU neural WAVs and analyze each with its script.
+- [x] Exercise the live Chrome form-to-face pipeline on the Windows runner.
+- [x] Record synthesis, analysis, total pipeline time and Windows worker peak working set.
+- [x] Add explicit PowerShell setup/start developer scripts; clean consumer launcher experience remains unverified.
+- [x] Preserve Linux real-inference/browser regression and cross-platform fast contracts.
+
+Actual hosted metrics and remaining setup scope: [Windows neural studio](windows-neural-studio.md),
+[Actions evidence](evidence/windows-neural-actions.json). All nine jobs passed in run 38843451199.
+
+### Target-laptop execution and measurements
 
 - [ ] Inventory Windows version, CPU details, integrated graphics/driver and available RAM.
 - [ ] Run the selected neural TTS locally on Windows CPU.
@@ -279,7 +292,7 @@ hosted Linux CI results cannot stand in for it.
 - [x] Export explicit notes and renderer-update/CPU-submission observations locally.
 - [x] Test HTTP and file playback on hosted Windows Chrome and Linux Chromium.
 - [ ] Collect repeated measurements and quality notes on the actual i5 laptop.
-- [ ] Port/test local speech and analyzer processes on Windows.
+- [x] Port/test local speech and analyzer processes on hosted Windows x64; laptop acceptance remains separate.
 
 ### Usable package
 
@@ -366,10 +379,12 @@ or scope; a roadmap item is not a promise that an arbitrary model will run in re
 
 ## Current next action
 
-**Early browser checkpoint prepared:** see [the extraction/review instructions](windows-playback-checkpoint.txt). The pack needs no Python or models for playback and exports explicit user notes plus visible-tab render observations. Windows-hosted Chrome HTTP/file playback passed separately from Linux neural synthesis in eight-job Actions run 38841826083. See [checkpoint evidence](playback-checkpoint.md). This does not port the speech backend or finish M7.
+**Early browser checkpoint prepared:** see [the extraction/review instructions](windows-playback-checkpoint.txt). The pack needs no Python or models for playback and exports explicit user notes plus visible-tab render observations. Windows-hosted Chrome HTTP/file playback passed separately from Linux neural synthesis in eight-job Actions run 38841826083. See [checkpoint evidence](playback-checkpoint.md). The separately ported developer backend subsequently passed nine-job run 38843451199; neither hosted check finishes target-device M7 acceptance.
 
 
-**M3 quality review:** listen to and inspect a connected new-text performance,
+**Windows target checkpoint + M3 quality review:** use the developer setup in
+[Windows neural studio](windows-neural-studio.md) to generate new text on the
+actual laptop, then listen to and inspect a connected new-text performance,
 then tune pronunciation/articulation/transition timing on the actual rig. Use the
 new public corpus and review page; do not equate passing morph contracts with
 correct phoneme alignment. Fresh hosted neural CI passed in run 38837436553. Keep the
@@ -377,6 +392,8 @@ working M2 baseline. After this review, perform the early M7 Windows laptop
 checkpoint before investing in native Vulkan expansion or more complexity.
 
 ## Evidence and existing deliverables
+
+- [Windows x64 local speech/analyzer/live face and measured hosted results](windows-neural-studio.md)
 
 - [M3 articulation checks and hosted CPU coverage](neural-articulation.md)
 - [Connected neural studio and its limits](neural-studio.md)
@@ -400,6 +417,7 @@ use this dated tracker and current evidence to judge present completion.
 
 | Date | Update |
 |---|---|
+| 2026-10-16 | Windows x64 developer backend passed three actual new CPU recordings, Windows exact-WAV/dialog analysis and live Chrome face checks. All nine Actions jobs passed; pipeline 4.99–5.30 s, worker peak working set 291–297 MiB on the runner. Added platform pins, safe extraction, Windows cleanup/UTF-8 handling and developer PowerShell launchers; target laptop/installer/quality remain open. |
 | 2026-10-16 | Added a self-contained laptop/browser playback checkpoint with half-speed review, notes and explicit JSON export. Render-completion measurements distinguish CPU submission time from GPU execution/physical AV latency. Public-corpus/hash admission checks and local HTTP/file tests passed. All eight Actions jobs passed, including actual Windows Chrome HTTP/file playback; target-device and local Windows speech tests remain open. |
 | 2026-10-16 | M3 partial: corrected short-cue blending and actual-duration rest, 9 JavaScript tests and 67 Python tests passed; three fresh browser-generated utterances produced 22 review frames covering nine estimated classes. Human/independent alignment review remains open. All seven jobs passed in Actions run 38837436553; the real neural job took 3m22s after fixing a cold binary-download defect. |
 | 2026-10-16 | M2 connected prototype passed two actual browser-form requests: new CPU WAV + dialog analysis + real facial morph playback, hashes, pause/seek, history and error/retention contracts. Added idle redraw avoidance and a portable new-text MP4. Windows/quality/streaming remain open. |

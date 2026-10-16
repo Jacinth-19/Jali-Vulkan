@@ -77,7 +77,10 @@ importing the inference runtime. There is no cloud/eSpeak-audio fallback.
 
 Python dependencies are separately pinned in
 `tools/requirements-local-neural.lock.txt`. They were resolved and executed on
-Linux/Python 3.11, not verified as a clean Windows install. No GPU extras are installed. The observed Linux environment was about 242 MiB;
+Linux/Python 3.11 originally, and subsequently installed/executed on a fresh
+hosted Windows x64/Python 3.11 runner. This is not a clean consumer Windows
+installation or target-laptop test; see [Windows results](windows-neural-studio.md).
+No GPU extras are installed. The observed Linux environment was about 242 MiB;
 allow at least 1 GB of free disk for dependencies, temporary downloads, caches and
 model data (platform and pip-cache usage vary). The two setup archives are about
 61 MiB and 26 MiB, separate from the extracted model.

@@ -61,9 +61,12 @@ The port 8082 preview offers new generation, play/pause/seek, six-session histor
 WAV/cue/manifest downloads and manual expression controls. The Linux CPU/browser
 pipeline passed two real form submissions plus fast contract tests. It completes
 whole utterances before playback, uses estimated visemes, and does not claim
-learned emotion, native support for this rig, or tested Windows performance.
+learned emotion, native support for this rig, or tested target-laptop performance.
 This is a development service, not authenticated public hosting; do not enter
-sensitive content. Windows backend/packaging remains a separate milestone.
+sensitive content. The Windows x64 developer backend now passed real CPU speech,
+Windows audio analysis and live Chrome integration in [nine-job Actions run 38843451199](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38843451199).
+See [Windows developer setup and actual measurements](docs/windows-neural-studio.md).
+A standalone installer and target-laptop validation remain open.
 
 ## Personal face and voice test assets
 
@@ -177,3 +180,11 @@ or speech-model installation for playback. See [extraction and review instructio
 and [the eight-job Linux/Windows validation and remaining scope](docs/playback-checkpoint.md).
 This is not a port of the local speech backend, a native Vulkan package, or a
 performance claim for your Windows laptop.
+
+### Generate new speech on Windows x64
+
+With Python 3.11 x64, Node 22 and GitHub CLI public-source access installed, run
+`windows/setup-neural.ps1` once, then `windows/start-neural.ps1`. Open the localhost
+URL printed by the launcher. Setup is explicit/networked; generation is local CPU
+with no hosted-speech fallback. These are developer scripts, not a standalone
+installer. [Prerequisites, results and remaining limitations](docs/windows-neural-studio.md).

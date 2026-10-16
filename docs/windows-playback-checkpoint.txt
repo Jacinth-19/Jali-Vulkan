@@ -40,7 +40,8 @@ FPS result rather than a fabricated zero/success. Invalid runs remain in exports
 for diagnosis. User ratings are declarations, not independently verified QA.
 
 WHAT THIS DOES NOT TEST
-- Generating new speech locally on Windows (the current backend is Linux-only).
+- Generating new speech locally on Windows (use the separate developer studio;
+  this playback ZIP contains no speech runtime).
 - Windows Rhubarb process setup, cold synthesis, CPU/RAM cost, native Vulkan,
   hardware-GPU performance guarantees, long utterances, streaming or interruption.
 - Verified phoneme accuracy, naturalness, visible lip contact, or physical AV sync.

@@ -1,0 +1,247 @@
+{
+  "date": "2026-10-16",
+  "run": {
+    "id": 38843451199,
+    "html_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38843451199",
+    "head_sha": "aacafc4f69b3f45aab3b1e45e53af6478d73a977",
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "run_started_at": "2026-10-16T03:01:54Z",
+    "updated_at": "2026-10-16T03:05:56Z"
+  },
+  "jobs": [
+    {
+      "id": 116788525470,
+      "name": "Local neural speech, WebGL and articulation review",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-16T03:01:57Z",
+      "completed_at": "2026-10-16T03:04:10Z",
+      "html_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38843451199/job/116788525470"
+    },
+    {
+      "id": 116788525644,
+      "name": "g++ / Release",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-16T03:01:57Z",
+      "completed_at": "2026-10-16T03:02:11Z",
+      "html_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38843451199/job/116788525644"
+    },
+    {
+      "id": 116788525690,
+      "name": "Address and undefined-behavior checks",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-16T03:01:57Z",
+      "completed_at": "2026-10-16T03:02:13Z",
+      "html_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38843451199/job/116788525690"
+    },
+    {
+      "id": 116788525716,
+      "name": "clang++ / Debug",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-16T03:01:57Z",
+      "completed_at": "2026-10-16T03:02:57Z",
+      "html_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38843451199/job/116788525716"
+    },
+    {
+      "id": 116788525749,
+      "name": "g++ / Debug",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-16T03:01:57Z",
+      "completed_at": "2026-10-16T03:02:11Z",
+      "html_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38843451199/job/116788525749"
+    },
+    {
+      "id": 116788525769,
+      "name": "Windows local neural speech, analyzer and live face",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-16T03:01:57Z",
+      "completed_at": "2026-10-16T03:04:18Z",
+      "html_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38843451199/job/116788525769"
+    },
+    {
+      "id": 116788525787,
+      "name": "Native speech, Vulkan validation layers and browser",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-16T03:01:57Z",
+      "completed_at": "2026-10-16T03:03:50Z",
+      "html_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38843451199/job/116788525787"
+    },
+    {
+      "id": 116788525790,
+      "name": "clang++ / Release",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-16T03:01:57Z",
+      "completed_at": "2026-10-16T03:02:23Z",
+      "html_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38843451199/job/116788525790"
+    },
+    {
+      "id": 116789131951,
+      "name": "Windows Chrome offline playback (not local TTS)",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-16T03:04:12Z",
+      "completed_at": "2026-10-16T03:05:56Z",
+      "html_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38843451199/job/116789131951"
+    }
+  ],
+  "metrics_annotation": {
+    "platform": "win32",
+    "cpu_only": true,
+    "new_recordings": [
+      {
+        "case": "closures",
+        "audio_seconds": 3.456,
+        "generation_seconds": 0.8623,
+        "analysis_seconds": 2.3613,
+        "total_seconds": 5.3027,
+        "peak_working_set_mib": 291.49,
+        "audio_sha256": "3be0398c5f15eed477692544e8e3757e508fef1eb598255ccde11c5aff2916a4",
+        "analyzer_binary_sha256": "d31a3030bcb11c39c175cdba45f8152456d7d2a288a8198b820f3b8c4f37ab2b"
+      },
+      {
+        "case": "contacts",
+        "audio_seconds": 4.074666666666666,
+        "generation_seconds": 0.9612,
+        "analysis_seconds": 2.2534,
+        "total_seconds": 4.9939,
+        "peak_working_set_mib": 296.72,
+        "audio_sha256": "735738fc34ad062eff499482edb242c2f5469a0d80494339dea6264f25188db2",
+        "analyzer_binary_sha256": "d31a3030bcb11c39c175cdba45f8152456d7d2a288a8198b820f3b8c4f37ab2b"
+      },
+      {
+        "case": "vowels",
+        "audio_seconds": 3.6053333333333333,
+        "generation_seconds": 0.8765,
+        "analysis_seconds": 2.7616,
+        "total_seconds": 5.2443,
+        "peak_working_set_mib": 291.01,
+        "audio_sha256": "d794eb3a7149bf324abb534e630dac296d6e73cbcb2e50d57d9ad23159ad6ac8",
+        "analyzer_binary_sha256": "d31a3030bcb11c39c175cdba45f8152456d7d2a288a8198b820f3b8c4f37ab2b"
+      }
+    ],
+    "review_frames": 22,
+    "estimated_classes": [
+      "X",
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F",
+      "G",
+      "H"
+    ],
+    "human_review_completed": false,
+    "target_laptop_tested": false,
+    "scope": "Actual Windows hosted CPU inference and exact-WAV/dialog analysis plus live Chrome/WebGL; not laptop or physical AV validation"
+  },
+  "official_archive_inventory": {
+    "run_id": 38843072059,
+    "check_run_id": 116787337827,
+    "execution_performed": false,
+    "url": "https://github.com/DanielSWolf/rhubarb-lip-sync/releases/download/v1.13.0/Rhubarb-Lip-Sync-1.13.0-Windows.zip",
+    "executables": [
+      {
+        "sha256": "d31a3030bcb11c39c175cdba45f8152456d7d2a288a8198b820f3b8c4f37ab2b",
+        "path": "Rhubarb-Lip-Sync-1.13.0-Windows/rhubarb.exe",
+        "bytes": 2701312
+      }
+    ],
+    "archive_sha256": "189ac55dae253dba3994d4075b8375b615f255759c105c7ed21bd88ad7728386",
+    "bytes": 88700994
+  },
+  "artifacts": [
+    {
+      "id": 12022656497,
+      "name": "windows-local-neural-evidence",
+      "size_in_bytes": 6112074,
+      "expired": false,
+      "expires_at": "2026-10-19T03:04:13Z",
+      "web_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38843451199/artifacts/12022656497"
+    },
+    {
+      "id": 12022636487,
+      "name": "native-backend-evidence",
+      "size_in_bytes": 814496,
+      "expired": false,
+      "expires_at": "2026-10-19T03:03:45Z",
+      "web_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38843451199/artifacts/12022636487"
+    },
+    {
+      "id": 12022581430,
+      "name": "fixture-clang++-Debug",
+      "size_in_bytes": 13230,
+      "expired": false,
+      "expires_at": "2026-10-19T03:02:55Z",
+      "web_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38843451199/artifacts/12022581430"
+    },
+    {
+      "id": 12022481709,
+      "name": "laptop-playback-checkpoint",
+      "size_in_bytes": 9541795,
+      "expired": false,
+      "expires_at": "2026-10-19T03:04:04Z",
+      "web_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38843451199/artifacts/12022481709"
+    },
+    {
+      "id": 12022347049,
+      "name": "neural-articulation-review",
+      "size_in_bytes": 5383081,
+      "expired": false,
+      "expires_at": "2026-10-19T03:04:06Z",
+      "web_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38843451199/artifacts/12022347049"
+    },
+    {
+      "id": 12022177014,
+      "name": "fixture-clang++-Release",
+      "size_in_bytes": 13225,
+      "expired": false,
+      "expires_at": "2026-10-19T03:02:20Z",
+      "web_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38843451199/artifacts/12022177014"
+    },
+    {
+      "id": 12022126306,
+      "name": "fixture-g++-Release",
+      "size_in_bytes": 13226,
+      "expired": false,
+      "expires_at": "2026-10-19T03:02:08Z",
+      "web_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38843451199/artifacts/12022126306"
+    },
+    {
+      "id": 12021897988,
+      "name": "fixture-g++-Debug",
+      "size_in_bytes": 13230,
+      "expired": false,
+      "expires_at": "2026-10-19T03:02:09Z",
+      "web_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38843451199/artifacts/12021897988"
+    },
+    {
+      "id": 12021747896,
+      "name": "windows-browser-playback-evidence",
+      "size_in_bytes": 882572,
+      "expired": false,
+      "expires_at": "2026-10-19T03:05:50Z",
+      "web_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38843451199/artifacts/12021747896"
+    }
+  ],
+  "local_tests": {
+    "python": 79,
+    "javascript": 12,
+    "linux_real_new_corpus_browser_regression": true
+  },
+  "limitations": [
+    "Hosted Windows runner, not the user laptop; no target hardware or GPU performance guarantee.",
+    "Process peak working set is not whole-application RAM.",
+    "No human quality or independent phoneme accuracy completion.",
+    "API-verified results and public metric annotation; hosted artifact contents not independently downloaded in this sandbox."
+  ]
+}

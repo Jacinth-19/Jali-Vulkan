@@ -54,15 +54,16 @@ running the server. Browser requests use **relative URLs**; no client-side
 localhost call is used to reach a different service. On an unencrypted remote
 HTTP host, WebCrypto may not be available: use the HTTPS preview or localhost.
 
-The builder explicitly prepares the head and pinned Linux Rhubarb executable,
+The builder explicitly prepares the head and platform-specific pinned Rhubarb executable,
 retains license evidence, bundles the viewer and stamps model/retarget/bundle
 hashes. The server checks installed Kokoro assets and built viewer/model hashes
 before accepting requests. Requests do not install packages or download models.
 
-**Windows backend is not verified/ported:** the current analyzer setup selects a
-Linux binary, and the backend/process/package workflow needs a Windows pass. A
-Windows browser can view this hosted preview; that does not establish a working
-local Windows installation. Model-independent tests are separate from this setup.
+**Windows x64 developer backend now tested:** actual Windows hosted CPU synthesis,
+Windows analyzer and live Chrome form-to-face execution passed in nine-job run
+38843451199. See [Windows setup, measured results and remaining gates](windows-neural-studio.md).
+This is not a clean consumer installer or a benchmark of the target i5 laptop.
+
 
 ## Protocol and provenance
 

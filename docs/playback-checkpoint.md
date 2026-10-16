@@ -91,3 +91,11 @@ where a compatible installed Chrome exists, as in the Windows job.
 thermal tests, full-utterance perceptual review, independently aligned phonemes,
 physical speaker/display timing, and the rich native Vulkan renderer. This pack
 makes user-device observations possible; it does not close those gates by itself.
+
+## Subsequent Windows backend milestone
+
+The playback ZIP itself is still face/audio playback only. The separate Windows
+x64 developer backend has since passed actual new CPU speech, Windows analysis
+and live Chrome integration: see [Windows neural studio](windows-neural-studio.md).
+The earlier eight-job result above remains historical evidence for this pack; the
+new nine-job result does not establish target-laptop performance or an installer.
