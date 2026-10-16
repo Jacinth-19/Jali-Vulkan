@@ -8,10 +8,15 @@ import hashlib
 import json
 from pathlib import Path
 from build_neural_head import prepare_model
-from build_native_head import build as native
 from build_native_compare import build as compare
 from build_neural_studio import build as presentation
 from render_session import ROOT
+
+
+def native(source,output):
+    # Core contracts remain stdlib-only; the real explicit conversion needs Pillow.
+    from build_native_head import build
+    return build(source,output)
 
 
 def prepare(review):
