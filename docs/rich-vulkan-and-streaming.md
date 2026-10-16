@@ -51,8 +51,9 @@ checks are not remote authentication; use localhost on your own machine.
 Sandbox only: add `--software-vulkan`. On hardware Vulkan **omit** that option.
 The displayed device/hardware flag is measured. Software rendering proves
 correctness, not real-time hardware performance. Native Windows process pipes
-use a bounded reader thread, but actual rich-native Windows/laptop execution is
-still a separate acceptance gate; the portable CPU/WebGL package excludes it.
+use a bounded reader thread and binary stdio. Actual hosted rich-native Windows
+execution and optional frozen-native playback pass; physical laptop hardware
+execution/performance remains a separate acceptance gate.
 
 Offline render of a saved session (the original WAV is the audio input):
 
@@ -116,6 +117,16 @@ closed by software-only assertions. See the [tracker](project-tracker.md) and
 [personal portable-build guide](windows-portable.md).
 
 ## Hosted execution
+
+Current [run 38913502148](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38913502148)
+passed **all 11 jobs** for `caa1e95`, including native Windows CTest/backend,
+same-WAV detailed-human browser/source comparison, longevity/RSS, the optional
+frozen-native app and installation corruption/recovery checks. Exact job/step
+results, artifact IDs/digests and failed attempts are in
+[verification evidence](evidence/windows-native-integrity-actions.json).
+Hosted Windows and local longevity use software Vulkan: not physical GPU proof.
+
+Earlier foundation:
 
 All ten jobs passed in [run 38905755693](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38905755693).
 That includes actual CPU speech/batching on Linux/Windows, the frozen Windows

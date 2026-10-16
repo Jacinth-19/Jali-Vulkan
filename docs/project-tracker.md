@@ -297,7 +297,7 @@ See [benchmark, independent references and native blockers](windows-benchmark.md
 - [ ] Run the selected neural TTS locally on Windows CPU.
 - [ ] Run analysis and end-to-end playback on Windows.
 - [ ] Test browser WebGL availability and hardware-acceleration behavior.
-- [ ] Build/run the native Vulkan path on Windows, including required process/IPC changes.
+- [ ] Run native Vulkan on this physical laptop and measure its actual GPU/driver behavior. Windows process/IPC implementation and hosted software execution are complete.
 - [ ] Measure cold start, model loading and time to first audio/face frame.
 - [ ] Measure full generation time and real-time factor.
 - [ ] Measure live rendering FPS/frame times and stalls.
@@ -317,12 +317,14 @@ See [benchmark, independent references and native blockers](windows-benchmark.md
 
 ### Usable package
 
-- [x] Implement personal PyInstaller 6.16.0 onedir CPU/WebGL layout and explicit launcher; actual frozen execution passed hosted Windows with Python/Node/gh removed from the app PATH. [Build/licensing guide](windows-portable.md).
+- [x] Implement personal PyInstaller 6.16.0 onedir WebGL + optional native Vulkan layout and explicit launchers; actual frozen native execution passed hosted Windows with Python/Node/gh removed from the app PATH. [Build/licensing guide](windows-portable.md).
 - [x] Provide understandable model setup with integrity/license checks.
-- [ ] Include required runtime libraries and notices where redistribution is permitted.
+- [x] Include personal-build speech/native runtime libraries and collected notices; manifest and actual frozen readback pass hosted.
+- [ ] Establish complete corresponding-source/notices and combined-work obligations before public redistribution.
 - [x] Avoid requiring the user to manage multiple terminals for normal use.
-- [ ] Show actionable errors for missing models, drivers or dependencies.
-- [x] Keep recordings/models/cache out of Git and public logs.
+- [x] Fail closed on missing/changed bundled assets and dependencies, with offline JSON diagnostics and repair guidance; record server startup errors.
+- [ ] Independently validate consumer-grade driver/bootstrap/SmartScreen failure UX on a clean Windows profile (including failures before Python starts).
+- [x] Keep private recordings/speech weights/caches out of Git and public logs. Public synthetic corpus and explicitly licensed CC0 rig are documented artifact exceptions.
 - [x] Explain which operations work offline after setup.
 - [x] Document cache cleanup, updating and uninstalling.
 - [ ] Test a clean Windows installation/user profile, not only the developer environment.
@@ -400,30 +402,36 @@ or scope; a roadmap item is not a promise that an arbitrary model will run in re
 
 ## Current next action
 
-The user reports the Windows developer command works on their PC; this is
-functional confirmation, not a quantitative laptop report. This increment adds
-rich Vulkan + same verified WAV/cues + selectable native presentation, bounded
-sentence batching and interruption, optional phone-alignment diagnostics, and a
-personal frozen Windows CPU/WebGL build path. Actual human Vulkan captures are
-in the README. Local CPU/GPU/source/browser and speech/batching checks passed. All ten hosted
-Linux/Windows jobs passed for source `3202be0` in [run 38905755693](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38905755693), including frozen Windows whole/batched speech and the rich Vulkan UI/source comparison.
-[Machine-readable evidence](evidence/rich-stream-portable-actions.json) retains the
-full job/step results and previous attempts.
+The user reports the existing Windows developer command works on their PC.
+The implementation now includes rich human Vulkan with the same neural WAV/cues,
+native Windows binary-safe presentation, bounded sentence batching/interruption,
+separate styling/gaze controls, phone diagnostics, and an optional personal frozen
+Windows-native bundle with integrity checks and relocatable shaders. Actual
+rendered human images remain in the README.
 
-Next: human/laptop acceptance and release review, not another unimplemented
-software-foundation claim. An earlier second-run Windows offline-checkpoint test
-failed (other nine jobs passed); after adding failure diagnostics, the next full
-run passed without weakening assertions. Its original cause is **not established**
-and the prior failed run is retained as a reliability issue. Do not publish the portable
-bundle until GPL/eSpeak corresponding-source/notices obligations are reviewed.
-No signed consumer installer or native-Windows hardware result is claimed.
+**All 11 hosted jobs passed** for `caa1e95` in
+[run 38913502148](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38913502148).
+That includes Windows native execution, full source-vertex/browser comparisons,
+10020-frame protocol longevity plus detailed-head RSS checks, frozen native
+speech/batches with Python/Node/gh stripped from PATH, and package tamper/missing
+file/refusal/recovery checks. [Exact machine-readable evidence and failed attempts](evidence/windows-native-integrity-actions.json).
+Local contracts: **123 Python / 17 JS / 12 CTest entries**. Hosted Windows Vulkan
+has 11 CTest entries because the separate eSpeak live executable is not built.
 
-Remaining acceptance is explicit: independent phone/visible contact/naturalness
-and whole-utterance review; target i5/16-GB Windows memory/latency/physical-AV
-measurements; native Windows hardware execution; broad reverse-DCC round trips,
-LODs/multi-character scale if needed; and release licensing/signing/security.
-These are not silently inferred from automated pose or hosted-platform tests.
-See [usage and limits](rich-vulkan-and-streaming.md), [personal build](windows-portable.md),
+The offline measurement test now deterministically covers the queued-reset-pause
+startup race, actual-play cancellation, stale play completion and changed-speed
+invalidation. It passed HTTP and file playback on hosted Windows and Linux.
+This fixes a reproducible lifecycle defect; the older offline failure whose logs
+were unavailable is retained, not retrospectively assigned a proven cause.
+
+Next is genuine acceptance, not fabricated approval: independent phone/contact/
+naturalness and whole-utterance review; quantitative target i5/16-GB hardware,
+memory/latency/physical AV measurements; and release licensing/signing/security.
+Internally incremental Kokoro/gapless streaming, general reverse-DCC compatibility,
+LODs and multi-character scale are not silently inferred from bounded sentence
+batches or this one preserved rig. No redistributable/signed consumer release is
+claimed. Personal use remains the tested distribution scope.
+See [native usage and limits](rich-vulkan-and-streaming.md), [personal build](windows-portable.md),
 and [one-command laptop measurements](windows-benchmark.md).
 
 ## Evidence and existing deliverables
@@ -452,6 +460,7 @@ use this dated tracker and current evidence to judge present completion.
 
 | Date | Update |
 |---|---|
+| 2026-10-16 | Completed Windows native source/binary-pipe support and optional frozen native package with relocatable shaders, no runtime Node, strict installation integrity and external logs. Fixed queued-pause measurement ownership and preserved exact cross-platform corpus rig bytes. All eleven jobs passed in run 38913502148 (`caa1e95`); 123 Python / 17 JS / 12 local CTest entries and 10020-frame longevity pass. Human/physical laptop and public redistribution/signing gates remain open. |
 | 2026-10-16 | Implemented rich-v1 textured human Vulkan pipeline and shared neural-session native UI; eight CPU/GPU and six all-vertex source Three probes, native media-clock browser playback, bounded sentence batches/cancel/retry, 105-phone forced-alignment crosscheck, personal frozen Windows build. Local 109 Python/17 JS/12 CTest entries pass; all ten jobs passed in run 38905755693, including frozen Windows and rich Vulkan. A prior non-reproduced offline-Windows failure is retained in evidence. Added actual native human README captures. Human/laptop/release acceptance remains open. |
 | 2026-10-16 | Implemented owned-child cancellation/cleanup and stop/reset/retry; separate speech/style/head/blink/manual-gaze layers with closure pixel protection; expanded native palette to 128 with weighted 67/128-joint CPU/GPU tests. Added four real README renderer captures with provenance. Local 94 Python/15 JS/11 CTest entries and real browser review passed; all nine hosted jobs passed in Actions run 38847212709, including Windows neural/browser/benchmark and native Vulkan validation. Rich Vulkan, independent quality, incremental streaming and measured laptop gates remain open. |
 | 2026-10-16 | Delivered isolated one-command Windows benchmark (actual PowerShell entry point passed in nine-job run 38844926069); six local fresh samples, 87 Python/12 JS tests. Added exact-WAV independent-reference templates/comparison and static M4 blockers for 8 meshes/skins, 67 joints, 66 targets and materials. No independent alignment, rig tuning, rich Vulkan rendering or target-laptop acceptance is claimed. |
@@ -471,7 +480,7 @@ use this dated tracker and current evidence to judge present completion.
 - [x] Personal package per-file manifest, read-only offline verify mode and fail-closed startup.
 - [x] Reject missing/modified/injected files, unsafe paths, links and case collisions; eight model-free tests pass locally.
 - [x] Add actual frozen integrity/tamper/missing-analyzer checks and native longevity/RSS regression to CI.
-- [ ] New eleven-job hosted run, including **native** Windows Vulkan and frozen-package integrity: pending.
+- [x] New eleven-job hosted run, including **native** Windows Vulkan and frozen-package integrity: all passed in 38913502148 (`caa1e95`).
 - [ ] Physical laptop GPU/driver/latency/memory/audio-output acceptance remains separate from hosted software tests.
 - [ ] Independent human articulation/naturalness/reference review and redistribution/signing still require real evidence, not generated approval.
 
@@ -479,7 +488,7 @@ use this dated tracker and current evidence to judge present completion.
 - [x] Actually relocate native executable/shaders locally with original shaders hidden; detailed human readback passes.
 - [x] Fix two Windows-only contracts: canonical short/long temporary paths and POSIX archive inventory separators.
 - [x] Reproduce/reset queued-pause measurement ownership race deterministically; retain real-play cancellation and speed-change rejection tests.
-- [ ] Follow-up hosted verification includes optional frozen native execution and the elevated Windows software-ICD registration fix.
+- [x] Follow-up hosted verification includes optional frozen native execution, actual native browser readback, and guarded elevated Windows software-ICD registration/cleanup.
 
 First hardening run `38908847040` completed with nine passing jobs, including
 frozen integrity/tamper/missing-file checks and Linux longevity; Windows native
@@ -506,3 +515,15 @@ and read directly at runtime. Two model-free contracts and actual native JPEG
 readback with an empty PATH validate that fix locally. The frozen Windows path
 must still pass hosted; failures have not been reclassified as successes.
 Local total is now 123 Python / 17 JS / 12 CTest entries.
+
+
+### Verified final hardening checkpoint
+
+Run **38913502148**, source **caa1e95d08e8235836f68dd142b5321577fcf4da**,
+completed **all 11 jobs successfully**. This supersedes the pending statements
+in the chronological attempt notes above, not their recorded failures.
+Windows native execution, optional frozen native runtime, exact cross-platform
+corpus/model binding, no runtime Node, package integrity/refusal/recovery,
+post-runtime immutability and 10020-frame longevity are now hosted-verified.
+No public executable, speech weights or Chrome driver binary was uploaded.
+Independent human, physical-laptop/AV and redistribution/signing gates remain open.

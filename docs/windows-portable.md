@@ -1,8 +1,8 @@
-# Personal Windows portable CPU/WebGL build
+# Personal Windows portable build: WebGL and optional native Vulkan
 
 This is an **unsigned personal build**, not a signed consumer installer and not
-an approved redistributable release. The separate native Vulkan developer engine
-is **not** included. Build/test automation does not certify your laptop's speed,
+an approved redistributable release. Default builds use WebGL; an explicit
+option includes the native Vulkan engine, shaders and loader (not a GPU driver). Build/test automation does not certify your laptop's speed,
 Windows warning UX or physical audio/display synchronization.
 
 ## Build on your own Windows x64 machine
@@ -27,7 +27,8 @@ Windows may warn about the unsigned executable; do **not** disable security chec
 Use the developer launcher instead if you cannot establish trust in your own build.
 Port 8082 already occupied? Run `JaliStudio.exe --port 8083`.
 
-Whole-utterance and bounded sentence-batched speech use CPU inference and WebGL.
+Whole-utterance and bounded sentence-batched speech use CPU inference; presentation
+is WebGL or the explicitly enabled optional native Vulkan backend.
 The stock voice is not a clone or Arena `voice-00`. No microphone or cloud speech
 service is used. Generation files remain under `%LOCALAPPDATA%\JaliVulkan\sessions`.
 **UUID session directories are cleared on the next startup.** Save wanted WAVs and
@@ -53,6 +54,15 @@ This is a hosted execution check—not an independently clean OS image, a physic
 laptop benchmark, an installer-security audit or human acceptance.
 
 ## Executed evidence
+
+Current [run 38913502148](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38913502148)
+passed all **11 jobs** for source `caa1e95`: native Windows source execution,
+optional frozen native/WebGL package, real CPU speech/batches, integrity failure
+and recovery tests, runtime readback and untouched-installation checks. Only
+public proof/logs are published, not the personal app or speech weights.
+[Exact jobs/artifact digests and failed attempts](evidence/windows-native-integrity-actions.json).
+
+Historical CPU/WebGL foundation:
 
 [Actions run 38905755693](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38905755693)
 passed all ten jobs for source `3202be0`, including **Build personal-only frozen
@@ -91,7 +101,8 @@ Bootloader/Windows errors occurring before Python starts cannot be caught by
 this code: keep the console error and rebuild from the trusted source instead.
 Hosted tests now explicitly exercise intact, tampered, missing-analyzer and
 restored installations, plus normal startup refusing a corrupted package.
-These new tests are not claimed passed until the new Actions run finishes.
+These checks passed on actual frozen Windows in run 38913502148, including a
+post-runtime verification that the installation was not modified.
 
 ## Optional personal native-Vulkan bundle
 
@@ -109,8 +120,10 @@ in the page. Ordinary EXE launch still offers WebGL without Vulkan. Shader paths
 are resolved inside the extracted package, not against the build machine's
 checkout. Native engine logs live under LOCALAPPDATA, outside the verified
 installation. The same personal-use/unsigned/redistribution restrictions apply.
-The new optional frozen-native path is pending hosted Windows verification;
-the prior CPU/WebGL package proof must not be counted as evidence for it.
+The optional frozen-native path passed hosted Windows in run 38913502148 with
+Python/Node/gh removed from its runtime PATH. The browser generated actual new
+CPU speech and two sentence chunks with native readback; this is separate from
+the earlier CPU/WebGL-only proof.
 
 GitHub-hosted Windows runs elevated, so the secure Vulkan loader intentionally
 ignores `VK_ICD_FILENAMES`. Software CI explicitly registers **only its own**

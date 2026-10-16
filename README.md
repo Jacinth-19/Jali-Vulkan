@@ -42,8 +42,8 @@ image hashes and scope](docs/render-captures.md) are retained.
   startup and actionable local diagnostics. Integrity checks are **not signatures**.
 - Cross-platform native longevity/stable-frame/resident-memory regression.
 
-New hosted Windows-native and integrity tests are being run; see the
-[tracker](docs/project-tracker.md) for their result, not the previous CI badge.
+**All 11 hosted jobs passed**, including Windows native Vulkan and optional
+frozen-native execution. [Exact verification evidence](docs/evidence/windows-native-integrity-actions.json).
 [Windows native commands](docs/rich-vulkan-and-streaming.md#windows-native-source-build-and-longevity) ·
 [Installation verification](docs/windows-portable.md#offline-installation-checks)
 
@@ -69,12 +69,34 @@ New hosted Windows-native and integrity tests are being run; see the
   native Vulkan, with no runtime Python/Node/gh requirement. Local-build-only pending redistribution/source
   compliance; hosted tests publish proof, **not the bundle or weights**.
 
-**Validated:** 109 Python tests, 17 JavaScript tests, 12 local native CTest
-entries, real new-speech/batching cancellation/retry, and native/source/browser
-checks. **All 10 hosted Linux/Windows jobs passed** in
-[Actions run 38905755693](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38905755693),
-including the frozen Windows executable and rich-head Vulkan validation.
-[Exact jobs, scope and prior-run reliability note](docs/evidence/rich-stream-portable-actions.json).
+**Validated:** 123 Python tests, 17 JavaScript tests, 12 local native CTest
+entries, actual CPU speech/batching, native/source/browser checks and native
+longevity. **All 11 hosted Linux/Windows jobs passed** for source `caa1e95` in
+[Actions run 38913502148](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38913502148),
+including detailed native Windows execution and the optional frozen-native app.
+[Exact jobs, artifacts, failed attempts and scope](docs/evidence/windows-native-integrity-actions.json).
+The earlier ten-job [rich/stream/CPU-package proof](docs/evidence/rich-stream-portable-actions.json)
+remains historical evidence, not a substitute for the new native Windows tests.
+
+### Windows native mode (after neural developer setup)
+
+Requires CMake and free Visual Studio C++ x64 build tools / Windows SDK:
+
+```powershell
+.\windows\setup-native.ps1
+.\windows\start-neural.ps1 -NativeVulkan
+```
+
+Select **Native Vulkan** in **Face renderer**. This uses your installed Vulkan
+driver; hosted software tests do not prove your laptop's driver/performance.
+For your own optional portable native build:
+
+```powershell
+.\windows\build-portable.ps1 -PersonalUseOnly -IncludeNativeVulkan
+```
+
+The bundle stays unsigned/personal; no GPU driver is bundled. See the
+[build and installation-check guide](docs/windows-portable.md).
 
 See [rich Vulkan, streaming and alignment usage/limits](docs/rich-vulkan-and-streaming.md)
 and [personal Windows portable-build instructions](docs/windows-portable.md).
@@ -223,7 +245,7 @@ ctest --test-dir build-live --output-on-failure
 
 GitHub Actions runs the GCC/Clang matrix, sanitizers, and native software-Vulkan/browser checks on pushes, PRs, or manual dispatch. Native artifacts include actual runner resource inventory, validation logs, and screenshots; software Vulkan is not hardware-GPU validation. A separate neural-studio job now runs actual Kokoro CPU inference, generated-WAV/dialog analysis and detailed-face browser review on this session branch or manual dispatch. [Hosted neural results and M3 scope](docs/neural-articulation.md) include the successful seven-job run and remaining quality gates. See [CI resource details](docs/live-engine.md#github-actions-resource-and-validation-runs).
 
-GCC/Clang sanitizer builds: add `-DJALI_ENABLE_SANITIZERS=ON`. Model-free and native tests remain separate; no credentials or voice models are used by CI.
+GCC/Clang sanitizer builds: add `-DJALI_ENABLE_SANITIZERS=ON`. Core contracts need no models or private credentials. The opted-in neural job uses pinned public stock speech assets, never private voices or recordings.
 
 ## Documentation and layout
 
