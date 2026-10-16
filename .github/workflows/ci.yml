@@ -177,3 +177,56 @@ jobs:
             build-live/Testing/Temporary/
           retention-days: 3
           if-no-files-found: warn
+
+  neural-studio:
+    name: Local neural speech, WebGL and articulation review
+    # Never run model code on untrusted PRs. Standard hosted CPU runner, no GPU service.
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/arena/3284941c-jali-vulkan')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out source
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Select Python 3.11
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.11'
+      - name: Select Node 22
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+      - name: Record actual hosted CPU resources
+        run: |
+          mkdir -p artifacts
+          { uname -a; lscpu; free -h; df -h .; } > artifacts/neural-runner-resources.txt
+      - name: Install pinned CPU dependencies
+        run: |
+          python -m venv .venv
+          .venv/bin/python -m pip install -r tools/requirements-neural-studio.txt
+          npm ci --prefix tools --ignore-scripts
+      - name: Check contracts without loading a neural model
+        run: |
+          .venv/bin/python -m unittest discover -s tests -p 'test_*.py'
+          node --test tests/visemes.test.mjs
+      - name: Explicitly prepare reviewed model, stock voice and CC0 character
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          .venv/bin/python tools/prepare_kokoro_cpu.py
+          .venv/bin/python tools/build_neural_studio.py
+      - name: Exercise actual neural synthesis, audio analysis and facial articulation
+        run: .venv/bin/python tools/run_neural_ci.py
+      - name: Upload synthetic-only review evidence, never weights or caches
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: neural-articulation-review
+          path: |
+            artifacts/neural-review/
+            artifacts/neural-studio/proof/
+            artifacts/neural-runner-resources.txt
+            artifacts/neural-ci-server.log
+          retention-days: 3
+          if-no-files-found: warn

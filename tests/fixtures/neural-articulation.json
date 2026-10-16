@@ -1,0 +1,8 @@
+{
+  "purpose": "Public, synthetic-only M3 review corpus; not independent phoneme ground truth",
+  "cases": [
+    {"id":"closures","text":"Mama. Papa. Baby. Bob packed my blue paper bag.","review":"P/B/M lip seal, compression and release; look for visible teeth during closure."},
+    {"id":"contacts","text":"Five vivid voices. Baby Lily likes little yellow lollipops.","review":"F/V lip-to-teeth contact, L tongue position and consonant transitions."},
+    {"id":"vowels","text":"Blue moon. Cool water. Open wide. Oh. Ooh. Ah. Ee.","review":"Rounded versus spread/open vowels, jaw motion, short sounds and silence."}
+  ]
+}

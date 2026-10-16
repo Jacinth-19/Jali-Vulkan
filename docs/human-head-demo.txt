@@ -1,0 +1,80 @@
+JALI — HUMAN HEAD + EXISTING NEURAL CLIPS
+
+WHAT CHANGED
+The three existing neural WAVs now drive a more detailed human character.
+This is not the old eSpeak baseline. Rhubarb/PocketSphinx analyzes each actual
+WAV with its requested transcript and estimates A-H/X mouth-class intervals.
+The viewer maps those classes to the character's facial morph controls.
+
+WINDOWS QUICK START
+1. Extract the ZIP completely. Do not run the page from inside the ZIP viewer.
+2. Open index.html in a modern Edge/Chrome/Firefox browser with WebGL 2.
+3. Click one of the three recordings. The character follows its audio clock.
+4. Pause, seek, or click the colored cue strip. The face follows that position.
+5. Toggle Follow the recorded voice to compare lipsync on versus off.
+6. If interactive rendering is slow, open rendered-lip-closures.mp4 directly.
+   That portable video is rendered at 15 fps, independently of live viewer FPS.
+
+THE FREE CHARACTER
+Source: met4citizen/TalkingHead, avatars/mpfb.glb
+Pinned source commit: 2afe6d79779313db8909badebf46f9805a6c7b70
+https://github.com/met4citizen/TalkingHead/blob/2afe6d79779313db8909badebf46f9805a6c7b70/avatars/mpfb.glb
+
+Upstream explicitly describes mpfb.glb as an MPFB/MakeHuman-created avatar
+licensed CC0. That statement is retained in licenses/model-source-README.md,
+with the CC0 text. We do not assume the software's license covers the model.
+The original is a full character, shown here in a head-and-shoulders view:
+53,116 character vertices, a 67-bone skeleton, and 66 facial controls on the
+main mesh. Teeth, tongue, brows, eyes and lashes have additional/matching
+controls. This is a generated character, not a claimed real speaker identity.
+
+We resized textures to <=1024 and quantized/Meshopt-compressed the GLB for the
+browser. All source bones and facial targets remain in the downloadable file.
+Only 20 facial controls actually used by this demo are uploaded at runtime to
+reduce shader work; unused source controls were not silently removed from the
+asset. Meshopt support is required to open the optimized GLB. For DCC tools
+without that extension, download the uncompressed original at the source URL.
+
+TIMING AND QUALITY — WHAT IS AND ISN'T PROVEN
+- The WAVs are the exact previously generated Arena stock-voice recordings.
+  They are not synthesized locally, not new cloning, and not a user's voice.
+- Cue times come from their real audio, not guessed word lengths, a reused
+  eSpeak timeline, or an RMS jaw-only animation.
+- Rhubarb 1.13.0 PocketSphinx produces automatic, dialog-guided estimated mouth
+  classes. This is NOT manually verified phoneme-level forced alignment.
+- Nine classes are mapped approximately to the available 3D visemes, with
+  35 ms transition anticipation. Retargeting/artistic calibration can improve.
+- Blinking/head movement are procedural. Expression styling is manual, not an
+  emotion model. Toggle them independently.
+- HTML audio currentTime drives the displayed pose. Playback-output/device and
+  display latency have not been physically measured; the timing trim is manual.
+- This demo renders with Three.js/WebGL, NOT the native Vulkan importer.
+  That strict native importer does not support this richer 67-bone/PBR asset yet.
+- The 15 fps example video uses the lip-closure WAV and the same calculated
+  cues, rendered offline in the browser and muxed into H.264/AAC. No eSpeak
+  audio or canned source face animation is substituted.
+- Your Windows/i5 10th-generation U/16 GB laptop has not been benchmarked.
+  Hardware acceleration in your browser may help; no frame-rate promise is made.
+
+VALIDATION AND PROVENANCE
+See manifest.json, checksums.json, cues/*.json, and proof/.
+Each cue file records the actual WAV hash, dialog hash, analyzer hash and method.
+The original and optimized model hashes, source URL/commit, license statement,
+and precise transformations are retained. Original WAV hashes are unchanged.
+The official glTF Validator reports zero errors and nine warnings on decoded
+geometry: eight non-root skinned-mesh warnings and one clothing tangent-space
+warning. They are retained, not hidden or called a zero-warning result.
+The compressed-container report additionally notes that the validator itself
+cannot decode Meshopt. We separately decode and validate the actual data.
+Browser checks cover HTTP and offline file loading, actual morph changes,
+play/pause/seek, all three WAVs, sync disable, natural rest, and mobile layout.
+
+BUILDING AGAIN (DEVELOPERS)
+Linux/Python 3.11 and the repository Node dependencies are used to build, not
+required by the delivered browser pack. The Rhubarb executable/acoustic data
+are pinned and cached privately under .cache, not redistributed in this ZIP.
+The used binary is from a checksum-pinned npm repack of Rhubarb 1.13.0; this
+is provenance, not a claim of an independent upstream binary audit.
+No models, training data, voice recordings or secrets are uploaded to Actions.
+Dependencies' notices are under licenses/. No project-wide distribution license
+has been selected; do not interpret this pack as a grant of unrelated model rights.

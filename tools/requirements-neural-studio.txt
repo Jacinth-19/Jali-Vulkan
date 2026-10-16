@@ -1,0 +1,4 @@
+-r requirements-local-neural.lock.txt
+Pillow==11.1.0
+# Only used for optional portable MP4 export in the browser smoke test:
+imageio-ffmpeg==0.6.0

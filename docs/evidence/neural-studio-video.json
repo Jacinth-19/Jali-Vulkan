@@ -1,0 +1,15 @@
+{
+  "session_id": "87ef57ec6f0b4900a71a8c899fa98016",
+  "audio_sha256": "a0402fa4824b4c3be335a6aa3a472e9d62b0acee1d3b9e85afb3381964be2c75",
+  "rig": {
+    "profile": "mpfb-rhubarb-9-v1",
+    "source_commit": "2afe6d79779313db8909badebf46f9805a6c7b70",
+    "model_sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+    "retarget_sha256": "49d73354b87f3bc30fe69432abc9e6fbbe9a95b081b3fe5182fbf08bcca8646e",
+    "viewer_sha256": "369e22ed1513c95dc8e35162c0eb882e38599ea379296047179d02c4dfbb4221"
+  },
+  "fps": 15,
+  "frames": 79,
+  "mp4_sha256": "50b279368fc580fc4e68db9088e9aa4f79c6046784d888e575f13fdb0274ce0b",
+  "method": "Offline browser capture of same new-text session, muxed with that session WAV"
+}

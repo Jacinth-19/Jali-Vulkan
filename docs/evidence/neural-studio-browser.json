@@ -1,0 +1,44 @@
+{
+  "passed": true,
+  "model": {
+    "vertices": 53116,
+    "bones": 67,
+    "faceControls": 66,
+    "runtimeFaceControls": 20,
+    "morphMeshes": 6
+  },
+  "web_security_enabled": true,
+  "external_requests": [],
+  "errors": [],
+  "checks": [
+    "real form submitted twice",
+    "new CPU neural synthesis for each text",
+    "actual WAV analyzed with its dialog",
+    "downloaded WAV hash verified in browser",
+    "audio/face IDs match",
+    "actual closure morph",
+    "seek",
+    "sync off clears speech weights",
+    "natural end rests",
+    "old session replays with its own cues",
+    "mobile layout"
+  ],
+  "sessions": [
+    {
+      "id": "87ef57ec6f0b4900a71a8c899fa98016",
+      "text": "Hello, this is the connected local voice and face test. Please bring my blue paper bag.",
+      "audio_sha256": "a0402fa4824b4c3be335a6aa3a472e9d62b0acee1d3b9e85afb3381964be2c75",
+      "duration": 5.205333333333333,
+      "cues": 36,
+      "total_seconds": 13.3558
+    },
+    {
+      "id": "0dabc67d1fc249ca9fe03017cf71a4b1",
+      "text": "The new recording has its own timing. We can pause, jump back, and replay the same face.",
+      "audio_sha256": "5aba47f2d38a1255a2c21d107c394ddc305256068af7de8abd44c65ce34b683c",
+      "duration": 5.354666666666667,
+      "cues": 36,
+      "total_seconds": 15.115
+    }
+  ]
+}

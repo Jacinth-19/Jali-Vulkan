@@ -92,7 +92,7 @@ The shader still uses host-visible coherent buffers and synchronous readback. Th
 
 ## Neural voice cloning: adapter exists, assets are still required
 
-There is **no authorized real speaker reference or licensed neural checkpoint bundle in this repository/session**. This sandbox's network allowlist also does not permit the default Hugging Face model downloads. The preview therefore stays on the disclosed built-in eSpeak voice, not a fake clone or hidden cloud fallback.
+There is **no authorized real speaker reference or reviewed Chatterbox checkpoint bundle for the cloning adapter**. A separate stock-voice Kokoro CPU experiment now works; see [local-neural-speech.md](local-neural-speech.md). This sandbox's network allowlist also does not permit the default Hugging Face model downloads. The preview therefore stays on the disclosed built-in eSpeak voice, not a fake clone or hidden cloud fallback.
 
 `tools/authorized_voice.py` adds an opt-in **local Chatterbox adapter** using `ChatterboxTTS.from_local(...)` and `generate(..., audio_prompt_path=...)`, based on the inspected [upstream API](https://github.com/resemble-ai/chatterbox/blob/5de7a54aa4e5e2baadb0182dde554908b48b85c2/src/chatterbox/tts.py). It is a separate operator CLI, **not enabled in the web API**.
 
@@ -139,7 +139,7 @@ python tools/authorized_voice.py --manifest /private/voice/grant.json \
   --text "This recording is synthetic." --output /private/output/speech.wav --device cuda
 ```
 
-**Actual neural inference is not tested here**, and additional submodel artifacts may be needed by the chosen runtime. The admission tests deliberately use dummy files without loading a model; they do not validate checkpoint quality or license rights.
+**Actual Chatterbox inference is not tested here**, and additional submodel artifacts may be needed by the chosen runtime. The admission tests deliberately use dummy files without loading a model; they do not validate checkpoint quality or license rights.
 
 The resulting neural audio is **not automatically paired with eSpeak timings**: those would be wrong for another voice's timing. A neural/audio forced-alignment adapter with its own licensed local weights is still needed before this provider can join the phoneme-aligned live preview. No fake retiming or RMS fallback is labeled phoneme alignment.
 

@@ -1,0 +1,72 @@
+{
+  "schema": 1,
+  "method": "Local neural Kokoro-82M v1.0 q8 / ONNX Runtime CPU",
+  "stock_voice": "af_heart",
+  "same_as_previous_arena_voice_00": false,
+  "cloned_identity": false,
+  "remote_speech_api_used": false,
+  "audio_backend": "Neural ONNX waveform; eSpeak NG is used only for text phonemization",
+  "phonemizer_note": "Different G2P frontends may affect pronunciation. Text+audio alone are not timed phoneme alignment.",
+  "platform": "Linux-6.1.158+-x86_64-with-glibc2.36",
+  "python": "3.11.2",
+  "host_logical_cpus": 2,
+  "cpu_threads": 2,
+  "providers": [
+    "CPUExecutionProvider"
+  ],
+  "speed": 1.0,
+  "dependency_import_seconds": 0.3453,
+  "engine_load_seconds": 0.7983,
+  "process_peak_rss_mib": 440.53,
+  "memory_scope": "Linux/macOS process high-water RSS including dependencies/model; not system RAM, not isolated model size",
+  "model_sha256": "fbae9257e1e05ffc727e951ef9b9c98418e6d79f1c9b6b13bd59f5c9028a1478",
+  "voice_sha256": "d583ccff3cdca2f7fae535cb998ac07e9fcb90f09737b9a41fa2734ec44a8f0b",
+  "packages": {
+    "kokoro-onnx": "0.4.9",
+    "onnxruntime": "1.31.0",
+    "numpy": "2.4.6",
+    "phonemizer-fork": "3.3.2",
+    "espeakng-loader": "0.2.4"
+  },
+  "clips": [
+    {
+      "file": "01-local-neural.wav",
+      "requested_text": "Hello. This new sentence was generated locally on the CPU. Next, we will use this recording and its text to animate our character.",
+      "transcript_independently_verified": false,
+      "phoneme_timestamps": null,
+      "generation_seconds": 3.6421,
+      "real_time_factor": 0.4124,
+      "sample_rate": 24000,
+      "channels": 1,
+      "sample_width_bits": 16,
+      "duration_seconds": 8.832,
+      "peak_amplitude_before_pcm": 0.5872301459312439,
+      "rms_dbfs": -22.38,
+      "clipped_sample_fraction": 0.0,
+      "sha256": "aa2561cbc47b87b3689a1d8d1e4c5928aa2a7b6ca7404b9a498ca060dd0aa1d4"
+    },
+    {
+      "file": "02-local-neural.wav",
+      "requested_text": "Please pack the blue paper bag. My little robot can now make a new voice recording without calling a paid speech service.",
+      "transcript_independently_verified": false,
+      "phoneme_timestamps": null,
+      "generation_seconds": 3.4382,
+      "real_time_factor": 0.4914,
+      "sample_rate": 24000,
+      "channels": 1,
+      "sample_width_bits": 16,
+      "duration_seconds": 6.997333333333334,
+      "peak_amplitude_before_pcm": 0.537752628326416,
+      "rms_dbfs": -22.43,
+      "clipped_sample_fraction": 0.0,
+      "sha256": "7ca1e32304b1727f26973096d79f552f9d297200318d4b62d2444ef26780ee22"
+    }
+  ],
+  "limitations": [
+    "Not yet connected to face generation/playback.",
+    "Windows target laptop has not been tested.",
+    "No human intelligibility/naturalness review is claimed by numerical waveform checks.",
+    "No phoneme timing is returned by this waveform-only export.",
+    "500-character request cap; oversized/invalid results fail, not silently truncated by this adapter."
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "model": "Kokoro-82M v1.0 ONNX q8, onnx-community export",
+  "original_model_url": "https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX",
+  "code_and_voice_source": "https://github.com/hexgrad/kokoro",
+  "model_sha256": "fbae9257e1e05ffc727e951ef9b9c98418e6d79f1c9b6b13bd59f5c9028a1478",
+  "stock_voice": "af_heart",
+  "voice_sha256": "d583ccff3cdca2f7fae535cb998ac07e9fcb90f09737b9a41fa2734ec44a8f0b",
+  "license": "Apache-2.0 as declared by Kokoro/kokoro-js and the model redistributor",
+  "license_review_scope": "Reviewed upstream GitHub Apache-2.0 license, npm package LICENSE/README and explicit model redistribution declaration. HF model card was not directly fetched here.",
+  "packages": {
+    "weights": {
+      "url": "https://registry.npmjs.org/kokoro-q8-shards/-/kokoro-q8-shards-1.0.0.tgz",
+      "integrity": "KoJQ203LxUOFrHAm12mu+hRmvqTmOcCgz61OVgTxmxX4isWaufLCF6kYz+QwOzVFYGNS62HHJWBHUbhzeoR43g=="
+    },
+    "voice": {
+      "url": "https://registry.npmjs.org/kokoro-js/-/kokoro-js-1.2.1.tgz",
+      "integrity": "oq0HZJWis3t8lERkMJh84WLU86dpYD0EuBPtqYnLlQzyFP1OkyBRDcweAqCfhNOpltyN9j/azp1H6uuC47gShw=="
+    }
+  },
+  "not_cloning": true,
+  "note": "Package integrity and assembled hash verified; no independent byte comparison with an unreachable upstream model host is claimed."
+}
