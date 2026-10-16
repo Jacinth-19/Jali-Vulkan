@@ -20,7 +20,7 @@ const fs=require('node:fs');
  await page.evaluate(()=>JaliHeadDemo.setCaptureMode(true));await page.waitForTimeout(1500);
  await page.route('**/sessions/*/audio.wav',async route=>{await new Promise(r=>setTimeout(r,600));await route.continue();});
  await page.check('#batch');await page.fill('#text','One. Two. Three.');await page.click('#generate');await page.waitForFunction(()=>JaliStudio.getState().busy);await page.waitForFunction(()=>!JaliStudio.getState().busy,null,{timeout:60000});
- const state=await page.evaluate(()=>JaliStudio.getState());if(!state.verified||state.phase!=='ready'||state.streamStats.chunks.length!==3||state.streamStats.prebufferHits<1)throw Error('No verified prebuffer hit: '+JSON.stringify(state));
+ const state=await page.evaluate(()=>JaliStudio.getState());if(!state.verified||state.phase!=='ready'||state.streamStats.chunks.length!==3||state.streamStats.prebufferHits<1)throw Error('No verified prebuffer hit: '+JSON.stringify({...state,ui_error:await page.locator('#error').textContent()}));
  await page.uncheck('#prebuffer');await page.fill('#text','Without. Audio. Prebuffer.');await page.click('#generate');await page.waitForFunction(()=>JaliStudio.getState().busy);await page.waitForFunction(()=>!JaliStudio.getState().busy,null,{timeout:60000});
  const noBuffer=await page.evaluate(()=>JaliStudio.getState()),unbuffered=noBuffer.streamStats;
  if(noBuffer.phase!=='ready'||!noBuffer.verified||unbuffered.chunks.length!==3||unbuffered.prebufferHits!==0||unbuffered.downloadedAhead!==0||unbuffered.gapsMs.length!==2||state.streamStats.gapsMs.length!==2)throw Error('Controlled A/B transport did not complete both three-chunk arms');

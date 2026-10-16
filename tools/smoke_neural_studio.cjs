@@ -199,6 +199,8 @@ const chromium=require('@sparticuz/chromium');
     await page.locator(`#history button[data-session="${sessions[0].id}"]`).first().click();
     await page.evaluate(()=>document.querySelector('#audio').pause());
     // CPU-first personal capture budget; full-size rig/preset checks ran above.
+    await page.setViewportSize({width:1440,height:1100});
+    console.log('Export preflight',await page.evaluate(()=>({recording:JaliCreative.recording.active,disabled:document.querySelector('#quality-preset').disabled,display:getComputedStyle(document.querySelector('#quality-preset')).display,rect:document.querySelector('#quality-preset').getBoundingClientRect().toJSON(),clip:JaliStudio.getState().selectedId})));
     await page.selectOption('#quality-preset','low');await page.selectOption('#export-fps','15');
     await page.locator('#record-start').click();await page.waitForFunction(()=>JaliCreative.recording.active||!!document.querySelector('a[download="performance.webm"]'),null,{timeout:15000});
     await page.waitForFunction(()=>!JaliCreative.recording.active&&!!document.querySelector('a[download="performance.webm"]'),null,{timeout:180000}).catch(async()=>{throw Error('Genuine capture did not finish: '+JSON.stringify(await page.evaluate(()=>({status:document.querySelector('#creative-status').textContent,stats:JaliCreative.recording.stats,time:document.querySelector('#audio').currentTime,paused:document.querySelector('#audio').paused}))));});
