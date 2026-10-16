@@ -612,7 +612,7 @@ jobs:
       - name: Validate synthetic import, alias mapping and reusable profile
         run: node tools/test_character_import.mjs
       - name: Actually import/export skin and all morphs in clean Blender
-        run: blender --background --factory-startup --python tools/blender_character_roundtrip.py -- artifacts/character-import-proof
+        run: python tools/ci_command.py blender --background --factory-startup --python-exit-code 1 --python tools/blender_character_roundtrip.py -- artifacts/character-import-proof
       - name: Verify three world-space posed mesh round trips
         run: python tools/ci_command.py node tools/test_character_import.mjs artifacts/character-import-proof --roundtrip
       - name: Prepare and actually render imported rig through dialogue/export controls
