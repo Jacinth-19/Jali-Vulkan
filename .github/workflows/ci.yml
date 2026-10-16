@@ -603,12 +603,12 @@ jobs:
         run: |
           npm ci --prefix tools --ignore-scripts
           sudo apt-get update
-          sudo apt-get install -y blender
+          sudo apt-get install -y blender python3-numpy
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
           python-version: '3.11'
       - name: Install image resizing dependency
-        run: python -m pip install Pillow==11.1.0
+        run: python -m pip install Pillow==11.1.0 numpy==1.26.4
       - name: Validate synthetic import, alias mapping and reusable profile
         run: node tools/test_character_import.mjs
       - name: Actually import/export skin and all morphs in clean Blender

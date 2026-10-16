@@ -32,7 +32,8 @@ model or voice downloads are added.
 
 Only self-contained **GLB 2.0** is accepted (32 MiB incoming, decoded accessor
 budget 512 MiB; 100,000 vertices / 160,000 triangles / 128 skin joints; 16 PNG/JPEG
-textures up to 4096 per side). External URIs, unsupported required extensions,
+textures up to 4096 per side, 128 MiB combined uncompressed RGBA).
+Decoded buffer views are capped at 512 MiB too; imported cameras/lights are rejected. External URIs, unsupported required extensions,
 ambiguous mappings, nonfinite geometry and out-of-budget data are rejected.
 The resulting canonical package is separately hash-bound and validated.
 

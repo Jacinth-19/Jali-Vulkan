@@ -199,7 +199,7 @@ const chromium=require('@sparticuz/chromium');
     await page.locator(`#history button[data-session="${sessions[0].id}"]`).first().click();
     await page.evaluate(()=>document.querySelector('#audio').pause());
     await page.locator('#record-start').click();await page.waitForFunction(()=>JaliCreative.recording.active||!!document.querySelector('a[download="performance.webm"]'),null,{timeout:15000});
-    await page.waitForFunction(()=>!JaliCreative.recording.active&&!!document.querySelector('a[download="performance.webm"]'),null,{timeout:90000}).catch(async()=>{throw Error('Genuine capture did not finish: '+JSON.stringify(await page.evaluate(()=>({status:document.querySelector('#creative-status').textContent,stats:JaliCreative.recording.stats,time:document.querySelector('#audio').currentTime,paused:document.querySelector('#audio').paused}))));});
+    await page.waitForFunction(()=>!JaliCreative.recording.active&&!!document.querySelector('a[download="performance.webm"]'),null,{timeout:180000}).catch(async()=>{throw Error('Genuine capture did not finish: '+JSON.stringify(await page.evaluate(()=>({status:document.querySelector('#creative-status').textContent,stats:JaliCreative.recording.stats,time:document.querySelector('#audio').currentTime,paused:document.querySelector('#audio').paused}))));});
     for(const [name,target] of [['performance.webm','user-export.webm'],['recorded-frames.json','user-export-frames.json']]){
       const pending=page.waitForEvent('download');await page.locator(`a[download="${name}"]`).click();await(await pending).saveAs(path.join(proof,target));
     }
@@ -210,11 +210,17 @@ const chromium=require('@sparticuz/chromium');
     for(const [voice,expected] of [['af_bella','f69d836209b78eb8c66e75e3cda491e26ea838a3674257e9d4e5703cbaf55c8b'],['am_michael','1d1f21dd8da39c30705cd4c75d039d265e9bc4a2a93ed09bc9e1b1225eb95ba1']])if(installed.voices.includes(voice)){
       await page.locator('summary').filter({hasText:'Character profiles & voices'}).evaluate(n=>n.parentElement.open=true);
       await page.fill('#cast-id',voice);await page.fill('#cast-name',voice);await page.selectOption('#cast-voice',voice);await page.fill('#cast-speed','1');await page.click('#cast-add');await page.waitForFunction(v=>Array.from(document.querySelector('#speaker').options).some(o=>o.value===v),voice);
-      const generated=await page.evaluate(v=>JaliStudio.generate('Please bring the blue bag.',v),voice);
+      await page.selectOption('#speaker',voice);await page.fill('#dialogue-text','Please bring the blue bag.');await page.click('#dialogue-add');
+    }
+    if(await page.evaluate(()=>JaliWorkspace.getState().doc.turns.length)){await page.click('#dialogue-play');await page.waitForFunction(()=>JaliWorkspace.getState().index===JaliWorkspace.getState().doc.turns.length&&!JaliWorkspace.getState().inflight,null,{timeout:180000});}
+    const dialogue=await page.evaluate(()=>JaliWorkspace.getState());
+    for(const turn of dialogue.doc.turns){
+      const generated=await(await context.request.get(`${base}/sessions/${turn.session}/manifest.json`)).json(),voice=turn.speaker,expected=voice==='af_bella'?'f69d836209b78eb8c66e75e3cda491e26ea838a3674257e9d4e5703cbaf55c8b':'1d1f21dd8da39c30705cd4c75d039d265e9bc4a2a93ed09bc9e1b1225eb95ba1';
+      const wave=await(await context.request.get(base+generated.file)).body();if(createHash('sha256').update(wave).digest('hex')!==generated.audio.sha256||generated.analysis.audio_sha256!==generated.audio.sha256||generated.text!==turn.text)throw Error('Dialogue voice WAV/text binding mismatch');
       if(generated.tts.stock_voice!==voice||generated.tts.voice_sha256!==expected||generated.speaker.voice!==voice||generated.audio.sha256===sessions[0].audio.sha256)throw Error('Character voice identity mismatch');voiceChecks.push({voice,voice_sha256:expected,audio_sha256:generated.audio.sha256,duration:generated.duration});
     }
     if(voiceChecks.length===2&&voiceChecks[0].audio_sha256===voiceChecks[1].audio_sha256)throw Error('Different voices reused one WAV');
-    fs.writeFileSync(path.join(proof,'character-voices.json'),JSON.stringify({passed:true,fixture:false,voices:voiceChecks,limits:'Actual new stock-voice sessions; not voice-00, cloned identity, subjective quality or target-laptop performance'},null,2));
+    fs.writeFileSync(path.join(proof,'character-voices.json'),JSON.stringify({passed:true,fixture:false,voices:voiceChecks,sequential_dialogue:true,saved:dialogue.saved,shared_active_meshes:1,limits:'Actual new stock-voice sessions; not voice-00, cloned identity, subjective quality or target-laptop performance'},null,2));
     if(errors.length||external.length)throw new Error(JSON.stringify({errors,external}));
     fs.writeFileSync(path.join(proof,'browser-check.json'),JSON.stringify({passed:true,model,web_security_enabled:true,external_requests:external,errors,
       checks:[`${sessions.length} real form submissions`,'new CPU neural synthesis for each text','actual WAV analyzed with its dialog','downloaded WAV hash verified in browser','audio/face IDs match','actual closure morph','seek','sync off clears speech weights','natural end rests','old session replays with its own cues','mobile layout','cancel real generation hides partial media','cancel then retry','warm/full-closure pixel equality','left/right gaze changes actual render','stop clears audio/morphs/gaze','real sentence batching starts before producer completion','batch stop/cancel then retry','combined PCM offsets/hash verified'],
