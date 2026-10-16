@@ -1,0 +1,571 @@
+{
+  "schema": "jali-feature-foundations-actions-v1",
+  "verified_utc": "2026-10-16T03:52:29.165512+00:00",
+  "run_id": 38847212709,
+  "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38847212709",
+  "source_commit": "e2f133b85e66ab20b06205db7929b4e07f9e28e5",
+  "conclusion": "success",
+  "verification": "GitHub REST run/job/step/artifact metadata and successful gh run watch --exit-status; artifact contents not independently downloaded",
+  "jobs": [
+    {
+      "id": 116800347580,
+      "name": "Native speech, Vulkan validation layers and browser",
+      "conclusion": "success",
+      "started_at": "2026-10-16T03:46:50Z",
+      "completed_at": "2026-10-16T03:48:39Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check out source",
+          "conclusion": "success"
+        },
+        {
+          "name": "Install platform speech and Vulkan development dependencies",
+          "conclusion": "success"
+        },
+        {
+          "name": "Select software Vulkan and record actual runner resources",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record Vulkan device and validation layer inventory",
+          "conclusion": "success"
+        },
+        {
+          "name": "Install pinned Python image transport dependency",
+          "conclusion": "success"
+        },
+        {
+          "name": "Fetch the pinned self-contained glTF parser",
+          "conclusion": "success"
+        },
+        {
+          "name": "Configure real backends",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test real PCM and Vulkan readback",
+          "conclusion": "success"
+        },
+        {
+          "name": "Exercise the full native CLI",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify hardware-required mode rejects the software driver",
+          "conclusion": "success"
+        },
+        {
+          "name": "Exercise live Web Audio and native frames in Chromium",
+          "conclusion": "success"
+        },
+        {
+          "name": "Fail on Vulkan validation diagnostics",
+          "conclusion": "success"
+        },
+        {
+          "name": "Upload built-in synthetic speech and native frame evidence",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Check out source",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 116800347633,
+      "name": "Local neural speech, WebGL and articulation review",
+      "conclusion": "success",
+      "started_at": "2026-10-16T03:46:50Z",
+      "completed_at": "2026-10-16T03:50:02Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check out source",
+          "conclusion": "success"
+        },
+        {
+          "name": "Select Python 3.11",
+          "conclusion": "success"
+        },
+        {
+          "name": "Select Node 22",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record actual hosted CPU resources",
+          "conclusion": "success"
+        },
+        {
+          "name": "Install pinned CPU dependencies",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check contracts without loading a neural model",
+          "conclusion": "success"
+        },
+        {
+          "name": "Explicitly prepare reviewed model, stock voice and CC0 character",
+          "conclusion": "success"
+        },
+        {
+          "name": "Exercise actual neural synthesis, audio analysis and facial articulation",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build and test the offline laptop playback checkpoint",
+          "conclusion": "success"
+        },
+        {
+          "name": "Upload offline browser checkpoint (not a Windows backend)",
+          "conclusion": "success"
+        },
+        {
+          "name": "Upload synthetic-only review evidence, never weights or caches",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Select Node 22",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Select Python 3.11",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Check out source",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 116800347642,
+      "name": "Address and undefined-behavior checks",
+      "conclusion": "success",
+      "started_at": "2026-10-16T03:46:50Z",
+      "completed_at": "2026-10-16T03:47:05Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check out source",
+          "conclusion": "success"
+        },
+        {
+          "name": "Configure",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run sanitized contracts",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Check out source",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 116800347684,
+      "name": "clang++ / Debug",
+      "conclusion": "success",
+      "started_at": "2026-10-16T03:46:50Z",
+      "completed_at": "2026-10-16T03:47:29Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check out source",
+          "conclusion": "success"
+        },
+        {
+          "name": "Confirm Python analyzer is available",
+          "conclusion": "success"
+        },
+        {
+          "name": "Configure",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run contracts and serialized-artifact gauntlet",
+          "conclusion": "success"
+        },
+        {
+          "name": "Upload synthetic fixture and test log",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Check out source",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 116800347773,
+      "name": "Windows local neural speech, analyzer and live face",
+      "conclusion": "success",
+      "started_at": "2026-10-16T03:46:50Z",
+      "completed_at": "2026-10-16T03:51:38Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check out source",
+          "conclusion": "success"
+        },
+        {
+          "name": "Select Python 3.11 x64",
+          "conclusion": "success"
+        },
+        {
+          "name": "Select Node 22",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record actual Windows runner inventory",
+          "conclusion": "success"
+        },
+        {
+          "name": "Install pinned neural dependencies and browser tooling",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check cross-platform neural contracts without inference",
+          "conclusion": "success"
+        },
+        {
+          "name": "Explicitly prepare stock voice, model, Windows analyzer and CC0 head",
+          "conclusion": "success"
+        },
+        {
+          "name": "Generate three NEW Windows CPU recordings and animate their live face",
+          "conclusion": "success"
+        },
+        {
+          "name": "Assert actual Windows CPU and analyzer measurements",
+          "conclusion": "success"
+        },
+        {
+          "name": "Exercise the one-command Windows benchmark launcher",
+          "conclusion": "success"
+        },
+        {
+          "name": "Upload public synthetic Windows evidence, never weights or caches",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Select Node 22",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Select Python 3.11 x64",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Check out source",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 116800347880,
+      "name": "g++ / Release",
+      "conclusion": "success",
+      "started_at": "2026-10-16T03:46:50Z",
+      "completed_at": "2026-10-16T03:47:22Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check out source",
+          "conclusion": "success"
+        },
+        {
+          "name": "Confirm Python analyzer is available",
+          "conclusion": "success"
+        },
+        {
+          "name": "Configure",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run contracts and serialized-artifact gauntlet",
+          "conclusion": "success"
+        },
+        {
+          "name": "Upload synthetic fixture and test log",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Check out source",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 116800347902,
+      "name": "g++ / Debug",
+      "conclusion": "success",
+      "started_at": "2026-10-16T03:46:50Z",
+      "completed_at": "2026-10-16T03:47:11Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check out source",
+          "conclusion": "success"
+        },
+        {
+          "name": "Confirm Python analyzer is available",
+          "conclusion": "success"
+        },
+        {
+          "name": "Configure",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run contracts and serialized-artifact gauntlet",
+          "conclusion": "success"
+        },
+        {
+          "name": "Upload synthetic fixture and test log",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Check out source",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 116800348125,
+      "name": "clang++ / Release",
+      "conclusion": "success",
+      "started_at": "2026-10-16T03:46:51Z",
+      "completed_at": "2026-10-16T03:47:33Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check out source",
+          "conclusion": "success"
+        },
+        {
+          "name": "Confirm Python analyzer is available",
+          "conclusion": "success"
+        },
+        {
+          "name": "Configure",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run contracts and serialized-artifact gauntlet",
+          "conclusion": "success"
+        },
+        {
+          "name": "Upload synthetic fixture and test log",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Check out source",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 116801173940,
+      "name": "Windows Chrome offline playback (not local TTS)",
+      "conclusion": "success",
+      "started_at": "2026-10-16T03:50:04Z",
+      "completed_at": "2026-10-16T03:51:53Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check out source",
+          "conclusion": "success"
+        },
+        {
+          "name": "Select Node 22",
+          "conclusion": "success"
+        },
+        {
+          "name": "Download only the public synthetic playback artifact",
+          "conclusion": "success"
+        },
+        {
+          "name": "Extract the playback pack",
+          "conclusion": "success"
+        },
+        {
+          "name": "Install pinned browser tooling without install hooks",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check sampler and measurement contracts on Windows",
+          "conclusion": "success"
+        },
+        {
+          "name": "Exercise actual installed Chrome over HTTP and file URLs",
+          "conclusion": "success"
+        },
+        {
+          "name": "Upload Windows browser-only evidence",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Select Node 22",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Check out source",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "id": 12024121514,
+      "name": "laptop-playback-checkpoint",
+      "size_in_bytes": 9541437,
+      "expires_at": "2026-10-19T03:49:55Z"
+    },
+    {
+      "id": 12024105765,
+      "name": "native-backend-evidence",
+      "size_in_bytes": 815368,
+      "expires_at": "2026-10-19T03:48:37Z"
+    },
+    {
+      "id": 12023792901,
+      "name": "windows-local-neural-evidence",
+      "size_in_bytes": 5951915,
+      "expires_at": "2026-10-19T03:51:34Z"
+    },
+    {
+      "id": 12023548441,
+      "name": "neural-articulation-review",
+      "size_in_bytes": 5428225,
+      "expires_at": "2026-10-19T03:49:57Z"
+    },
+    {
+      "id": 12023527944,
+      "name": "fixture-g++-Debug",
+      "size_in_bytes": 13231,
+      "expires_at": "2026-10-19T03:47:07Z"
+    },
+    {
+      "id": 12023409216,
+      "name": "windows-browser-playback-evidence",
+      "size_in_bytes": 886258,
+      "expires_at": "2026-10-19T03:51:48Z"
+    },
+    {
+      "id": 12023383362,
+      "name": "fixture-clang++-Debug",
+      "size_in_bytes": 13230,
+      "expires_at": "2026-10-19T03:47:26Z"
+    },
+    {
+      "id": 12023343635,
+      "name": "fixture-g++-Release",
+      "size_in_bytes": 13225,
+      "expires_at": "2026-10-19T03:47:19Z"
+    },
+    {
+      "id": 12023119670,
+      "name": "fixture-clang++-Release",
+      "size_in_bytes": 13226,
+      "expires_at": "2026-10-19T03:47:29Z"
+    }
+  ],
+  "limits": [
+    "Hosted Linux/Windows runners, not the target laptop",
+    "Software Vulkan validation, not hardware-GPU acceptance",
+    "Full detailed MPFB head still WebGL-only",
+    "No independent perceptual articulation/emotion review or physical AV measurement",
+    "Whole-utterance cancellation is not incremental streaming"
+  ]
+}

@@ -395,6 +395,7 @@ The user reports that the Windows command works on their PC. Record that as a
 functional user confirmation, not a reviewed benchmark report. This increment
 implements cancellation/reset, expression/gaze arbitration and native palette
 capacity, and adds [actual rendered README images](render-captures.md).
+All nine hosted jobs passed in [run 38847212709](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38847212709) for source `e2f133b`; [evidence](evidence/feature-foundations-actions.json) records the exact jobs/steps.
 Next implementation priorities are the rich native mesh/morph/material paths and
 true bounded incremental playback. Independent articulation/naturalness review,
 measured laptop acceptance and packaging remain open. [Implementation details and
@@ -439,7 +440,7 @@ use this dated tracker and current evidence to judge present completion.
 
 | Date | Update |
 |---|---|
-| 2026-10-16 | Implemented owned-child cancellation/cleanup and stop/reset/retry; separate speech/style/head/blink/manual-gaze layers with closure pixel protection; expanded native palette to 128 with weighted 67/128-joint CPU/GPU tests. Added four real README renderer captures with provenance. Local 94 Python/15 JS/11 CTest entries and real browser review passed; hosted rerun pending at this edit. Rich Vulkan, independent quality, incremental streaming and measured laptop gates remain open. |
+| 2026-10-16 | Implemented owned-child cancellation/cleanup and stop/reset/retry; separate speech/style/head/blink/manual-gaze layers with closure pixel protection; expanded native palette to 128 with weighted 67/128-joint CPU/GPU tests. Added four real README renderer captures with provenance. Local 94 Python/15 JS/11 CTest entries and real browser review passed; all nine hosted jobs passed in Actions run 38847212709, including Windows neural/browser/benchmark and native Vulkan validation. Rich Vulkan, independent quality, incremental streaming and measured laptop gates remain open. |
 | 2026-10-16 | Delivered isolated one-command Windows benchmark (actual PowerShell entry point passed in nine-job run 38844926069); six local fresh samples, 87 Python/12 JS tests. Added exact-WAV independent-reference templates/comparison and static M4 blockers for 8 meshes/skins, 67 joints, 66 targets and materials. No independent alignment, rig tuning, rich Vulkan rendering or target-laptop acceptance is claimed. |
 | 2026-10-16 | Windows x64 developer backend passed three actual new CPU recordings, Windows exact-WAV/dialog analysis and live Chrome face checks. All nine Actions jobs passed; pipeline 4.99–5.30 s, worker peak working set 291–297 MiB on the runner. Added platform pins, safe extraction, Windows cleanup/UTF-8 handling and developer PowerShell launchers; target laptop/installer/quality remain open. |
 | 2026-10-16 | Added a self-contained laptop/browser playback checkpoint with half-speed review, notes and explicit JSON export. Render-completion measurements distinguish CPU submission time from GPU execution/physical AV latency. Public-corpus/hash admission checks and local HTTP/file tests passed. All eight Actions jobs passed, including actual Windows Chrome HTTP/file playback; target-device and local Windows speech tests remain open. |

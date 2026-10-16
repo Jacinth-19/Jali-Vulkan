@@ -33,6 +33,10 @@ image hashes and scope](docs/render-captures.md) are retained.
   compare GPU positions with the CPU reference. This alone does **not** complete
   rich multi-mesh/material/morph support.
 
+**Validation:** 94 local Python tests, 15 JavaScript tests, 11 native CTest entries,
+and the real new-speech/browser review passed. All nine Linux/Windows jobs passed
+in [Actions run 38847212709](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38847212709).
+
 See [implementation details and remaining work](docs/performance-controls.md) and
 [the milestone tracker](docs/project-tracker.md). The user reports that the Windows
 command runs on their PC; quantitative target-laptop results have not been supplied.

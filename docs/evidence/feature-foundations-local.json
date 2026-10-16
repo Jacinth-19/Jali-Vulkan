@@ -1,0 +1,85 @@
+{
+  "schema": "jali-feature-foundations-local-v1",
+  "source_commit": "e2f133b85e66ab20b06205db7929b4e07f9e28e5",
+  "python_tests": {
+    "passed": 94
+  },
+  "javascript_tests": {
+    "passed": 15
+  },
+  "native_ctest": {
+    "passed": 11,
+    "tests": [
+      "phoneme_contracts",
+      "pipeline_contracts",
+      "demo_fixture",
+      "malformed_character_contracts",
+      "gltf_spec_validation",
+      "gltf_67_joint_validation",
+      "gltf_128_joint_validation",
+      "real_backend_contracts",
+      "native_live_protocol",
+      "serialized_sync",
+      "python_contracts"
+    ]
+  },
+  "browser_check": {
+    "passed": true,
+    "model": {
+      "vertices": 53116,
+      "bones": 67,
+      "faceControls": 66,
+      "runtimeFaceControls": 20,
+      "morphMeshes": 6
+    },
+    "web_security_enabled": true,
+    "external_requests": [],
+    "errors": [],
+    "checks": [
+      "3 real form submissions",
+      "new CPU neural synthesis for each text",
+      "actual WAV analyzed with its dialog",
+      "downloaded WAV hash verified in browser",
+      "audio/face IDs match",
+      "actual closure morph",
+      "seek",
+      "sync off clears speech weights",
+      "natural end rests",
+      "old session replays with its own cues",
+      "mobile layout",
+      "cancel real generation hides partial media",
+      "cancel then retry",
+      "warm/full-closure pixel equality",
+      "left/right gaze changes actual render",
+      "stop clears audio/morphs/gaze"
+    ],
+    "sessions": [
+      {
+        "id": "7263f389311d48e6ad858cfde9c61e69",
+        "text": "Mama. Papa. Baby. Bob packed my blue paper bag.",
+        "audio_sha256": "cb2aff047d3bee2e7e648af51ed413f3f7962bc8868d5591a339dbc738366f0d",
+        "duration": 3.456,
+        "cues": 31,
+        "total_seconds": 6.7824
+      },
+      {
+        "id": "459c5d0fbdc54bb6bf90ab1abdf5e91b",
+        "text": "Five vivid voices. Baby Lily likes little yellow lollipops.",
+        "audio_sha256": "a762e20fa7809a2487ca41c7cd5b86627ae4ba144f1c408ba98679250db282e3",
+        "duration": 4.074666666666666,
+        "cues": 29,
+        "total_seconds": 9.935
+      },
+      {
+        "id": "538fcead04e24d8e8c18393c9712e215",
+        "text": "Blue moon. Cool water. Open wide. Oh. Ooh. Ah. Ee.",
+        "audio_sha256": "fa36bc15385794b892fbbf8e1b33f2220cd721a22a0fab015cf986ea9223e12f",
+        "duration": 3.6053333333333333,
+        "cues": 19,
+        "total_seconds": 10.5555
+      }
+    ]
+  },
+  "captures": "../images/render-evidence.json",
+  "limits": "Public synthetic test corpus only; software native Vulkan. Not an independent quality review, incremental streaming or measured target-laptop acceptance."
+}

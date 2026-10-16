@@ -74,8 +74,10 @@ capacity constants and continues to report those remaining incompatibilities.
 
 Local validation: **94 Python tests, 15 JavaScript tests, 11 native CTest entries**,
 and the real new-speech/browser review (three recordings, 22 sampled poses, nine
-estimated classes). Hosted Linux/Windows CI is being rerun for this source change;
-see the project tracker/evidence update for the final hosted outcome.
+estimated classes). All nine jobs passed in [Actions run 38847212709](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38847212709), source `e2f133b85e66ab20b06205db7929b4e07f9e28e5`, including actual Windows neural/browser/cancellation/benchmark checks and native Vulkan validation-layer checks.
+[Hosted metadata](evidence/feature-foundations-actions.json) and
+[local test/browser evidence](evidence/feature-foundations-local.json) are retained.
+Hosted artifact bytes were not independently downloaded.
 
 Still open: independent articulation labels and validated rig tuning; full rich
 native character/material/morph support; true bounded incremental playback;
