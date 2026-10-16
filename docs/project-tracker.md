@@ -41,10 +41,10 @@ recording -> animate the detailed character -> synchronized playback.
 | M1 | Local neural speech | CPU inference proven on Linux/hosted Windows; user PC run works; listening review open | New text generates playable speech locally, with reviewed artifacts and measured CPU cost |
 | M2 | Automatic end-to-end generation | Delivered Linux/Windows-hosted WebGL prototype; new form-to-face sessions passed | One action produces and plays a newly synthesized, clip-driven performance |
 | M3 | Better lip-sync fidelity | Partial: short-cue/end-rest fixes and repeatable nine-class review checks pass | Rig tuning, independent reference checks, and full-utterance quality review |
-| M4 | Detailed character in Vulkan | Rich head rendered; same-WAV native UI, CPU/GPU and source Three positions passed locally; hosted refresh pending | Native engine renders the richer textured rig with verified deformation |
+| M4 | Detailed character in Vulkan | Implemented/validated on software Vulkan: rich head, same-WAV UI, CPU/GPU and source Three positions; target hardware open | Native engine renders the richer textured rig with verified deformation |
 | M5 | Expressive facial performance | Separate manual layers, speech-priority warmth and gaze implemented; quality review open | Controllable, evaluated speech-related expression and gaze/gesture behavior |
 | M6 | Streaming and interruption | Bounded sentence batching, ordered verified chunks and cancel/retry delivered; not internal incremental inference | Bounded incremental audio/face playback with cancellation and recovery |
-| M7 | Windows performance and packaging | Partial: Windows backend and one-command benchmark passed hosted CI; user-reported PC run works; personal portable-build implementation added; hosted frozen validation, licensing and measured laptop acceptance open | Measured target-device results and a tested, understandable launcher/package |
+| M7 | Windows performance and packaging | Partial: Windows backend and one-command benchmark passed hosted CI; user-reported PC run works; frozen CPU/WebGL app passed hosted Windows; licensing, signing and measured laptop acceptance open | Measured target-device results and a tested, understandable launcher/package |
 | M8 | Asset workflow and final QA | Partial: fixtures, provenance and tests exist | Reliable asset round trips, real AV measurements, and release review |
 
 ## B0 — Foundation already delivered
@@ -78,19 +78,21 @@ recording -> animate the detailed character -> synchronized playback.
 - [x] Deliver a checksummed offline ZIP, model/license evidence, and portable MP4.
 - [x] Run 44 Python tests and six pure-JavaScript viseme tests at the latest delivery.
 
-**Boundary:** the detailed human is currently a separate WebGL demo. The recordings
-were generated externally. These successes do not establish local neural TTS,
-learned emotional facial solving, Windows performance, or native support for this model.
+**Historical B0 boundary:** these original captures used a separate WebGL demo
+and externally generated recordings. Later M1/M2/M4 milestones now establish
+local CPU speech and rich native support; B0 alone did not establish them.
 
 ## M1 — Local neural speech
 
 **CPU inference checkpoint passed.** Kokoro-82M v1.0 q8 with its stock `af_heart`
 voice generated two new WAVs locally on Linux using ONNX Runtime CPU only.
-Listening review, broader tests and Windows verification remain open. The older
-Chatterbox cloning adapter remains a separate, untested path.
+The same CPU pipeline and frozen application now pass hosted Windows checks;
+the user reports a working PC run. Independent listening review and quantitative
+target-laptop acceptance remain open. The older Chatterbox cloning adapter remains
+a separate, untested path.
 
-See [the measured CPU experiment](local-neural-speech.md). This is not yet wired
-into the face viewer, and it does not reproduce the earlier Arena `voice-00`.
+See [the measured CPU experiment](local-neural-speech.md) and connected M2/M4
+studio below. Stock `af_heart` does not reproduce the earlier Arena `voice-00`.
 
 ### Selection and permission
 
@@ -188,7 +190,7 @@ unseen speech, with documented review. No universal millisecond accuracy claim i
 [real images and CPU/GPU/source comparisons](images/native-human-evidence.json).
 Current source Three/native position maximum component error: 3.58e-7 across
 53,116 vertices × six poses. Native lighting is not pixel-identical to WebGL.
-Hosted Vulkan validation refresh remains pending.
+Hosted Vulkan validation and all ten jobs passed in [run 38905755693](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38905755693).
 
 **Depends on:** the already available licensed character. This follows the first
 working local-speech/WebGL integration, rather than blocking it.
@@ -206,7 +208,7 @@ working local-speech/WebGL integration, rather than blocking it.
 - [x] Verify upload/deformation/raster barriers and in-flight resource lifetimes.
 - [x] Compare deformed positions and normals against a CPU reference.
 - [x] Compare canonical poses against the known-good WebGL presentation.
-- [ ] Run Vulkan validation layers and fail on relevant errors.
+- [x] Run Vulkan validation layers and fail on relevant errors; actual detailed-head hosted job passed.
 - [ ] Validate on real target hardware, not only software Vulkan.
 - [x] Connect the same audio/cue session contract to the native character renderer.
 
@@ -315,7 +317,7 @@ See [benchmark, independent references and native blockers](windows-benchmark.md
 
 ### Usable package
 
-- [x] Implement personal PyInstaller 6.16.0 onedir CPU/WebGL layout and explicit launcher; hosted frozen execution pending. [Build/licensing guide](windows-portable.md).
+- [x] Implement personal PyInstaller 6.16.0 onedir CPU/WebGL layout and explicit launcher; actual frozen execution passed hosted Windows with Python/Node/gh removed from the app PATH. [Build/licensing guide](windows-portable.md).
 - [x] Provide understandable model setup with integrity/license checks.
 - [ ] Include required runtime libraries and notices where redistribution is permitted.
 - [x] Avoid requiring the user to manage multiple terminals for normal use.
@@ -403,10 +405,16 @@ functional confirmation, not a quantitative laptop report. This increment adds
 rich Vulkan + same verified WAV/cues + selectable native presentation, bounded
 sentence batching and interruption, optional phone-alignment diagnostics, and a
 personal frozen Windows CPU/WebGL build path. Actual human Vulkan captures are
-in the README. Local CPU/GPU/source/browser and speech/batching checks passed.
+in the README. Local CPU/GPU/source/browser and speech/batching checks passed. All ten hosted
+Linux/Windows jobs passed for source `3202be0` in [run 38905755693](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38905755693), including frozen Windows whole/batched speech and the rich Vulkan UI/source comparison.
+[Machine-readable evidence](evidence/rich-stream-portable-actions.json) retains the
+full job/step results and previous attempts.
 
-Next: **actually run the expanded hosted jobs**, verify the frozen Windows app,
-record their exact results and keep failures visible. Do not publish the portable
+Next: human/laptop acceptance and release review, not another unimplemented
+software-foundation claim. An earlier second-run Windows offline-checkpoint test
+failed (other nine jobs passed); after adding failure diagnostics, the next full
+run passed without weakening assertions. Its original cause is **not established**
+and the prior failed run is retained as a reliability issue. Do not publish the portable
 bundle until GPL/eSpeak corresponding-source/notices obligations are reviewed.
 No signed consumer installer or native-Windows hardware result is claimed.
 
@@ -444,7 +452,7 @@ use this dated tracker and current evidence to judge present completion.
 
 | Date | Update |
 |---|---|
-| 2026-10-16 | Implemented rich-v1 textured human Vulkan pipeline and shared neural-session native UI; eight CPU/GPU and six all-vertex source Three probes, native media-clock browser playback, bounded sentence batches/cancel/retry, 105-phone forced-alignment crosscheck, personal frozen Windows build source. Local 109 Python/17 JS tests pass; hosted/frozen refresh pending. Added actual native human README captures. Human/laptop/release acceptance remains open. |
+| 2026-10-16 | Implemented rich-v1 textured human Vulkan pipeline and shared neural-session native UI; eight CPU/GPU and six all-vertex source Three probes, native media-clock browser playback, bounded sentence batches/cancel/retry, 105-phone forced-alignment crosscheck, personal frozen Windows build. Local 109 Python/17 JS/12 CTest entries pass; all ten jobs passed in run 38905755693, including frozen Windows and rich Vulkan. A prior non-reproduced offline-Windows failure is retained in evidence. Added actual native human README captures. Human/laptop/release acceptance remains open. |
 | 2026-10-16 | Implemented owned-child cancellation/cleanup and stop/reset/retry; separate speech/style/head/blink/manual-gaze layers with closure pixel protection; expanded native palette to 128 with weighted 67/128-joint CPU/GPU tests. Added four real README renderer captures with provenance. Local 94 Python/15 JS/11 CTest entries and real browser review passed; all nine hosted jobs passed in Actions run 38847212709, including Windows neural/browser/benchmark and native Vulkan validation. Rich Vulkan, independent quality, incremental streaming and measured laptop gates remain open. |
 | 2026-10-16 | Delivered isolated one-command Windows benchmark (actual PowerShell entry point passed in nine-job run 38844926069); six local fresh samples, 87 Python/12 JS tests. Added exact-WAV independent-reference templates/comparison and static M4 blockers for 8 meshes/skins, 67 joints, 66 targets and materials. No independent alignment, rig tuning, rich Vulkan rendering or target-laptop acceptance is claimed. |
 | 2026-10-16 | Windows x64 developer backend passed three actual new CPU recordings, Windows exact-WAV/dialog analysis and live Chrome face checks. All nine Actions jobs passed; pipeline 4.99–5.30 s, worker peak working set 291–297 MiB on the runner. Added platform pins, safe extraction, Windows cleanup/UTF-8 handling and developer PowerShell launchers; target laptop/installer/quality remain open. |

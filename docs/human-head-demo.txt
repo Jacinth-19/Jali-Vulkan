@@ -1,5 +1,10 @@
 JALI — HUMAN HEAD + EXISTING NEURAL CLIPS
 
+CURRENT UPDATE
+This guide describes the original existing-clips WebGL checkpoint. A separate
+decoded rich-v1 human Vulkan path and new local CPU speech studio now exist;
+see docs/rich-vulkan-and-streaming.md and docs/windows-portable.md.
+
 WHAT CHANGED
 The three existing neural WAVs now drive a more detailed human character.
 This is not the old eSpeak baseline. Rhubarb/PocketSphinx analyzes each actual

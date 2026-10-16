@@ -1,0 +1,33 @@
+{
+  "passed": true,
+  "source_commit": "9a418ed6ba70644356fdb7b0ee6bdb55ddd19ce2",
+  "mode": "actual CPU sentence generation, native Vulkan presentation",
+  "public_synthetic_text": "Mama brought my blue paper bag. Five vivid voices move very fast.",
+  "chunks": 2,
+  "actual_native_frames": 19,
+  "stream_stats": {
+    "mode": "sentence-batched",
+    "firstPlayableMs": 8312.700000000186,
+    "gapsMs": [
+      5645.800000000279
+    ],
+    "chunks": [
+      {
+        "index": 0,
+        "start_sample": 0,
+        "end_sample": 44544,
+        "audio_sha256": "a029ef3ea0321aa3ddf95172eba7d501fb301e01050af8bf0d35ea8f94472f23"
+      },
+      {
+        "index": 1,
+        "start_sample": 44544,
+        "end_sample": 97280,
+        "audio_sha256": "1061830fcc031e77fcb9701e3029863e15cee36ae0ac0b19f784dd88e271f38e"
+      }
+    ],
+    "bufferingCount": 55
+  },
+  "errors": [],
+  "native_errors": [],
+  "limits": "Local SwiftShader test, not physical AV, independent quality or target laptop."
+}

@@ -1,9 +1,18 @@
 # Windows x64: new text → local neural speech → live face
 
+> Current update: the [personal frozen CPU/WebGL build](windows-portable.md) passed
+> actual hosted Windows execution, and the [rich-v1 Vulkan head/session path](rich-vulkan-and-streaming.md)
+> passed hosted Linux Vulkan/source/browser checks. This original developer guide's
+> older "no package/native port" limitations are superseded within that explicit
+> scope. No signed redistributable installer, native-Windows hardware or measured
+> target-laptop acceptance is claimed.
+
 **Status, 2026-10-16:** the developer backend has passed actual Windows hosted
 CPU inference, Windows Rhubarb analysis and live Chrome/WebGL form-to-face tests.
-This is no longer playback-only or a Linux-only analyzer. **Your i5 laptop has
-not been tested.** There is no standalone installer or rich native Vulkan port.
+This is no longer playback-only or a Linux-only analyzer. The user reports a
+working PC run, but quantitative target-i5/native-Windows hardware measurements
+have not been supplied. The optional rich native profile and personal frozen
+CPU/WebGL build are now available; neither is a signed redistributable installer.
 
 ## Prerequisites and first setup
 

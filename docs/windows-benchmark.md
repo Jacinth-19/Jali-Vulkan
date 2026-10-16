@@ -135,7 +135,13 @@ matches. It does not certify source independence: attribution is user-declared.
 It does not manufacture a naturalness score, a full-utterance accuracy metric or
 physical AV measurement. **No rig-strength tuning is declared validated yet.**
 
-## 3. M4: actual native-profile blockers
+## 3. Historical M4 preflight: raw source versus the legacy profile
+
+**Current update:** the decoded rich-v1 profile, real human rendering and shared
+WAV/cue native UI are now implemented and hosted-tested. See
+[the rich-native guide](rich-vulkan-and-streaming.md). The preflight below audits
+the **raw compressed source against the old strict vertex-color profile**, not
+the new decoded rich-v1 importer. Direct raw-source import is still unsupported.
 
 Every report includes a static audit of the actual optimized GLB and the hash of
 `src/character.cpp`. The current asset has **8 meshes, 8 skins, 7 materials,
@@ -156,6 +162,8 @@ partial metadata audit, **not native import or GPU rendering**. Next M4 work mus
 5. Compare CPU deformation/canonical poses with WebGL, then run real Vulkan
    validation and connect the same audio/cue session identity.
 
-Increasing a joint constant alone does not accomplish those steps. The rich M4 render path remains
-unimplemented for this head. See [the implemented palette foundation](performance-controls.md). M3 listening/visual review and actual laptop data
-remain necessary; hosted CI does not close them.
+Increasing a joint constant alone did not accomplish those steps. They were
+subsequently implemented through the explicit rich-v1 conversion/render path;
+the original preflight remains a legacy-profile audit, not a universal importer
+capability detector. M3 independent listening/visual review and actual laptop
+data remain necessary; hosted CI does not close them.

@@ -53,11 +53,12 @@ image hashes and scope](docs/render-captures.md) are retained.
   Python/Node/gh requirement. Local-build-only pending redistribution/source
   compliance; hosted tests publish proof, **not the bundle or weights**.
 
-**Local checks:** 109 Python tests, 17 JavaScript tests, native contracts, real
-new-speech/batching cancellation/retry, and detailed native/source/browser checks.
-Hosted CI is being refreshed for this implementation; the earlier nine-job
-[run 38847212709](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38847212709)
-covered the preceding foundations, not these new features.
+**Validated:** 109 Python tests, 17 JavaScript tests, 12 local native CTest
+entries, real new-speech/batching cancellation/retry, and native/source/browser
+checks. **All 10 hosted Linux/Windows jobs passed** in
+[Actions run 38905755693](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38905755693),
+including the frozen Windows executable and rich-head Vulkan validation.
+[Exact jobs, scope and prior-run reliability note](docs/evidence/rich-stream-portable-actions.json).
 
 See [rich Vulkan, streaming and alignment usage/limits](docs/rich-vulkan-and-streaming.md)
 and [personal Windows portable-build instructions](docs/windows-portable.md).

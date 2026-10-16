@@ -293,11 +293,12 @@
   },
   "native_browser": {
     "passed": true,
+    "stale_previous_session_response_ignored": true,
     "session_id": "0d36111365d34c3781dd5f59e5623f36",
     "audio_sha256": "cb2aff047d3bee2e7e648af51ed413f3f7962bc8868d5591a339dbc738366f0d",
     "seek_time": 1.72,
-    "actual_native_frames": 5,
-    "last_readback_ms": 151.738,
+    "actual_native_frames": 6,
+    "last_readback_ms": 144.866,
     "probes": {
       "normal": {
         "status": 200,

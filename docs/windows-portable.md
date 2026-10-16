@@ -51,3 +51,13 @@ removed from its PATH, and generates whole and batched performances in Chrome.
 It uploads **proof JSON/logs only**, never the executable, neural weights or bundle.
 This is a hosted execution check—not an independently clean OS image, a physical
 laptop benchmark, an installer-security audit or human acceptance.
+
+## Executed evidence
+
+[Actions run 38905755693](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38905755693)
+passed all ten jobs for source `3202be0`, including **Build personal-only frozen
+CPU/WebGL app** and **Run the frozen app with Python, Node and gh removed from its
+PATH**. Both a fresh whole-utterance recording and a two-chunk completed recording
+passed actual Chrome/WAV/rig checks. The earlier run 38903183684 also passed all ten.
+See [job-by-job evidence and the separate offline-checkpoint reliability note](evidence/rich-stream-portable-actions.json).
+No executable/ZIP is published by these runs; build your personal copy locally.

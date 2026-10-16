@@ -43,7 +43,8 @@ redrawing and displays actual native JPEG readback, not a prerecorded animation.
 Pause/seek, sync/trim, speech-priority styling, procedural blink/head motion and
 manual gaze remain separate controls. Native portrait camera and lighting differ
 from the WebGL orbit view. The renderer is persistent, with only one in-flight
-request; latency/readback is reported, not mislabeled as physical AV accuracy.
+request; the developer worker currently stops after 10,000 frame requests and
+requires a server restart. Latency/readback is reported, not mislabeled as physical AV accuracy.
 No off-box model calls occur during generation. Development preview tokens/origin
 checks are not remote authentication; use localhost on your own machine.
 
@@ -113,3 +114,15 @@ actual i5/16-GB Windows laptop; native Windows hardware proof; and redistributio
 license/source review plus signing/consumer installer. These cannot truthfully be
 closed by software-only assertions. See the [tracker](project-tracker.md) and
 [personal portable-build guide](windows-portable.md).
+
+## Hosted execution
+
+All ten jobs passed in [run 38905755693](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38905755693).
+That includes actual CPU speech/batching on Linux/Windows, the frozen Windows
+CPU/WebGL executable, and a separate detailed-human native job using the **same
+public WAV/cue sessions**. The native job passes strict profile validation,
+CPU/GPU and original-source vertex comparisons, native audio-clock playback,
+speech-protected warmth/gaze checks, expired-response-after-Stop regression, and
+Vulkan validation gates. [Evidence](evidence/rich-stream-portable-actions.json)
+records exact source/job/step identities, local results and the prior unexplained
+Windows offline-checkpoint failure; a subsequent pass is not proof of its cause.

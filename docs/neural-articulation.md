@@ -3,6 +3,14 @@
 Status: **partial**, 2026-10-16. These checks exercise real generated speech and
 real WebGL morphs. They do not complete perceptual or independently aligned QA.
 
+## Current additional diagnostics
+
+The optional PocketSphinx 5.0.4 two-pass word/phone crosscheck now runs on all
+three actual public WAVs with model/dictionary/audio hashes and retained notices.
+It is related to Rhubarb's acoustic family, so **not independent ground truth**;
+human quality and independent-reference gates remain open. Native Vulkan now
+renders the same cues as well. See [current execution evidence and limits](rich-vulkan-and-streaming.md).
+
 ## Timing defects corrected
 
 - Transition blending is now limited to the final **35% of each estimated cue**,

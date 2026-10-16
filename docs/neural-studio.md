@@ -1,8 +1,16 @@
 # M2 — connected local neural voice + human face
 
-Status review: **2026-10-16**. The end-to-end prototype has passed actual Linux
-CPU/browser execution on two newly entered sentences. This is not yet a packaged
-Windows application, incremental streaming, or the richer native Vulkan renderer.
+> Current update: the [personal frozen CPU/WebGL build](windows-portable.md) passed
+> actual hosted Windows execution, and the [rich-v1 Vulkan head/session path](rich-vulkan-and-streaming.md)
+> passed hosted Linux Vulkan/source/browser checks. This original developer guide's
+> older "no package/native port" limitations are superseded within that explicit
+> scope. No signed redistributable installer, native-Windows hardware or measured
+> target-laptop acceptance is claimed.
+
+Original M2 checkpoint: **2026-10-16**, actual Linux CPU/browser execution on two
+newly entered sentences. Later increments now add hosted Windows/frozen execution,
+bounded sentence batching and rich native Vulkan; see the current guides above.
+Internal incremental Kokoro and signed consumer distribution remain outside that scope.
 
 ## What the user can do
 

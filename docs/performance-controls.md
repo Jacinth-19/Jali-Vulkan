@@ -1,7 +1,12 @@
 # Performance controls and native palette implementation
 
-This increment implements concrete M4/M5/M6 foundations. **It does not finish
-all outstanding milestones.** The detailed MPFB head remains WebGL-only.
+**Historical foundation checkpoint:** this page records source `e2f133b` and its
+then-current ABI/limits. The rich-head/streaming "still open" statements below
+are **superseded** by [rich Vulkan and bounded streaming](rich-vulkan-and-streaming.md),
+[personal Windows packaging](windows-portable.md) and [the current tracker](project-tracker.md).
+The detailed human now renders natively; all ten new hosted jobs passed in run
+38905755693. Keep this page as provenance for the preceding foundation, not the
+current feature inventory.
 
 ## Cancellation and recovery (whole-utterance generation)
 
