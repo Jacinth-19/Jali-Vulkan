@@ -27,7 +27,12 @@ const fs=require('node:fs'),path=require('node:path');
   await page.locator('#resume').click();await page.waitForFunction(t=>JaliStudio.getState().nativeInfo.lastTime>t+.25,closure.time,{timeout:30000});await page.evaluate(()=>document.querySelector('#audio').pause());
   const probes=await page.evaluate(async ({id,time,duration})=>{
     const config=await(await fetch('/api/config')).json();
-    async function image(q,token=config.token){const response=await fetch('/api/native/frame?'+new URLSearchParams({id,time:String(time),life:'0',mood:'neutral',gaze:'forward',...q}),{headers:{'X-Jali-Token':token}});if(!response.ok)return {status:response.status};const bytes=await response.arrayBuffer(),hash=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)),b=>b.toString(16).padStart(2,'0')).join('');return {status:response.status,hash};}
+    async function image(q,token=config.token){
+      // Switching presentation invalidates, but does not interrupt, GPU readback.
+      // Respect bounded frame backpressure instead of assuming a 300 ms drain.
+      const deadline=performance.now()+30000;let response;
+      do{response=await fetch('/api/native/frame?'+new URLSearchParams({id,time:String(time),life:'0',mood:'neutral',gaze:'forward',...q}),{headers:{'X-Jali-Token':token}});if(response.status!==409)break;await response.arrayBuffer();await new Promise(r=>setTimeout(r,50));}while(performance.now()<deadline);
+      if(!response.ok)return {status:response.status};const bytes=await response.arrayBuffer(),hash=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)),b=>b.toString(16).padStart(2,'0')).join('');return {status:response.status,hash};}
     // Let the UI's single in-flight request settle before serialized direct probes.
     document.querySelector('#renderer').value='webgl';document.querySelector('#renderer').dispatchEvent(new Event('change'));await new Promise(r=>setTimeout(r,300));
     const normal=await image({}),warm=await image({mood:'warm'}),gaze=await image({gaze:'right'}),rest=await image({time:String(duration)}),neutral=await image({id:'neutral',time:'0'}),bad=await image({time:'nan'}),wrongToken=await image({},'wrong');
