@@ -46,12 +46,32 @@ def verify_assets(directory):
 
 
 def peak_rss_mib():
+    if sys.platform == 'win32':
+        try:
+            import ctypes
+            from ctypes import wintypes
+            class Counters(ctypes.Structure):
+                _fields_ = [('cb',wintypes.DWORD),('PageFaultCount',wintypes.DWORD)] + [
+                    (name,ctypes.c_size_t) for name in ('PeakWorkingSetSize','WorkingSetSize',
+                    'QuotaPeakPagedPoolUsage','QuotaPagedPoolUsage','QuotaPeakNonPagedPoolUsage',
+                    'QuotaNonPagedPoolUsage','PagefileUsage','PeakPagefileUsage','PrivateUsage')]
+            kernel = ctypes.WinDLL('kernel32',use_last_error=True)
+            kernel.GetCurrentProcess.restype = wintypes.HANDLE
+            api = ctypes.WinDLL('psapi',use_last_error=True).GetProcessMemoryInfo
+            api.argtypes = [wintypes.HANDLE,ctypes.POINTER(Counters),wintypes.DWORD]
+            api.restype = wintypes.BOOL
+            counters = Counters(); counters.cb = ctypes.sizeof(counters)
+            if not api(kernel.GetCurrentProcess(),ctypes.byref(counters),counters.cb):
+                return None
+            return round(counters.PeakWorkingSetSize / (1024 * 1024),2)
+        except (OSError,AttributeError):
+            return None
     try:
         import resource
         value = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
         return round(value / (1024 * 1024 if sys.platform == 'darwin' else 1024), 2)
     except ImportError:
-        return None  # Windows measurement remains a target-device task.
+        return None
 
 
 def write_audio(path, audio, rate):
@@ -149,7 +169,7 @@ def run(texts, output, directory=ASSETS, speed=1.0, threads=2):
         'providers': session.get_providers(), 'speed': speed,
         'dependency_import_seconds': round(import_seconds, 4), 'engine_load_seconds': round(load_seconds, 4),
         'process_peak_rss_mib': peak_rss_mib(),
-        'memory_scope': 'Linux/macOS process high-water RSS including dependencies/model; not system RAM, not isolated model size',
+        'memory_scope': ('Windows process peak working set via GetProcessMemoryInfo' if sys.platform == 'win32' else 'Linux/macOS process high-water RSS') + '; includes dependencies/model; not system RAM or isolated model size',
         'model_sha256': MODEL_SHA, 'voice_sha256': VOICE_SHA,
         'packages': {name: importlib.metadata.version(name) for name in
                      ('kokoro-onnx', 'onnxruntime', 'numpy', 'phonemizer-fork', 'espeakng-loader')},

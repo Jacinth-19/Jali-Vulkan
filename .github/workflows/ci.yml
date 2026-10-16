@@ -284,3 +284,79 @@ jobs:
           path: artifacts/playback-checkpoint-proof/
           retention-days: 3
           if-no-files-found: warn
+
+  windows-neural:
+    name: Windows local neural speech, analyzer and live face
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/arena/3284941c-jali-vulkan')
+    runs-on: windows-latest
+    timeout-minutes: 20
+    env:
+      PYTHONUTF8: '1'
+      JALI_BROWSER_CHANNEL: chrome
+    steps:
+      - name: Check out source
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Select Python 3.11 x64
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.11'
+          architecture: x64
+      - name: Select Node 22
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '22'
+      - name: Record actual Windows runner inventory
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force artifacts | Out-Null
+          @{os=(Get-CimInstance Win32_OperatingSystem | Select-Object Caption,Version,TotalVisibleMemorySize);cpu=(Get-CimInstance Win32_Processor | Select-Object Name,NumberOfCores,NumberOfLogicalProcessors)} | ConvertTo-Json -Depth 4 | Set-Content -Encoding utf8 artifacts/windows-neural-runner.json
+      - name: Install pinned neural dependencies and browser tooling
+        shell: pwsh
+        run: |
+          python -m venv .venv
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          .venv/Scripts/python.exe -m pip install -r tools/requirements-neural-studio.txt
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          npm ci --prefix tools --ignore-scripts
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Check cross-platform neural contracts without inference
+        shell: pwsh
+        run: |
+          foreach ($pattern in @('test_neural*.py','test_local_neural.py','test_playback_checkpoint.py')) {
+            .venv/Scripts/python.exe -m unittest discover -s tests -p $pattern
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          }
+          node --test tests/visemes.test.mjs tests/measurement.test.mjs
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Explicitly prepare stock voice, model, Windows analyzer and CC0 head
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: pwsh
+        run: |
+          python tools/ci_command.py .venv/Scripts/python.exe tools/prepare_kokoro_cpu.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python tools/ci_command.py .venv/Scripts/python.exe tools/build_neural_studio.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Generate three NEW Windows CPU recordings and animate their live face
+        shell: pwsh
+        run: python tools/ci_command.py .venv/Scripts/python.exe tools/run_neural_ci.py
+      - name: Assert actual Windows CPU and analyzer measurements
+        shell: pwsh
+        run: |
+          .venv/Scripts/python.exe tools/report_windows_neural.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Upload public synthetic Windows evidence, never weights or caches
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: windows-local-neural-evidence
+          path: |
+            artifacts/neural-review/
+            artifacts/neural-studio/proof/
+            artifacts/neural-ci-server.log
+            artifacts/windows-neural-runner.json
+            artifacts/windows-neural-summary.json
+          retention-days: 3
+          if-no-files-found: warn

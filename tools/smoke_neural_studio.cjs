@@ -7,11 +7,15 @@ const chromium=require('@sparticuz/chromium');
 (async()=>{
   const base=process.argv[2]||'http://127.0.0.1:8082',origin=new URL(base).origin;
   const proof=path.resolve('artifacts/neural-studio/proof');fs.mkdirSync(proof,{recursive:true});
+  const channel=process.env.JALI_BROWSER_CHANNEL;
   const support=path.resolve('.cache/runtime/browser');fs.mkdirSync(support,{recursive:true});
-  const archive=path.join(support,'support.tar');
-  fs.writeFileSync(archive,zlib.brotliDecompressSync(fs.readFileSync(path.join(__dirname,'node_modules/@sparticuz/chromium/bin/al2023.tar.br'))));
-  execFileSync('tar',['-xf',archive,'-C',support]);
-  const browser=await playwright.launch({executablePath:await chromium.executablePath(),args:chromium.args.filter(a=>a!=='--disable-web-security'),headless:true,
+  if(!channel){
+    const archive=path.join(support,'support.tar');
+    fs.writeFileSync(archive,zlib.brotliDecompressSync(fs.readFileSync(path.join(__dirname,'node_modules/@sparticuz/chromium/bin/al2023.tar.br'))));
+    execFileSync('tar',['-xf',archive,'-C',support]);
+  }
+  const browser=await playwright.launch(channel?{channel,headless:true,args:['--enable-unsafe-swiftshader']}:{
+    executablePath:await chromium.executablePath(),args:chromium.args.filter(a=>a!=='--disable-web-security'),headless:true,
     env:{...process.env,LD_LIBRARY_PATH:`${support}/lib:/tmp:${process.env.LD_LIBRARY_PATH||''}`}});
   const context=await browser.newContext({viewport:{width:1440,height:1100},deviceScaleFactor:1});
   const page=await context.newPage(),errors=[],external=[],sessions=[];
@@ -124,7 +128,7 @@ const chromium=require('@sparticuz/chromium');
         }
         const wav=path.resolve('artifacts/neural-studio-sessions',clip.id,'audio.wav');
         const out=path.join(proof,'new-text-performance.mp4');
-        execFileSync(path.resolve('.venv/bin/python'),['-c',`import imageio_ffmpeg,subprocess;subprocess.run([imageio_ffmpeg.get_ffmpeg_exe(),'-y','-hide_banner','-loglevel','error','-framerate','15','-i',${JSON.stringify(path.join(temp,'frame-%04d.jpg'))},'-i',${JSON.stringify(wav)},'-c:v','libx264','-crf','20','-preset','fast','-pix_fmt','yuv420p','-c:a','aac','-shortest','-movflags','+faststart',${JSON.stringify(out)}],check=True)`],{timeout:60000});
+        execFileSync(process.env.JALI_PYTHON||path.resolve(process.platform==='win32'?'.venv/Scripts/python.exe':'.venv/bin/python'),['-c',`import imageio_ffmpeg,subprocess;subprocess.run([imageio_ffmpeg.get_ffmpeg_exe(),'-y','-hide_banner','-loglevel','error','-framerate','15','-i',${JSON.stringify(path.join(temp,'frame-%04d.jpg'))},'-i',${JSON.stringify(wav)},'-c:v','libx264','-crf','20','-preset','fast','-pix_fmt','yuv420p','-c:a','aac','-shortest','-movflags','+faststart',${JSON.stringify(out)}],check=True)`],{timeout:60000});
         fs.copyFileSync(path.join(temp,'frame-0000.jpg'),path.join(proof,'poster.jpg'));
         fs.writeFileSync(path.join(proof,'video-export.json'),JSON.stringify({session_id:clip.id,audio_sha256:clip.audio.sha256,rig:clip.rig,fps,frames,
           mp4_sha256:createHash('sha256').update(fs.readFileSync(out)).digest('hex'),method:'Offline browser capture of same new-text session, muxed with that session WAV'},null,2)+'\n');
@@ -138,4 +142,4 @@ const chromium=require('@sparticuz/chromium');
     console.log('M2/M3 real neural studio browser checks passed');
   }catch(error){await page.screenshot({path:path.join(proof,'failure.png'),fullPage:true}).catch(()=>{});throw error;}
   finally{await browser.close();}
-})().catch(e=>{console.error(e);process.exitCode=1;});
+})().catch(e=>{console.error(e);if(process.env.GITHUB_ACTIONS==='true')console.log('::error title=Neural browser failure::'+String(e.stack||e).replaceAll('%','%25').replaceAll('\r','%0D').replaceAll('\n','%0A'));process.exitCode=1;});

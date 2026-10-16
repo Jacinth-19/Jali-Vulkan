@@ -44,6 +44,25 @@ def collect_review():
     shutil.copytree(ROOT / 'artifacts/neural-studio/licenses', review / 'licenses', dirs_exist_ok=True)
 
 
+def stop_server(server):
+    if os.name == 'nt':
+        if server.poll() is None:
+            subprocess.run(['taskkill','/PID',str(server.pid),'/T','/F'],capture_output=True,timeout=15)
+    else:
+        try:
+            os.killpg(server.pid, signal.SIGTERM)
+        except ProcessLookupError:
+            pass
+    try:
+        server.wait(timeout=10)
+    except subprocess.TimeoutExpired:
+        if os.name == 'nt':
+            server.kill()
+        else:
+            os.killpg(server.pid, signal.SIGKILL)
+        server.wait(timeout=10)
+
+
 def main():
     port = 8082
     # Do not start a disposable server over somebody's running development preview.
@@ -53,7 +72,7 @@ def main():
     artifacts.mkdir(exist_ok=True)
     with (artifacts / 'neural-ci-server.log').open('w') as log:
         server = subprocess.Popen([sys.executable, '-u', 'tools/neural_studio_server.py', '--port', str(port)],
-                                  cwd=ROOT, stdout=log, stderr=subprocess.STDOUT, start_new_session=True)
+                                  cwd=ROOT, stdout=log, stderr=subprocess.STDOUT, start_new_session=(os.name != 'nt'))
         try:
             deadline = time.monotonic() + 45
             while True:
@@ -66,20 +85,12 @@ def main():
                     if time.monotonic() >= deadline:
                         raise TimeoutError('Neural server readiness timed out')
                     time.sleep(.1)
-            env = {**os.environ, 'JALI_REVIEW': '1', 'EXPORT_VIDEO': '1'}
+            env = {**os.environ, 'JALI_REVIEW': '1', 'EXPORT_VIDEO': '1','JALI_PYTHON':sys.executable}
             subprocess.run(['node','tools/smoke_neural_studio.cjs', f'http://127.0.0.1:{port}'],
                            cwd=ROOT, env=env, check=True, timeout=720)
             collect_review()
         finally:
-            try:
-                os.killpg(server.pid, signal.SIGTERM)
-            except ProcessLookupError:
-                pass
-            try:
-                server.wait(timeout=10)
-            except subprocess.TimeoutExpired:
-                os.killpg(server.pid, signal.SIGKILL)
-                server.wait(timeout=10)
+            stop_server(server)
 
 
 if __name__ == '__main__':

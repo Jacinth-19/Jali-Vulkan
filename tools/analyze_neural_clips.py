@@ -12,6 +12,9 @@ from pathlib import Path
 import shutil
 import subprocess
 import tarfile
+import zipfile
+
+from neural_platform import analyzer_profile, analyzer_path, archive_relative
 from urllib.request import urlopen
 
 from build_test_pack import REFERENCES, ROOT, audio_metadata
@@ -42,51 +45,84 @@ def validate_timeline(data, duration):
     return cues
 
 
+def verify_engine(binary):
+    spec = analyzer_profile()
+    if not Path(binary).is_file() or digest(Path(binary)) != spec['binary_sha256']:
+        raise ValueError('Unverified platform-specific Rhubarb executable; run explicit setup')
+    return spec
+
+
 def ensure_engine():
+    spec = analyzer_profile()
     cache = ROOT / '.cache/lipsync'
     cache.mkdir(parents=True, exist_ok=True)
-    binary = cache / 'rhubarb/rhubarb'
-    if binary.is_file() and digest(binary) == BINARY_SHA:
-        return binary
-    archive = cache / 'rhubarb-npm.tgz'
+    binary = analyzer_path()
+    archive = cache / ('rhubarb-windows.zip' if spec['format'] == 'zip' else 'rhubarb-npm.tgz')
     if not archive.is_file():
-        with urlopen(ARCHIVE_URL, timeout=90) as source, archive.open('wb') as target:
-            shutil.copyfileobj(source, target)
-    if digest(archive) != ARCHIVE_SHA:
-        raise ValueError('Rhubarb archive checksum mismatch')
+        partial = archive.with_suffix('.part')
+        total = 0
+        with urlopen(spec['url'], timeout=90) as source, partial.open('wb') as target:
+            for block in iter(lambda: source.read(1024 * 1024), b''):
+                total += len(block)
+                if total > 120 * 1024 * 1024:
+                    raise ValueError('Analyzer archive exceeds setup budget')
+                target.write(block)
+        partial.replace(archive)
+    if digest(archive) != spec['archive_sha256']:
+        raise ValueError('Rhubarb platform archive checksum mismatch')
     base = binary.parent.resolve()
-    with tarfile.open(archive) as bundle:
-        for member in bundle:
-            marker = '/rhubarb-Lip-Sync-1.13.0-Linux/'
-            if marker not in member.name:
-                continue
-            relative = member.name.split(marker, 1)[1]
-            if relative != 'rhubarb' and not relative.startswith('res/'):
-                continue
-            target = (base / relative).resolve()
-            if member.isdir():
-                continue
-            if not target.is_relative_to(base) or not member.isfile():
-                raise ValueError('Unsafe Rhubarb archive entry')
+
+    def write(name, source):
+        relative = archive_relative(name, spec)
+        if relative is None:
+            return
+        target = (base / relative).resolve()
+        if not target.is_relative_to(base):
+            raise ValueError('Unsafe analyzer archive entry')
+        content = source.read()
+        if len(content) > 120 * 1024 * 1024:
+            raise ValueError('Unexpected analyzer member size')
+        if not target.is_file() or target.read_bytes() != content:
             target.parent.mkdir(parents=True, exist_ok=True)
-            with bundle.extractfile(member) as source, target.open('wb') as dest:
-                shutil.copyfileobj(source, dest)
-    if digest(binary) != BINARY_SHA:
-        raise ValueError('Rhubarb executable checksum mismatch')
-    binary.chmod(0o755)
+            target.write_bytes(content)
+
+    # Always compare cached runtime files against the verified archive at setup.
+    # No extractall, links, arbitrary DLLs or commands from archive metadata.
+    if spec['format'] == 'zip':
+        with zipfile.ZipFile(archive) as bundle:
+            for member in bundle.infolist():
+                relative = archive_relative(member.filename, spec)
+                if member.is_dir() or relative is None:
+                    continue
+                if (member.external_attr >> 16) & 0o170000 == 0o120000 or member.file_size > 120 * 1024 * 1024:
+                    raise ValueError('Unsafe analyzer ZIP member')
+                with bundle.open(member) as source:
+                    write(member.filename, source)
+    else:
+        with tarfile.open(archive) as bundle:
+            for member in bundle:
+                relative = archive_relative(member.name, spec)
+                if member.isdir() or relative is None:
+                    continue
+                if not member.isfile() or member.size > 120 * 1024 * 1024:
+                    raise ValueError('Unsafe analyzer archive member')
+                with bundle.extractfile(member) as source:
+                    write(member.name, source)
+    verify_engine(binary)
+    if spec['format'] != 'zip':
+        binary.chmod(0o755)
     return binary
 
 
 def analyze_wav(audio, dialog, destination, binary):
     """Analyze one actual WAV; no download, synthesis, guessed timing or fallback."""
     audio, dialog, destination = Path(audio), Path(dialog), Path(destination)
-    if digest(Path(binary)) != BINARY_SHA:
-        raise ValueError('Unverified Rhubarb executable')
+    spec = verify_engine(binary)
     metrics = audio_metadata(audio)
     subprocess.run([str(binary), '--threads', '2', '--machineReadable', '-f', 'json',
                     '-r', 'pocketSphinx', '-d', str(dialog), '-o', str(destination), str(audio)],
                    check=True, capture_output=True, text=True, timeout=90)
-    data = json.loads(destination.read_text())
+    data = json.loads(destination.read_text(encoding='utf-8'))
     validate_timeline(data, metrics['duration_seconds'])
     if digest(audio) != metrics['sha256']:
         raise ValueError('Audio changed during analysis')
@@ -94,10 +130,12 @@ def analyze_wav(audio, dialog, destination, binary):
     data['provenance'] = {
         'method': 'Rhubarb 1.13.0 PocketSphinx; dialog-guided estimated mouth classes',
         'audio_sha256': metrics['sha256'], 'dialog_sha256': digest(dialog),
-        'binary_sha256': BINARY_SHA, 'npm_archive_sha256': ARCHIVE_SHA,
+        'binary_sha256': analyzer_profile()['binary_sha256'],
+        'archive_sha256': analyzer_profile()['archive_sha256'],
+        'archive_url': analyzer_profile()['url'], 'platform': analyzer_profile()['platform'],
         'hand_verified': False, 'phoneme_forced_alignment': False, 'espeak_timings_reused': False,
     }
-    destination.write_text(json.dumps(data, indent=2) + '\n')
+    destination.write_text(json.dumps(data, indent=2) + '\n', encoding='utf-8')
     return data
 
 
@@ -124,7 +162,9 @@ def analyze(output):
         data['provenance'] = {
             'method': 'Rhubarb 1.13.0 PocketSphinx; dialog-guided estimated mouth classes',
             'audio_sha256': metrics['sha256'], 'dialog_sha256': digest(dialog),
-            'binary_sha256': BINARY_SHA, 'npm_archive_sha256': ARCHIVE_SHA,
+            'binary_sha256': analyzer_profile()['binary_sha256'],
+        'archive_sha256': analyzer_profile()['archive_sha256'],
+        'archive_url': analyzer_profile()['url'], 'platform': analyzer_profile()['platform'],
             'hand_verified': False, 'phoneme_forced_alignment': False,
             'espeak_timings_reused': False,
         }

@@ -15,7 +15,8 @@ import threading
 from urllib.parse import urlparse
 import uuid
 
-from analyze_neural_clips import BINARY_SHA, digest
+from analyze_neural_clips import digest, verify_engine
+from neural_platform import analyzer_path
 from local_neural_speech import validate_request, verify_assets
 from neural_session import build_session, SESSION_ID, MEDIA, ROOT
 from preview_server import Handler as FileHandler
@@ -156,9 +157,11 @@ def main():
     if digest(assets / 'viewer.js') != rig['viewer_sha256'] or digest(assets / 'model/mpfb-head.glb') != rig['model_sha256']:
         parser.error('Studio assets changed: rerun build_neural_studio.py')
     verify_assets(ROOT / 'models/kokoro')
-    rhubarb = ROOT / '.cache/lipsync/rhubarb/rhubarb'
-    if not rhubarb.is_file() or digest(rhubarb) != BINARY_SHA:
-        parser.error('Run build_neural_studio.py to explicitly prepare the analyzer')
+    rhubarb = analyzer_path()
+    try:
+        verify_engine(rhubarb)
+    except ValueError as error:
+        parser.error(str(error))
     # Each launch uses a private run directory: previous runs are not exposed.
     sessions = ROOT / 'artifacts/neural-studio-sessions'
     sessions.mkdir(exist_ok=True)

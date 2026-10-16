@@ -2,7 +2,7 @@
 """Explicitly prepare the M2 studio. Runtime requests never download models.
 
 Requires Node tools, Pillow and the already prepared local Kokoro assets.
-Linux is the tested backend; this uses the pinned Linux Rhubarb executable.
+Uses an explicitly selected, checksum-pinned x64 Linux or Windows analyzer.
 """
 import base64
 import json
@@ -48,7 +48,7 @@ def build():
         ('three', 'LICENSE', 'three-MIT.txt'), ('meshoptimizer', 'LICENSE.md', 'meshoptimizer-MIT.txt')
     ):
         shutil.copy2(ROOT / 'tools/node_modules' / package / source, OUTPUT / 'licenses' / target)
-    (OUTPUT / 'licenses/CC0-1.0.txt').write_text(subprocess.check_output(['gh','api','licenses/cc0-1.0','--jq','.body'], text=True))
+    (OUTPUT / 'licenses/CC0-1.0.txt').write_text(subprocess.check_output(['gh','api','licenses/cc0-1.0','--jq','.body'], text=True, encoding='utf-8'))
     (OUTPUT / 'licenses/Rhubarb-LICENSE.md').write_bytes(github_file('repos/DanielSWolf/rhubarb-lip-sync/contents/LICENSE.md?ref=v1.13.0'))
     print(f'Studio prepared: {OUTPUT}. Run .venv/bin/python tools/neural_studio_server.py')
 

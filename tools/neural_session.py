@@ -50,8 +50,8 @@ def build_session(session_id, text, directory, rig, rhubarb, on_stage=lambda _: 
     # model URLs, uploaded conditioning, or cached speech from another session.
     result = subprocess.run([sys.executable, str(ROOT / 'tools/local_neural_speech.py'),
                              '--text', text, '--output', str(directory / 'speech'), '--threads', '2'],
-                            cwd=ROOT, check=True, capture_output=True, text=True, timeout=90)
-    (directory / 'worker.log').write_text((result.stdout + result.stderr)[-32000:])
+                            cwd=ROOT, check=True, capture_output=True, text=True, encoding='utf-8', timeout=90)
+    (directory / 'worker.log').write_text((result.stdout + result.stderr)[-32000:], encoding='utf-8')
     speech = json.loads((directory / 'speech/manifest.json').read_text())
     if (speech['providers'] != ['CPUExecutionProvider'] or speech['remote_speech_api_used'] is not False
             or speech['model_sha256'] != MODEL_SHA or speech['voice_sha256'] != VOICE_SHA
@@ -74,7 +74,7 @@ def build_session(session_id, text, directory, rig, rhubarb, on_stage=lambda _: 
         'duration': metrics['duration_seconds'], 'cues': cues['mouthCues'], 'audio': metrics,
         'rig': rig, 'tts': {key: speech[key] for key in
                            ('method', 'stock_voice', 'providers', 'model_sha256', 'voice_sha256',
-                            'engine_load_seconds', 'process_peak_rss_mib')},
+                            'engine_load_seconds', 'process_peak_rss_mib', 'memory_scope', 'platform', 'python')},
         'generation_seconds': speech['clips'][0]['generation_seconds'],
         'analysis_seconds': round(time.perf_counter() - analysis_start, 4),
         'analysis': cues['provenance'], 'total_seconds': round(time.perf_counter() - start, 4),
