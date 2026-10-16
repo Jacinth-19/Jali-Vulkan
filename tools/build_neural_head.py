@@ -9,6 +9,7 @@ import base64
 import io
 import hashlib
 import json
+import re
 from pathlib import Path
 import shutil
 import struct
@@ -24,7 +25,19 @@ CACHE = ROOT / '.cache/lipsync'
 
 
 def github_file(path):
-    return subprocess.check_output(['gh', 'api', path, '-H', 'Accept: application/vnd.github.raw+json'], timeout=120)
+    # Some hosted gh versions apply text transforms to raw binary responses
+    # ("transform: short source buffer"). Transport JSON/base64, decode here.
+    def metadata(endpoint):
+        return json.loads(subprocess.check_output(['gh', 'api', endpoint], timeout=120))
+    data = metadata(path)
+    if data.get('encoding') == 'none':
+        sha = data.get('sha', '')
+        if '/contents/' not in path or not re.fullmatch(r'[a-f0-9]{40}', sha):
+            raise ValueError('Invalid GitHub file metadata')
+        data = metadata(path.split('/contents/', 1)[0] + '/git/blobs/' + sha)
+    if data.get('encoding') != 'base64' or not isinstance(data.get('content'), str):
+        raise ValueError('Expected base64 GitHub file contents')
+    return base64.b64decode(data['content'].replace('\n', '').replace('\r', ''), validate=True)
 
 
 def prepare_model():
