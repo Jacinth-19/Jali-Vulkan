@@ -138,7 +138,7 @@ ctest --test-dir build-live --output-on-failure
 
 `glslangValidator` compiles the shaders. If it is unavailable, `npm ci --prefix tools` provides the pinned WASM shader compiler. It also provides the official glTF Validator and optional browser test tools.
 
-GitHub Actions runs the GCC/Clang matrix, sanitizers, and native software-Vulkan/browser checks on pushes, PRs, or manual dispatch. Native artifacts include actual runner resource inventory, validation logs, and screenshots; no GPU or neural inference is implied. See [CI resource details](docs/live-engine.md#github-actions-resource-and-validation-runs).
+GitHub Actions runs the GCC/Clang matrix, sanitizers, and native software-Vulkan/browser checks on pushes, PRs, or manual dispatch. Native artifacts include actual runner resource inventory, validation logs, and screenshots; software Vulkan is not hardware-GPU validation. A separate neural-studio job now runs actual Kokoro CPU inference, generated-WAV/dialog analysis and detailed-face browser review on this session branch or manual dispatch. [Hosted neural results and M3 scope](docs/neural-articulation.md) include the successful seven-job run and remaining quality gates. See [CI resource details](docs/live-engine.md#github-actions-resource-and-validation-runs).
 
 GCC/Clang sanitizer builds: add `-DJALI_ENABLE_SANITIZERS=ON`. Model-free and native tests remain separate; no credentials or voice models are used by CI.
 

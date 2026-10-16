@@ -1,0 +1,140 @@
+{
+  "method": "Actual new CPU speech, estimated Rhubarb cues, deterministic neutral-pose renders",
+  "independently_verified_phoneme_alignment": false,
+  "human_review_completed": false,
+  "quality_score": null,
+  "observed_classes": [
+    "X",
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H"
+  ],
+  "missing_classes": [],
+  "contract_checks": [
+    "central hold survives short cues",
+    "actual named morph weights match retarget",
+    "neutral styling and procedural motion disabled"
+  ],
+  "date": "2026-10-16",
+  "environment": "Arena Linux sandbox CPU; not Windows or hardware-GPU validation",
+  "frame_count": 22,
+  "python_tests_passed": 67,
+  "javascript_tests_passed": 9,
+  "browser_checks_passed": true,
+  "sessions": [
+    {
+      "id": "ec7e697879cd4f838d0d0368f3e98eec",
+      "text": "Mama. Papa. Baby. Bob packed my blue paper bag.",
+      "duration": 3.456,
+      "audio": {
+        "sample_rate": 24000,
+        "channels": 1,
+        "sample_width_bits": 16,
+        "duration_seconds": 3.456,
+        "peak_amplitude": 0.65045166015625,
+        "rms_dbfs": -22.67,
+        "sha256": "cb2aff047d3bee2e7e648af51ed413f3f7962bc8868d5591a339dbc738366f0d"
+      },
+      "rig": {
+        "profile": "mpfb-rhubarb-9-v1",
+        "source_commit": "2afe6d79779313db8909badebf46f9805a6c7b70",
+        "model_sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+        "retarget_sha256": "dffa942e4f0bf5055c727235f4f4ec4110a8a4c9ac5d4cfcce6e6e96ff7ad009",
+        "viewer_sha256": "927309d978a89c647fc12de2ff750df6aa67d529f87c1657fc43b5747b5517d9"
+      },
+      "generation_seconds": 3.0083,
+      "analysis_seconds": 6.1712,
+      "total_seconds": 11.5268,
+      "tts": {
+        "method": "Local neural Kokoro-82M v1.0 q8 / ONNX Runtime CPU",
+        "stock_voice": "af_heart",
+        "providers": [
+          "CPUExecutionProvider"
+        ],
+        "model_sha256": "fbae9257e1e05ffc727e951ef9b9c98418e6d79f1c9b6b13bd59f5c9028a1478",
+        "voice_sha256": "d583ccff3cdca2f7fae535cb998ac07e9fcb90f09737b9a41fa2734ec44a8f0b",
+        "engine_load_seconds": 1.4021,
+        "process_peak_rss_mib": 305.18
+      },
+      "estimated_cue_count": 31
+    },
+    {
+      "id": "a4c8f1a03dfa45f29e7258675f8b896c",
+      "text": "Five vivid voices. Baby Lily likes little yellow lollipops.",
+      "duration": 4.074666666666666,
+      "audio": {
+        "sample_rate": 24000,
+        "channels": 1,
+        "sample_width_bits": 16,
+        "duration_seconds": 4.074666666666666,
+        "peak_amplitude": 0.568634033203125,
+        "rms_dbfs": -22.84,
+        "sha256": "a762e20fa7809a2487ca41c7cd5b86627ae4ba144f1c408ba98679250db282e3"
+      },
+      "rig": {
+        "profile": "mpfb-rhubarb-9-v1",
+        "source_commit": "2afe6d79779313db8909badebf46f9805a6c7b70",
+        "model_sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+        "retarget_sha256": "dffa942e4f0bf5055c727235f4f4ec4110a8a4c9ac5d4cfcce6e6e96ff7ad009",
+        "viewer_sha256": "927309d978a89c647fc12de2ff750df6aa67d529f87c1657fc43b5747b5517d9"
+      },
+      "generation_seconds": 4.1114,
+      "analysis_seconds": 7.572,
+      "total_seconds": 13.6911,
+      "tts": {
+        "method": "Local neural Kokoro-82M v1.0 q8 / ONNX Runtime CPU",
+        "stock_voice": "af_heart",
+        "providers": [
+          "CPUExecutionProvider"
+        ],
+        "model_sha256": "fbae9257e1e05ffc727e951ef9b9c98418e6d79f1c9b6b13bd59f5c9028a1478",
+        "voice_sha256": "d583ccff3cdca2f7fae535cb998ac07e9fcb90f09737b9a41fa2734ec44a8f0b",
+        "engine_load_seconds": 1.1644,
+        "process_peak_rss_mib": 313.27
+      },
+      "estimated_cue_count": 29
+    },
+    {
+      "id": "f16d04c9e18a400a86d448135b6e4094",
+      "text": "Blue moon. Cool water. Open wide. Oh. Ooh. Ah. Ee.",
+      "duration": 3.6053333333333333,
+      "audio": {
+        "sample_rate": 24000,
+        "channels": 1,
+        "sample_width_bits": 16,
+        "duration_seconds": 3.6053333333333333,
+        "peak_amplitude": 0.441619873046875,
+        "rms_dbfs": -22.47,
+        "sha256": "fa36bc15385794b892fbbf8e1b33f2220cd721a22a0fab015cf986ea9223e12f"
+      },
+      "rig": {
+        "profile": "mpfb-rhubarb-9-v1",
+        "source_commit": "2afe6d79779313db8909badebf46f9805a6c7b70",
+        "model_sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+        "retarget_sha256": "dffa942e4f0bf5055c727235f4f4ec4110a8a4c9ac5d4cfcce6e6e96ff7ad009",
+        "viewer_sha256": "927309d978a89c647fc12de2ff750df6aa67d529f87c1657fc43b5747b5517d9"
+      },
+      "generation_seconds": 4.2476,
+      "analysis_seconds": 8.8873,
+      "total_seconds": 14.9775,
+      "tts": {
+        "method": "Local neural Kokoro-82M v1.0 q8 / ONNX Runtime CPU",
+        "stock_voice": "af_heart",
+        "providers": [
+          "CPUExecutionProvider"
+        ],
+        "model_sha256": "fbae9257e1e05ffc727e951ef9b9c98418e6d79f1c9b6b13bd59f5c9028a1478",
+        "voice_sha256": "d583ccff3cdca2f7fae535cb998ac07e9fcb90f09737b9a41fa2734ec44a8f0b",
+        "engine_load_seconds": 1.0701,
+        "process_peak_rss_mib": 305.52
+      },
+      "estimated_cue_count": 19
+    }
+  ],
+  "unit_test_note": "67 model-free Python tests rerun after the cold-transfer fix; rendering rig hashes unchanged from this real local browser run."
+}

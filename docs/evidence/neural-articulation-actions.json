@@ -1,0 +1,150 @@
+{
+  "date": "2026-10-16",
+  "run": {
+    "id": 38837436553,
+    "html_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38837436553",
+    "head_sha": "0680866bb2fdd82fa3d988d540b48eadf68417c2",
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "run_started_at": "2026-10-16T01:52:18Z",
+    "updated_at": "2026-10-16T01:55:44Z"
+  },
+  "jobs": [
+    {
+      "id": 116769594180,
+      "name": "Address and undefined-behavior checks",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-16T01:52:21Z",
+      "completed_at": "2026-10-16T01:52:42Z",
+      "html_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38837436553/job/116769594180"
+    },
+    {
+      "id": 116769594289,
+      "name": "Local neural speech, WebGL and articulation review",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-16T01:52:21Z",
+      "completed_at": "2026-10-16T01:55:43Z",
+      "html_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38837436553/job/116769594289"
+    },
+    {
+      "id": 116769594357,
+      "name": "g++ / Debug",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-16T01:52:20Z",
+      "completed_at": "2026-10-16T01:52:35Z",
+      "html_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38837436553/job/116769594357"
+    },
+    {
+      "id": 116769594376,
+      "name": "g++ / Release",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-16T01:52:22Z",
+      "completed_at": "2026-10-16T01:52:40Z",
+      "html_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38837436553/job/116769594376"
+    },
+    {
+      "id": 116769594445,
+      "name": "clang++ / Release",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-16T01:52:21Z",
+      "completed_at": "2026-10-16T01:52:53Z",
+      "html_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38837436553/job/116769594445"
+    },
+    {
+      "id": 116769594471,
+      "name": "Native speech, Vulkan validation layers and browser",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-16T01:52:21Z",
+      "completed_at": "2026-10-16T01:54:06Z",
+      "html_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38837436553/job/116769594471"
+    },
+    {
+      "id": 116769594543,
+      "name": "clang++ / Debug",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-16T01:52:21Z",
+      "completed_at": "2026-10-16T01:52:44Z",
+      "html_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38837436553/job/116769594543"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": 12020115553,
+      "name": "fixture-clang++-Debug",
+      "size_in_bytes": 13228,
+      "expired": false,
+      "expires_at": "2026-10-19T01:52:41Z",
+      "web_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38837436553/artifacts/12020115553"
+    },
+    {
+      "id": 12020100600,
+      "name": "fixture-g++-Debug",
+      "size_in_bytes": 13230,
+      "expired": false,
+      "expires_at": "2026-10-19T01:52:33Z",
+      "web_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38837436553/artifacts/12020100600"
+    },
+    {
+      "id": 12019927064,
+      "name": "fixture-g++-Release",
+      "size_in_bytes": 13225,
+      "expired": false,
+      "expires_at": "2026-10-19T01:52:37Z",
+      "web_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38837436553/artifacts/12019927064"
+    },
+    {
+      "id": 12019778227,
+      "name": "neural-articulation-review",
+      "size_in_bytes": 5231799,
+      "expired": false,
+      "expires_at": "2026-10-19T01:55:36Z",
+      "web_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38837436553/artifacts/12019778227"
+    },
+    {
+      "id": 12019549442,
+      "name": "native-backend-evidence",
+      "size_in_bytes": 815261,
+      "expired": false,
+      "expires_at": "2026-10-19T01:54:02Z",
+      "web_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38837436553/artifacts/12019549442"
+    },
+    {
+      "id": 12019378025,
+      "name": "fixture-clang++-Release",
+      "size_in_bytes": 13226,
+      "expired": false,
+      "expires_at": "2026-10-19T01:52:51Z",
+      "web_url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38837436553/artifacts/12019378025"
+    }
+  ],
+  "coverage": {
+    "python_contract_tests": 67,
+    "javascript_sampling_tests": 9,
+    "fresh_public_corpus_requests": 3,
+    "actual_cpu_kokoro_inference": true,
+    "exact_wav_dialog_analysis": true,
+    "real_webgl_browser_checks": true,
+    "offline_mp4_export": true,
+    "runner_resources": "Actual uname/lscpu/free/df output retained in neural-runner-resources.txt inside neural-articulation-review artifact",
+    "model_weights_uploaded": false,
+    "private_recordings_uploaded": false,
+    "hardware_gpu_validation": false,
+    "windows_laptop_validation": false,
+    "independent_phoneme_alignment_verified": false,
+    "human_quality_review_completed": false
+  },
+  "cold_setup_failure": {
+    "run_id": 38837282172,
+    "message": "Hosted gh raw-binary response failed with transform: short source buffer; confirmed in check annotations.",
+    "fix": "Fetch JSON/base64 via GitHub contents/blob APIs and decode binary bytes in Python; preserve exact pinned source SHA-256; add four admission regressions."
+  },
+  "note": "API-verified hosted job conclusions and artifact metadata. Hosted artifact contents were not independently downloaded in this sandbox; log/artifact download redirects were blocked. Local browser review has its own separate evidence."
+}

@@ -164,3 +164,9 @@ The same optimized GLB was decoded and validated: zero errors, nine retained war
 - Broader interchange, dependency/distribution/privacy review and release QA (M8).
 
 M2's connected **prototype** is delivered; the overall project is not complete.
+
+## M3 articulation and hosted CI
+
+See [repeatable articulation review](neural-articulation.md) for the public
+three-text corpus, short-cue/end-rest corrections, actual mesh review frames,
+disposable CI runner, hosted resource inventory and remaining quality gates.

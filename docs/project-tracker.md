@@ -40,7 +40,7 @@ recording -> animate the detailed character -> synchronized playback.
 | B0 | Existing foundation | Delivered prototype, scoped below | Keep regression tests passing |
 | M1 | Local neural speech | CPU inference proven on Linux; listening review and Windows verification remain | New text generates playable speech locally, with reviewed artifacts and measured CPU cost |
 | M2 | Automatic end-to-end generation | Delivered Linux/WebGL prototype; two real form-to-face sessions passed | One action produces and plays a newly synthesized, clip-driven performance |
-| M3 | Better lip-sync fidelity | Partial: estimated nine-class visemes work | Rig tuning, independent reference checks, and full-utterance quality review |
+| M3 | Better lip-sync fidelity | Partial: short-cue/end-rest fixes and repeatable nine-class review checks pass | Rig tuning, independent reference checks, and full-utterance quality review |
 | M4 | Detailed character in Vulkan | Not integrated | Native engine renders the richer textured rig with verified deformation |
 | M5 | Expressive facial performance | Basic procedural/manual controls only | Controllable, evaluated speech-related expression and gaze/gesture behavior |
 | M6 | Streaming and interruption | Partial: whole-utterance playback works | Bounded incremental audio/face playback with cancellation and recovery |
@@ -135,6 +135,7 @@ Better alignment, speech/face quality review and Windows validation remain separ
 - [x] Test repeated requests and ensure sessions cannot accidentally mix audio and face curves.
 - [x] Test play, pause, seek, restart and natural completion for newly generated audio.
 - [x] Add an automated local integration test, separate from model-free tests.
+- [x] Run fresh neural synthesis + actual audio analysis + browser playback in hosted GitHub Actions; seven-job run 38837436553 passed.
 - [x] Demonstrate at least two previously unused sentences through the complete pipeline.
 
 **Exit gate:** one action turns new text into locally generated speech and the
@@ -143,7 +144,11 @@ matching animated human performance. A sequence of manual scripts is not the fin
 ## M3 — Better lip-sync fidelity
 
 **Current baseline:** nine estimated Rhubarb classes, approximate retargeting and
-35 ms transition anticipation. This is useful, but not verified phoneme-level alignment.
+blending capped at 35 ms / 35% of each cue. Short closures retain their central
+pose, and actual audio completion forces rest despite timing trim. Three fresh
+synthetic corpus recordings passed local browser checks, producing 22 neutral
+frames across all nine classes. See [M3 evidence and review](neural-articulation.md).
+This is not verified phoneme-level alignment.
 
 ### Rig-specific articulation
 
@@ -162,7 +167,9 @@ matching animated human performance. A sequence of manual scripts is not the fin
 - [ ] If adding a forced aligner, review/pin its weights and validate its own outputs.
 - [ ] Handle inaccurate transcripts, unknown words and low-confidence alignment explicitly.
 - [ ] Create independently reviewed expected events for the three existing clips.
-- [ ] Add unseen utterances so tuning is not limited to the original recordings.
+- [x] Add unseen utterances so tuning is not limited to the original recordings.
+- [x] Add short-cue hold and actual-audio-end/negative-trim regressions.
+- [x] Capture actual mesh renders for neutral review alongside fresh synthetic WAVs.
 - [ ] Review the whole utterance, not just first-mouth-motion onset.
 - [ ] Test long-sentence drift, short silences, plosives and repeated sounds.
 - [ ] Check rendered mouth motion, not only requested curve values.
@@ -352,12 +359,15 @@ or scope; a roadmap item is not a promise that an arbitrary model will run in re
 ## Current next action
 
 **M3 quality review:** listen to and inspect a connected new-text performance,
-then tune pronunciation/articulation/transition timing on the actual rig. Keep the
+then tune pronunciation/articulation/transition timing on the actual rig. Use the
+new public corpus and review page; do not equate passing morph contracts with
+correct phoneme alignment. Fresh hosted neural CI passed in run 38837436553. Keep the
 working M2 baseline. After this review, perform the early M7 Windows laptop
 checkpoint before investing in native Vulkan expansion or more complexity.
 
 ## Evidence and existing deliverables
 
+- [M3 articulation checks and hosted CPU coverage](neural-articulation.md)
 - [Connected neural studio and its limits](neural-studio.md)
 - [Main project status and commands](../README.md)
 - [Detailed human-head guide](human-head-demo.txt)
@@ -379,6 +389,7 @@ use this dated tracker and current evidence to judge present completion.
 
 | Date | Update |
 |---|---|
+| 2026-10-16 | M3 partial: corrected short-cue blending and actual-duration rest, 9 JavaScript tests and 67 Python tests passed; three fresh browser-generated utterances produced 22 review frames covering nine estimated classes. Human/independent alignment review remains open. All seven jobs passed in Actions run 38837436553; the real neural job took 3m22s after fixing a cold binary-download defect. |
 | 2026-10-16 | M2 connected prototype passed two actual browser-form requests: new CPU WAV + dialog analysis + real facial morph playback, hashes, pause/seek, history and error/retention contracts. Added idle redraw avoidance and a portable new-text MP4. Windows/quality/streaming remain open. |
 | 2026-10-16 | Local Kokoro q8 CPU inference passed on two new sentences: 8.83s / 7.00s of audio, generated in 3.64s / 3.44s; peak RSS 441 MiB. No face integration or Windows performance claim. |
 | 2026-10-16 | Created this tracker from the agreed eight workstreams; recorded the native prototype and detailed-head/actual-WAV delivery; selected local stock neural speech as the next milestone. |
