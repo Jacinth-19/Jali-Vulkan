@@ -85,9 +85,14 @@ function applyAt(time) {
 
 function renderAt(time, updateOrbit = true) {
   if (!ready) return;
+  const started = performance.now();
   applyAt(time);
   if (updateOrbit) controls.update();
   renderer.render(scene, camera);
+  if (window.JALI_RENDER_DIAGNOSTICS) window.dispatchEvent(new CustomEvent('jali-render', {detail:{
+    wallTime:performance.now(), audioTime:time, renderMs:performance.now()-started,
+    playing:!audio.paused && !audio.ended, seeking:audio.seeking
+  }}));
 }
 
 async function init() {
@@ -207,6 +212,16 @@ window.JaliHeadDemo = {
     selectClip(data.clips.length - 1, false);
     renderAt(0);
     return data.clips.length - 1;
+  },
+  getDiagnostics: () => {
+    const gl = renderer?.getContext(), extension = gl?.getExtension('WEBGL_debug_renderer_info');
+    return { modelStats, webgl:gl ? {
+      version:gl.getParameter(gl.VERSION),
+      renderer:gl.getParameter(extension ? extension.UNMASKED_RENDERER_WEBGL : gl.RENDERER),
+      vendor:gl.getParameter(extension ? extension.UNMASKED_VENDOR_WEBGL : gl.VENDOR),
+      contextLost:gl.isContextLost()
+    } : null, canvas:{width:canvas.width,height:canvas.height}, pixelRatio:renderer?.getPixelRatio(),
+    speechRig:data.rig || null };
   },
   getState: () => ({ ready, sessionId: track()?.id || null, clips: data.clips.map(c => ({id:c.id, title:c.title})), modelStats, pose: currentPose, time: audio.currentTime, clip: selected,
     activeMorphs: speechMeshes.map(mesh => ({ mesh: mesh.name, values: Object.fromEntries(Object.entries(mesh.morphTargetDictionary).filter(([, i]) => mesh.morphTargetInfluences[i] > 0.01).map(([name,i]) => [name, mesh.morphTargetInfluences[i]])) })) }),

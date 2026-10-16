@@ -1,0 +1,65 @@
+JALI — LAPTOP PLAYBACK CHECKPOINT (M3 / EARLY M7)
+2026-10-16
+
+WHAT THIS IS
+A self-contained browser player for three newly generated, fixed public synthetic
+Kokoro af_heart WAVs and the detailed CC0 MPFB/MakeHuman face. Includes requested
+scripts, dialog-guided estimated Rhubarb cues and pinned audio/rig identity.
+This is not a voice clone or the earlier external fixture voice.
+
+WINDOWS: NO PYTHON, NODE, MODEL DOWNLOAD, API KEY OR PAYMENT REQUIRED FOR PLAYBACK
+1. Download Jali-Laptop-Playback-Checkpoint.zip.
+2. Right-click > Extract All. Do not open the HTML inside the ZIP.
+3. Open index.html in a current Edge or Chrome with WebGL enabled.
+4. Plug in your laptop, note Windows/power settings and close unrelated heavy apps.
+5. Listen to Closures, Contacts and Vowels at normal speed. Pause/seek using the
+   audio player or colored estimated mouth-cue strip. Half speed is for inspection.
+6. Check P/B/M lip seal, F/V lip-to-teeth contact, L tongue behavior, and rounded
+   versus spread/open vowels. Note the sound, approximate time and visible issue.
+   These estimated classes may be wrong: they are not independent phoneme labels.
+7. Choose "Measure this recording". It resets speed to normal, style to neutral,
+   idle motion off and timing trim to zero, then plays from the beginning.
+   Leave the tab visible. Do not seek, resize, change settings or switch clips.
+8. Repeat a few runs under the same conditions. Avoid conclusions from one short
+   clip. First playback may include shader compilation/driver warmup.
+9. Enter your test conditions and Save review & measurement JSON. Inspect it
+   before sharing: it contains your notes and browser/GPU hints. Nothing uploads
+   or persists automatically. Closing/reloading clears unsaved notes/results.
+
+WHAT THE MEASUREMENT MEANS
+Actual render-completion events during audio playback produce observed FPS,
+frame-gap median/p95/max and p95 CPU-side pose/draw submission time. The viewer
+caps its requested cadence at 30 fps. This is not a GPU timer query, display
+scanout measurement, speaker/display AV offset, or independent alignment check.
+Geometries/textures and shader workloads are real, but browser GPU strings may
+identify software rendering or be unavailable. CPU thread/memory hints are
+coarse browser values, not a complete inventory of the machine or process RAM.
+Hidden tabs, paused playback, mid-run seeking, resize, context loss, cancellation
+or settings changes invalidate/interrupt the sample. Short/empty samples have no
+FPS result rather than a fabricated zero/success. Invalid runs remain in exports
+for diagnosis. User ratings are declarations, not independently verified QA.
+
+WHAT THIS DOES NOT TEST
+- Generating new speech locally on Windows (the current backend is Linux-only).
+- Windows Rhubarb process setup, cold synthesis, CPU/RAM cost, native Vulkan,
+  hardware-GPU performance guarantees, long utterances, streaming or interruption.
+- Verified phoneme accuracy, naturalness, visible lip contact, or physical AV sync.
+This is only an early browser/render checkpoint, not completion of M7 or M3.
+
+TROUBLESHOOTING
+- Extract the entire ZIP first; keep all files together.
+- Wait for the face to load. If it cannot, enable browser graphics acceleration,
+  check WebGL support and try another current Edge/Chrome profile.
+- If playback is blocked, press Play manually and retry measurement.
+- Local file policies vary on managed machines. As a developer alternative,
+  serve this extracted folder with a local static HTTP server and use localhost.
+- Do not disable browser security, download random DLLs or expose a public server.
+- Do not mix files from different builds: package-manifest.json contains hashes.
+
+PROVENANCE / PERSONAL USE
+Model: pinned TalkingHead CC0 MPFB/MakeHuman character, not a universal native
+Vulkan asset. WebGL/Three.js presentation. Stock Kokoro q8 CPU speech, Apache-2.0
+source declarations. Rhubarb estimates come from each exact WAV + requested text.
+License statements are retained under licenses/. No neural weights, third-party
+executables or private recordings are bundled. Full release/license audit remains
+separate from this personal-use prototype.

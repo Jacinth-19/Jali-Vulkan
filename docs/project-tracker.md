@@ -44,7 +44,7 @@ recording -> animate the detailed character -> synchronized playback.
 | M4 | Detailed character in Vulkan | Not integrated | Native engine renders the richer textured rig with verified deformation |
 | M5 | Expressive facial performance | Basic procedural/manual controls only | Controllable, evaluated speech-related expression and gaze/gesture behavior |
 | M6 | Streaming and interruption | Partial: whole-utterance playback works | Bounded incremental audio/face playback with cancellation and recovery |
-| M7 | Windows performance and packaging | Unverified on target laptop | Measured target-device results and a tested, understandable launcher/package |
+| M7 | Windows performance and packaging | Partial: offline browser review/measurement pack implemented; target laptop and Windows speech backend unverified | Measured target-device results and a tested, understandable launcher/package |
 | M8 | Asset workflow and final QA | Partial: fixtures, provenance and tests exist | Reliable asset round trips, real AV measurements, and release review |
 
 ## B0 — Foundation already delivered
@@ -358,6 +358,9 @@ or scope; a roadmap item is not a promise that an arbitrary model will run in re
 
 ## Current next action
 
+**Early browser checkpoint prepared:** see [the extraction/review instructions](windows-playback-checkpoint.txt). The pack needs no Python or models for playback and exports explicit user notes plus visible-tab render observations. Windows-hosted browser validation is being run separately from Linux neural synthesis. This does not port the speech backend or finish M7.
+
+
 **M3 quality review:** listen to and inspect a connected new-text performance,
 then tune pronunciation/articulation/transition timing on the actual rig. Use the
 new public corpus and review page; do not equate passing morph contracts with
@@ -389,6 +392,7 @@ use this dated tracker and current evidence to judge present completion.
 
 | Date | Update |
 |---|---|
+| 2026-10-16 | Added a self-contained laptop/browser playback checkpoint with half-speed review, notes and explicit JSON export. Render-completion measurements distinguish CPU submission time from GPU execution/physical AV latency. Public-corpus/hash admission checks and HTTP/file tests added; hosted validation pending. |
 | 2026-10-16 | M3 partial: corrected short-cue blending and actual-duration rest, 9 JavaScript tests and 67 Python tests passed; three fresh browser-generated utterances produced 22 review frames covering nine estimated classes. Human/independent alignment review remains open. All seven jobs passed in Actions run 38837436553; the real neural job took 3m22s after fixing a cold binary-download defect. |
 | 2026-10-16 | M2 connected prototype passed two actual browser-form requests: new CPU WAV + dialog analysis + real facial morph playback, hashes, pause/seek, history and error/retention contracts. Added idle redraw avoidance and a portable new-text MP4. Windows/quality/streaming remain open. |
 | 2026-10-16 | Local Kokoro q8 CPU inference passed on two new sentences: 8.83s / 7.00s of audio, generated in 3.64s / 3.44s; peak RSS 441 MiB. No face integration or Windows performance claim. |

@@ -209,7 +209,7 @@ jobs:
       - name: Check contracts without loading a neural model
         run: |
           .venv/bin/python -m unittest discover -s tests -p 'test_*.py'
-          node --test tests/visemes.test.mjs
+          node --test tests/*.test.mjs
       - name: Explicitly prepare reviewed model, stock voice and CC0 character
         env:
           GH_TOKEN: ${{ github.token }}
@@ -218,6 +218,20 @@ jobs:
           python tools/ci_command.py .venv/bin/python tools/build_neural_studio.py
       - name: Exercise actual neural synthesis, audio analysis and facial articulation
         run: .venv/bin/python tools/run_neural_ci.py
+      - name: Build and test the offline laptop playback checkpoint
+        run: |
+          .venv/bin/python tools/build_playback_checkpoint.py
+          node tools/smoke_playback_checkpoint.cjs
+      - name: Upload offline browser checkpoint (not a Windows backend)
+        if: success()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: laptop-playback-checkpoint
+          path: |
+            artifacts/Jali-Laptop-Playback-Checkpoint.zip
+            artifacts/playback-checkpoint-proof/
+          retention-days: 3
+          if-no-files-found: error
       - name: Upload synthetic-only review evidence, never weights or caches
         if: always()
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
@@ -228,5 +242,45 @@ jobs:
             artifacts/neural-studio/proof/
             artifacts/neural-runner-resources.txt
             artifacts/neural-ci-server.log
+          retention-days: 3
+          if-no-files-found: warn
+
+  windows-playback:
+    name: Windows Chrome offline playback (not local TTS)
+    needs: neural-studio
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/arena/3284941c-jali-vulkan')
+    runs-on: windows-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out source
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Select Node 22
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '22'
+      - name: Download only the public synthetic playback artifact
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6
+        with:
+          name: laptop-playback-checkpoint
+          path: artifacts
+      - name: Extract the playback pack
+        shell: pwsh
+        run: Expand-Archive -LiteralPath artifacts/Jali-Laptop-Playback-Checkpoint.zip -DestinationPath artifacts
+      - name: Install pinned browser tooling without install hooks
+        run: npm ci --prefix tools --ignore-scripts
+      - name: Check sampler and measurement contracts on Windows
+        run: node --test tests/visemes.test.mjs tests/measurement.test.mjs
+      - name: Exercise actual installed Chrome over HTTP and file URLs
+        env:
+          JALI_BROWSER_CHANNEL: chrome
+        run: node tools/smoke_playback_checkpoint.cjs
+      - name: Upload Windows browser-only evidence
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: windows-browser-playback-evidence
+          path: artifacts/playback-checkpoint-proof/
           retention-days: 3
           if-no-files-found: warn

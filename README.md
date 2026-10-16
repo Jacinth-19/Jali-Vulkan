@@ -168,3 +168,11 @@ The default preview uses only the disclosed built-in English synthetic voice. It
 The preview is a **development server**, not an authenticated production service. It stores submitted text/audio locally, limits requests and retains bounded sessions; do not enter sensitive content. Generated media, binaries, models and datasets are ignored by Git. Third-party model code requires separate isolation and supply-chain review.
 
 Optional eSpeak is GPL-3.0-or-later. tinygltf and all runtime/compiler/media dependencies retain their own licenses; wrapper package labels do not relicense bundled components. Review linked-executable obligations before distribution. This repository still has no owner-selected distribution license.
+
+### Early Windows-browser checkpoint
+
+The offline playback pack adds half-speed articulation review, per-recording notes
+and explicit JSON export of visible-tab render observations. It requires no Python
+or speech-model installation for playback. See [extraction and review instructions](docs/windows-playback-checkpoint.txt).
+This is not a port of the local speech backend, a native Vulkan package, or a
+performance claim for your Windows laptop.
