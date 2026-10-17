@@ -55,6 +55,8 @@ def main():
     a=p.parse_args();ident,rig=prepare_replay(a.source_session,a.assets,a.sessions,a.character)
     def reject(*_):raise ValueError('Explicit comparison-only server: use its prepared replay; no synthesis')
     state=StudioState(a.sessions,rig,None,pipeline=reject);state.ready.append(ident)
+    clip=json.loads((a.sessions/ident/'manifest.json').read_text())
+    state.jobs[ident]={'state':'ready','stage':'ready','id':ident,'clip':clip}
     server=make_server(a.assets,state,'0.0.0.0',a.port)
     print(json.dumps({'comparison_session':ident,'character':a.character,'port':a.port,'new_synthesis':False}),flush=True)
     try:server.serve_forever()

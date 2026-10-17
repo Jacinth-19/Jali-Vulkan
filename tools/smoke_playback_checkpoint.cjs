@@ -3,6 +3,28 @@ const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),
 const {pathToFileURL}=require('node:url'),{execFileSync}=require('node:child_process'),{createHash}=require('node:crypto');
 const {chromium:playwright}=require('playwright-core'),chromium=require('@sparticuz/chromium');
 let checkpointStage='package integrity';
+// React inside the page to confirmed *actual* playback, rather than paying two
+// browser-protocol/actionability round trips while a short clip can reach EOS.
+// Cancel/speed still use the real UI handlers and must invalidate the run.
+async function actDuringPlayback(page,action,count){
+ await page.evaluate(action=>{
+  window.checkpointActionProbe=null;const audio=document.querySelector('#audio');
+  function observe(){
+   if(JaliCheckpoint.getMeasurementPhase()!=='playing'||audio.paused||audio.ended||audio.currentTime<=0)return;
+   window.removeEventListener('jali-render',observe);audio.removeEventListener('timeupdate',observe);
+   window.checkpointActionProbe={action,audio_time:audio.currentTime,duration:audio.duration,phase:JaliCheckpoint.getMeasurementPhase(),paused:audio.paused,ended:audio.ended};
+   if(action==='cancel')document.querySelector('#cancel').click();
+   else{const select=document.querySelector('#speed');select.value='0.5';select.dispatchEvent(new Event('change',{bubbles:true}));}
+  }
+  window.addEventListener('jali-render',observe);audio.addEventListener('timeupdate',observe);
+ },action);
+ await page.locator('#measure').click();
+ await page.waitForFunction(count=>JaliCheckpoint.getRuns().length===count,count,{timeout:45000});
+ const probe=await page.evaluate(()=>window.checkpointActionProbe);
+ if(!probe||probe.paused||probe.ended||probe.phase!=='playing'||!(probe.audio_time>0&&probe.audio_time<probe.duration))throw Error('UI action did not occur during actual playback: '+JSON.stringify(probe));
+ return probe;
+}
+
 (async()=>{
  const root=path.resolve('artifacts/Jali-Laptop-Playback-Checkpoint'),proof=path.resolve('artifacts/playback-checkpoint-proof');fs.mkdirSync(proof,{recursive:true});
  const manifest=JSON.parse(fs.readFileSync(path.join(root,'package-manifest.json')));
@@ -57,10 +79,10 @@ let checkpointStage='package integrity';
    const startupCancel=await page.evaluate(()=>{const a=document.querySelector('#audio');a.play=window.originalCheckpointPlay;window.releaseCheckpointPlay();return JaliCheckpoint.getRuns()[1];});
    if(startupCancel.valid_sample||startupCancel.reason!=='cancelled')throw Error('Pending-play cancellation failed: '+JSON.stringify(startupCancel));
    checkpointStage=mode+' actual-playback cancellation';
-   await page.locator('#measure').click();await page.waitForFunction(()=>JaliCheckpoint.getMeasurementPhase()==='playing');await page.locator('#cancel').click();
+   const cancellationProbe=await actDuringPlayback(page,'cancel',3);
    const cancelled=await page.evaluate(()=>JaliCheckpoint.getRuns()[2]);if(cancelled.valid_sample||cancelled.reason!=='cancelled')throw Error('Cancellation failed: '+JSON.stringify(cancelled));
-   await page.locator('#measure').click();await page.waitForFunction(()=>JaliCheckpoint.getMeasurementPhase()==='playing');await page.locator('#speed').selectOption('0.5');
-   if((await page.evaluate(()=>JaliCheckpoint.getRuns()[3])).valid_sample)throw Error('Changed speed counted as success');
+   const speedProbe=await actDuringPlayback(page,'speed',4);
+   const changedSpeed=await page.evaluate(()=>JaliCheckpoint.getRuns()[3]);if(changedSpeed.valid_sample||changedSpeed.reason!=='speed changed')throw Error('Changed speed counted as success: '+JSON.stringify(changedSpeed));
    checkpointStage=mode+' report export';
    const downloadPromise=page.waitForEvent('download');await page.locator('#download').click();const download=await downloadPromise;
    const filename=path.join(proof,`${mode}-automated-runner-report.json`);await download.saveAs(filename);const exported=JSON.parse(fs.readFileSync(filename));
@@ -71,7 +93,7 @@ let checkpointStage='package integrity';
    await page.screenshot({path:path.join(proof,`${mode}-mobile.png`),fullPage:true});
    await page.setViewportSize({width:1360,height:1000});await page.screenshot({path:path.join(proof,`${mode}-desktop.png`),fullPage:true});
    if(errors.length||external.length)throw Error(JSON.stringify({errors,external}));
-   results.push({mode,passed:true,web_security_enabled:true,errors,external,actual_playback:run,checks:['three embedded WAV hashes and actual playback','audio/face identity','notes survive clip switch','actual end completes measurement','cancel and speed change invalidate','downloaded report matches state','unreviewed cases remain pending','mobile layout']});
+   results.push({mode,passed:true,web_security_enabled:true,errors,external,actual_playback:run,actual_playback_actions:[cancellationProbe,speedProbe],checks:['three embedded WAV hashes and actual playback','audio/face identity','notes survive clip switch','actual end completes measurement','cancel and speed change invalidate','downloaded report matches state','unreviewed cases remain pending','mobile layout']});
    await context.close();await browser.close();browser=null;console.log(mode,'portable checkpoint passed');
   }
   fs.writeFileSync(path.join(proof,'browser-check.json'),JSON.stringify({environment:`Automated ${process.platform} browser; NOT the user target laptop`,results},null,2)+'\n');
