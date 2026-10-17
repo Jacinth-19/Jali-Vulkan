@@ -3,12 +3,18 @@
   "python_tests": 161,
   "js_tests": 46,
   "passed": true,
-  "new_source_hosted_status": "pending submission",
+  "new_source_hosted_status": {
+    "initial_runtime_source": "c5c89ea529df3ddb3607aa4b4b3cbe2ffe4d6877",
+    "core": "11 success, 1 Windows file audio-progress timeout; failure retained",
+    "male_windows": "success",
+    "followup": "Event-based decoded-media progress harness passes local HTTP/file on existing accepted offline package; new hosted run pending"
+  },
   "images": {
     "male": "cec888bc3a0ad52218576c8741a5a49b780cebf60efb56681c381d642ab2cb01",
     "female": "92f27bbd2adfb4834ec29fc7b10888b9945c5ea5974f58f78f964b9c2bea2fda"
   },
   "physical_av_accepted": false,
   "human_appearance_accepted": false,
-  "independent_reference_supplied": false
+  "independent_reference_supplied": false,
+  "runtime_viewer_sha256": "e6007d4de1b116ce50c5cab34c4c7720da78d8bc61d6b26a785b38d3208c6420"
 }

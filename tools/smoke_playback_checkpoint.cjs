@@ -25,6 +25,21 @@ async function actDuringPlayback(page,action,count){
  return probe;
 }
 
+// Observe decoded-media progress in the page, not an RAF poll entered after
+// a second driver round trip. Keep a bounded, source-specific event trace on
+// failure: a play() promise alone is not evidence of advancing audio.
+async function confirmMediaProgress(page,id){
+ return page.evaluate(id=>new Promise((resolve,reject)=>{
+  const a=document.querySelector('#audio'),events=[],abort=new AbortController();
+  const snapshot=type=>({type,time:a.currentTime,paused:a.paused,ended:a.ended,seeking:a.seeking,readyState:a.readyState,networkState:a.networkState,error:a.error?{code:a.error.code,message:a.error.message}:null,session:a.dataset.session,hidden:document.hidden,played:Array.from({length:a.played.length},(_,i)=>[a.played.start(i),a.played.end(i)])});
+  let timer,done=false;function finish(error){if(done)return;done=true;clearTimeout(timer);abort.abort();const probe={id,events,state:snapshot('final')};window.checkpointMediaProbe=probe;if(error)reject(Error(error+': '+JSON.stringify(probe)));else resolve(probe);}
+  function observe(event){const state=snapshot(event?.type||'initial');if(events.length<40)events.push(state);if(state.session!==id)return finish('Audio/face source changed while observing playback');if(state.error)return finish('Decoded media error');if(!state.seeking&&state.time>.15&&state.played.some(([,end])=>end>.15))finish();}
+  for(const name of ['playing','timeupdate','ended','error','stalled','waiting','pause'])a.addEventListener(name,observe,{signal:abort.signal});
+  timer=setTimeout(()=>finish('No confirmed media-clock progress within 30 seconds'),30000);
+  a.play().then(()=>observe({type:'play-resolved'}),e=>finish('play() rejected: '+e.message));observe();
+ }),id);
+}
+
 (async()=>{
  const root=path.resolve('artifacts/Jali-Laptop-Playback-Checkpoint'),proof=path.resolve('artifacts/playback-checkpoint-proof');fs.mkdirSync(proof,{recursive:true});
  const manifest=JSON.parse(fs.readFileSync(path.join(root,'package-manifest.json')));
@@ -47,7 +62,7 @@ async function actDuringPlayback(page,action,count){
   for(const [mode,url] of [['HTTP',`http://127.0.0.1:${server.address().port}`],['file',pathToFileURL(path.join(root,'index.html')).href]]){
    checkpointStage=mode+' initialization';
    browser=await playwright.launch(channel?{channel,headless:true,args:['--enable-unsafe-swiftshader']}:{executablePath:await chromium.executablePath(),headless:true,args:chromium.args.filter(a=>a!=='--disable-web-security'),env:{...process.env,LD_LIBRARY_PATH:`${support}/lib:/tmp:${process.env.LD_LIBRARY_PATH||''}`}});
-   const context=await browser.newContext({viewport:{width:1360,height:1000},acceptDownloads:true}),page=await context.newPage(),errors=[],external=[];
+   const context=await browser.newContext({viewport:{width:1360,height:1000},acceptDownloads:true}),page=await context.newPage(),errors=[],external=[],mediaProgress=[];
    page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
    page.on('request',r=>{if(/^https?:/.test(r.url())&&(mode==='file'||!r.url().startsWith(url+'/')))external.push(r.url());});
    await page.goto(url,{waitUntil:'load'});await page.waitForFunction(()=>window.JaliCheckpoint&&JaliHeadDemo.getState().ready&&!document.querySelector('#measure').disabled,null,{timeout:60000});
@@ -57,7 +72,8 @@ async function actDuringPlayback(page,action,count){
     const clip=await page.evaluate(i=>window.JALI_HEAD_DATA.clips[i],i);
     const bytes=Buffer.from(clip.file.split(',')[1],'base64');
     if(createHash('sha256').update(bytes).digest('hex')!==manifest.corpus[i].audio_sha256)throw Error('Embedded audio changed');
-    await page.locator('#audio').evaluate(a=>a.play());await page.waitForFunction(()=>document.querySelector('#audio').currentTime>.15);
+    checkpointStage=mode+' corpus audio/face identity '+i+' '+clip.id;
+    mediaProgress.push(await confirmMediaProgress(page,clip.id));
     if(await page.evaluate(()=>JaliHeadDemo.getState().sessionId)!==clip.id)throw Error('Wrong face/audio identity');
     await page.locator('#audio').evaluate(a=>a.pause());
    }
@@ -93,7 +109,7 @@ async function actDuringPlayback(page,action,count){
    await page.screenshot({path:path.join(proof,`${mode}-mobile.png`),fullPage:true});
    await page.setViewportSize({width:1360,height:1000});await page.screenshot({path:path.join(proof,`${mode}-desktop.png`),fullPage:true});
    if(errors.length||external.length)throw Error(JSON.stringify({errors,external}));
-   results.push({mode,passed:true,web_security_enabled:true,errors,external,actual_playback:run,actual_playback_actions:[cancellationProbe,speedProbe],checks:['three embedded WAV hashes and actual playback','audio/face identity','notes survive clip switch','actual end completes measurement','cancel and speed change invalidate','downloaded report matches state','unreviewed cases remain pending','mobile layout']});
+   results.push({mode,passed:true,media_progress:mediaProgress,web_security_enabled:true,errors,external,actual_playback:run,actual_playback_actions:[cancellationProbe,speedProbe],checks:['three embedded WAV hashes and actual playback','audio/face identity','notes survive clip switch','actual end completes measurement','cancel and speed change invalidate','downloaded report matches state','unreviewed cases remain pending','mobile layout']});
    await context.close();await browser.close();browser=null;console.log(mode,'portable checkpoint passed');
   }
   fs.writeFileSync(path.join(proof,'browser-check.json'),JSON.stringify({environment:`Automated ${process.platform} browser; NOT the user target laptop`,results},null,2)+'\n');

@@ -93,6 +93,12 @@ Noisy off/on results cannot establish an improvement or hardware overhead bound.
 Keep wrap off by default pending target-hardware testing. Exact local results
 are in [the render receipt](evidence/realism-v4-render.json).
 
+New actual CPU-synthesized talking previews: [male](../docs/media/realism-v4-male-talking.mp4) (am_michael, 2.048s, 31 frames) and [female](../docs/media/realism-v4-female-talking.mp4) (af_heart, 1.7493s, 27 frames). Same text, “Mama brought five blue bags.” Each uses its own newly generated WAV/transcript-bound cues; all encoded frames and media streams decode successfully. [Male receipt](evidence/realism-v4-male-talking.json), [female receipt](evidence/realism-v4-female-talking.json). These are fixed-audio-clock offline exports, not physical output measurements, independent phonetic reference or real-time playback performance. The optional original-material comparison in the capture tool uses the same v4 geometry/maps, not an older v3 asset.
+
+## Hosted checks and preserved failure
+
+At runtime source `c5c89ea`, the enhanced male Windows EXE/selector/installer job [passed](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39027883450). The [core run](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39027883429) passed 11/12 jobs, including enhanced Linux appearance/lease rendering, but Windows file:// playback timed out waiting for audio progress. [Failure evidence](evidence/realism-v4-first-core-failure.json) is preserved; the original cause is not proven. The follow-up observes actual decoded-media time and played ranges inside the page with a bounded event trace, rather than a later RAF poll. This harness passes locally on the previously accepted offline package; that is not a reproduction of the failing Windows environment or a physical measurement. Fresh hosted checks are required, not an assertion that the first run was green.
+
 ## Independent phone-reference intake
 
 ```text

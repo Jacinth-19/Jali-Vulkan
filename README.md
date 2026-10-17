@@ -9,6 +9,8 @@ C++17 voice-to-face engine with **native Vulkan morphing/skinning and rasterizat
 | ![Actual v4 male head with scalp-fitted short crop](docs/images/realism-v4-male.png) | ![Actual v4 female head with recipe skin maps and tapered brow/lash geometry](docs/images/realism-v4-female.png) |
 
 These are **held diagnostic poses, not newly validated speech/contact references**.
+**New actual talking previews:** [male, am_michael](docs/media/realism-v4-male-talking.mp4) · [female, af_heart](docs/media/realism-v4-female-talking.mp4). Both say “Mama brought five blue bags.” using freshly synthesized, hash-bound local WAV/cues; offline 512px/15fps captures, not physical AV or perceptual approval.
+
 Optional build-time skin normal/roughness maps, brow/lash ribbons and distinct male
 short hair are implemented. Generated microdetail is **not scanned skin**, the hair
 shell is **not a strand groom**, and opt-in thin-skin wrap (default off) is **not true

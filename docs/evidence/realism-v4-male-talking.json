@@ -1,0 +1,573 @@
+{
+  "schema": "jali-talking-preview-v1",
+  "fixture": false,
+  "text": "Mama brought five blue bags.",
+  "new_synthesis": true,
+  "comparison_replay": null,
+  "voice": "am_michael",
+  "session_id": "6ec1593b99e04d93867fb2f4f9a266ef",
+  "audio_sha256": "f7e4b4628cfbf0f2a8b0c496d79762f20f7fe0ef8b76519c9979852e761ffe99",
+  "text_sha256": "eee578f8a1f085edff627d40fe21c63d20853135ace5be56e8d9c444623e91f9",
+  "rig": {
+    "profile": "canonical-face-v1",
+    "source_commit": "5c471ec486503a71ae9f84ca296ec87398bb1a040a0b83f046830abdb32dfb5a",
+    "model_sha256": "5c471ec486503a71ae9f84ca296ec87398bb1a040a0b83f046830abdb32dfb5a",
+    "retarget_sha256": "96d2d2a82f71bbdf87b7c301d1e79e566c8b66d9c79a645e65309c11b90d8a30",
+    "viewer_sha256": "e6007d4de1b116ce50c5cab34c4c7720da78d8bc61d6b26a785b38d3208c6420",
+    "import_profile_sha256": "0ef13875b76f4fef9b3bf3fdbe17d61d1daf65414f87b08aee310e7abdd31670"
+  },
+  "render_asset": {
+    "lod": "full",
+    "sha256": "5c471ec486503a71ae9f84ca296ec87398bb1a040a0b83f046830abdb32dfb5a",
+    "shading": "physical-authored-fibers-wrap-v4"
+  },
+  "surface_shading": {
+    "version": "physical-authored-fibers-wrap-v4",
+    "eyeMeshes": 1,
+    "hairMeshes": 1,
+    "skinMeshes": 1,
+    "teethMeshes": 1,
+    "tongueMeshes": 1,
+    "fiberMeshes": 2,
+    "oralAttributeBytes": 18988,
+    "detailBytes": 0,
+    "authoredSkinMeshes": 1,
+    "wrapSupportedMeshes": 1,
+    "tangentBytes": 38800,
+    "newDrawCalls": 0,
+    "newTextures": 0,
+    "limits": "Vertex-depth oral light attenuation (not ray-traced AO), ivory teeth, low-glint brow/lash fibers, balanced lighting; authored recipe maps when supplied, procedural fallback otherwise; opt-in masked single-pass wrap approximation (not physical SSS); no scanned pores or subsurface transport. Wet coated eyes and anisotropic cards; no corneal geometry, strands, voxel scattering or native changes."
+  },
+  "appearance": {
+    "lighting": "soft",
+    "camera": "portrait",
+    "resolution": 512
+  },
+  "fps": 15,
+  "frames": 31,
+  "duration": 2.048,
+  "video_sha256": "dc333d466453131504b1ce2df5fd7f381b663b8c37ce1236d73151315922fb92",
+  "all_streams_ffmpeg_decoded": true,
+  "encoded_video_frames": 31,
+  "encoded_frames_verified_by_framemd5": true,
+  "poses": [
+    {
+      "time": 0,
+      "pose": {},
+      "head": {
+        "yaw": 0,
+        "roll": 0
+      },
+      "eyes": {
+        "yaw": 0,
+        "pitch": 0
+      }
+    },
+    {
+      "time": 0.06666666666666667,
+      "pose": {
+        "viseme_PP": 0.534348072562358,
+        "eyeBlinkRight": 0,
+        "eyeBlinkLeft": 0
+      },
+      "head": {
+        "yaw": 0.0008756542480583641,
+        "roll": 0.0002719475976956116
+      },
+      "eyes": {
+        "yaw": 0,
+        "pitch": 0
+      }
+    },
+    {
+      "time": 0.13333333333333333,
+      "pose": {
+        "viseme_aa": 0.88,
+        "eyeBlinkRight": 0,
+        "eyeBlinkLeft": 0
+      },
+      "head": {
+        "yaw": 0.0017492349669793435,
+        "roll": 0.0005435808542515673
+      },
+      "eyes": {
+        "yaw": 0,
+        "pitch": 0
+      }
+    },
+    {
+      "time": 0.2,
+      "pose": {
+        "viseme_PP": 0.9974999999999999,
+        "eyeBlinkRight": 0,
+        "eyeBlinkLeft": 0
+      },
+      "head": {
+        "yaw": 0.0026186735376949014,
+        "roll": 0.0008145857918715641
+      },
+      "eyes": {
+        "yaw": 0,
+        "pitch": 0
+      }
+    },
+    {
+      "time": 0.26666666666666666,
+      "pose": {
+        "viseme_E": 0.72,
+        "viseme_aa": 0.08,
+        "eyeBlinkRight": 0,
+        "eyeBlinkLeft": 0
+      },
+      "head": {
+        "yaw": 0.003481911149648769,
+        "roll": 0.0010846491590260222
+      },
+      "eyes": {
+        "yaw": 0,
+        "pitch": 0
+      }
+    },
+    {
+      "time": 0.3333333333333333,
+      "pose": {
+        "viseme_PP": 0.9974999999999999,
+        "eyeBlinkRight": 0,
+        "eyeBlinkLeft": 0
+      },
+      "head": {
+        "yaw": 0.0043369036760125285,
+        "roll": 0.001353458792535968
+      },
+      "eyes": {
+        "yaw": 0,
+        "pitch": 0
+      }
+    },
+    {
+      "time": 0.4,
+      "pose": {
+        "viseme_O": 0.6825000000000001,
+        "viseme_RR": 0.15,
+        "eyeBlinkRight": 0,
+        "eyeBlinkLeft": 0
+      },
+      "head": {
+        "yaw": 0.005181626514130976,
+        "roll": 0.0016207039783989107
+      },
+      "eyes": {
+        "yaw": 0,
+        "pitch": 0
+      }
+    },
+    {
+      "time": 0.4666666666666667,
+      "pose": {
+        "viseme_O": 0.6825000000000001,
+        "viseme_RR": 0.15,
+        "eyeBlinkRight": 0,
+        "eyeBlinkLeft": 0
+      },
+      "head": {
+        "yaw": 0.006014079379734675,
+        "roll": 0.0018860758109396256
+      },
+      "eyes": {
+        "yaw": 0,
+        "pitch": 0
+      }
+    },
+    {
+      "time": 0.5333333333333333,
+      "pose": {
+        "viseme_I": 0.35,
+        "viseme_SS": 0.35,
+        "eyeBlinkRight": 0,
+        "eyeBlinkLeft": 0
+      },
+      "head": {
+        "yaw": 0.006832291043567155,
+        "roll": 0.0021492675498707182
+      },
+      "eyes": {
+        "yaw": 0,
+        "pitch": 0
+      }
+    },
+    {
+      "time": 0.6,
+      "pose": {
+        "viseme_I": 0.35,
+        "viseme_SS": 0.35,
+        "eyeBlinkRight": 0,
+        "eyeBlinkLeft": 0
+      },
+      "head": {
+        "yaw": 0.007634323999210478,
+        "roll": 0.0024099749748502375
+      },
+      "eyes": {
+        "yaw": 0,
+        "pitch": 0
+      }
+    },
+    {
+      "time": 0.6666666666666666,
+      "pose": {
+        "viseme_FF": 0.935,
+        "eyeBlinkRight": 0,
+        "eyeBlinkLeft": 0
+      },
+      "head": {
+        "yaw": 0.008418279051055926,
+        "roll": 0.0026678967371265147
+      },
+      "eyes": {
+        "yaw": 0,
+        "pitch": 0
+      }
+    },
+    {
+      "time": 0.7333333333333333,
+      "pose": {
+        "viseme_FF": 0.935,
+        "eyeBlinkRight": 0,
+        "eyeBlinkLeft": 0
+      },
+      "head": {
+        "yaw": 0.009182299811555553,
+        "roll": 0.0029227347078637647
+      },
+      "eyes": {
+        "yaw": 0,
+        "pitch": 0
+      }
+    },
+    {
+      "time": 0.8,
+      "pose": {
+        "viseme_E": 0.72,
+        "viseme_aa": 0.08,
+        "eyeBlinkRight": 0,
+        "eyeBlinkLeft": 0
+      },
+      "head": {
+        "yaw": 0.00992457709710524,
+        "roll": 0.0031741943227458157
+      },
+      "eyes": {
+        "yaw": 0,
+        "pitch": 0
+      }
+    },
+    {
+      "time": 0.8666666666666667,
+      "pose": {
+        "viseme_E": 0.72,
+        "viseme_aa": 0.08,
+        "eyeBlinkRight": 0,
+        "eyeBlinkLeft": 0
+      },
+      "head": {
+        "yaw": 0.0106433532121499,
+        "roll": 0.0034219849224596645
+      },
+      "eyes": {
+        "yaw": 0,
+        "pitch": 0
+      }
+    },
+    {
+      "time": 0.9333333333333333,
+      "pose": {
+        "viseme_E": 0.06841593780369103,
+        "viseme_aa": 0.00760177086707678,
+        "viseme_I": 0.3167422524565391,
+        "viseme_SS": 0.3167422524565391,
+        "eyeBlinkRight": 0,
+        "eyeBlinkLeft": 0
+      },
+      "head": {
+        "yaw": 0.011336926111366157,
+        "roll": 0.0036658200886652693
+      },
+      "eyes": {
+        "yaw": 0,
+        "pitch": 0
+      }
+    },
+    {
+      "time": 1,
+      "pose": {
+        "viseme_I": 0.12732789908966616,
+        "viseme_SS": 0.12732789908966616,
+        "viseme_PP": 0.6346154875944514,
+        "eyeBlinkRight": 0,
+        "eyeBlinkLeft": 0
+      },
+      "head": {
+        "yaw": 0.012003653430066562,
+        "roll": 0.0039054179750632597
+      },
+      "eyes": {
+        "yaw": 0,
+        "pitch": 0
+      }
+    },
+    {
+      "time": 1.0666666666666667,
+      "pose": {
+        "viseme_PP": 0.9236111111111133,
+        "viseme_U": 0.06844444444444243,
+        "viseme_O": 0.009333333333333058,
+        "eyeBlinkRight": 0,
+        "eyeBlinkLeft": 0
+      },
+      "head": {
+        "yaw": 0.012641956373281431,
+        "roll": 0.0041405016331778725
+      },
+      "eyes": {
+        "yaw": 0,
+        "pitch": 0
+      }
+    },
+    {
+      "time": 1.1333333333333333,
+      "pose": {
+        "viseme_U": 0.924,
+        "viseme_O": 0.126,
+        "eyeBlinkRight": 0,
+        "eyeBlinkLeft": 0
+      },
+      "head": {
+        "yaw": 0.01325032345430906,
+        "roll": 0.004370799332478546
+      },
+      "eyes": {
+        "yaw": 0,
+        "pitch": 0
+      }
+    },
+    {
+      "time": 1.2,
+      "pose": {
+        "viseme_U": 0.8728163265306144,
+        "viseme_O": 0.11902040816326559,
+        "viseme_PP": 0.05525510204081408,
+        "eyeBlinkRight": 0,
+        "eyeBlinkLeft": 0
+      },
+      "head": {
+        "yaw": 0.013827314073881491,
+        "roll": 0.004596044874470161
+      },
+      "eyes": {
+        "yaw": 0,
+        "pitch": 0
+      }
+    },
+    {
+      "time": 1.2666666666666666,
+      "pose": {
+        "viseme_PP": 0.9974999999999999,
+        "eyeBlinkRight": 0,
+        "eyeBlinkLeft": 0
+      },
+      "head": {
+        "yaw": 0.014371561931470477,
+        "roll": 0.004815977900388852
+      },
+      "eyes": {
+        "yaw": 0,
+        "pitch": 0
+      }
+    },
+    {
+      "time": 1.3333333333333333,
+      "pose": {
+        "viseme_E": 0.72,
+        "viseme_aa": 0.08,
+        "eyeBlinkRight": 0,
+        "eyeBlinkLeft": 0
+      },
+      "head": {
+        "yaw": 0.014881778260655742,
+        "roll": 0.005030344192147748
+      },
+      "eyes": {
+        "yaw": 0,
+        "pitch": 0
+      }
+    },
+    {
+      "time": 1.4,
+      "pose": {
+        "viseme_E": 0.72,
+        "viseme_aa": 0.08,
+        "eyeBlinkRight": 0,
+        "eyeBlinkLeft": 0
+      },
+      "head": {
+        "yaw": 0.015356754880894245,
+        "roll": 0.005238895966184772
+      },
+      "eyes": {
+        "yaw": 0,
+        "pitch": 0
+      }
+    },
+    {
+      "time": 1.4666666666666666,
+      "pose": {
+        "viseme_E": 0.72,
+        "viseme_aa": 0.08,
+        "eyeBlinkRight": 0,
+        "eyeBlinkLeft": 0
+      },
+      "head": {
+        "yaw": 0.015795367058463947,
+        "roll": 0.005441392159872847
+      },
+      "eyes": {
+        "yaw": 0,
+        "pitch": 0
+      }
+    },
+    {
+      "time": 1.5333333333333334,
+      "pose": {
+        "viseme_E": 0.72,
+        "viseme_aa": 0.08,
+        "eyeBlinkRight": 0,
+        "eyeBlinkLeft": 0
+      },
+      "head": {
+        "yaw": 0.016196576169807405,
+        "roll": 0.005637598710161446
+      },
+      "eyes": {
+        "yaw": 0,
+        "pitch": 0
+      }
+    },
+    {
+      "time": 1.6,
+      "pose": {
+        "viseme_E": 0.6801166180757999,
+        "viseme_aa": 0.07556851311953333,
+        "viseme_I": 0.019387755102041663,
+        "viseme_SS": 0.019387755102041663,
+        "eyeBlinkRight": 0,
+        "eyeBlinkLeft": 0
+      },
+      "head": {
+        "yaw": 0.016559432160968512,
+        "roll": 0.0058272888241274155
+      },
+      "eyes": {
+        "yaw": 0,
+        "pitch": 0
+      }
+    },
+    {
+      "time": 1.6666666666666667,
+      "pose": {
+        "viseme_I": 0.35,
+        "viseme_SS": 0.35,
+        "eyeBlinkRight": 0,
+        "eyeBlinkLeft": 0
+      },
+      "head": {
+        "yaw": 0.016883075797298416,
+        "roll": 0.006010243241122342
+      },
+      "eyes": {
+        "yaw": 0,
+        "pitch": 0
+      }
+    },
+    {
+      "time": 1.7333333333333334,
+      "pose": {
+        "viseme_I": 0.35,
+        "viseme_SS": 0.35,
+        "eyeBlinkRight": 0,
+        "eyeBlinkLeft": 0
+      },
+      "head": {
+        "yaw": 0.01716674069810342,
+        "roll": 0.006186250486213442
+      },
+      "eyes": {
+        "yaw": 0,
+        "pitch": 0
+      }
+    },
+    {
+      "time": 1.8,
+      "pose": {
+        "viseme_I": 0.35,
+        "viseme_SS": 0.35,
+        "eyeBlinkRight": 0,
+        "eyeBlinkLeft": 0
+      },
+      "head": {
+        "yaw": 0.01740975515141687,
+        "roll": 0.0063551071146250365
+      },
+      "eyes": {
+        "yaw": 0,
+        "pitch": 0
+      }
+    },
+    {
+      "time": 1.8666666666666667,
+      "pose": {
+        "eyeBlinkRight": 0,
+        "eyeBlinkLeft": 0
+      },
+      "head": {
+        "yaw": 0.01761154370459766,
+        "roll": 0.006516617946898056
+      },
+      "eyes": {
+        "yaw": 0,
+        "pitch": 0
+      }
+    },
+    {
+      "time": 1.9333333333333333,
+      "pose": {
+        "eyeBlinkRight": 0,
+        "eyeBlinkLeft": 0
+      },
+      "head": {
+        "yaw": 0.017771628526988825,
+        "roll": 0.006670596294495761
+      },
+      "eyes": {
+        "yaw": 0,
+        "pitch": 0
+      }
+    },
+    {
+      "time": 2,
+      "pose": {
+        "eyeBlinkRight": 0,
+        "eyeBlinkLeft": 0
+      },
+      "head": {
+        "yaw": 0.017889630541409605,
+        "roll": 0.006816864175594904
+      },
+      "eyes": {
+        "yaw": 0,
+        "pitch": 0
+      }
+    }
+  ],
+  "browser_errors": [],
+  "limits": "Actual WebGL/stock CPU speech; not generated imagery. Offline fixed-WAV-clock render, not physical AV, subjective realism approval, native appearance parity or measured i5 performance."
+}

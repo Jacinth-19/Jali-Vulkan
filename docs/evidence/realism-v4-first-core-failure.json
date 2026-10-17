@@ -1,0 +1,57 @@
+{
+  "source": "c5c89ea529df3ddb3607aa4b4b3cbe2ffe4d6877",
+  "run": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39027883429",
+  "attempt": 1,
+  "conclusion": "failure",
+  "passed_core_jobs": 11,
+  "failed_jobs": [
+    {
+      "id": 117384349293,
+      "name": "Windows Chrome offline playback (not local TTS)"
+    }
+  ],
+  "failure_annotations": [
+    {
+      "path": ".github",
+      "blob_href": "https://github.com/Jacinth-19/Jali-Vulkan/blob/c5c89ea529df3ddb3607aa4b4b3cbe2ffe4d6877/.github",
+      "start_line": 2,
+      "start_column": null,
+      "end_line": 2,
+      "end_column": null,
+      "annotation_level": "warning",
+      "title": "",
+      "message": "Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/",
+      "raw_details": ""
+    },
+    {
+      "path": ".github",
+      "blob_href": "https://github.com/Jacinth-19/Jali-Vulkan/blob/c5c89ea529df3ddb3607aa4b4b3cbe2ffe4d6877/.github",
+      "start_line": 20,
+      "start_column": null,
+      "end_line": 20,
+      "end_column": null,
+      "annotation_level": "failure",
+      "title": "",
+      "message": "Process completed with exit code 1.",
+      "raw_details": ""
+    },
+    {
+      "path": ".github",
+      "blob_href": "https://github.com/Jacinth-19/Jali-Vulkan/blob/c5c89ea529df3ddb3607aa4b4b3cbe2ffe4d6877/.github",
+      "start_line": 13,
+      "start_column": null,
+      "end_line": 13,
+      "end_column": null,
+      "annotation_level": "failure",
+      "title": "Neural setup failure",
+      "message": "HTTP portable checkpoint passed\nCheckpoint stage: file corpus audio/face identity\npage.waitForFunction: Timeout 30000ms exceeded.\n    at D:\\a\\Jali-Vulkan\\Jali-Vulkan\\tools\\smoke_playback_checkpoint.cjs:60:67 {\n  name: 'TimeoutError'\n}\n",
+      "raw_details": ""
+    }
+  ],
+  "raw_log_download": "EOF at results-receiver.actions.githubusercontent.com; annotation is the available failure evidence",
+  "local_reproduction": "Existing accepted offline package passed HTTP and file locally on software Chromium. Not a reproduction of Windows current-build failure.",
+  "root_cause_proven": false,
+  "next_action": "Harden bounded in-page decoded-media progress observation and source-specific failure diagnostics; rerun hosted checks. Do not conceal original failure.",
+  "rerun_command": "gh run rerun 39027883429 --failed",
+  "rerun_result": "CLI reported run cannot be rerun; workflow file may be broken. Actual source workflow did execute 12 jobs; no YAML-breakage conclusion inferred. A new normal branch push is used instead."
+}
