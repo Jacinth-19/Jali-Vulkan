@@ -1,0 +1,50 @@
+{
+  "schema": "jali-talking-preview-v1",
+  "fixture": false,
+  "text": "Hello. Here is our updated local character. Watch the eyes and the hair as I speak. Please bring my blue paper bag.",
+  "session_id": "c5d06e78e4d54afcabb5ebad34bea387",
+  "audio_sha256": "0e8d3a446bfe2ac4d4dfa2bc9fc2a68069bb36ed63d14f166278ab72a543b8b3",
+  "text_sha256": "8be6560a682d6876c2db84d1996972cc04901d6b6b1fecc9b011917c7c4356cf",
+  "rig": {
+    "profile": "mpfb-rhubarb-9-v1",
+    "source_commit": "2afe6d79779313db8909badebf46f9805a6c7b70",
+    "model_sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+    "retarget_sha256": "96d2d2a82f71bbdf87b7c301d1e79e566c8b66d9c79a645e65309c11b90d8a30",
+    "viewer_sha256": "7d2c06814f1ee15f5fa61aada287e140562e25955c47ebe6cf42646969870ff8"
+  },
+  "render_asset": {
+    "lod": "full",
+    "sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+    "shading": "physical-eyes-hair-cards-v1"
+  },
+  "surface_shading": {
+    "version": "physical-eyes-hair-cards-v1",
+    "eyeMeshes": 1,
+    "hairMeshes": 1,
+    "tangentBytes": 62432,
+    "newDrawCalls": 0,
+    "newTextures": 0,
+    "limits": "Wet dielectric eye coating and anisotropic hair cards; no refractive corneal geometry, strand groom, voxel scattering or native changes."
+  },
+  "appearance": {
+    "lighting": "soft",
+    "camera": "portrait",
+    "resolution": 512
+  },
+  "fps": 15,
+  "frames": 107,
+  "duration": 7.104,
+  "video_sha256": "a95b4ec0b14d69bedc9857c8ac1308622e31f8faaa07e1b475f207ff3a7e7023",
+  "all_streams_ffmpeg_decoded": true,
+  "browser_errors": [],
+  "limits": "Actual WebGL/stock CPU speech; not generated imagery. Offline fixed-WAV-clock render, not physical AV, subjective realism approval, native appearance parity or measured i5 performance.",
+  "image": {
+    "path": "docs/images/eye-hair-preview.png",
+    "sha256": "772c54026ed76ddd99f692810a39bb77cf0ebe057a1994e781a040beb9d510fb"
+  },
+  "local_tests": {
+    "python": 143,
+    "javascript": 36
+  },
+  "hosted_acceptance": "Pending final source workflow, including frozen Windows rebuild and installer test."
+}

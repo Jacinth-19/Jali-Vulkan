@@ -1,6 +1,6 @@
 # Jali project tracker
 
-Last status review: **2026-10-16**.
+Last status review: **2026-10-17**.
 
 This is the ongoing checklist for our personal, noncommercial voice-to-face system.
 It tracks delivered evidence separately from planned features. It is not a claim
@@ -46,6 +46,18 @@ recording -> animate the detailed character -> synchronized playback.
 | M6 | Streaming and interruption | Bounded sentence batching, verified next-audio prebuffer, 1,000-character paragraphs and cancel/retry delivered; not internal incremental inference | Bounded incremental audio/face playback with cancellation and recovery |
 | M7 | Windows performance and packaging | Partial: source/frozen renderer/preset GUI, Launch/Stop/device doctor and one-command benchmark passed hosted CI; user-reported PC run works; redistribution licensing and measured laptop acceptance open; personal signing optional | Measured target-device results and a tested, understandable launcher/package |
 | M8 | Asset workflow and final QA | Partial: mapped GLB import and actual Blender skin/morph round trips pass; broad production assets, physical AV and release review remain open | Reliable asset round trips, real AV measurements, and release review |
+
+## Eye/hair materials and character candidates — 2026-10-17
+
+- [x] Reviewed Hair-Renderer-X at ff0b40347733d4b58ed334ffc45e158bebcdf4d3; documented Vulkan/LFS/strand/scattering requirements and incomplete root/asset licensing scope. No code, shaders or grooms copied.
+- [x] Added original bounded WebGL wet-eye/anisotropic hair-card treatment on known materials. No added textures, meshes or draw calls; MakeHuman tangent data adds 62,432 bytes. Native appearance is unchanged.
+- [x] Prepared and validated a pinned personal-noncommercial Ready Player Me brunette alternative (not an Epic MetaHuman), retaining attribution, source/normalized/package hashes and reusable mapping. 8,026 vertices / 13,317 triangles / 11 textures; zero glTF validation errors.
+- [x] Actual new CPU speech talking preview rendered at 512 / 15 FPS: 7.104 seconds / 107 frames, matching WAV/text/cues, full FFmpeg video/audio decode. Actual before/after frames retained; no generated/mock image. [Evidence](evidence/eye-hair-preview.json).
+- [x] Local 143 Python / 36 JavaScript checks pass, including material role, geometry/texture preservation, fallback and noncommercial setup opt-in.
+- [ ] Final full hosted regression, including rebuilding/testing frozen Windows EXEs and personal installer. Existing portable/install copies need rebuilding; there is no automatic update.
+- [ ] Genuine licensed Epic MetaHuman export/conversion, licensed strand grooms/full scattering pipeline, additional provider rights review, subjective eye/hair realism, physical AV and measured i5 acceptance. The current treatment cannot turn coarse cards into strand geometry.
+
+[Setup, repo findings, exact limitations and rebuild commands](eyes-hair-characters.md).
 
 ## Character/workspace expansion — 2026-10-16
 

@@ -211,7 +211,7 @@ jobs:
       - name: Check contracts without loading a neural model
         run: |
           .venv/bin/python -m unittest discover -s tests -p 'test_*.py'
-          node --test tests/visemes.test.mjs tests/measurement.test.mjs tests/performance.test.mjs tests/streaming.test.mjs tests/upgrades.test.mjs tests/creative.test.mjs
+          node --test tests/visemes.test.mjs tests/measurement.test.mjs tests/performance.test.mjs tests/streaming.test.mjs tests/upgrades.test.mjs tests/creative.test.mjs tests/surfaces.test.mjs
       - name: Explicitly prepare reviewed model, stock voice and CC0 character
         env:
           GH_TOKEN: ${{ github.token }}
@@ -345,7 +345,7 @@ jobs:
             .venv/Scripts/python.exe -m unittest discover -s tests -p $pattern
             if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           }
-          node --test tests/visemes.test.mjs tests/measurement.test.mjs tests/performance.test.mjs tests/streaming.test.mjs tests/upgrades.test.mjs tests/creative.test.mjs
+          node --test tests/visemes.test.mjs tests/measurement.test.mjs tests/performance.test.mjs tests/streaming.test.mjs tests/upgrades.test.mjs tests/creative.test.mjs tests/surfaces.test.mjs
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Explicitly prepare stock voice, model, Windows analyzer and CC0 head
         env:
@@ -623,6 +623,10 @@ jobs:
         run: |
           python -c "import sys;sys.path.insert(0,'tools');from build_neural_studio import build;build(prepare_speech=False,character='artifacts/character-import-proof/returned',output='artifacts/custom-studio-test')"
           python tools/run_workspace_ci.py --assets artifacts/custom-studio-test
+      - name: Validate explicitly requested personal-noncommercial character sample
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python tools/ci_command.py python tools/prepare_character_sample.py --personal-noncommercial
       - name: Upload only synthetic fixture and roundtrip evidence
         if: always()
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f

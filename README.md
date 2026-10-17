@@ -31,6 +31,23 @@ Captured on **SwiftShader software Vulkan**, not a hardware-GPU performance resu
 The native fixture is not the detailed human above. [Capture commands, provenance,
 image hashes and scope](docs/render-captures.md) are retained.
 
+### Eye/hair materials and additional character — 2026-10-17
+
+WebGL now has a wet dielectric eye coating and restrained anisotropic MakeHuman
+hair-card shading. This is **not** strand-hair scattering or MetaHuman-quality
+approval. An optional pinned Ready Player Me brunette sample can be prepared for
+personal noncommercial use; no Epic MetaHuman assets were obtained.
+[Repo review, character setup, real talking-video command and EXE rebuild](docs/eyes-hair-characters.md).
+Local checks: **143 Python / 36 JS**. Final hosted/frozen rebuild acceptance is
+tracked in the [project tracker](docs/project-tracker.md); old EXEs must be rebuilt.
+
+<img src="docs/images/eye-hair-preview.png" width="380" alt="Actual updated MakeHuman WebGL face, with eye coating and hair-card material treatment">
+
+[Actual render/WAV identity and scope](docs/evidence/eye-hair-preview.json).
+Appearance/video remain WebGL-only; native retains calibration, authored
+performance and weight timelines. Current Chrome is required for browser video.
+Human quality, physical AV and measured i5 performance remain open.
+
 ### Character/workspace upgrades
 
 Mapped self-contained GLB importing and reusable retarget profiles; prepared low

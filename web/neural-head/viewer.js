@@ -10,6 +10,7 @@ import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
 import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js';
 import {creativeSettings} from './creative.mjs';
 import {appearanceSettings,BACKGROUNDS} from './appearance.mjs';
+import {enhanceSurfaceMaterials} from './surface-materials.mjs';
 import { composePerformance } from './performance.mjs';
 import { sampleClipVisemes, validateCues } from './visemes.mjs';
 
@@ -23,6 +24,7 @@ const eyeBones=[], gazeRotation=new THREE.Quaternion(), gazeEuler=new THREE.Eule
 let selected = 0, speechMeshes = [], ready = false, frameCount = 0, fpsEpoch = performance.now();
 let nativeActive=false, renderSettings={fps:30,resolution:Infinity,pixelRatio:Math.min(devicePixelRatio||1,1.5)}, articulationProfile='baseline';
 let creativeOptions=null, appearance=null, composer=null,fxaaPass=null, lights=null,portraitTarget=null,currentLayers=null;
+let surfaceShading=null;
 let idleRate=2,actualAsset={lod:'full',sha256:data.rig?.model_sha256};
 const idleEpoch=performance.now();
 let currentPose = {}, modelStats = {}, captureOnly = false, resizeViewer;
@@ -132,6 +134,8 @@ async function init() {
   const gltf = await loader.parseAsync(bytes.buffer, '');
   sourceAssociations=gltf.parser.associations;
   root = gltf.scene; scene.add(root); root.updateMatrixWorld(true);
+  surfaceShading=enhanceSurfaceMaterials(root,THREE,{enabled:new URLSearchParams(location.search).get('surface')!=='original'});
+  actualAsset={...actualAsset,shading:surfaceShading.version};
   const geometries = new Set(), bones = new Set();
   root.traverse(object => {
     if (object.isMesh) {
@@ -224,7 +228,7 @@ function setAppearance(value){
  lights.key.intensity=l[0];lights.rim.intensity=l[1];lights.fill.intensity=l[2];
  root.traverse(o=>{if(!o.isMesh)return;for(const m of (Array.isArray(o.material)?o.material:[o.material])){
   if(m.name==='Human.body'){m.roughness=a.skin;m.envMapIntensity=.9;}
-  if(m.name==='Human.high-poly'){m.roughness=a.eyes;m.metalness=0;m.envMapIntensity=1.4;}
+  if(m.name==='Human.high-poly'||m.userData.jaliSurface==='eyes'){m.roughness=a.eyes;m.metalness=0;m.envMapIntensity=m.userData.jaliSurface?1.05:1.4;if(m.userData.jaliSurface)m.clearcoatRoughness=Math.max(.025,Math.min(.1,a.eyes*.35));}
  }});
  const position={portrait:[.035,.005,.82],close:[.015,.015,.57],threequarter:[.33,.025,.78],wide:[.02,-.04,1.22]}[a.camera];
  if(previousCamera!==a.camera){controls.target.copy(portraitTarget);camera.position.copy(portraitTarget).add(new THREE.Vector3(...position));controls.update();}
@@ -271,7 +275,7 @@ window.JaliHeadDemo = {
   },
   getDiagnostics: () => {
     const gl = renderer?.getContext(), extension = gl?.getExtension('WEBGL_debug_renderer_info');
-    return {renderAsset:nativeActive?{lod:'native-fixed',sha256:data.rig?.model_sha256}:actualAsset,idleRate, activeRenderer:nativeActive?'native-vulkan':'WebGL', modelStats, webgl:gl ? {
+    return {surfaceShading:nativeActive?null:surfaceShading,renderAsset:nativeActive?{lod:'native-fixed',sha256:data.rig?.model_sha256}:actualAsset,idleRate, activeRenderer:nativeActive?'native-vulkan':'WebGL', modelStats, webgl:gl ? {
       version:gl.getParameter(gl.VERSION),
       renderer:gl.getParameter(extension ? extension.UNMASKED_RENDERER_WEBGL : gl.RENDERER),
       vendor:gl.getParameter(extension ? extension.UNMASKED_VENDOR_WEBGL : gl.VENDOR),
@@ -279,7 +283,7 @@ window.JaliHeadDemo = {
     } : null, canvas:{width:canvas.width,height:canvas.height}, pixelRatio:renderer?.getPixelRatio(),
     speechRig:data.rig || null };
   },
-  getState: () => ({ ready,renderAsset:nativeActive?{lod:'native-fixed',sha256:data.rig?.model_sha256}:actualAsset,idleRate, layers:currentLayers, creative:creativeOptions,appearance,streamOffset:(track()?._stream_start_sample||0)/(track()?.audio?.sample_rate||24000),idleTime:creativeOptions?.natural?((performance.now()-idleEpoch)/1000)%3600:0, sessionId: track()?.id || null, clips: data.clips.map(c => ({id:c.id, title:c.title})), modelStats, gazeBones:eyeBones.map(({bone,base})=>{const e=new THREE.Euler().setFromQuaternion(bone.quaternion.clone().multiply(base.clone().invert()));return {name:bone.name,delta:{x:Math.abs(e.x)<1e-12?0:e.x,y:Math.abs(e.y)<1e-12?0:e.y}};}), pose: currentPose, time: audio.currentTime, clip: selected,
+  getState: () => ({ ready,surfaceShading:nativeActive?null:surfaceShading,renderAsset:nativeActive?{lod:'native-fixed',sha256:data.rig?.model_sha256}:actualAsset,idleRate, layers:currentLayers, creative:creativeOptions,appearance,streamOffset:(track()?._stream_start_sample||0)/(track()?.audio?.sample_rate||24000),idleTime:creativeOptions?.natural?((performance.now()-idleEpoch)/1000)%3600:0, sessionId: track()?.id || null, clips: data.clips.map(c => ({id:c.id, title:c.title})), modelStats, gazeBones:eyeBones.map(({bone,base})=>{const e=new THREE.Euler().setFromQuaternion(bone.quaternion.clone().multiply(base.clone().invert()));return {name:bone.name,delta:{x:Math.abs(e.x)<1e-12?0:e.x,y:Math.abs(e.y)<1e-12?0:e.y}};}), pose: currentPose, time: audio.currentTime, clip: selected,
     activeMorphs: speechMeshes.map(mesh => ({ mesh: mesh.name, values: Object.fromEntries(Object.entries(mesh.morphTargetDictionary).filter(([, i]) => mesh.morphTargetInfluences[i] > 0.01).map(([name,i]) => [name, mesh.morphTargetInfluences[i]])) })) }),
   referenceVertices: (layout,time,index=selected) => {
     if(index!==selected)selectClip(index,false);renderAt(time);root.updateMatrixWorld(true);
