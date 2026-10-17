@@ -47,6 +47,14 @@ recording -> animate the detailed character -> synchronized playback.
 | M7 | Windows performance and packaging | Partial: source/frozen renderer/preset GUI, Launch/Stop/device doctor and one-command benchmark passed hosted CI; user-reported PC run works; redistribution licensing and measured laptop acceptance open; personal signing optional | Measured target-device results and a tested, understandable launcher/package |
 | M8 | Asset workflow and final QA | Partial: mapped GLB import and actual Blender skin/morph round trips pass; broad production assets, physical AV and release review remain open | Reliable asset round trips, real AV measurements, and release review |
 
+## Sampled male/female visual review — 2026-10-17
+
+- [x] Reviewed selected frames decoded from both delivered MP4s, with source hashes and exact sample times retained. [Review, actual video crops and ranked findings](makehuman-visual-review.md).
+- [x] Identified the next fix priorities: flat/bright mouth interior and tooth response; washed-out skin lighting/detail; stippled brows/coarse lashes; lip-corner/rounding refinement; coarse front hairline/cards.
+- [x] Kept coverage honest: central P/B/M closure appears largely sealed at selected peaks; strongest sampled blink is only 0.848485, so full closure is unproven; neither clip activates viseme_FF, so no F/V acceptance claim.
+- [ ] Implement and compare the first visual-fix batch under the same WAV/camera/LOD. Add held full blinks, dedicated F/V and rounded-vowel tests, and three-quarter hair views.
+- [ ] User appearance/listening acceptance remains open. This assistant sampled-frame review is not exhaustive motion/AV QA, a measured laptop result or human realism approval. No runtime changes in this review.
+
 ## Male MakeHuman and skin for both — 2026-10-17
 
 - [x] Generated an actual male shape variant from pinned CC0 official MPFB adult gender targets, with exact canonical UV correspondence for all 11,779 body vertices. Shared custom identity, ponytail, outfit and original textures; not a new scan or Epic asset.

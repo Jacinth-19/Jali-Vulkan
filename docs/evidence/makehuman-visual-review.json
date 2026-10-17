@@ -1,0 +1,121 @@
+{
+  "schema": "jali-sampled-visual-review-v1",
+  "review_type": "Assistant visual inspection of selected decoded video frames; not human acceptance, listening review or physical AV measurement",
+  "previews": {
+    "female": {
+      "video": "docs/media/makehuman-female-skin-talking.mp4",
+      "video_sha256": "e049f8cbbaeda16d68ccc91f188979d69f53d89c341f8902238c7b100d4fa030",
+      "decoded_frames": 107,
+      "fps": 15,
+      "samples": [
+        {
+          "label": "Rest",
+          "control": null,
+          "weight": null,
+          "frame": 0,
+          "seconds": 0.0,
+          "covered": true
+        },
+        {
+          "label": "Blink",
+          "control": "eyeBlinkLeft",
+          "weight": 0.8484848484848491,
+          "frame": 38,
+          "seconds": 2.533333333333333,
+          "covered": true
+        },
+        {
+          "label": "P/B/M",
+          "control": "viseme_PP",
+          "weight": 0.9974999999999999,
+          "frame": 17,
+          "seconds": 1.1333333333333333,
+          "covered": true
+        },
+        {
+          "label": "F/V",
+          "control": "viseme_FF",
+          "weight": 0,
+          "frame": null,
+          "seconds": null,
+          "covered": false
+        },
+        {
+          "label": "Open vowel",
+          "control": "viseme_aa",
+          "weight": 0.88,
+          "frame": 15,
+          "seconds": 1.0,
+          "covered": true
+        },
+        {
+          "label": "Rounded vowel",
+          "control": "viseme_U",
+          "weight": 0.924,
+          "frame": 6,
+          "seconds": 0.4,
+          "covered": true
+        }
+      ],
+      "maximum_sampled_blink": 0.8484848484848491
+    },
+    "male": {
+      "video": "docs/media/makehuman-male-skin-talking.mp4",
+      "video_sha256": "a56f60e24f82f085a76513cc131850464e4f37bc4ee61667afbe1c21e2074180",
+      "decoded_frames": 120,
+      "fps": 15,
+      "samples": [
+        {
+          "label": "Rest",
+          "control": null,
+          "weight": null,
+          "frame": 0,
+          "seconds": 0.0,
+          "covered": true
+        },
+        {
+          "label": "Blink",
+          "control": "eyeBlinkLeft",
+          "weight": 0.8484848484848491,
+          "frame": 38,
+          "seconds": 2.533333333333333,
+          "covered": true
+        },
+        {
+          "label": "P/B/M",
+          "control": "viseme_PP",
+          "weight": 0.9974999999999999,
+          "frame": 76,
+          "seconds": 5.066666666666666,
+          "covered": true
+        },
+        {
+          "label": "F/V",
+          "control": "viseme_FF",
+          "weight": 0,
+          "frame": null,
+          "seconds": null,
+          "covered": false
+        },
+        {
+          "label": "Open vowel",
+          "control": "viseme_aa",
+          "weight": 0.88,
+          "frame": 16,
+          "seconds": 1.0666666666666667,
+          "covered": true
+        },
+        {
+          "label": "Rounded vowel",
+          "control": "viseme_U",
+          "weight": 0.924,
+          "frame": 7,
+          "seconds": 0.4666666666666667,
+          "covered": true
+        }
+      ],
+      "maximum_sampled_blink": 0.8484848484848491
+    }
+  },
+  "image_processing": "Decoded MP4 frames only; crops, nearest-neighbour enlargement of details and downscaled overviews with labels. No retouching or generated imagery."
+}

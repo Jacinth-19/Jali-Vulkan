@@ -54,6 +54,11 @@ frozen EXE rebuild/clean-PATH execution/unsigned installer tests.
 Existing PC EXEs need rebuilding; back up rig-bound archives/profiles first.
 Human review, physical AV and target-i5 measurements remain open.
 
+**Visual review:** both talking movies still show a flat/bright mouth interior,
+washed-out skin, coarse brows/lashes and a strip-like front hairline. Selected
+P/B/M poses largely close; full blink and F/V contact are not established by these
+clips. [Ranked findings and actual decoded-frame details](docs/makehuman-visual-review.md).
+
 ### Eye/hair materials and additional character — 2026-10-17
 
 WebGL now has a wet dielectric eye coating and restrained anisotropic MakeHuman
