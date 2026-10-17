@@ -7,7 +7,7 @@
     "initial_runtime_source": "c5c89ea529df3ddb3607aa4b4b3cbe2ffe4d6877",
     "core": "11 success, 1 Windows file audio-progress timeout; failure retained",
     "male_windows": "success",
-    "followup": "Event-based decoded-media progress harness passes local HTTP/file on existing accepted offline package; new hosted run pending"
+    "followup": "Source 7cf2cda core 39029288358 and male 39029288339 running; see followup-actions snapshot. No final hosted acceptance claimed."
   },
   "images": {
     "male": "cec888bc3a0ad52218576c8741a5a49b780cebf60efb56681c381d642ab2cb01",
