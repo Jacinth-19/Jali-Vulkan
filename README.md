@@ -31,6 +31,22 @@ Captured on **SwiftShader software Vulkan**, not a hardware-GPU performance resu
 The native fixture is not the detailed human above. [Capture commands, provenance,
 image hashes and scope](docs/render-captures.md) are retained.
 
+### Male/female selector and dedicated male Windows acceptance — 2026-10-17
+
+A paired studio now switches between the two prepared models by **explicitly
+unloading the old renderer/audio and navigating to a fresh document**. One model
+per page; a shared CPU slot prevents simultaneous male/female generation. Close
+other tabs to control total browser memory. Profiles, tokens, recordings and
+saved conversations remain rig-isolated; no silent archive rebinding.
+
+Personal build: `windows/build-character-pair.ps1 -PersonalUseOnly`.
+[Commands, resource scope, all six requested areas and your laptop acceptance checklist](docs/character-selector-and-personal-acceptance.md).
+Local **157 Python / 42 JS tests pass**; the selector browser fixture also passed.
+Dedicated hosted male frozen EXE/paired selector/unsigned installer acceptance is
+**pending execution**, not inherited from the older female-only result. New asset
+realism, independent lip-sync/physical AV, actual i5 thermals and your PC's
+install/recovery acceptance are **not** claimed complete.
+
 ### Reviewed mouth, lighting and brow/lash fixes — 2026-10-17
 
 The first recommended fix batch adds depth-based oral lighting, less-white teeth,

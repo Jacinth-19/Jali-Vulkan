@@ -1,5 +1,20 @@
 # Jali project tracker
 
+## Six-area follow-up: male Windows / prepared-character selector (2026-10-17)
+
+- [x] Added scoped male/female selector with explicit old-renderer/audio unload and fresh-document navigation. One model per page, not an OS-wide/browser-tab memory guarantee.
+- [x] Shared CPU executor, lock and busy slot across rigs; per-rig session/token/cast/conversation isolation. No silent media rebinding or native male fallback.
+- [x] Local 157 Python / 42 JS tests and actual selector browser transport fixture pass; shared-busy, cross-token/session rejection and safe custom-studio packaging tested.
+- [x] Personal Windows build command and benchmark selection of explicit prepared male/female studio implemented.
+- [ ] Dedicated male-default frozen EXE, actual CPU speech for both selected rigs, clean PATH, integrity/tamper and paired unsigned installer: hosted run pending. Previous stock-only Windows acceptance does not close this.
+- [ ] New authored skin normal/roughness assets, groom/brow/lash geometry, distinct male hairstyle and bounded scattering; no new assets delivered in this follow-up.
+- [ ] Independently reviewed acoustic/visual reference, evidence-led closure/contact/tongue/transition tuning and physical AV offset. Related Sphinx crosscheck is not independent truth.
+- [ ] Actual i5-U/16GB startup, synthesis, whole-app RAM, visible playback and sustained thermal report; default remains untuned for that laptop.
+- [ ] User's actual personal install/update/uninstall and saved-data recovery. Signing optional; public redistribution separate and uncleared.
+
+[Detailed commands, provenance scope and safe personal acceptance protocol](character-selector-and-personal-acceptance.md).
+
+
 Last status review: **2026-10-17**.
 
 This is the ongoing checklist for our personal, noncommercial voice-to-face system.

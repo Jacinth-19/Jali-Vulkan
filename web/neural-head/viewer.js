@@ -1,3 +1,4 @@
+import {studioPath} from './studio-path.mjs';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -126,7 +127,7 @@ async function init() {
   let bytes;
   if(new URLSearchParams(location.search).get('lod')==='low'){
    if(!data.lod||data.lod.source_sha256!==data.rig.model_sha256)throw Error('No matching prepared low LOD; switch to Full');
-   const response=await fetch(data.lod.file);if(!response.ok)throw Error('Prepared low LOD is unavailable');bytes=new Uint8Array(await response.arrayBuffer());
+   const response=await fetch(studioPath(data.lod.file));if(!response.ok)throw Error('Prepared low LOD is unavailable');bytes=new Uint8Array(await response.arrayBuffer());
    const hash=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)),b=>b.toString(16).padStart(2,'0')).join('');if(hash!==data.lod.sha256)throw Error('LOD identity mismatch');actualAsset={lod:'low',sha256:hash};
   }else bytes=Uint8Array.from(atob(window.JALI_HEAD_BASE64), c => c.charCodeAt(0));
   delete window.JALI_HEAD_BASE64;
@@ -237,7 +238,7 @@ function setAppearance(value){
 }
 window.JaliHeadDemo = {
   setIdleRate:value=>{if(![2,15].includes(value))throw Error('Invalid idle rate');idleRate=value;},
-  unload:()=>{if(captureOnly)throw Error('Finish export before unloading');audio.pause();audio.removeAttribute('src');audio.load();for(const c of data.clips)if(c.file.startsWith('blob:'))URL.revokeObjectURL(c.file);data.clips=[];selected=-1;ready=false;canvas.dataset.ready='false';scene.remove(root);root?.traverse(o=>{if(!o.isMesh)return;o.geometry.dispose();for(const m of (Array.isArray(o.material)?o.material:[o.material])){for(const value of Object.values(m))if(value?.isTexture)value.dispose();m.dispose();}});controls?.dispose();composer?.dispose();scene.environment?.dispose();renderer.renderLists.dispose();renderer.dispose();renderer.forceContextLoss();speechMeshes=[];eyeBones.length=0;sourceAssociations=null;headBone=null;root=null;currentPose={};},
+  unload:()=>{if(captureOnly)throw Error('Finish export before unloading');audio.pause();audio.removeAttribute('src');audio.load();window.JALI_HEAD_BASE64=null;for(const c of data.clips)if(c.file.startsWith('blob:'))URL.revokeObjectURL(c.file);data.clips=[];selected=-1;ready=false;canvas.dataset.ready='false';scene.remove(root);root?.traverse(o=>{if(!o.isMesh)return;o.geometry.dispose();for(const m of (Array.isArray(o.material)?o.material:[o.material])){for(const value of Object.values(m))if(value?.isTexture)value.dispose();m.dispose();}});controls?.dispose();composer?.dispose();scene.environment?.dispose();renderer.renderLists.dispose();renderer.dispose();renderer.forceContextLoss();speechMeshes=[];eyeBones.length=0;sourceAssociations=null;headBone=null;root=null;currentPose={};},
 
   setCreative: value=>{creativeOptions=creativeSettings(value);renderAt(audio.currentTime||0);},
   setAppearance,

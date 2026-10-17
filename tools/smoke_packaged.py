@@ -14,8 +14,10 @@ ROOT=Path(__file__).resolve().parents[1]
 
 
 def main():
-    app=ROOT/'artifacts/windows-portable/app/JaliStudio/JaliStudio.exe'
-    proof=ROOT/'artifacts/windows-portable/proof';proof.mkdir(parents=True,exist_ok=True)
+    import argparse
+    p=argparse.ArgumentParser();p.add_argument('--package',type=Path,default=ROOT/'artifacts/windows-portable');p.add_argument('--expected-model',type=Path);args=p.parse_args()
+    app=args.package.resolve()/'app/JaliStudio/JaliStudio.exe'
+    proof=args.package.resolve()/'proof';proof.mkdir(parents=True,exist_ok=True)
     ready=proof/'ready.json';ready.unlink(missing_ok=True)
     env={k:v for k,v in os.environ.items() if k not in ('PYTHONPATH','PYTHONHOME','GH_TOKEN','GITHUB_TOKEN')}
     env['PATH']=str(Path(os.environ['SystemRoot'])/'System32')+';'+os.environ['SystemRoot']
@@ -58,12 +60,21 @@ def main():
                 if time.monotonic()>deadline:raise TimeoutError('Portable readiness timed out')
                 time.sleep(.1)
             port=json.loads(ready.read_text())['port']
+            if args.expected_model:
+                from analyze_neural_clips import digest
+                from urllib.request import urlopen
+                with urlopen(f'http://127.0.0.1:{port}/api/config',timeout=10) as response:actual=json.load(response)
+                if actual['rig']['model_sha256']!=digest(args.expected_model):raise RuntimeError('Frozen default character silently differs from requested male model')
+                (proof/'requested-character.json').write_text(json.dumps({'passed':True,'actual_rig':actual['rig'],'expected_model_sha256':digest(args.expected_model),'selector':actual.get('characters')}))
             from urllib.request import Request,urlopen
             key=(proof/'private-integration.key').read_text().strip()
             with urlopen(Request(f'http://127.0.0.1:{port}/api/integration/cast',headers={'Authorization':'Bearer '+key}),timeout=10) as response:control=json.load(response)
             if control['limits']['inference_jobs']!=1:raise RuntimeError('Frozen loopback integration unavailable')
             (proof/'integration.json').write_text(json.dumps({'passed':True,'frozen_cli_key_forwarding':True,'private_key_uploaded':False,'limits':control['limits']}))
             subprocess.run([shutil.which('node'),str(ROOT/'tools/smoke_packaged.cjs'),f'http://127.0.0.1:{port}',str(proof/'browser.json')],cwd=ROOT,check=True,timeout=540)
+            if json.loads((app.parent/'build-receipt.json').read_text()).get('character_selector'):
+                subprocess.run([shutil.which('node'),str(ROOT/'tools/smoke_character_selector.cjs'),f'http://127.0.0.1:{port}',str(proof/'selector.json')],cwd=ROOT,check=True,timeout=300)
+                selector=json.loads((proof/'selector.json').read_text());selector['speech_source']='NEW actual frozen Kokoro CPU synthesis for both rig-bound sessions, not fixture audio';(proof/'selector.json').write_text(json.dumps(selector,indent=2)+'\n')
         finally:
             stop_server(server)
             native_log=Path(os.environ.get('LOCALAPPDATA',''))/'JaliVulkan/native-engine'/str(server.pid)/'engine.log'

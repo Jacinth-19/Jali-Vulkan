@@ -16,24 +16,46 @@ import sys
 ROOT=Path(__file__).resolve().parents[1]
 
 
+def studio_assets(source, relative):
+    """Only prepared static assets, never arbitrary session/workspace files."""
+    source=Path(source).resolve();relative=Path(relative)
+    names=['index.html','style.css','viewer.js','controller.js','demo-data.js','rig.json','native-shapes.json','character.json','model/mpfb-head.glb','model/low.glb','model/low.glb.json']
+    files=[source/name for name in names if (source/name).is_file()]
+    if (source/'licenses').exists():files.extend(f for f in (source/'licenses').rglob('*') if f.is_file())
+    assets=[]
+    for f in files:
+        if f.is_symlink() or not f.resolve().is_relative_to(source):raise ValueError('Prepared asset symlink/path escape')
+        assets.append((str(f),str(relative/f.relative_to(source).parent)))
+    return assets
+
+
 def main():
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--personal-build',action='store_true',required=True,help='Acknowledge local personal use only; redistribution/source compliance is not established');parser.add_argument('--no-archive',action='store_true',help='CI: test directory without creating a distributable ZIP');parser.add_argument('--include-native',action='store_true',help='Include an already built Windows Vulkan renderer, decoded rig, shaders and loader; no GPU driver');args=parser.parse_args()
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--personal-build',action='store_true',required=True,help='Acknowledge local personal use only; redistribution/source compliance is not established');parser.add_argument('--no-archive',action='store_true',help='CI: test directory without creating a distributable ZIP');parser.add_argument('--include-native',action='store_true',help='Include an already built Windows Vulkan renderer, decoded rig, shaders and loader; no GPU driver');parser.add_argument('--studio',type=Path,default=ROOT/'artifacts/neural-studio',help='Explicit prepared default studio (male or female)');parser.add_argument('--female-studio',type=Path,help='Optional prepared female alongside default male; enables selector, WebGL-only');parser.add_argument('--output',type=Path,default=ROOT/'artifacts/windows-portable');args=parser.parse_args()
     if sys.platform!='win32' or platform.machine().lower() not in ('amd64','x86_64'):raise RuntimeError('Build on Windows x64')
     from local_neural_speech import verify_assets
     from analyze_neural_clips import verify_engine
     from neural_platform import analyzer_path
     verify_assets(ROOT/'models/kokoro');verify_engine(analyzer_path())
     if importlib.metadata.version('pyinstaller')!='6.16.0':raise RuntimeError('Install pyinstaller==6.16.0 explicitly')
-    dest=ROOT/'artifacts/windows-portable';dest.mkdir(parents=True,exist_ok=True)
+    dest=args.output.resolve();studio=args.studio.resolve()
+    from character_studio_server import prepared_rig
+    rig=prepared_rig(studio)
+    if args.female_studio:
+        if args.include_native:raise ValueError('Paired selector is explicitly WebGL-only')
+        female_rig=prepared_rig(args.female_studio)
+        if female_rig['model_sha256']==rig['model_sha256']:raise ValueError('Character pair must have distinct models')
+    dest.mkdir(parents=True,exist_ok=True)
     # Positive allowlist: never collect a whole checkout, home directory or cache.
     assets=[]
-    for source,relative in [(ROOT/'models/kokoro','models/kokoro'),(ROOT/'artifacts/neural-studio','artifacts/neural-studio'),(analyzer_path().parent,'.cache/lipsync/rhubarb-windows')]:
+    for source,relative in [(ROOT/'models/kokoro','models/kokoro'),(analyzer_path().parent,'.cache/lipsync/rhubarb-windows')]:
         for f in source.rglob('*'):
             if f.is_file() and 'proof' not in f.relative_to(source).parts:
                 assets.append((str(f),str(Path(relative)/f.relative_to(source).parent)))
+    assets.extend(studio_assets(studio,'artifacts/neural-studio'))
+    if args.female_studio:assets.extend(studio_assets(args.female_studio,'artifacts/character-female'))
     native_binaries=[]
     if args.include_native:
-        if json.loads((ROOT/'artifacts/neural-studio/rig.json').read_text())['profile']!='mpfb-rhubarb-9-v1':raise ValueError('Custom imports require an explicit native port; build WebGL-only')
+        if rig['profile']!='mpfb-rhubarb-9-v1':raise ValueError('Custom imports require an explicit native port; build WebGL-only')
         for filename in ('jali_rich.exe','vulkan-1.dll'):
             file=ROOT/'build-live'/filename
             if not file.is_file():raise RuntimeError('Run windows/setup-native.ps1 before --include-native')
@@ -59,7 +81,7 @@ for package in ('kokoro_onnx','onnxruntime','phonemizer','espeakng_loader','segm
 for distribution in importlib.metadata.distributions():
     name=distribution.metadata.get('Name')
     if name:datas+=copy_metadata(name)
-a=Analysis(['''+repr(str(ROOT/'tools/portable_entry.py'))+'''],pathex=['''+repr(str(ROOT/'tools'))+'''],binaries=binaries,datas=datas,hiddenimports=hiddenimports,excludes=['pytest','imageio_ffmpeg','pocketsphinx'])
+a=Analysis(['''+repr(str(ROOT/'tools/portable_entry.py'))+'''],pathex=['''+repr(str(ROOT/'tools'))+'''],binaries=binaries,datas=datas,hiddenimports=hiddenimports,excludes=['pytest','imageio_ffmpeg','pocketsphinx','scipy'])
 pyz=PYZ(a.pure)
 exe=EXE(pyz,a.scripts,[],exclude_binaries=True,name='JaliStudio',console=True)
 coll=COLLECT(exe,a.binaries,a.datas,name='JaliStudio')
@@ -73,12 +95,14 @@ coll=COLLECT(exe,a.binaries,a.datas,name='JaliStudio')
     if args.include_native:
         (app/'Native-Studio.cmd').write_text('@echo off\n"%~dp0JaliStudio.exe" --native %*\n',encoding='utf-8')
         with (app/'START-HERE.txt').open('a',encoding='utf-8') as f:f.write('\nOptional native Vulkan is included. Start Native-Studio.cmd, then select\nNative Vulkan in Face renderer. Uses your installed system GPU driver;\nno GPU driver/Chrome DLL is bundled. Use ordinary EXE launch for WebGL.\nNative shader paths are relocatable; logs stay under LOCALAPPDATA.\n')
-    receipt={'schema':'jali-windows-portable-v1','personal_build_only':True,'redistribution_compliance_reviewed':False,'voice':'stock af_heart','renderer':'WebGL + optional native Vulkan' if args.include_native else 'WebGL','native_included':args.include_native,'gpu_driver_bundled':False,'runtime_downloads':False,'signed':False,'development_modules_excluded':['pytest','imageio_ffmpeg','pocketsphinx'],
+    receipt={'schema':'jali-windows-portable-v1','personal_build_only':True,'redistribution_compliance_reviewed':False,'voice':'stock per-character Kokoro voices' if args.female_studio else 'stock af_heart','renderer':'WebGL + optional native Vulkan' if args.include_native else 'WebGL','native_included':args.include_native,'character_selector':bool(args.female_studio),'default_model_sha256':rig['model_sha256'],'default_rig':rig,'gpu_driver_bundled':False,'runtime_downloads':False,'signed':False,'development_modules_excluded':['pytest','imageio_ffmpeg','pocketsphinx','scipy'],
         'source_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
         'build_packages':{d.metadata['Name']:d.version for d in importlib.metadata.distributions() if d.metadata.get('Name')},
         'limits':'Portable personal build, not a signed consumer installer or target-laptop/hardware/perceptual acceptance.'}
     (app/'build-receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
     (dest/'build-receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
+    if args.female_studio:
+        with (app/'START-HERE.txt').open('a',encoding='utf-8') as f:f.write('\nPrepared male/female selector enabled. Default mesh is male (am_michael when prepared). Switching unloads the\nold renderer, then navigates to a fresh document. One model per page; close\nother studio tabs to bound total browser memory. Both rigs share one CPU job.\nNative renderer is not included in this paired WebGL build.\n')
     from package_integrity import create_manifest,verify_installation
     create_manifest(app)
     check=verify_installation(app)

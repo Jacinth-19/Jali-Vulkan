@@ -1,3 +1,4 @@
+import {studioPath} from '../neural-head/studio-path.mjs';
 import {installWorkspace} from './workspace-controller.js';
 import {installCreativeControls} from './creative-controller.js';
 import {PRESETS,performanceSettings,summarizeObservation} from './settings.mjs';
@@ -10,17 +11,18 @@ import {validateStreamChunk,AudioPrefetch} from './streaming.mjs';
   let managedPlayback=false,managedSpeaker=null;
   let config = null, busy = false, phase = 'loading', verified = false, selectedId = null;
   const sessions = new Map();
-  let currentJob=null, cancelPending=false, streaming=false,exporting=false,creativeOptions=null;
+  let currentJob=null, cancelPending=false, streaming=false,exporting=false,creativeOptions=null,switchingCharacter=false;
   let streamStats=null,nativeFrame=null,nativeImageUrl=null,activePrefetch=null,nativeEpoch=0;
   let quality=performanceSettings(),calibration=articulation('clear');
   const nativeInfo={frames:0,lastTime:null,lastSession:null,lastMs:null,errors:[]};
   const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
   const error = message => { $('error').textContent = message; $('error').hidden = !message; };
   const update = () => {
-    $('generate').disabled = $('text').value.length>($('batch').checked?1000:500) || busy || exporting || !config || !window.JaliHeadDemo?.getState().ready;
+    $('generate').disabled = $('text').value.length>($('batch').checked?1000:500) || busy || exporting || switchingCharacter || !config || !window.JaliHeadDemo?.getState().ready;
     $('text-count').textContent = `${$('text').value.length} / ${$('batch').checked?1000:500}`;
-    $('text').disabled = busy;
+    $('text').disabled = busy||switchingCharacter;
     if($('speaker'))$('speaker').disabled=busy||exporting;
+    if($('prepared-character'))$('prepared-character').disabled=busy||exporting||switchingCharacter||!config;
     $('cancel').disabled = !busy || !currentJob || cancelPending;
     document.querySelectorAll('#history button').forEach(button => {button.disabled = busy||exporting;});
   };
@@ -34,7 +36,7 @@ import {validateStreamChunk,AudioPrefetch} from './streaming.mjs';
     });
   }
   async function json(url, options) {
-    const response = await fetch(url, {...options,headers:{...(options?.headers||{}),...(config?{'X-Jali-Token':config.token}:{})}, cache:'no-store'});
+    const response = await fetch(studioPath(url), {...options,headers:{...(options?.headers||{}),...(config?{'X-Jali-Token':config.token}:{})}, cache:'no-store'});
     const data = await response.json();
     if (!response.ok) throw new Error(data.error || `Local request failed (${response.status})`);
     return data;
@@ -45,9 +47,9 @@ import {validateStreamChunk,AudioPrefetch} from './streaming.mjs';
     $('session-info').textContent = `Session ${clip.id}\nSHA-256 ${clip.audio.sha256}`;
     $('metrics').textContent = `${clip.duration.toFixed(2)} s audio · ${clip.generation_seconds.toFixed(2)} s synthesis · ${clip.analysis_seconds.toFixed(2)} s analysis\n${clip.tts.process_peak_rss_mib ?? 'unmeasured'} MiB worker peak · CPU only`;
     $('downloads').hidden = false;
-    $('download-audio').href = `/sessions/${clip.id}/audio.wav`;
-    $('download-cues').href = `/sessions/${clip.id}/cues.json`;
-    $('download-manifest').href = `/sessions/${clip.id}/manifest.json`;
+    $('download-audio').href = studioPath(`/sessions/${clip.id}/audio.wav`);
+    $('download-cues').href = studioPath(`/sessions/${clip.id}/cues.json`);
+    $('download-manifest').href = studioPath(`/sessions/${clip.id}/manifest.json`);
     for (const button of $('history').querySelectorAll('button')) button.setAttribute('aria-pressed', String(button.dataset.session === clip.id));
   }
   async function play() {
@@ -93,7 +95,7 @@ import {validateStreamChunk,AudioPrefetch} from './streaming.mjs';
   async function prepareAudio(item,signal){
     const clip=item.clip;validateClip(clip,item.id);
     if(!crypto.subtle)throw new Error('Audio verification needs HTTPS or localhost');
-    const response=await fetch(clip.file,{cache:'no-store',signal});if(!response.ok)throw new Error('Recording download failed');
+    const response=await fetch(studioPath(clip.file),{cache:'no-store',signal});if(!response.ok)throw new Error('Recording download failed');
     const bytes=await response.arrayBuffer();
     const hash=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)),b=>b.toString(16).padStart(2,'0')).join('');
     if(hash!==clip.audio.sha256)throw new Error('Downloaded audio differs from analyzed recording');
@@ -196,7 +198,7 @@ import {validateStreamChunk,AudioPrefetch} from './streaming.mjs';
         const epoch=nativeEpoch,id=selectedId||'neutral',time=selectedId?($('audio').currentTime||0):0;
         const query=new URLSearchParams({id,time:String(time),trim:$('trim').value,mood:$('mood').value,gaze:$('gaze').value,life:$('life').checked?'1':'0',sync:$('sync').checked?'1':'0',resolution:String(quality.resolution),articulation:JSON.stringify(calibration),...(creativeOptions?{creative:JSON.stringify({...creativeOptions,offset:JaliHeadDemo.getState().streamOffset||0,idle:!selectedId,idleTime:!selectedId&&creativeOptions.natural?JaliHeadDemo.getState().idleTime:0})}:{})}),key=query.toString();
         if(nativeFrame!==key){
-          const began=performance.now(),response=await fetch('/api/native/frame?'+query,{headers:{'X-Jali-Token':config.token},cache:'no-store'});
+          const began=performance.now(),response=await fetch(studioPath('/api/native/frame?'+query),{headers:{'X-Jali-Token':config.token},cache:'no-store'});
           if(epoch===nativeEpoch&&response.status!==409&&$('renderer').value==='native'&&id===(selectedId||'neutral')){
             if(!response.ok)throw new Error((await response.json()).error||'Native rendering failed');
             const blob=await response.blob();
@@ -231,7 +233,7 @@ import {validateStreamChunk,AudioPrefetch} from './streaming.mjs';
   window.addEventListener('jali-head-ready',applySettings);applySettings();
   nativeTick();
   $('compose').addEventListener('submit', async event => {
-    event.preventDefault(); if (busy || exporting || !config || !JaliHeadDemo.getState().ready) return;
+    event.preventDefault(); if (busy || exporting || switchingCharacter || !config || !JaliHeadDemo.getState().ready) return;
     currentJob=null;cancelPending=false;streaming=$('batch').checked;streamStats=null;
     busy = true; verified = false; selectedId = null; error('');
     $('verified').textContent = 'PREPARING NEW RECORDING'; $('metrics').textContent = '';
@@ -287,10 +289,10 @@ import {validateStreamChunk,AudioPrefetch} from './streaming.mjs';
     if(busy||exporting||!/^[a-f0-9]{32}$/.test(id))throw new Error('Invalid/busy existing-session request');
     const value=await json('/api/jobs/'+id);if(value.state!=='ready')throw new Error('Existing session is not ready');
     await load(value.clip,id,{autoplay:false});$('resume').hidden=false;stage('ready','Existing recording verified and loaded.');update();
-  },getState:()=>({quality,calibration,busy,exporting,phase,verified,selectedId,currentJob,cancelPending,streaming,streamStats,nativeInfo})};
+  },getState:()=>({quality,calibration,busy,exporting,switchingCharacter,phase,verified,selectedId,currentJob,cancelPending,streaming,streamStats,nativeInfo})};
   Object.assign(window.JaliStudio,{
     generate:async(text,speaker)=>{
-      if(busy||exporting)throw Error('Wait for the active operation');managedPlayback=true;
+      if(busy||exporting||switchingCharacter)throw Error('Wait for the active operation');managedPlayback=true;
       try{managedSpeaker=typeof speaker==='object'?speaker:null;$('speaker').value=typeof speaker==='object'?speaker.id:speaker;$('batch').checked=false;$('text').value=text;$('compose').requestSubmit();while(busy)await sleep(50);if(!verified||phase!=='ready')throw Error($('error').textContent||'Generation interrupted');return sessions.get(selectedId);}finally{managedPlayback=false;managedSpeaker=null;}
     },
     unloadView:()=>{nativeEpoch++;if(nativeImageUrl){URL.revokeObjectURL(nativeImageUrl);nativeImageUrl=null;}$('native-face').removeAttribute('src');$('native-face').hidden=true;},
@@ -305,9 +307,27 @@ import {validateStreamChunk,AudioPrefetch} from './streaming.mjs';
   });
   json('/api/config').then(value=>{
     if (JSON.stringify(value.rig)!==JSON.stringify(JALI_HEAD_DATA.rig)) throw new Error('Viewer and backend rig versions differ; rebuild the studio.');
-    config=value;installWorkspace({json,generate:(text,speaker)=>JaliStudio.generate(text,speaker),interrupt:()=>JaliStudio.interrupt(),play:()=>JaliStudio.play(),state:()=>JaliStudio.getState(),loadExisting:id=>JaliStudio.loadExisting(id),unloadView:()=>JaliStudio.unloadView(),update},config); if(config.native){$('native-option').disabled=false;$('native-option').textContent='Native Vulkan — '+config.native.device;}
+    config=value;
+    if(config.characters){
+      const selector=$('prepared-character');$('prepared-character-panel').hidden=false;
+      selector.replaceChildren(...config.characters.map(c=>{const option=document.createElement('option');option.value=c.id;option.textContent=c.name;return option;}));selector.value=config.character;
+      selector.onchange=async()=>{
+        const chosen=config.characters.find(c=>c.id===selector.value);if(!chosen||busy||exporting||switchingCharacter){selector.value=config.character;return;}
+        switchingCharacter=true;update();
+        try{
+        await JaliWorkspace.interrupt();
+        // Release GPU resources, decoded audio and URLs before loading a new document.
+        // Navigation creates a fresh module/global state; never rebind old clips to a new rig.
+        $('audio').pause();activePrefetch?.close();JaliStudio.unloadView();JaliHeadDemo.unload();
+        try{sessionStorage.setItem('jali.character.release',JSON.stringify({character:config.character,model:config.rig.model_sha256,readyAfterUnload:JaliHeadDemo.getState().ready}));}catch{}
+        location.assign(`/characters/${chosen.id}/${location.search}`);
+        }catch(failure){switchingCharacter=false;selector.value=config.character;error(failure.message);update();}
+      };
+    }
+    installWorkspace({json,generate:(text,speaker)=>JaliStudio.generate(text,speaker),interrupt:()=>JaliStudio.interrupt(),play:()=>JaliStudio.play(),state:()=>JaliStudio.getState(),loadExisting:id=>JaliStudio.loadExisting(id),unloadView:()=>JaliStudio.unloadView(),update},config); if(config.native){$('native-option').disabled=false;$('native-option').textContent='Native Vulkan — '+config.native.device;}
     if(new URLSearchParams(location.search).get('renderer')==='native'&&config.native){$('renderer').value='native';$('renderer').dispatchEvent(new Event('change'));}
     if (JaliHeadDemo.getState().ready) stage('idle','Ready. Write a sentence, then generate your performance.');update();
   }).catch(failure=>{error(failure.message);stage('error','The local generation service is unavailable.');});
+  window.addEventListener('pageshow',event=>{if(event.persisted&&switchingCharacter)location.reload();});
   update();
 })();

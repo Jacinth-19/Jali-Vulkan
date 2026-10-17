@@ -1,0 +1,90 @@
+name: Male Windows personal package and character selector
+on:
+  workflow_dispatch:
+  push:
+    branches: [arena/3284941c-jali-vulkan]
+permissions:
+  contents: read
+concurrency:
+  group: male-windows-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  male-windows:
+    name: Actual male EXE, paired selector and unsigned installer
+    runs-on: windows-latest
+    timeout-minutes: 40
+    env:
+      PYTHONUTF8: '1'
+      JALI_BROWSER_CHANNEL: chrome
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.11'
+          architecture: x64
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '22'
+      - name: Install explicit build-time dependencies
+        shell: pwsh
+        run: |
+          python -m venv .venv
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          .venv/Scripts/python.exe -m pip install -r tools/requirements-neural-studio.txt -r tools/requirements-male-build.txt pyinstaller==6.16.0
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          npm ci --prefix tools --ignore-scripts
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Test selector namespace, shared budget and packaging allowlist
+        shell: pwsh
+        run: |
+          .venv/Scripts/python.exe -m unittest discover -s tests -p test_character_selector.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          node --test tests/studio-path.test.mjs
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Explicitly prepare both models and stock CPU voices
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: pwsh
+        run: |
+          python tools/ci_command.py .venv/Scripts/python.exe tools/prepare_kokoro_cpu.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Build actual male-default paired WebGL EXE using the personal build command
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: pwsh
+        run: python tools/ci_command.py pwsh -NoProfile -File windows/build-character-pair.ps1 -PersonalUseOnly -NoArchive
+      - name: Run male EXE without Python Node gh in PATH, synthesize both characters, switch and unload
+        shell: pwsh
+        run: |
+          python tools/ci_command.py .venv/Scripts/python.exe tools/smoke_packaged.py --expected-model artifacts/male-character/character.glb
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $model=Get-Content artifacts/windows-portable/proof/requested-character.json -Raw | ConvertFrom-Json
+          $switch=Get-Content artifacts/windows-portable/proof/selector.json -Raw | ConvertFrom-Json
+          @{passed=$true;requested_character=$model;selector=$switch;frozen_runtime=$true;clean_path=$true;new_actual_cpu_speech=$true;native_included=$false;physical_av_verified=$false;target_laptop_measured=$false;binary_uploaded=$false} | ConvertTo-Json -Depth 16 -Compress | ForEach-Object { Write-Output "::notice title=Actual male Windows EXE and selector::$_" }
+      - name: Exercise male-selectable benchmark command (not target-laptop proof)
+        shell: pwsh
+        run: python tools/ci_command.py pwsh -NoProfile -File windows/benchmark.ps1 -Repeats 1 -Headless -Assets artifacts/male-studio -Conditions 'Hosted Windows male model; not target laptop'
+      - name: Build and test male paired personal installer and preserved data
+        shell: pwsh
+        run: |
+          choco install innosetup --version=6.4.3 --no-progress -y
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python tools/ci_command.py pwsh -NoProfile -File windows/build-personal-installer.ps1 -PersonalUseOnly
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python tools/ci_command.py pwsh -NoProfile -File windows/test-personal-installer.ps1
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $result=Get-Content artifacts/installer-proof/result.json -Raw | ConvertFrom-Json | ConvertTo-Json -Compress
+          Write-Output "::notice title=Male paired unsigned installer checks::$result"
+      - name: Upload public synthetic evidence only
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with:
+          name: male-windows-personal-proof
+          path: |
+            artifacts/windows-portable/proof/*.json
+            artifacts/windows-portable/proof/server.log
+            artifacts/windows-portable/build-receipt.json
+            artifacts/installer-proof/*.json
+          retention-days: 3

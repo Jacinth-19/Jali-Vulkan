@@ -75,6 +75,11 @@ def main():
     sys.argv=[sys.argv[0],'--bind','127.0.0.1','--port',str(args.port),'--sessions',str(sessions),'--ready-file',str(ready)]
     if args.integration_key_file:sys.argv.extend(['--integration-key-file',str(args.integration_key_file)])
     if args.native:sys.argv.extend(['--native-asset',str(ASSET_ROOT/'native/mpfb-native.glb')])
+    from runtime_paths import ASSET_ROOT
+    female=ASSET_ROOT/'artifacts/character-female'
+    if female.is_dir() and not args.native:
+        from character_studio_server import main as studio_main
+        sys.argv.extend(['--female',str(female),'--male',str(ASSET_ROOT/'artifacts/neural-studio')])
     try:studio_main()
     except Exception as e:
         report={'schema':'jali-startup-error-v1','error_type':type(e).__name__,'detail':str(e),'next_steps':'Check whether the port is in use; try --port 0. Run --verify-installation to check damage. Do not disable security or download replacement DLLs. No session contents/environment variables are collected.'}

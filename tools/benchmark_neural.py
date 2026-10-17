@@ -32,12 +32,13 @@ def write_json(path,data):
     temp=path.with_name(path.name+f'.{os.getpid()}.part');temp.write_text(json.dumps(data,indent=2)+'\n',encoding='utf-8');temp.replace(path)
 
 
-def run(repeats=2,browser=None,headless=False,conditions=''):
+def run(repeats=2,browser=None,headless=False,conditions='',assets=None):
     if type(repeats) is not int or repeats not in (1,2,3) or len(conditions)>2000:
         raise ValueError('Repeats must be 1-3; conditions at most 2000 characters')
     browser=browser or ('chrome' if sys.platform=='win32' else 'sandbox')
     if browser not in ('chrome','msedge','sandbox') or (sys.platform=='win32' and browser=='sandbox'):
         raise ValueError('Select an installed Chrome/Edge browser on Windows')
+    assets=Path(assets).resolve() if assets else ROOT/'artifacts/neural-studio'
     artifacts=ROOT/'artifacts';parent=artifacts/'benchmarks';parent.mkdir(parents=True,exist_ok=True)
     directory=Path(tempfile.mkdtemp(prefix=datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ-'),dir=parent))
     latest=artifacts/'jali-benchmark-report.json';server=None
@@ -51,10 +52,11 @@ def run(repeats=2,browser=None,headless=False,conditions=''):
                   'Worker peak memory excludes server, browser/GPU and whole-system usage. Short clips do not establish thermal/long-utterance performance.',
                   'This report describes only the machine it was run on; hosted CI is not the user laptop.']}
     try:
-        result['native_rig_audit']=audit(ROOT/'artifacts/neural-studio/model/mpfb-head.glb')
+        result['prepared_rig']=json.loads((assets/'rig.json').read_text())
+        result['native_rig_audit']=audit(assets/'model/mpfb-head.glb')
         with (directory/'server.log').open('w',encoding='utf-8') as log:
             start=time.monotonic();ready=directory/'ready.json'
-            server=subprocess.Popen([sys.executable,'-u',str(ROOT/'tools/neural_studio_server.py'),'--bind','127.0.0.1','--port','0','--sessions',str(directory/'sessions'),'--ready-file',str(ready)],cwd=ROOT,stdout=log,stderr=subprocess.STDOUT,start_new_session=(os.name!='nt'))
+            server=subprocess.Popen([sys.executable,'-u',str(ROOT/'tools/neural_studio_server.py'),'--bind','127.0.0.1','--assets',str(assets),'--port','0','--sessions',str(directory/'sessions'),'--ready-file',str(ready)],cwd=ROOT,stdout=log,stderr=subprocess.STDOUT,start_new_session=(os.name!='nt'))
             while not ready.is_file():
                 if server.poll() is not None:raise RuntimeError('server_startup_failed')
                 if time.monotonic()-start>45:raise TimeoutError('server_readiness_timeout')
@@ -88,8 +90,8 @@ def run(repeats=2,browser=None,headless=False,conditions=''):
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--repeats',type=int,choices=(1,2,3),default=2)
     p.add_argument('--browser',choices=('chrome','msedge','sandbox'));p.add_argument('--headless',action='store_true')
-    p.add_argument('--conditions',default='');a=p.parse_args()
-    result=run(a.repeats,a.browser,a.headless,a.conditions)
+    p.add_argument('--conditions',default='');p.add_argument('--assets',type=Path,help='Explicit prepared male or female studio; no automatic rig changes');a=p.parse_args()
+    result=run(a.repeats,a.browser,a.headless,a.conditions,a.assets)
     sys.exit(0 if result['status']=='completed' else 1)
 
 
