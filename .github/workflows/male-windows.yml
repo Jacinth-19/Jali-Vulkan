@@ -69,8 +69,14 @@ jobs:
       - name: Build and test male paired personal installer and preserved data
         shell: pwsh
         run: |
-          choco install innosetup --version=6.4.3 --no-progress -y
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $compiler=Join-Path ${env:ProgramFiles(x86)} 'Inno Setup 6/ISCC.exe'
+          if (-not (Test-Path $compiler)) {
+            python tools/ci_command.py choco install innosetup --version=6.4.3 --no-progress -y
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          }
+          if (-not (Test-Path $compiler)) { throw 'Installer compiler is missing after explicit setup.' }
+          $version=(Get-Item $compiler).VersionInfo.FileVersion
+          Write-Output "::notice title=Male installer compiler::$version"
           python tools/ci_command.py pwsh -NoProfile -File windows/build-personal-installer.ps1 -PersonalUseOnly
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python tools/ci_command.py pwsh -NoProfile -File windows/test-personal-installer.ps1
