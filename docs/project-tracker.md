@@ -47,6 +47,16 @@ recording -> animate the detailed character -> synchronized playback.
 | M7 | Windows performance and packaging | Partial: source/frozen renderer/preset GUI, Launch/Stop/device doctor and one-command benchmark passed hosted CI; user-reported PC run works; redistribution licensing and measured laptop acceptance open; personal signing optional | Measured target-device results and a tested, understandable launcher/package |
 | M8 | Asset workflow and final QA | Partial: mapped GLB import and actual Blender skin/morph round trips pass; broad production assets, physical AV and release review remain open | Reliable asset round trips, real AV measurements, and release review |
 
+## Recommended visual fixes — 2026-10-17
+
+- [x] First bounded WebGL implementation: vertex-depth oral lighting approximation, ivory/less-glossy teeth, lower fill-light dominance and lower-glint brown brow/lash materials. Geometry, speech weights and rig contracts preserved; not true AO/SSS or new grooming.
+- [x] Local 149 Python / 40 JS tests and initial actual shader diagnostic pass. Explicit developer same-WAV replay validates the two pinned public recordings and unchanged non-viewer rig identity; no runtime migration/check weakening.
+- [ ] Final male/female same-WAV comparisons, encoded-frame/decode checks and visual inspection.
+- [ ] Hosted rebuild/test acceptance of this runtime revision, including stock Windows frozen EXE/unsigned installer. Previous d78fc3b run is historical for this revision.
+- [ ] Better source fiber geometry, oral anatomy/contact review, full blink/F/V coverage, human/physical-AV/i5 gates remain open.
+
+[Exact material settings, diagnostic findings and comparison method](makehuman-visual-fixes.md).
+
 ## Sampled male/female visual review — 2026-10-17
 
 - [x] Reviewed selected frames decoded from both delivered MP4s, with source hashes and exact sample times retained. [Review, actual video crops and ranked findings](makehuman-visual-review.md).

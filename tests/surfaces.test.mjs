@@ -1,11 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createRequire} from 'node:module';
-import {surfaceRole,enhanceSurfaceMaterials,SURFACE_VERSION,skinDetail} from '../web/neural-head/surface-materials.mjs';
+import {surfaceRole,enhanceSurfaceMaterials,SURFACE_VERSION,skinDetail,oralDepthWeights,surfaceLighting} from '../web/neural-head/surface-materials.mjs';
 const THREE=createRequire(import.meta.url)('../tools/node_modules/three');
 test('surface roles are explicit, not broad name guesses',()=>{
  assert.equal(surfaceRole('Human.high-poly'),'eyes');assert.equal(surfaceRole('Wolf3D_Eye'),'eyes');
- assert.equal(surfaceRole('Human.ponytail01'),'hair');assert.equal(surfaceRole('Human.body'),'skin');for(const n of ['hairy_skin','unknown','Human.teeth_base'])assert.equal(surfaceRole(n),null);
+ assert.equal(surfaceRole('Human.ponytail01'),'hair');assert.equal(surfaceRole('Human.body'),'skin');assert.equal(surfaceRole('Human.teeth_base'),'teeth');assert.equal(surfaceRole('Human.tongue01'),'tongue');assert.equal(surfaceRole('Human.mindfront_eyebrows_02'),'fibers');for(const n of ['hairy_skin','unknown','Human.teeth_unknown'])assert.equal(surfaceRole(n),null);
 });
 test('wet eyes and anisotropic cards preserve mesh, source texture, alpha and bounded skin detail',()=>{
  const root=new THREE.Group(),texture=new THREE.Texture();
@@ -32,4 +32,23 @@ test('skin detail is deterministic, bounded, mipmapped and shared without mutati
  const report=enhanceSurfaceMaterials(root,THREE);assert.equal(report.skinMeshes,2);assert.equal(report.newTextures,1);assert.equal(root.children[0].material,root.children[1].material);
  const shader={fragmentShader:'#include <roughnessmap_fragment>'};root.children[0].material.onBeforeCompile(shader);assert.match(shader.fragmentShader,/vNormalMapUv/);assert.match(shader.fragmentShader,/clamp/);
  const authored=new THREE.Texture(),mat=new THREE.MeshStandardMaterial({name:'Human.body',normalMap:authored}),r=new THREE.Group();r.add(new THREE.Mesh(new THREE.PlaneGeometry(),mat));assert.equal(enhanceSurfaceMaterials(r,THREE).newTextures,0);assert.equal(r.children[0].material.normalMap,authored);
+});
+
+test('oral depth is bounded, monotonic, finite and fails back on flat/nonfinite geometry',()=>{
+ const p=new THREE.Float32BufferAttribute([0,0,0,0,0,.5,0,0,1],3);
+ for(const role of ['teeth','tongue']){const w=oralDepthWeights(p,role);assert.equal(w.length,3);assert.ok(w[0]<w[1]&&w[1]<w[2]);assert.ok([...w].every(v=>v>=.024&&v<=.951));}
+ assert.equal(oralDepthWeights(new THREE.Float32BufferAttribute([0,0,0],3),'tongue'),null);
+ assert.equal(oralDepthWeights(new THREE.Float32BufferAttribute([0,0,NaN],3),'tongue'),null);
+});
+test('oral shading and fibers preserve geometry, source albedo, alpha and speech data',()=>{
+ const root=new THREE.Group(),texture=new THREE.Texture();
+ for(const name of ['Human.teeth_base','Human.tongue01','Human.mindfront_eyebrows_02'])root.add(new THREE.Mesh(new THREE.BoxGeometry(),new THREE.MeshStandardMaterial({name,map:texture})));
+ const original=root.children.map(m=>Array.from(m.geometry.attributes.position.array));
+ const report=enhanceSurfaceMaterials(root,THREE);assert.equal(report.teethMeshes,1);assert.equal(report.tongueMeshes,1);assert.equal(report.fiberMeshes,1);assert.equal(report.newDrawCalls,0);assert.equal(report.newTextures,0);assert.equal(report.oralAttributeBytes,192);
+ assert.deepEqual(root.children.map(m=>Array.from(m.geometry.attributes.position.array)),original);
+ for(const mesh of root.children){assert.equal(mesh.material.map,texture);assert.equal(mesh.material.transparent,false);assert.equal(mesh.material.depthWrite,true);}
+ const shader={vertexShader:'#include <common>\n#include <begin_vertex>',fragmentShader:'#include <common>\n#include <lights_fragment_end>'};root.children[0].material.onBeforeCompile(shader);assert.match(shader.vertexShader,/attribute float jaliOralLight/);assert.match(shader.fragmentShader,/reflectedLight.directDiffuse/);assert.match(shader.fragmentShader,/reflectedLight.indirectSpecular/);assert.equal(root.children[2].material.specularIntensity,.05);
+});
+test('lighting reduces dominant fill but preserves explicit original comparison',()=>{
+ assert.deepEqual(surfaceLighting('soft',false),[1.3,.6,1.7]);assert.deepEqual(surfaceLighting('soft'),[1.6,.5,.35]);assert.ok(surfaceLighting('studio')[2]<surfaceLighting('studio',false)[2]);assert.throws(()=>surfaceLighting('bad'));const a=surfaceLighting('soft');a[0]=100;assert.equal(surfaceLighting('soft')[0],1.6);
 });

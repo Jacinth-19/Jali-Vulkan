@@ -1,10 +1,10 @@
 // Original bounded hair-card/eye material treatment. No Hair-Renderer-X shader code
 // or groom assets are copied. This is NOT strand scattering or a MetaHuman renderer.
 
-export const SURFACE_VERSION='physical-skin-eyes-hair-v2';
+export const SURFACE_VERSION='physical-oral-skin-fibers-v3';
 const EYES=new Set(['Human.high-poly','Wolf3D_EyeLeft','Wolf3D_EyeRight','Wolf3D_Eye']);
 const HAIR=new Set(['Human.ponytail01','Wolf3D_Hair']);
-export function surfaceRole(name){return name==='Human.body'?'skin':EYES.has(name)?'eyes':HAIR.has(name)?'hair':null;}
+export function surfaceRole(name){return name==='Human.teeth_base'?'teeth':name==='Human.tongue01'?'tongue':(name==='Human.mindfront_eyebrows_02'||name==='Human.mindfront_eyelashes_02')?'fibers':name==='Human.body'?'skin':EYES.has(name)?'eyes':HAIR.has(name)?'hair':null;}
 
 // Original deterministic procedural detail, not scanned skin. One 64 KiB RGBA
 // texture per scene, mipmapped to avoid distant pore aliasing; no network/assets.
@@ -20,8 +20,27 @@ export function skinDetail(THREE){
  texture.wrapS=texture.wrapT=THREE.RepeatWrapping;texture.repeat.set(24,24);texture.generateMipmaps=true;
  texture.minFilter=THREE.LinearMipmapLinearFilter;texture.magFilter=THREE.LinearFilter;texture.needsUpdate=true;return texture;
 }
+// Bounded vertex-space cavity-light approximation, not ray-traced occlusion.
+// Rest-space depth follows each vertex through existing skinning and morphs.
+export function oralDepthWeights(position,role){
+ const values=new Float32Array(position.count);let lo=Infinity,hi=-Infinity;
+ for(let i=0;i<position.count;i++){const z=position.getZ(i);if(!Number.isFinite(z))return null;lo=Math.min(lo,z);hi=Math.max(hi,z);}
+ if(!values.length||hi-lo<1e-6)return null;
+ for(let i=0;i<values.length;i++){const front=Math.max(0,Math.min(1,(position.getZ(i)-lo)/(hi-lo)));values[i]=role==='tongue'?.025+.35*front*front:.4+.55*front*front;}
+ return values;
+}
+export function surfaceLighting(preset,enhanced=true){
+ const table=enhanced?{studio:[1.8,.75,.5],soft:[1.6,.5,.35],dramatic:[2.5,.7,.22]}:{studio:[2,1.3,1.1],soft:[1.3,.6,1.7],dramatic:[3,.9,.4]};
+ if(!Object.hasOwn(table,preset))throw Error('Unknown lighting preset');return [...table[preset]];
+}
+function oralShader(material){
+ material.onBeforeCompile=shader=>{
+  shader.vertexShader=shader.vertexShader.replace('#include <common>','#include <common>\nattribute float jaliOralLight; varying float vJaliOralLight;').replace('#include <begin_vertex>','#include <begin_vertex>\nvJaliOralLight = jaliOralLight;');
+  shader.fragmentShader=shader.fragmentShader.replace('#include <common>','#include <common>\nvarying float vJaliOralLight;').replace('#include <lights_fragment_end>','#include <lights_fragment_end>\nreflectedLight.directDiffuse *= vJaliOralLight; reflectedLight.indirectDiffuse *= vJaliOralLight; reflectedLight.directSpecular *= vJaliOralLight; reflectedLight.indirectSpecular *= vJaliOralLight;');
+ };material.customProgramCacheKey=()=>'jali-oral-depth-v1';
+}
 export function enhanceSurfaceMaterials(root,THREE,{enabled=true}={}){
- let detail=null;const replacements=new Map(),report={version:enabled?SURFACE_VERSION:'original',eyeMeshes:0,hairMeshes:0,skinMeshes:0,detailBytes:0,tangentBytes:0,newDrawCalls:0,newTextures:0,limits:'Procedural micro-normal/roughness skin and restrained dielectric highlights; no scanned pores or subsurface transport. Wet coated eyes and anisotropic cards; no corneal geometry, strands, voxel scattering or native changes.'};
+ let detail=null;const replacements=new Map(),report={version:enabled?SURFACE_VERSION:'original',eyeMeshes:0,hairMeshes:0,skinMeshes:0,teethMeshes:0,tongueMeshes:0,fiberMeshes:0,oralAttributeBytes:0,detailBytes:0,tangentBytes:0,newDrawCalls:0,newTextures:0,limits:'Vertex-depth oral light attenuation (not ray-traced AO), ivory teeth, low-glint brow/lash fibers, balanced lighting and procedural skin detail; no scanned pores or subsurface transport. Wet coated eyes and anisotropic cards; no corneal geometry, strands, voxel scattering or native changes.'};
  if(!enabled)return report;
  root.traverse(mesh=>{
   if(!mesh.isMesh)return;
@@ -29,6 +48,10 @@ export function enhanceSurfaceMaterials(root,THREE,{enabled=true}={}){
   const next=materials.map(source=>{
    const role=surfaceRole(source.name);
    if(!role||!source.isMeshStandardMaterial)return source;
+   if(role==='teeth'||role==='tongue'){
+    const p=mesh.geometry.attributes.position,weights=p&&oralDepthWeights(p,role);if(!weights)return source;
+    mesh.geometry.setAttribute('jaliOralLight',new THREE.BufferAttribute(weights,1));report.oralAttributeBytes+=weights.byteLength;
+   }
    if(role==='hair'){
     // No UV/tangent guessing on unknown or unsuitable meshes. The known cards
     // need an indexed UV basis; keep an unmodified fallback otherwise.
@@ -36,13 +59,21 @@ export function enhanceSurfaceMaterials(root,THREE,{enabled=true}={}){
     if(!g.index||!g.attributes.uv||!g.attributes.normal||!g.attributes.position)return source;
     if(!g.attributes.tangent){g.computeTangents();report.tangentBytes+=g.attributes.tangent.array.byteLength;}
    }
-   report[{eyes:'eyeMeshes',hair:'hairMeshes',skin:'skinMeshes'}[role]]++;
+   report[{eyes:'eyeMeshes',hair:'hairMeshes',skin:'skinMeshes',teeth:'teethMeshes',tongue:'tongueMeshes',fibers:'fiberMeshes'}[role]]++;
    if(replacements.has(source))return replacements.get(source);
    const material=new THREE.MeshPhysicalMaterial();
    THREE.MeshStandardMaterial.prototype.copy.call(material,source);
    material.defines={...material.defines,PHYSICAL:''};
    material.userData={...source.userData,jaliSurface:role};material.metalness=0;
-   if(role==='skin'){
+   if(role==='teeth'||role==='tongue'){
+    material.roughness=role==='teeth'?.38:.7;material.specularIntensity=role==='teeth'?.2:.12;material.envMapIntensity=.12;
+    if(role==='teeth')material.color.multiply(new THREE.Color().setRGB(.78,.73,.64));
+    oralShader(material);
+   }else if(role==='fibers'){
+    // Both known brow and lash meshes share this source material. Retain their
+    // geometry, opacity and depth contract; reduce bright stippled fiber glints.
+    material.color.setRGB(.022,.011,.006);material.roughness=.88;material.specularIntensity=.05;material.envMapIntensity=.12;
+   }else if(role==='skin'){
     material.ior=1.4;material.roughness=.68;material.specularIntensity=.32;material.clearcoat=0;material.envMapIntensity=.38;
     // Retain authored normal maps when present. Only our generated alpha channel
     // carries procedural roughness variation; do not reinterpret user textures.

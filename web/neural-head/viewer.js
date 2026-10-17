@@ -10,7 +10,7 @@ import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
 import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js';
 import {creativeSettings} from './creative.mjs';
 import {appearanceSettings,BACKGROUNDS} from './appearance.mjs';
-import {enhanceSurfaceMaterials} from './surface-materials.mjs';
+import {enhanceSurfaceMaterials,surfaceLighting} from './surface-materials.mjs';
 import { composePerformance } from './performance.mjs';
 import { sampleClipVisemes, validateCues } from './visemes.mjs';
 
@@ -224,7 +224,7 @@ function setAppearance(value){
  if(!ready)throw Error('Wait for the head to load');
  const previousCamera=appearance?.camera||'portrait';appearance=appearanceSettings(value);const a=appearance;
  scene.background.set(BACKGROUNDS[a.background]);renderer.toneMappingExposure=a.exposure;
- const l={studio:[2,1.3,1.1],soft:[1.3,.6,1.7],dramatic:[3,.9,.4]}[a.lighting];
+ const l=surfaceLighting(a.lighting,surfaceShading?.version!=='original');
  lights.key.intensity=l[0];lights.rim.intensity=l[1];lights.fill.intensity=l[2];
  root.traverse(o=>{if(!o.isMesh)return;for(const m of (Array.isArray(o.material)?o.material:[o.material])){
   if(m.name==='Human.body'){m.roughness=a.skin;m.envMapIntensity=m.userData.jaliSurface==='skin'?.38:.9;}
