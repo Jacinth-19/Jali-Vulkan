@@ -119,3 +119,24 @@ preset if needed, but do not declare the final default tuned until results exist
    acoustic/visual P/B/M closure, F/V contact, tongue and transitions on exact hashed
    WAVs before calling lip-sync tuning accepted. Full blink and three-quarter hair
    review remain separate checks.
+
+## Executed local evidence and first Windows result
+
+- **157 Python / 42 JavaScript tests pass**, plus both the explicit non-speech
+  selector fixture and **NEW actual CPU speech for both selected rigs**. Local
+  female uses `af_heart`, male `am_michael`; verified WAV/text/rig/provenance and
+  unload markers are retained in [the local receipt](evidence/character-selector-local.json).
+- The explicit-male developer benchmark completed **all three public cases** on
+  this Linux software-browser sandbox. [Actual report](evidence/male-selector-linux-benchmark.json).
+  This is not your i5, frozen startup, whole-system RAM or thermal acceptance.
+- First dedicated Windows run
+  [39023609869](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39023609869)
+  **passed actual male frozen EXE / clean PATH / actual speech for both characters /
+  switch-unload and male benchmark steps**, then failed in the installer step.
+  [Exact steps and successful frozen notice](evidence/male-selector-first-windows.json).
+  There was no wrapped-command error notice from the failed step; log retrieval's
+  redirected host was unavailable. Do not claim an exact Chocolatey error text.
+- The installer setup now guards an already-present compiler (like the passing
+  stock workflow) and annotates any fresh Chocolatey error. The corrected workflow
+  is being triggered by branch push because the integration denied manual dispatch
+  with HTTP 403. **Final corrected hosted acceptance is still pending.**

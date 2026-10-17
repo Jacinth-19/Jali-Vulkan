@@ -1,0 +1,576 @@
+{
+  "schema": "jali-neural-benchmark-v1",
+  "created_at": "2026-10-17T10:06:51.313944+00:00",
+  "status": "completed",
+  "run_id": "20261017T100651Z-fevl4rvq",
+  "system": {
+    "platform": "linux",
+    "os": "Linux-6.1.158+-x86_64-with-glibc2.36",
+    "python": "3.11.2",
+    "logical_cpu_hint": 2
+  },
+  "conditions": "Arena Linux software browser, explicit male asset; not target laptop",
+  "repeats_per_case": 1,
+  "dataset": "Fixed public synthetic articulation corpus; not private recordings",
+  "privacy": "No automatic upload. OS/CPU/GPU/browser information and your conditions are included; inspect before sharing. Local logs/media stay in the run folder.",
+  "m3": {
+    "human_review_completed": false,
+    "independently_verified_phoneme_alignment": false,
+    "retarget_tuning_validated": false,
+    "quality_score": null
+  },
+  "limits": [
+    "First request is not a reboot-cold benchmark. Every request uses a fresh speech process; later requests are not a persistent warm engine.",
+    "Render metrics count CPU-side renderer updates/submissions, not presented FPS, GPU execution, or physical AV latency.",
+    "Worker peak memory excludes server, browser/GPU and whole-system usage. Short clips do not establish thermal/long-utterance performance.",
+    "This report describes only the machine it was run on; hosted CI is not the user laptop."
+  ],
+  "prepared_rig": {
+    "profile": "canonical-face-v1",
+    "source_commit": "697577ec3ccc6af6d85d7fae5fc9b746de2e1b24cddf1fed69e4415826fd889f",
+    "model_sha256": "697577ec3ccc6af6d85d7fae5fc9b746de2e1b24cddf1fed69e4415826fd889f",
+    "retarget_sha256": "96d2d2a82f71bbdf87b7c301d1e79e566c8b66d9c79a645e65309c11b90d8a30",
+    "viewer_sha256": "cf9166fab3fd85d017be72f3ed428d2cae116a9d00162dbf29027b5e143e03c5",
+    "import_profile_sha256": "09e557ae8ac1228a1132728dfc9b3a7743facf8ee2c4f23391ae15f0a5d500f3"
+  },
+  "native_rig_audit": {
+    "schema": "jali-native-rig-audit-v1",
+    "model_sha256": "697577ec3ccc6af6d85d7fae5fc9b746de2e1b24cddf1fed69e4415826fd889f",
+    "native_importer_source_sha256": "95c764bd959a15a414ce147ab60ff54dbd0434d2b39cf610e3563e217a948d03",
+    "native_profile_header_sha256": "051ff4bd692f35cd38b5277e5554927143885508e4e474456ad63f502af978c0",
+    "profile": "existing vertex-color, one-mesh, 128-joint, three-morph native profile",
+    "static_status": "known_incompatible",
+    "counts": {
+      "meshes": 8,
+      "skins": 8,
+      "materials": 7,
+      "images": 7,
+      "nodes": 76,
+      "max_skin_joints": 67,
+      "max_morph_targets": 66
+    },
+    "required_extensions": [
+      "EXT_meshopt_compression",
+      "KHR_mesh_quantization"
+    ],
+    "morph_names_by_mesh": [
+      {
+        "name": "base",
+        "targets": [
+          "browDownRight",
+          "viseme_RR",
+          "mouthShrugLower",
+          "browDownLeft",
+          "jawRight",
+          "mouthFunnel",
+          "eyeSquintRight",
+          "mouthPressRight",
+          "eyeLookOutLeft",
+          "mouthFrownLeft",
+          "eyeWideLeft",
+          "mouthDimpleRight",
+          "jawForward",
+          "viseme_FF",
+          "tongueOut",
+          "cheekPuff",
+          "jawLeft",
+          "noseSneerLeft",
+          "eyeLookOutRight",
+          "viseme_PP",
+          "browInnerUp",
+          "viseme_DD",
+          "viseme_aa",
+          "mouthShrugUpper",
+          "noseSneerRight",
+          "mouthLowerDownRight",
+          "viseme_kk",
+          "viseme_nn",
+          "mouthStretchLeft",
+          "mouthLowerDownLeft",
+          "mouthClose",
+          "cheekSquintLeft",
+          "eyeBlinkLeft",
+          "mouthPressLeft",
+          "eyeLookUpLeft",
+          "eyeSquintLeft",
+          "mouthPucker",
+          "viseme_TH",
+          "viseme_SS",
+          "eyeLookDownRight",
+          "mouthSmileRight",
+          "eyeWideRight",
+          "viseme_E",
+          "mouthDimpleLeft",
+          "eyeBlinkRight",
+          "viseme_I",
+          "eyeLookInRight",
+          "mouthLeft",
+          "mouthRollUpper",
+          "mouthFrownRight",
+          "eyeLookDownLeft",
+          "jawOpen",
+          "viseme_U",
+          "mouthUpperUpRight",
+          "mouthSmileLeft",
+          "browOuterUpLeft",
+          "mouthRollLower",
+          "mouthUpperUpLeft",
+          "mouthStretchRight",
+          "eyeLookUpRight",
+          "mouthRight",
+          "viseme_O",
+          "eyeLookInLeft",
+          "browOuterUpRight",
+          "viseme_CH",
+          "cheekSquintRight"
+        ]
+      },
+      {
+        "name": "female_casualsuit01",
+        "targets": []
+      },
+      {
+        "name": "high-poly",
+        "targets": [
+          "eyeLookOutLeft",
+          "eyeLookOutRight",
+          "eyeLookUpLeft",
+          "eyeLookDownRight",
+          "eyeLookInRight",
+          "eyeLookDownLeft",
+          "eyeLookUpRight",
+          "eyeLookInLeft"
+        ]
+      },
+      {
+        "name": "mind_eyebrows_02",
+        "targets": [
+          "browDownRight",
+          "browDownLeft",
+          "eyeLookOutLeft",
+          "eyeWideLeft",
+          "noseSneerLeft",
+          "eyeLookOutRight",
+          "browInnerUp",
+          "noseSneerRight",
+          "cheekSquintLeft",
+          "eyeBlinkLeft",
+          "eyeLookUpLeft",
+          "eyeLookDownRight",
+          "mouthSmileRight",
+          "eyeWideRight",
+          "eyeBlinkRight",
+          "eyeLookInRight",
+          "eyeLookDownLeft",
+          "mouthSmileLeft",
+          "browOuterUpLeft",
+          "eyeLookUpRight",
+          "eyeLookInLeft",
+          "browOuterUpRight",
+          "cheekSquintRight"
+        ]
+      },
+      {
+        "name": "mind_eyelashes_02",
+        "targets": [
+          "browDownRight",
+          "browDownLeft",
+          "eyeSquintRight",
+          "eyeLookOutLeft",
+          "eyeWideLeft",
+          "mouthDimpleRight",
+          "cheekPuff",
+          "noseSneerLeft",
+          "eyeLookOutRight",
+          "noseSneerRight",
+          "mouthStretchLeft",
+          "cheekSquintLeft",
+          "mouthPressLeft",
+          "eyeLookUpLeft",
+          "eyeSquintLeft",
+          "mouthPucker",
+          "eyeLookDownRight",
+          "mouthSmileRight",
+          "eyeWideRight",
+          "mouthDimpleLeft",
+          "eyeLookInRight",
+          "mouthLeft",
+          "mouthFrownRight",
+          "eyeLookDownLeft",
+          "jawOpen",
+          "mouthSmileLeft",
+          "mouthStretchRight",
+          "eyeLookUpRight",
+          "mouthRight",
+          "eyeLookInLeft",
+          "cheekSquintRight",
+          "eyeBlinkLeft",
+          "eyeBlinkRight"
+        ]
+      },
+      {
+        "name": "ponytail01",
+        "targets": []
+      },
+      {
+        "name": "teeth_base",
+        "targets": [
+          "jawRight",
+          "jawForward",
+          "jawLeft",
+          "viseme_PP",
+          "viseme_DD",
+          "viseme_aa",
+          "viseme_kk",
+          "viseme_nn",
+          "viseme_TH",
+          "viseme_E",
+          "jawOpen",
+          "viseme_O"
+        ]
+      },
+      {
+        "name": "tongue01",
+        "targets": [
+          "jawRight",
+          "jawForward",
+          "tongueOut",
+          "jawLeft",
+          "viseme_PP",
+          "viseme_DD",
+          "viseme_aa",
+          "viseme_kk",
+          "viseme_nn",
+          "viseme_TH",
+          "viseme_E",
+          "jawOpen",
+          "viseme_O"
+        ]
+      }
+    ],
+    "blockers": [
+      {
+        "code": "required_extensions",
+        "required_work": "Decode Meshopt and support quantized attributes or produce a validated native asset profile."
+      },
+      {
+        "code": "multi_mesh_skin",
+        "required_work": "Preserve all meshes/instances and skin bindings, including teeth/tongue."
+      },
+      {
+        "code": "materials_textures",
+        "required_work": "Implement UV/image upload, materials, color spaces and the relevant alpha/normal paths."
+      },
+      {
+        "code": "three_target_abi",
+        "required_work": "Replace the three fixed deltas with named morph storage and retarget the shared speech session."
+      },
+      {
+        "code": "target_names",
+        "required_work": "Preserve actual named visemes and bind matching targets on secondary meshes."
+      },
+      {
+        "code": "accessor_types",
+        "required_work": "Audit signed/quantized accessor decoding, normalization and bounds."
+      }
+    ],
+    "native_rendering_performed": false,
+    "assets_modified": false,
+    "limits": "Partial metadata gap audit, not a complete importer validator, GPU deformation comparison or completed M4 port."
+  },
+  "server_ready_seconds": 0.2038,
+  "browser": {
+    "browser_ready_seconds": 4.180168592,
+    "channel": "sandbox",
+    "headless": true,
+    "samples": [
+      {
+        "case": "closures",
+        "repeat": 1,
+        "audio_sha256": "cb2aff047d3bee2e7e648af51ed413f3f7962bc8868d5591a339dbc738366f0d",
+        "text_sha256": "b90f2e079dcbec877b655c9ffcae0c236e33f4348dae3c248dca6982e781237e",
+        "duration_seconds": 3.456,
+        "model_load_seconds": 0.8439,
+        "dependency_import_seconds": 0.3312,
+        "generation_seconds": 3.439,
+        "real_time_factor": 0.9950810185185186,
+        "analysis_seconds": 5.5944,
+        "pipeline_seconds": 10.4772,
+        "peak_worker_memory_mib": 304.78,
+        "memory_scope": "Linux/macOS process high-water RSS; includes dependencies/model; not system RAM or isolated model size",
+        "providers": [
+          "CPUExecutionProvider"
+        ],
+        "rig": {
+          "profile": "canonical-face-v1",
+          "source_commit": "697577ec3ccc6af6d85d7fae5fc9b746de2e1b24cddf1fed69e4415826fd889f",
+          "model_sha256": "697577ec3ccc6af6d85d7fae5fc9b746de2e1b24cddf1fed69e4415826fd889f",
+          "retarget_sha256": "96d2d2a82f71bbdf87b7c301d1e79e566c8b66d9c79a645e65309c11b90d8a30",
+          "viewer_sha256": "cf9166fab3fd85d017be72f3ed428d2cae116a9d00162dbf29027b5e143e03c5",
+          "import_profile_sha256": "09e557ae8ac1228a1132728dfc9b3a7743facf8ee2c4f23391ae15f0a5d500f3"
+        },
+        "playback": {
+          "reason": "ended",
+          "diagnostics": {
+            "surfaceShading": {
+              "version": "physical-oral-skin-fibers-v3",
+              "eyeMeshes": 1,
+              "hairMeshes": 1,
+              "skinMeshes": 1,
+              "teethMeshes": 1,
+              "tongueMeshes": 1,
+              "fiberMeshes": 2,
+              "oralAttributeBytes": 18988,
+              "detailBytes": 65536,
+              "tangentBytes": 62432,
+              "newDrawCalls": 0,
+              "newTextures": 1,
+              "limits": "Vertex-depth oral light attenuation (not ray-traced AO), ivory teeth, low-glint brow/lash fibers, balanced lighting and procedural skin detail; no scanned pores or subsurface transport. Wet coated eyes and anisotropic cards; no corneal geometry, strands, voxel scattering or native changes."
+            },
+            "renderAsset": {
+              "lod": "full",
+              "sha256": "697577ec3ccc6af6d85d7fae5fc9b746de2e1b24cddf1fed69e4415826fd889f",
+              "shading": "physical-oral-skin-fibers-v3"
+            },
+            "idleRate": 2,
+            "activeRenderer": "WebGL",
+            "modelStats": {
+              "vertices": 53116,
+              "bones": 67,
+              "faceControls": 66,
+              "runtimeFaceControls": 26,
+              "morphMeshes": 6
+            },
+            "webgl": {
+              "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+              "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+              "vendor": "Google Inc. (Google)",
+              "contextLost": false
+            },
+            "canvas": {
+              "width": 512,
+              "height": 398
+            },
+            "pixelRatio": 0.745269286754003,
+            "speechRig": {
+              "profile": "canonical-face-v1",
+              "source_commit": "697577ec3ccc6af6d85d7fae5fc9b746de2e1b24cddf1fed69e4415826fd889f",
+              "model_sha256": "697577ec3ccc6af6d85d7fae5fc9b746de2e1b24cddf1fed69e4415826fd889f",
+              "retarget_sha256": "96d2d2a82f71bbdf87b7c301d1e79e566c8b66d9c79a645e65309c11b90d8a30",
+              "viewer_sha256": "cf9166fab3fd85d017be72f3ed428d2cae116a9d00162dbf29027b5e143e03c5",
+              "import_profile_sha256": "09e557ae8ac1228a1132728dfc9b3a7743facf8ee2c4f23391ae15f0a5d500f3"
+            }
+          },
+          "rendered_frames": 5,
+          "observed_span_seconds": 3.4080999999996275,
+          "observed_render_fps": 1.173674481382717,
+          "median_frame_gap_ms": 282.29999999981374,
+          "p95_frame_gap_ms": 2045,
+          "max_frame_gap_ms": 2045,
+          "p95_cpu_submission_ms": 1.6000000005587935,
+          "first_audio_time": 0.007158,
+          "last_audio_time": 3.351496,
+          "method": "Visible-tab render-completion samples during actual audio playback; CPU submission time, not GPU execution or physical AV latency",
+          "valid_sample": true
+        },
+        "files": {
+          "wav": "closures-1.wav",
+          "clip": "closures-1-clip.json",
+          "reference": "closures-1-reference.json"
+        }
+      },
+      {
+        "case": "contacts",
+        "repeat": 1,
+        "audio_sha256": "a762e20fa7809a2487ca41c7cd5b86627ae4ba144f1c408ba98679250db282e3",
+        "text_sha256": "879515f4274a809cb80a00c411f13db6ef10f519993b7117fc695669025b47e5",
+        "duration_seconds": 4.074666666666666,
+        "model_load_seconds": 0.8677,
+        "dependency_import_seconds": 0.3349,
+        "generation_seconds": 3.8795,
+        "real_time_factor": 0.9521024214659687,
+        "analysis_seconds": 5.881,
+        "pipeline_seconds": 11.2429,
+        "peak_worker_memory_mib": 312.76,
+        "memory_scope": "Linux/macOS process high-water RSS; includes dependencies/model; not system RAM or isolated model size",
+        "providers": [
+          "CPUExecutionProvider"
+        ],
+        "rig": {
+          "profile": "canonical-face-v1",
+          "source_commit": "697577ec3ccc6af6d85d7fae5fc9b746de2e1b24cddf1fed69e4415826fd889f",
+          "model_sha256": "697577ec3ccc6af6d85d7fae5fc9b746de2e1b24cddf1fed69e4415826fd889f",
+          "retarget_sha256": "96d2d2a82f71bbdf87b7c301d1e79e566c8b66d9c79a645e65309c11b90d8a30",
+          "viewer_sha256": "cf9166fab3fd85d017be72f3ed428d2cae116a9d00162dbf29027b5e143e03c5",
+          "import_profile_sha256": "09e557ae8ac1228a1132728dfc9b3a7743facf8ee2c4f23391ae15f0a5d500f3"
+        },
+        "playback": {
+          "reason": "ended",
+          "diagnostics": {
+            "surfaceShading": {
+              "version": "physical-oral-skin-fibers-v3",
+              "eyeMeshes": 1,
+              "hairMeshes": 1,
+              "skinMeshes": 1,
+              "teethMeshes": 1,
+              "tongueMeshes": 1,
+              "fiberMeshes": 2,
+              "oralAttributeBytes": 18988,
+              "detailBytes": 65536,
+              "tangentBytes": 62432,
+              "newDrawCalls": 0,
+              "newTextures": 1,
+              "limits": "Vertex-depth oral light attenuation (not ray-traced AO), ivory teeth, low-glint brow/lash fibers, balanced lighting and procedural skin detail; no scanned pores or subsurface transport. Wet coated eyes and anisotropic cards; no corneal geometry, strands, voxel scattering or native changes."
+            },
+            "renderAsset": {
+              "lod": "full",
+              "sha256": "697577ec3ccc6af6d85d7fae5fc9b746de2e1b24cddf1fed69e4415826fd889f",
+              "shading": "physical-oral-skin-fibers-v3"
+            },
+            "idleRate": 2,
+            "activeRenderer": "WebGL",
+            "modelStats": {
+              "vertices": 53116,
+              "bones": 67,
+              "faceControls": 66,
+              "runtimeFaceControls": 26,
+              "morphMeshes": 6
+            },
+            "webgl": {
+              "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+              "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+              "vendor": "Google Inc. (Google)",
+              "contextLost": false
+            },
+            "canvas": {
+              "width": 512,
+              "height": 398
+            },
+            "pixelRatio": 0.745269286754003,
+            "speechRig": {
+              "profile": "canonical-face-v1",
+              "source_commit": "697577ec3ccc6af6d85d7fae5fc9b746de2e1b24cddf1fed69e4415826fd889f",
+              "model_sha256": "697577ec3ccc6af6d85d7fae5fc9b746de2e1b24cddf1fed69e4415826fd889f",
+              "retarget_sha256": "96d2d2a82f71bbdf87b7c301d1e79e566c8b66d9c79a645e65309c11b90d8a30",
+              "viewer_sha256": "cf9166fab3fd85d017be72f3ed428d2cae116a9d00162dbf29027b5e143e03c5",
+              "import_profile_sha256": "09e557ae8ac1228a1132728dfc9b3a7743facf8ee2c4f23391ae15f0a5d500f3"
+            }
+          },
+          "rendered_frames": 8,
+          "observed_span_seconds": 3.5439000000003724,
+          "observed_render_fps": 1.9752250345662306,
+          "median_frame_gap_ms": 541.9000000003725,
+          "p95_frame_gap_ms": 1702.2999999998137,
+          "max_frame_gap_ms": 1702.2999999998137,
+          "p95_cpu_submission_ms": 3,
+          "first_audio_time": 0.007769,
+          "last_audio_time": 3.487149,
+          "method": "Visible-tab render-completion samples during actual audio playback; CPU submission time, not GPU execution or physical AV latency",
+          "valid_sample": true
+        },
+        "files": {
+          "wav": "contacts-1.wav",
+          "clip": "contacts-1-clip.json",
+          "reference": "contacts-1-reference.json"
+        }
+      },
+      {
+        "case": "vowels",
+        "repeat": 1,
+        "audio_sha256": "fa36bc15385794b892fbbf8e1b33f2220cd721a22a0fab015cf986ea9223e12f",
+        "text_sha256": "0052ef681dd102afc96d53ec0d27f264fc6834e04d1be04b0ab1de2f78848ad6",
+        "duration_seconds": 3.6053333333333333,
+        "model_load_seconds": 1.0953,
+        "dependency_import_seconds": 0.4281,
+        "generation_seconds": 3.8906,
+        "real_time_factor": 1.0791235207100591,
+        "analysis_seconds": 7.23,
+        "pipeline_seconds": 13.0459,
+        "peak_worker_memory_mib": 309.88,
+        "memory_scope": "Linux/macOS process high-water RSS; includes dependencies/model; not system RAM or isolated model size",
+        "providers": [
+          "CPUExecutionProvider"
+        ],
+        "rig": {
+          "profile": "canonical-face-v1",
+          "source_commit": "697577ec3ccc6af6d85d7fae5fc9b746de2e1b24cddf1fed69e4415826fd889f",
+          "model_sha256": "697577ec3ccc6af6d85d7fae5fc9b746de2e1b24cddf1fed69e4415826fd889f",
+          "retarget_sha256": "96d2d2a82f71bbdf87b7c301d1e79e566c8b66d9c79a645e65309c11b90d8a30",
+          "viewer_sha256": "cf9166fab3fd85d017be72f3ed428d2cae116a9d00162dbf29027b5e143e03c5",
+          "import_profile_sha256": "09e557ae8ac1228a1132728dfc9b3a7743facf8ee2c4f23391ae15f0a5d500f3"
+        },
+        "playback": {
+          "reason": "ended",
+          "diagnostics": {
+            "surfaceShading": {
+              "version": "physical-oral-skin-fibers-v3",
+              "eyeMeshes": 1,
+              "hairMeshes": 1,
+              "skinMeshes": 1,
+              "teethMeshes": 1,
+              "tongueMeshes": 1,
+              "fiberMeshes": 2,
+              "oralAttributeBytes": 18988,
+              "detailBytes": 65536,
+              "tangentBytes": 62432,
+              "newDrawCalls": 0,
+              "newTextures": 1,
+              "limits": "Vertex-depth oral light attenuation (not ray-traced AO), ivory teeth, low-glint brow/lash fibers, balanced lighting and procedural skin detail; no scanned pores or subsurface transport. Wet coated eyes and anisotropic cards; no corneal geometry, strands, voxel scattering or native changes."
+            },
+            "renderAsset": {
+              "lod": "full",
+              "sha256": "697577ec3ccc6af6d85d7fae5fc9b746de2e1b24cddf1fed69e4415826fd889f",
+              "shading": "physical-oral-skin-fibers-v3"
+            },
+            "idleRate": 2,
+            "activeRenderer": "WebGL",
+            "modelStats": {
+              "vertices": 53116,
+              "bones": 67,
+              "faceControls": 66,
+              "runtimeFaceControls": 26,
+              "morphMeshes": 6
+            },
+            "webgl": {
+              "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+              "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+              "vendor": "Google Inc. (Google)",
+              "contextLost": false
+            },
+            "canvas": {
+              "width": 512,
+              "height": 398
+            },
+            "pixelRatio": 0.745269286754003,
+            "speechRig": {
+              "profile": "canonical-face-v1",
+              "source_commit": "697577ec3ccc6af6d85d7fae5fc9b746de2e1b24cddf1fed69e4415826fd889f",
+              "model_sha256": "697577ec3ccc6af6d85d7fae5fc9b746de2e1b24cddf1fed69e4415826fd889f",
+              "retarget_sha256": "96d2d2a82f71bbdf87b7c301d1e79e566c8b66d9c79a645e65309c11b90d8a30",
+              "viewer_sha256": "cf9166fab3fd85d017be72f3ed428d2cae116a9d00162dbf29027b5e143e03c5",
+              "import_profile_sha256": "09e557ae8ac1228a1132728dfc9b3a7743facf8ee2c4f23391ae15f0a5d500f3"
+            }
+          },
+          "rendered_frames": 3,
+          "observed_span_seconds": 2.3184000000003726,
+          "observed_render_fps": 0.8626639061420284,
+          "median_frame_gap_ms": 552.4000000003725,
+          "p95_frame_gap_ms": 1766,
+          "max_frame_gap_ms": 1766,
+          "p95_cpu_submission_ms": 1.1000000005587935,
+          "first_audio_time": 1.061926,
+          "last_audio_time": 3.380276,
+          "method": "Visible-tab render-completion samples during actual audio playback; CPU submission time, not GPU execution or physical AV latency",
+          "valid_sample": true
+        },
+        "files": {
+          "wav": "vowels-1.wav",
+          "clip": "vowels-1-clip.json",
+          "reference": "vowels-1-reference.json"
+        }
+      }
+    ],
+    "external_request_count": 0,
+    "browser_error_count": 0
+  }
+}

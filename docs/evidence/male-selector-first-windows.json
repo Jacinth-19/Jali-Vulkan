@@ -1,0 +1,141 @@
+{
+  "conclusion": "failure",
+  "jobs": [
+    {
+      "completedAt": "2026-10-17T10:10:47Z",
+      "conclusion": "failure",
+      "databaseId": 117370140082,
+      "name": "Actual male EXE, paired selector and unsigned installer",
+      "startedAt": "2026-10-17T10:06:03Z",
+      "status": "completed",
+      "steps": [
+        {
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "number": 2,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+          "number": 3,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38",
+          "number": 4,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Install explicit build-time dependencies",
+          "number": 5,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Test selector namespace, shared budget and packaging allowlist",
+          "number": 6,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Explicitly prepare both models and stock CPU voices",
+          "number": 7,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Build actual male-default paired WebGL EXE using the personal build command",
+          "number": 8,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run male EXE without Python Node gh in PATH, synthesize both characters, switch and unload",
+          "number": 9,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Exercise male-selectable benchmark command (not target-laptop proof)",
+          "number": 10,
+          "status": "completed"
+        },
+        {
+          "conclusion": "failure",
+          "name": "Build and test male paired personal installer and preserved data",
+          "number": 11,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Upload public synthetic evidence only",
+          "number": 12,
+          "status": "completed"
+        },
+        {
+          "conclusion": "skipped",
+          "name": "Post Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38",
+          "number": 22,
+          "status": "completed"
+        },
+        {
+          "conclusion": "skipped",
+          "name": "Post Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+          "number": 23,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "number": 24,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39023609869/job/117370140082"
+    }
+  ],
+  "status": "completed",
+  "annotations": [
+    {
+      "path": ".github",
+      "blob_href": "https://github.com/Jacinth-19/Jali-Vulkan/blob/1a7a0661a15cc467dfef828c3f618de6de133ba7/.github",
+      "start_line": 33,
+      "start_column": null,
+      "end_line": 33,
+      "end_column": null,
+      "annotation_level": "failure",
+      "title": "",
+      "message": "Process completed with exit code 1.",
+      "raw_details": ""
+    },
+    {
+      "path": ".github",
+      "blob_href": "https://github.com/Jacinth-19/Jali-Vulkan/blob/1a7a0661a15cc467dfef828c3f618de6de133ba7/.github",
+      "start_line": 18,
+      "start_column": null,
+      "end_line": 18,
+      "end_column": null,
+      "annotation_level": "notice",
+      "title": "Actual male Windows EXE and selector",
+      "message": "{\"requested_character\":{\"passed\":true,\"actual_rig\":{\"profile\":\"canonical-face-v1\",\"source_commit\":\"4a1b2eefc76259de7f31c4d7c104756ffeb45ea09ec3f4bf2ceb73fc2f89c703\",\"model_sha256\":\"4a1b2eefc76259de7f31c4d7c104756ffeb45ea09ec3f4bf2ceb73fc2f89c703\",\"retarget_sha256\":\"96d2d2a82f71bbdf87b7c301d1e79e566c8b66d9c79a645e65309c11b90d8a30\",\"viewer_sha256\":\"cf9166fab3fd85d017be72f3ed428d2cae116a9d00162dbf29027b5e143e03c5\",\"import_profile_sha256\":\"09e557ae8ac1228a1132728dfc9b3a7743facf8ee2c4f23391ae15f0a5d500f3\"},\"expected_model_sha256\":\"4a1b2eefc76259de7f31c4d7c104756ffeb45ea09ec3f4bf2ceb73fc2f89c703\",\"selector\":[{\"id\":\"female\",\"name\":\"Female\"},{\"id\":\"male\",\"name\":\"Male\"}]},\"native_included\":false,\"new_actual_cpu_speech\":true,\"target_laptop_measured\":false,\"physical_av_verified\":false,\"frozen_runtime\":true,\"binary_uploaded\":false,\"passed\":true,\"clean_path\":true,\"selector\":{\"passed\":true,\"male_rig\":{\"profile\":\"canonical-face-v1\",\"source_commit\":\"4a1b2eefc76259de7f31c4d7c104756ffeb45ea09ec3f4bf2ceb73fc2f89c703\",\"model_sha256\":\"4a1b2eefc76259de7f31c4d7c104756ffeb45ea09ec3f4bf2ceb73fc2f89c703\",\"retarget_sha256\":\"96d2d2a82f71bbdf87b7c301d1e79e566c8b66d9c79a645e65309c11b90d8a30\",\"viewer_sha256\":\"cf9166fab3fd85d017be72f3ed428d2cae116a9d00162dbf29027b5e143e03c5\",\"import_profile_sha256\":\"09e557ae8ac1228a1132728dfc9b3a7743facf8ee2c4f23391ae15f0a5d500f3\"},\"female_rig\":{\"profile\":\"mpfb-rhubarb-9-v1\",\"source_commit\":\"2afe6d79779313db8909badebf46f9805a6c7b70\",\"model_sha256\":\"536a1331b9179449752aabb358246901421e4734946c1df557f2be18fc67c994\",\"retarget_sha256\":\"96d2d2a82f71bbdf87b7c301d1e79e566c8b66d9c79a645e65309c11b90d8a30\",\"viewer_sha256\":\"cf9166fab3fd85d017be72f3ed428d2cae116a9d00162dbf29027b5e143e03c5\"},\"release_markers\":[{\"character\":\"male\",\"model\":\"4a1b2eefc76259de7f31c4d7c104756ffeb45ea09ec3f4bf2ceb73fc2f89c703\",\"readyAfterUnload\":false},{\"character\":\"female\",\"model\":\"536a1331b9179449752aabb358246901421e4734946c1df557f2be18fc67c994\",\"readyAfterUnload\":false}],\"scoped_low_lod\":true,\"rig_isolated_recordings\":true,\"verified_female_session\":\"044b8039aa304646a4e7ac7c0c303a5c\",\"verified_male_session\":\"62c907b6265f4b14b32b6371408897b8\",\"errors\":[],\"external\":[],\"limits\":\"One loaded character per document. Not a total-memory measurement across tabs, physical AV or perceptual acceptance. Speech versus explicit non-speech fixture is specified by the invoking receipt.\",\"speech_source\":\"NEW actual frozen Kokoro CPU synthesis for both rig-bound sessions, not fixture audio\"}}",
+      "raw_details": ""
+    }
+  ],
+  "scope": "Actual male frozen EXE and both-character CPU speech/selector checks passed; installer step failed before any ci_command error notice. Exact installer failure output unavailable because hosted log redirect failed. Not overall package acceptance.",
+  "correction": "Guard preinstalled Inno compiler as stock workflow does; annotate any fresh choco setup error. Manual dispatch returned HTTP 403 for the integration; corrected workflow triggered via normal branch push."
+}

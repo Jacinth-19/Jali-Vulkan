@@ -4,9 +4,9 @@
 
 - [x] Added scoped male/female selector with explicit old-renderer/audio unload and fresh-document navigation. One model per page, not an OS-wide/browser-tab memory guarantee.
 - [x] Shared CPU executor, lock and busy slot across rigs; per-rig session/token/cast/conversation isolation. No silent media rebinding or native male fallback.
-- [x] Local 157 Python / 42 JS tests and actual selector browser transport fixture pass; shared-busy, cross-token/session rejection and safe custom-studio packaging tested.
+- [x] Local 157 Python / 42 JS tests, selector transport fixture AND new actual CPU speech through both rigs pass; shared-busy, cross-token/session rejection and safe custom-studio packaging tested. Explicit-male Linux benchmark completed all 3 cases; not i5 acceptance. [Exact local receipt](evidence/character-selector-local.json).
 - [x] Personal Windows build command and benchmark selection of explicit prepared male/female studio implemented.
-- [ ] Dedicated male-default frozen EXE, actual CPU speech for both selected rigs, clean PATH, integrity/tamper and paired unsigned installer: hosted run pending. Previous stock-only Windows acceptance does not close this.
+- [ ] Final dedicated male package acceptance pending corrected workflow. First Windows run 39023609869 passed actual male-default frozen EXE, clean PATH, integrity/tamper, new CPU speech for both selected rigs, switch/unload and male benchmark; installer step failed. Compiler setup guard corrected; no package acceptance claimed until rerun. [First result](evidence/male-selector-first-windows.json).
 - [ ] New authored skin normal/roughness assets, groom/brow/lash geometry, distinct male hairstyle and bounded scattering; no new assets delivered in this follow-up.
 - [ ] Independently reviewed acoustic/visual reference, evidence-led closure/contact/tongue/transition tuning and physical AV offset. Related Sphinx crosscheck is not independent truth.
 - [ ] Actual i5-U/16GB startup, synthesis, whole-app RAM, visible playback and sustained thermal report; default remains untuned for that laptop.

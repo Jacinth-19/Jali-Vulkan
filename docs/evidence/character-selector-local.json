@@ -1,0 +1,424 @@
+{
+  "passed": true,
+  "male_rig": {
+    "profile": "canonical-face-v1",
+    "source_commit": "697577ec3ccc6af6d85d7fae5fc9b746de2e1b24cddf1fed69e4415826fd889f",
+    "model_sha256": "697577ec3ccc6af6d85d7fae5fc9b746de2e1b24cddf1fed69e4415826fd889f",
+    "retarget_sha256": "96d2d2a82f71bbdf87b7c301d1e79e566c8b66d9c79a645e65309c11b90d8a30",
+    "viewer_sha256": "cf9166fab3fd85d017be72f3ed428d2cae116a9d00162dbf29027b5e143e03c5",
+    "import_profile_sha256": "09e557ae8ac1228a1132728dfc9b3a7743facf8ee2c4f23391ae15f0a5d500f3"
+  },
+  "female_rig": {
+    "profile": "mpfb-rhubarb-9-v1",
+    "source_commit": "2afe6d79779313db8909badebf46f9805a6c7b70",
+    "model_sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+    "retarget_sha256": "96d2d2a82f71bbdf87b7c301d1e79e566c8b66d9c79a645e65309c11b90d8a30",
+    "viewer_sha256": "cf9166fab3fd85d017be72f3ed428d2cae116a9d00162dbf29027b5e143e03c5"
+  },
+  "release_markers": [
+    {
+      "character": "male",
+      "model": "697577ec3ccc6af6d85d7fae5fc9b746de2e1b24cddf1fed69e4415826fd889f",
+      "readyAfterUnload": false
+    },
+    {
+      "character": "female",
+      "model": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+      "readyAfterUnload": false
+    }
+  ],
+  "scoped_low_lod": true,
+  "rig_isolated_recordings": true,
+  "verified_female_session": "4aeb3e15139c4d9f849b76545920ae17",
+  "verified_male_session": "3e5513bbe3504c02b9d605772bd815a7",
+  "errors": [],
+  "external": [],
+  "limits": "One loaded character per document. Not a total-memory measurement across tabs, physical AV or perceptual acceptance. Speech versus explicit non-speech fixture is specified by the invoking receipt.",
+  "runtime_source_commit": "1a7a0661a15cc467dfef828c3f618de6de133ba7",
+  "speech_source": "NEW actual local Kokoro CPU synthesis through the paired server, not fixture audio",
+  "sessions": {
+    "female": {
+      "speaker": {
+        "id": "default",
+        "name": "Default",
+        "voice": "af_heart",
+        "speed": 1.0
+      },
+      "id": "4aeb3e15139c4d9f849b76545920ae17",
+      "title": "Local neural performance",
+      "text": "Mama brought my blue paper bag.",
+      "text_sha256": "058f17c10235b1b40467b2588e5b2c0d0023405a60e1e78e20af8cdfee581d56",
+      "file": "/sessions/4aeb3e15139c4d9f849b76545920ae17/audio.wav",
+      "duration": 1.856,
+      "cues": [
+        {
+          "start": 0.0,
+          "end": 0.04,
+          "value": "X"
+        },
+        {
+          "start": 0.04,
+          "end": 0.12,
+          "value": "A"
+        },
+        {
+          "start": 0.12,
+          "end": 0.21,
+          "value": "D"
+        },
+        {
+          "start": 0.21,
+          "end": 0.29,
+          "value": "A"
+        },
+        {
+          "start": 0.29,
+          "end": 0.37,
+          "value": "C"
+        },
+        {
+          "start": 0.37,
+          "end": 0.45,
+          "value": "A"
+        },
+        {
+          "start": 0.45,
+          "end": 0.55,
+          "value": "E"
+        },
+        {
+          "start": 0.55,
+          "end": 0.62,
+          "value": "B"
+        },
+        {
+          "start": 0.62,
+          "end": 0.7,
+          "value": "A"
+        },
+        {
+          "start": 0.7,
+          "end": 0.78,
+          "value": "C"
+        },
+        {
+          "start": 0.78,
+          "end": 0.85,
+          "value": "A"
+        },
+        {
+          "start": 0.85,
+          "end": 0.97,
+          "value": "F"
+        },
+        {
+          "start": 0.97,
+          "end": 1.05,
+          "value": "A"
+        },
+        {
+          "start": 1.05,
+          "end": 1.16,
+          "value": "C"
+        },
+        {
+          "start": 1.16,
+          "end": 1.22,
+          "value": "A"
+        },
+        {
+          "start": 1.22,
+          "end": 1.28,
+          "value": "E"
+        },
+        {
+          "start": 1.28,
+          "end": 1.36,
+          "value": "A"
+        },
+        {
+          "start": 1.36,
+          "end": 1.61,
+          "value": "C"
+        },
+        {
+          "start": 1.61,
+          "end": 1.75,
+          "value": "B"
+        },
+        {
+          "start": 1.75,
+          "end": 1.85,
+          "value": "X"
+        }
+      ],
+      "audio": {
+        "sample_rate": 24000,
+        "channels": 1,
+        "sample_width_bits": 16,
+        "duration_seconds": 1.856,
+        "peak_amplitude": 0.448272705078125,
+        "rms_dbfs": -22.51,
+        "sha256": "a029ef3ea0321aa3ddf95172eba7d501fb301e01050af8bf0d35ea8f94472f23"
+      },
+      "rig": {
+        "profile": "mpfb-rhubarb-9-v1",
+        "source_commit": "2afe6d79779313db8909badebf46f9805a6c7b70",
+        "model_sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+        "retarget_sha256": "96d2d2a82f71bbdf87b7c301d1e79e566c8b66d9c79a645e65309c11b90d8a30",
+        "viewer_sha256": "cf9166fab3fd85d017be72f3ed428d2cae116a9d00162dbf29027b5e143e03c5"
+      },
+      "tts": {
+        "method": "Local neural Kokoro-82M v1.0 q8 / ONNX Runtime CPU",
+        "stock_voice": "af_heart",
+        "providers": [
+          "CPUExecutionProvider"
+        ],
+        "model_sha256": "fbae9257e1e05ffc727e951ef9b9c98418e6d79f1c9b6b13bd59f5c9028a1478",
+        "voice_sha256": "d583ccff3cdca2f7fae535cb998ac07e9fcb90f09737b9a41fa2734ec44a8f0b",
+        "engine_load_seconds": 0.8146,
+        "dependency_import_seconds": 0.3057,
+        "process_peak_rss_mib": 279.64,
+        "memory_scope": "Linux/macOS process high-water RSS; includes dependencies/model; not system RAM or isolated model size",
+        "platform": "Linux-6.1.158+-x86_64-with-glibc2.36",
+        "python": "3.11.2"
+      },
+      "generation_seconds": 1.6988,
+      "analysis_seconds": 3.4396,
+      "analysis": {
+        "method": "Rhubarb 1.13.0 PocketSphinx; dialog-guided estimated mouth classes",
+        "audio_sha256": "a029ef3ea0321aa3ddf95172eba7d501fb301e01050af8bf0d35ea8f94472f23",
+        "dialog_sha256": "ace863e087a982d2a6737e9d5c29200072403f63b6cfb5721cde3809be6a4044",
+        "binary_sha256": "03e82c9c76c4e691a058f38a9cf7e75331e2f3c31a9c1fab90c00944b3ef7dc2",
+        "archive_sha256": "d797623611a61b7e0c7f2c2e6f4c5c79eec2325f4447c6aaebb037083c082239",
+        "archive_url": "https://registry.npmjs.org/rhubarb-lip-sync/-/rhubarb-lip-sync-0.0.1-alfa-3.tgz",
+        "platform": "linux-x64",
+        "hand_verified": false,
+        "phoneme_forced_alignment": false,
+        "espeak_timings_reused": false
+      },
+      "total_seconds": 6.5173,
+      "transcript_independently_verified": false,
+      "limits": "Estimated nine-class visemes, not verified phoneme alignment; procedural/manual expression. Presentation can use WebGL or the explicitly prepared matching native Vulkan profile."
+    },
+    "male": {
+      "speaker": {
+        "id": "default",
+        "name": "Default",
+        "voice": "am_michael",
+        "speed": 1.0
+      },
+      "id": "3e5513bbe3504c02b9d605772bd815a7",
+      "title": "Local neural performance",
+      "text": "Five vivid voices move very fast.",
+      "text_sha256": "9259e600096fb54711c25136b2fde2fc22755773e1aa43c0128b0beb1b239795",
+      "file": "/sessions/3e5513bbe3504c02b9d605772bd815a7/audio.wav",
+      "duration": 2.3893333333333335,
+      "cues": [
+        {
+          "start": 0.0,
+          "end": 0.05,
+          "value": "X"
+        },
+        {
+          "start": 0.05,
+          "end": 0.14,
+          "value": "G"
+        },
+        {
+          "start": 0.14,
+          "end": 0.21,
+          "value": "C"
+        },
+        {
+          "start": 0.21,
+          "end": 0.28,
+          "value": "B"
+        },
+        {
+          "start": 0.28,
+          "end": 0.42,
+          "value": "G"
+        },
+        {
+          "start": 0.42,
+          "end": 0.49,
+          "value": "B"
+        },
+        {
+          "start": 0.49,
+          "end": 0.56,
+          "value": "G"
+        },
+        {
+          "start": 0.56,
+          "end": 0.7,
+          "value": "B"
+        },
+        {
+          "start": 0.7,
+          "end": 0.77,
+          "value": "G"
+        },
+        {
+          "start": 0.77,
+          "end": 0.84,
+          "value": "E"
+        },
+        {
+          "start": 0.84,
+          "end": 1.05,
+          "value": "B"
+        },
+        {
+          "start": 1.05,
+          "end": 1.12,
+          "value": "C"
+        },
+        {
+          "start": 1.12,
+          "end": 1.19,
+          "value": "B"
+        },
+        {
+          "start": 1.19,
+          "end": 1.28,
+          "value": "A"
+        },
+        {
+          "start": 1.28,
+          "end": 1.4,
+          "value": "F"
+        },
+        {
+          "start": 1.4,
+          "end": 1.54,
+          "value": "G"
+        },
+        {
+          "start": 1.54,
+          "end": 1.61,
+          "value": "C"
+        },
+        {
+          "start": 1.61,
+          "end": 1.75,
+          "value": "B"
+        },
+        {
+          "start": 1.75,
+          "end": 1.89,
+          "value": "G"
+        },
+        {
+          "start": 1.89,
+          "end": 2.1,
+          "value": "C"
+        },
+        {
+          "start": 2.1,
+          "end": 2.31,
+          "value": "B"
+        },
+        {
+          "start": 2.31,
+          "end": 2.38,
+          "value": "X"
+        }
+      ],
+      "audio": {
+        "sample_rate": 24000,
+        "channels": 1,
+        "sample_width_bits": 16,
+        "duration_seconds": 2.3893333333333335,
+        "peak_amplitude": 0.8912353515625,
+        "rms_dbfs": -23.19,
+        "sha256": "45eacba39737a1fd5ceb9cd64604189f914b6737bdab83e96cfa656bc6595629"
+      },
+      "rig": {
+        "profile": "canonical-face-v1",
+        "source_commit": "697577ec3ccc6af6d85d7fae5fc9b746de2e1b24cddf1fed69e4415826fd889f",
+        "model_sha256": "697577ec3ccc6af6d85d7fae5fc9b746de2e1b24cddf1fed69e4415826fd889f",
+        "retarget_sha256": "96d2d2a82f71bbdf87b7c301d1e79e566c8b66d9c79a645e65309c11b90d8a30",
+        "viewer_sha256": "cf9166fab3fd85d017be72f3ed428d2cae116a9d00162dbf29027b5e143e03c5",
+        "import_profile_sha256": "09e557ae8ac1228a1132728dfc9b3a7743facf8ee2c4f23391ae15f0a5d500f3"
+      },
+      "tts": {
+        "method": "Local neural Kokoro-82M v1.0 q8 / ONNX Runtime CPU",
+        "stock_voice": "am_michael",
+        "providers": [
+          "CPUExecutionProvider"
+        ],
+        "model_sha256": "fbae9257e1e05ffc727e951ef9b9c98418e6d79f1c9b6b13bd59f5c9028a1478",
+        "voice_sha256": "1d1f21dd8da39c30705cd4c75d039d265e9bc4a2a93ed09bc9e1b1225eb95ba1",
+        "engine_load_seconds": 0.9247,
+        "dependency_import_seconds": 0.3365,
+        "process_peak_rss_mib": 288.79,
+        "memory_scope": "Linux/macOS process high-water RSS; includes dependencies/model; not system RAM or isolated model size",
+        "platform": "Linux-6.1.158+-x86_64-with-glibc2.36",
+        "python": "3.11.2"
+      },
+      "generation_seconds": 2.0993,
+      "analysis_seconds": 3.5632,
+      "analysis": {
+        "method": "Rhubarb 1.13.0 PocketSphinx; dialog-guided estimated mouth classes",
+        "audio_sha256": "45eacba39737a1fd5ceb9cd64604189f914b6737bdab83e96cfa656bc6595629",
+        "dialog_sha256": "38c47fa29455bc9ed5796e47d086561edc0ffa73b0906f83fddf3750393a93c9",
+        "binary_sha256": "03e82c9c76c4e691a058f38a9cf7e75331e2f3c31a9c1fab90c00944b3ef7dc2",
+        "archive_sha256": "d797623611a61b7e0c7f2c2e6f4c5c79eec2325f4447c6aaebb037083c082239",
+        "archive_url": "https://registry.npmjs.org/rhubarb-lip-sync/-/rhubarb-lip-sync-0.0.1-alfa-3.tgz",
+        "platform": "linux-x64",
+        "hand_verified": false,
+        "phoneme_forced_alignment": false,
+        "espeak_timings_reused": false
+      },
+      "total_seconds": 7.1995,
+      "transcript_independently_verified": false,
+      "limits": "Estimated nine-class visemes, not verified phoneme alignment; procedural/manual expression. Presentation can use WebGL or the explicitly prepared matching native Vulkan profile."
+    }
+  },
+  "browser_fixture": {
+    "passed": true,
+    "male_rig": {
+      "profile": "canonical-face-v1",
+      "source_commit": "697577ec3ccc6af6d85d7fae5fc9b746de2e1b24cddf1fed69e4415826fd889f",
+      "model_sha256": "697577ec3ccc6af6d85d7fae5fc9b746de2e1b24cddf1fed69e4415826fd889f",
+      "retarget_sha256": "96d2d2a82f71bbdf87b7c301d1e79e566c8b66d9c79a645e65309c11b90d8a30",
+      "viewer_sha256": "cf9166fab3fd85d017be72f3ed428d2cae116a9d00162dbf29027b5e143e03c5",
+      "import_profile_sha256": "09e557ae8ac1228a1132728dfc9b3a7743facf8ee2c4f23391ae15f0a5d500f3"
+    },
+    "female_rig": {
+      "profile": "mpfb-rhubarb-9-v1",
+      "source_commit": "2afe6d79779313db8909badebf46f9805a6c7b70",
+      "model_sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+      "retarget_sha256": "96d2d2a82f71bbdf87b7c301d1e79e566c8b66d9c79a645e65309c11b90d8a30",
+      "viewer_sha256": "cf9166fab3fd85d017be72f3ed428d2cae116a9d00162dbf29027b5e143e03c5"
+    },
+    "release_markers": [
+      {
+        "character": "male",
+        "model": "697577ec3ccc6af6d85d7fae5fc9b746de2e1b24cddf1fed69e4415826fd889f",
+        "readyAfterUnload": false
+      },
+      {
+        "character": "female",
+        "model": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+        "readyAfterUnload": false
+      }
+    ],
+    "scoped_low_lod": true,
+    "rig_isolated_recordings": true,
+    "verified_female_session": "b0a9ad0c836c46f3b712285c38619be0",
+    "verified_male_session": "54f41b29a19e435d90c23eceb33ce8f4",
+    "errors": [],
+    "external": [],
+    "limits": "One loaded character per document. Not a total-memory measurement across tabs, physical AV or perceptual acceptance. Speech versus explicit non-speech fixture is specified by the invoking receipt.",
+    "speech_source": "Explicit NON-SPEECH fixture; not inference or alignment acceptance"
+  },
+  "local_tests": {
+    "python": 157,
+    "javascript": 42
+  },
+  "target_laptop_measured": false,
+  "physical_av_verified": false
+}
