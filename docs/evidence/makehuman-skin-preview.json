@@ -1,0 +1,4001 @@
+{
+  "schema": "jali-makehuman-skin-previews-v1",
+  "fixture": false,
+  "generated_images": false,
+  "previews": {
+    "female": {
+      "schema": "jali-talking-preview-v1",
+      "fixture": false,
+      "text": "Hello. Here is our updated local character. Watch the eyes and the hair as I speak. Please bring my blue paper bag.",
+      "session_id": "623046030aea45938b163a006576716b",
+      "audio_sha256": "0e8d3a446bfe2ac4d4dfa2bc9fc2a68069bb36ed63d14f166278ab72a543b8b3",
+      "text_sha256": "8be6560a682d6876c2db84d1996972cc04901d6b6b1fecc9b011917c7c4356cf",
+      "rig": {
+        "profile": "mpfb-rhubarb-9-v1",
+        "source_commit": "2afe6d79779313db8909badebf46f9805a6c7b70",
+        "model_sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+        "retarget_sha256": "96d2d2a82f71bbdf87b7c301d1e79e566c8b66d9c79a645e65309c11b90d8a30",
+        "viewer_sha256": "6770d63f3d6f1341cf12102a6af308703d5af4c5e7eae743bc44d5202b34ae89"
+      },
+      "render_asset": {
+        "lod": "full",
+        "sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+        "shading": "physical-skin-eyes-hair-v2"
+      },
+      "surface_shading": {
+        "version": "physical-skin-eyes-hair-v2",
+        "eyeMeshes": 1,
+        "hairMeshes": 1,
+        "skinMeshes": 1,
+        "detailBytes": 65536,
+        "tangentBytes": 62432,
+        "newDrawCalls": 0,
+        "newTextures": 1,
+        "limits": "Procedural micro-normal/roughness skin and restrained dielectric highlights; no scanned pores or subsurface transport. Wet coated eyes and anisotropic cards; no corneal geometry, strands, voxel scattering or native changes."
+      },
+      "appearance": {
+        "lighting": "soft",
+        "background": "slate",
+        "camera": "portrait",
+        "resolution": 512,
+        "exposure": 1,
+        "skin": 0.75,
+        "eyes": 0.12,
+        "fxaa": false
+      },
+      "fps": 15,
+      "frames": 107,
+      "duration": 7.104,
+      "video_sha256": "e049f8cbbaeda16d68ccc91f188979d69f53d89c341f8902238c7b100d4fa030",
+      "all_streams_ffmpeg_decoded": true,
+      "encoded_video_frames": 107,
+      "encoded_frames_verified_by_framemd5": true,
+      "poses": [
+        {
+          "time": 0,
+          "pose": {},
+          "head": {
+            "yaw": 0,
+            "roll": 0
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 0.06666666666666667,
+          "pose": {
+            "viseme_E": 0.0047424684159377865,
+            "viseme_aa": 0.0005269409351041985,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.0008756542480583641,
+            "roll": 0.0002719475976956116
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 0.13333333333333333,
+          "pose": {
+            "viseme_E": 0.33430515063168154,
+            "viseme_aa": 0.037145016736853505,
+            "viseme_O": 0.3656065759637186,
+            "viseme_RR": 0.08035309361839968,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.0017492349669793435,
+            "roll": 0.0005435808542515673
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 0.2,
+          "pose": {
+            "viseme_O": 0.6825000000000001,
+            "viseme_RR": 0.15,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.0026186735376949014,
+            "roll": 0.0008145857918715641
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 0.26666666666666666,
+          "pose": {
+            "viseme_O": 0.6825000000000001,
+            "viseme_RR": 0.15,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.003481911149648769,
+            "roll": 0.0010846491590260222
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 0.3333333333333333,
+          "pose": {
+            "viseme_O": 0.6825000000000001,
+            "viseme_RR": 0.15,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.0043369036760125285,
+            "roll": 0.001353458792535968
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 0.4,
+          "pose": {
+            "viseme_U": 0.924,
+            "viseme_O": 0.126,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.005181626514130976,
+            "roll": 0.0016207039783989107
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 0.4666666666666667,
+          "pose": {
+            "viseme_U": 0.924,
+            "viseme_O": 0.126,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.006014079379734675,
+            "roll": 0.0018860758109396256
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 0.5333333333333333,
+          "pose": {
+            "viseme_U": 0.79180045351474,
+            "viseme_O": 0.10797278911564637,
+            "viseme_I": 0.05007558578987117,
+            "viseme_SS": 0.05007558578987117,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.006832291043567155,
+            "roll": 0.0021492675498707182
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 0.6,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.007634323999210478,
+            "roll": 0.0024099749748502375
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 0.6666666666666666,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.008418279051055926,
+            "roll": 0.0026678967371265147
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 0.7333333333333333,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.009182299811555553,
+            "roll": 0.0029227347078637647
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 0.8,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.00992457709710524,
+            "roll": 0.0031741943227458157
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 0.8666666666666667,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.0106433532121499,
+            "roll": 0.0034219849224596645
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 0.9333333333333333,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.011336926111366157,
+            "roll": 0.0036658200886652693
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 1,
+          "pose": {
+            "viseme_aa": 0.88,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.012003653430066562,
+            "roll": 0.0039054179750632597
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 1.0666666666666667,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.012641956373281431,
+            "roll": 0.0041405016331778725
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 1.1333333333333333,
+          "pose": {
+            "viseme_PP": 0.9974999999999999,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.01325032345430906,
+            "roll": 0.004370799332478546
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 1.2,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.013827314073881491,
+            "roll": 0.004596044874470161
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 1.2666666666666666,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.014371561931470477,
+            "roll": 0.004815977900388852
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 1.3333333333333333,
+          "pose": {
+            "viseme_E": 0.3343051506316888,
+            "viseme_aa": 0.03714501673685432,
+            "viseme_I": 0.18749055177626237,
+            "viseme_SS": 0.18749055177626237,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.014881778260655742,
+            "roll": 0.005030344192147748
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 1.4,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.015356754880894245,
+            "roll": 0.005238895966184772
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 1.4666666666666666,
+          "pose": {
+            "viseme_I": 0.2592592592592616,
+            "viseme_SS": 0.2592592592592616,
+            "viseme_O": 0.1769444444444399,
+            "viseme_RR": 0.03888888888888788,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.015795367058463947,
+            "roll": 0.005441392159872847
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 1.5333333333333334,
+          "pose": {
+            "viseme_O": 0.6825000000000001,
+            "viseme_RR": 0.15,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.016196576169807405,
+            "roll": 0.005637598710161446
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 1.6,
+          "pose": {
+            "viseme_O": 0.6825000000000001,
+            "viseme_RR": 0.15,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.016559432160968512,
+            "roll": 0.0058272888241274155
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 1.6666666666666667,
+          "pose": {
+            "viseme_O": 0.6780045351473922,
+            "viseme_RR": 0.14901198574667956,
+            "viseme_E": 0.004742468415938017,
+            "viseme_aa": 0.0005269409351042241,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.016883075797298416,
+            "roll": 0.006010243241122342
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 1.7333333333333334,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.01716674069810342,
+            "roll": 0.006186250486213442
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 1.8,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.01740975515141687,
+            "roll": 0.0063551071146250365
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 1.8666666666666667,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.01761154370459766,
+            "roll": 0.006516617946898056
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 1.9333333333333333,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.017771628526988825,
+            "roll": 0.006670596294495761
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 2,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.017889630541409605,
+            "roll": 0.006816864175594904
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 2.066666666666667,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.01796527032180147,
+            "roll": 0.0069552525208128905
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 2.1333333333333333,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.017998368754902603,
+            "roll": 0.007085601368633167
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 2.2,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.01798884746438401,
+            "roll": 0.007207760050302915
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 2.2666666666666666,
+          "pose": {
+            "viseme_O": 0.6825000000000001,
+            "viseme_RR": 0.15,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.017936728996442837,
+            "roll": 0.007321587363989353
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 2.3333333333333335,
+          "pose": {
+            "viseme_O": 0.6825000000000001,
+            "viseme_RR": 0.15,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.017842136766413524,
+            "roll": 0.007426951737993334
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 2.4,
+          "pose": {
+            "viseme_O": 0.6825000000000001,
+            "viseme_RR": 0.15,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.017705294766523105,
+            "roll": 0.0075237313828315725
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 2.466666666666667,
+          "pose": {
+            "viseme_O": 0.01739229024943244,
+            "viseme_RR": 0.003822481373501635,
+            "viseme_I": 0.34108087679516286,
+            "viseme_SS": 0.34108087679516286,
+            "eyeBlinkRight": 0.2424242424242451,
+            "eyeBlinkLeft": 0.2424242424242451
+          },
+          "head": {
+            "yaw": 0.017526527035482773,
+            "roll": 0.0076118144320117325
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 2.533333333333333,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0.8484848484848491,
+            "eyeBlinkLeft": 0.8484848484848491
+          },
+          "head": {
+            "yaw": 0.017306256891171653,
+            "roll": 0.0076910990713376275
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 2.6,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0.5454545454545471,
+            "eyeBlinkLeft": 0.5454545454545471
+          },
+          "head": {
+            "yaw": 0.017045005928229797,
+            "roll": 0.0077614936565951025
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 2.6666666666666665,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.016743392782934057,
+            "roll": 0.00782291681948253
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 2.7333333333333334,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.016402131668281604,
+            "roll": 0.007875297561663514
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 2.8,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.016022030682749953,
+            "roll": 0.00791857533683306
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 2.8666666666666667,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.01560398989673835,
+            "roll": 0.007952700120702354
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 2.933333333333333,
+          "pose": {
+            "viseme_U": 0.924,
+            "viseme_O": 0.126,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.015148999221221739,
+            "roll": 0.007977632468821282
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 3,
+          "pose": {
+            "viseme_aa": 0.88,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.014658136063664326,
+            "roll": 0.007993343562171809
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 3.066666666666667,
+          "pose": {
+            "viseme_aa": 0.88,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.01413256277674346,
+            "roll": 0.00799981524047956
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 3.1333333333333333,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.013573523905925212,
+            "roll": 0.007997040023205082
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 3.2,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.012982343242409293,
+            "roll": 0.007985021118190504
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 3.2666666666666666,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.012360420688421922,
+            "roll": 0.007963772417951633
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 3.3333333333333335,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.011709228942279529,
+            "roll": 0.007933318483619748
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 3.4,
+          "pose": {
+            "viseme_I": 0.21224489795918186,
+            "viseme_SS": 0.21224489795918186,
+            "viseme_aa": 0.3463556851311999,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.011030310011072991,
+            "roll": 0.007893694516551685
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 3.466666666666667,
+          "pose": {
+            "viseme_aa": 0.88,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.010325271559230229,
+            "roll": 0.007844946317640959
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 3.533333333333333,
+          "pose": {
+            "viseme_aa": 0.88,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.00959578310160386,
+            "roll": 0.00778713023437706
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 3.6,
+          "pose": {
+            "viseme_aa": 0.2386005830903691,
+            "viseme_E": 0.5772594752186678,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.008843572050098308,
+            "roll": 0.007720313095714013
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 3.6666666666666665,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.008070419623198197,
+            "roll": 0.007644572134823552
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 3.7333333333333334,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.007278156628083812,
+            "roll": 0.007559994899822176
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 3.8,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.006468659125321872,
+            "roll": 0.00746667915257528
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 3.8666666666666667,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.005643843986397133,
+            "roll": 0.007364732755695312
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 3.933333333333333,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.004805664354604808,
+            "roll": 0.007254273547864619
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 4,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.003956105020052105,
+            "roll": 0.007135429207627037
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 4.066666666666666,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.003097177719720874,
+            "roll": 0.007008337105805733
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 4.133333333333334,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.002230916373720651,
+            "roll": 0.0068731441467178075
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 4.2,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.0013593722690126136,
+            "roll": 0.006730006598369279
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 4.266666666666667,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.0004846092020091176,
+            "roll": 0.006579089911826669
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 4.333333333333333,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.0003913014084487028,
+            "roll": 0.006420568529973978
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 4.4,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.0012662854261631998,
+            "roll": 0.006254625685876159
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 4.466666666666667,
+          "pose": {
+            "viseme_E": 0.03635673344722532,
+            "viseme_aa": 0.004039637049691703,
+            "viseme_I": 0.3323265879075988,
+            "viseme_SS": 0.3323265879075988,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.002138270909087025,
+            "roll": 0.006081453190982084
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 4.533333333333333,
+          "pose": {
+            "viseme_I": 0.06364191287140873,
+            "viseme_SS": 0.06364191287140873,
+            "viseme_E": 0.5890794935216734,
+            "viseme_aa": 0.06545327705796372,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.003005193015634327,
+            "roll": 0.0059012512134118756
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 4.6,
+          "pose": {
+            "viseme_E": 0.26193167812735296,
+            "viseme_aa": 0.029103519791928108,
+            "viseme_I": 0.2226721009103145,
+            "viseme_SS": 0.2226721009103145,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.0038649988941781743,
+            "roll": 0.005714228046584844
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 4.666666666666667,
+          "pose": {
+            "viseme_I": 0.1981537674998643,
+            "viseme_SS": 0.1981537674998643,
+            "viseme_PP": 0.4327617626253867,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.004715652544156007,
+            "roll": 0.005520599868455489
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 4.733333333333333,
+          "pose": {
+            "viseme_PP": 0.9909297052154208,
+            "viseme_I": 0.0023053665910803735,
+            "viseme_SS": 0.0023053665910803735,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.005555139637272178,
+            "roll": 0.005320590491635878
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 4.8,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.006381472287381117,
+            "roll": 0.005114431104693156
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 4.866666666666666,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.0071926937577559925,
+            "roll": 0.0049023600049213295
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 4.933333333333334,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.007986883094596369,
+            "roll": 0.004684622322896122
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 5,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.008762159675802588,
+            "roll": 0.004461469739131336
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 5.066666666666666,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.009516687664245758,
+            "roll": 0.004233160193164186
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 5.133333333333334,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.010248680354987863,
+            "roll": 0.003999957585405936
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 5.2,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.010956404406157963,
+            "roll": 0.0037621314721024055
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 5.266666666666667,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.011638183943465984,
+            "roll": 0.0035199567537569586
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 5.333333333333333,
+          "pose": {
+            "viseme_PP": 0.9974999999999999,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.012292404528634471,
+            "roll": 0.003273713357376142
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 5.4,
+          "pose": {
+            "viseme_PP": 0.9974999999999999,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.012917516982351348,
+            "roll": 0.0030236859129052283
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 5.466666666666667,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.013512041052690922,
+            "roll": 0.0027701634242277232
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 5.533333333333333,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.014074568920316442,
+            "roll": 0.0025134389351090165
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 5.6,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.01460376853216393,
+            "roll": 0.0022538091904704496
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 5.666666666666667,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.01509838675571323,
+            "roll": 0.0019915742933852205
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 5.733333333333333,
+          "pose": {
+            "viseme_PP": 0.9974999999999999,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.015557252346377004,
+            "roll": 0.0017270373581926646
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 5.8,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.015979278720981024,
+            "roll": 0.0014605041601318102
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 5.866666666666666,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.01636346653076815,
+            "roll": 0.0011922827818992635
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 5.933333333333334,
+          "pose": {
+            "viseme_PP": 0.9974999999999999,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.016708906027833204,
+            "roll": 0.0009226832575399254
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 6,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.01701477921938514,
+            "roll": 0.000652017214082153
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 6.066666666666666,
+          "pose": {
+            "viseme_E": 0.0363567334472493,
+            "viseme_aa": 0.004039637049694367,
+            "viseme_PP": 0.9471307755366233,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.017280361804735144,
+            "roll": 0.00038059751133161023
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 6.133333333333334,
+          "pose": {
+            "viseme_PP": 0.18137945168346092,
+            "viseme_U": 0.7559853500195309,
+            "viseme_O": 0.10308891136629968,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.01750502489042404,
+            "roll": 0.00010873788024017781
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 6.2,
+          "pose": {
+            "viseme_U": 0.924,
+            "viseme_O": 0.126,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.017688236479427542,
+            "roll": -0.00016324743973208358
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 6.266666666666667,
+          "pose": {
+            "viseme_U": 0.9179138321995446,
+            "viseme_O": 0.12517006802721062,
+            "viseme_PP": 0.006570294784582517,
+            "eyeBlinkRight": 0.2424242424242451,
+            "eyeBlinkLeft": 0.2424242424242451
+          },
+          "head": {
+            "yaw": -0.017829562730912983,
+            "roll": -0.0004350440638427632
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 6.333333333333333,
+          "pose": {
+            "viseme_PP": 0.9974999999999999,
+            "eyeBlinkRight": 0.8484848484848491,
+            "eyeBlinkLeft": 0.8484848484848491
+          },
+          "head": {
+            "yaw": -0.017928668987564438,
+            "roll": -0.0007063378254608608
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 6.4,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0.545454545454539,
+            "eyeBlinkLeft": 0.545454545454539
+          },
+          "head": {
+            "yaw": -0.01798532056804356,
+            "roll": -0.0009768151392084202
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 6.466666666666667,
+          "pose": {
+            "viseme_PP": 0.9974999999999999,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.0179993833227096,
+            "roll": -0.001246163363430296
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 6.533333333333333,
+          "pose": {
+            "viseme_O": 0.6825000000000001,
+            "viseme_RR": 0.15,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.01797082395128265,
+            "roll": -0.0015140711615731128
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 6.6,
+          "pose": {
+            "viseme_PP": 0.9974999999999999,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.017899710081697984,
+            "roll": -0.0017802288620556374
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 6.666666666666667,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.017786210109964617,
+            "roll": -0.0020443288162146534
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 6.733333333333333,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.017630592801407458,
+            "roll": -0.0023060657539125287
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 6.8,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.017433226654237167,
+            "roll": -0.0025651371363955427
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 6.866666666666666,
+          "pose": {
+            "viseme_E": 0.7152575315840657,
+            "viseme_aa": 0.0794730590648962,
+            "viseme_I": 0.002305366591079168,
+            "viseme_SS": 0.002305366591079168,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.01719457902695489,
+            "roll": -0.0028212435059949688
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 6.933333333333334,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.01691521503165805,
+            "roll": -0.0030740888322667997
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 7,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.016595796195867898,
+            "roll": -0.0033233808541699703
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 7.066666666666666,
+          "pose": {
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.016237078896047516,
+            "roll": -0.0035688314178875797
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        }
+      ],
+      "browser_errors": [],
+      "limits": "Actual WebGL/stock CPU speech; not generated imagery. Offline fixed-WAV-clock render, not physical AV, subjective realism approval, native appearance parity or measured i5 performance.",
+      "speaker": {
+        "id": "default",
+        "name": "Default",
+        "voice": "af_heart",
+        "speed": 1.0
+      },
+      "file": "docs/media/makehuman-female-skin-talking.mp4",
+      "image_sha256": "0e651f49e980e1f4bc38887c949df0d8e8066b57d638aa630b35f1590192fa87"
+    },
+    "male": {
+      "schema": "jali-talking-preview-v1",
+      "fixture": false,
+      "text": "Hello. Here is our updated local character. Watch the eyes and the hair as I speak. Please bring my blue paper bag.",
+      "session_id": "6fe545354d324a278fece802ca8d0bbd",
+      "audio_sha256": "fcf0aee666554e23b06d12577cf25537181cc1c056221c277999de552a5b7c8b",
+      "text_sha256": "8be6560a682d6876c2db84d1996972cc04901d6b6b1fecc9b011917c7c4356cf",
+      "rig": {
+        "profile": "canonical-face-v1",
+        "source_commit": "697577ec3ccc6af6d85d7fae5fc9b746de2e1b24cddf1fed69e4415826fd889f",
+        "model_sha256": "697577ec3ccc6af6d85d7fae5fc9b746de2e1b24cddf1fed69e4415826fd889f",
+        "retarget_sha256": "96d2d2a82f71bbdf87b7c301d1e79e566c8b66d9c79a645e65309c11b90d8a30",
+        "viewer_sha256": "6770d63f3d6f1341cf12102a6af308703d5af4c5e7eae743bc44d5202b34ae89",
+        "import_profile_sha256": "09e557ae8ac1228a1132728dfc9b3a7743facf8ee2c4f23391ae15f0a5d500f3"
+      },
+      "render_asset": {
+        "lod": "full",
+        "sha256": "697577ec3ccc6af6d85d7fae5fc9b746de2e1b24cddf1fed69e4415826fd889f",
+        "shading": "physical-skin-eyes-hair-v2"
+      },
+      "surface_shading": {
+        "version": "physical-skin-eyes-hair-v2",
+        "eyeMeshes": 1,
+        "hairMeshes": 1,
+        "skinMeshes": 1,
+        "detailBytes": 65536,
+        "tangentBytes": 62432,
+        "newDrawCalls": 0,
+        "newTextures": 1,
+        "limits": "Procedural micro-normal/roughness skin and restrained dielectric highlights; no scanned pores or subsurface transport. Wet coated eyes and anisotropic cards; no corneal geometry, strands, voxel scattering or native changes."
+      },
+      "appearance": {
+        "lighting": "soft",
+        "background": "slate",
+        "camera": "portrait",
+        "resolution": 512,
+        "exposure": 1,
+        "skin": 0.75,
+        "eyes": 0.12,
+        "fxaa": false
+      },
+      "fps": 15,
+      "frames": 120,
+      "duration": 8,
+      "video_sha256": "a56f60e24f82f085a76513cc131850464e4f37bc4ee61667afbe1c21e2074180",
+      "all_streams_ffmpeg_decoded": true,
+      "encoded_video_frames": 120,
+      "encoded_frames_verified_by_framemd5": true,
+      "poses": [
+        {
+          "time": 0,
+          "pose": {},
+          "head": {
+            "yaw": 0,
+            "roll": 0
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 0.06666666666666667,
+          "pose": {
+            "viseme_E": 0.0047424684159377865,
+            "viseme_aa": 0.0005269409351041985,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.0008756542480583641,
+            "roll": 0.0002719475976956116
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 0.13333333333333333,
+          "pose": {
+            "viseme_E": 0.7152575315840622,
+            "viseme_aa": 0.07947305906489581,
+            "viseme_O": 0.004495464852607623,
+            "viseme_RR": 0.0009880142533203564,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.0017492349669793435,
+            "roll": 0.0005435808542515673
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 0.2,
+          "pose": {
+            "viseme_O": 0.6825000000000001,
+            "viseme_RR": 0.15,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.0026186735376949014,
+            "roll": 0.0008145857918715641
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 0.26666666666666666,
+          "pose": {
+            "viseme_O": 0.6825000000000001,
+            "viseme_RR": 0.15,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.003481911149648769,
+            "roll": 0.0010846491590260222
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 0.3333333333333333,
+          "pose": {
+            "viseme_O": 0.6825000000000001,
+            "viseme_RR": 0.15,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.0043369036760125285,
+            "roll": 0.001353458792535968
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 0.4,
+          "pose": {
+            "viseme_O": 0.23632653061224457,
+            "viseme_RR": 0.02973760932944597,
+            "viseme_U": 0.7408163265306129,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.005181626514130976,
+            "roll": 0.0016207039783989107
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 0.4666666666666667,
+          "pose": {
+            "viseme_U": 0.924,
+            "viseme_O": 0.126,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.006014079379734675,
+            "roll": 0.0018860758109396256
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 0.5333333333333333,
+          "pose": {
+            "viseme_U": 0.4290249433106585,
+            "viseme_O": 0.05850340136054434,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.006832291043567155,
+            "roll": 0.0021492675498707182
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 0.6,
+          "pose": {
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.007634323999210478,
+            "roll": 0.0024099749748502375
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 0.6666666666666666,
+          "pose": {
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.008418279051055926,
+            "roll": 0.0026678967371265147
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 0.7333333333333333,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.009182299811555553,
+            "roll": 0.0029227347078637647
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 0.8,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.00992457709710524,
+            "roll": 0.0031741943227458157
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 0.8666666666666667,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.0106433532121499,
+            "roll": 0.0034219849224596645
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 0.9333333333333333,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.011336926111366157,
+            "roll": 0.0036658200886652693
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 1,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.012003653430066562,
+            "roll": 0.0039054179750632597
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 1.0666666666666667,
+          "pose": {
+            "viseme_aa": 0.88,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.012641956373281431,
+            "roll": 0.0041405016331778725
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 1.1333333333333333,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.01325032345430906,
+            "roll": 0.004370799332478546
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 1.2,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.013827314073881491,
+            "roll": 0.004596044874470161
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 1.2666666666666666,
+          "pose": {
+            "viseme_E": 0.03635673344723411,
+            "viseme_aa": 0.004039637049692679,
+            "viseme_PP": 0.9471307755366444,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.014371561931470477,
+            "roll": 0.004815977900388852
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 1.3333333333333333,
+          "pose": {
+            "viseme_PP": 0.9342528049171223,
+            "viseme_I": 0.02219199827469392,
+            "viseme_SS": 0.02219199827469392,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.014881778260655742,
+            "roll": 0.005030344192147748
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 1.4,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.015356754880894245,
+            "roll": 0.005238895966184772
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 1.4666666666666666,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.015795367058463947,
+            "roll": 0.005441392159872847
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 1.5333333333333334,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.016196576169807405,
+            "roll": 0.005637598710161446
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 1.6,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.016559432160968512,
+            "roll": 0.0058272888241274155
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 1.6666666666666667,
+          "pose": {
+            "viseme_O": 0.6825000000000001,
+            "viseme_RR": 0.15,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.016883075797298416,
+            "roll": 0.006010243241122342
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 1.7333333333333334,
+          "pose": {
+            "viseme_O": 0.6825000000000001,
+            "viseme_RR": 0.15,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.01716674069810342,
+            "roll": 0.006186250486213442
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 1.8,
+          "pose": {
+            "viseme_O": 0.6825000000000001,
+            "viseme_RR": 0.15,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.01740975515141687,
+            "roll": 0.0063551071146250365
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 1.8666666666666667,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.01761154370459766,
+            "roll": 0.006516617946898056
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 1.9333333333333333,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.017771628526988825,
+            "roll": 0.006670596294495761
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 2,
+          "pose": {
+            "viseme_nn": 0.7280000000000001,
+            "viseme_DD": 0.24640000000000004,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.017889630541409605,
+            "roll": 0.006816864175594904
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 2.066666666666667,
+          "pose": {
+            "viseme_nn": 0.036760697152197326,
+            "viseme_DD": 0.012442082113051402,
+            "viseme_E": 0.6836432665527719,
+            "viseme_aa": 0.07596036295030799,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.01796527032180147,
+            "roll": 0.0069552525208128905
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 2.1333333333333333,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.017998368754902603,
+            "roll": 0.007085601368633167
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 2.2,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.01798884746438401,
+            "roll": 0.007207760050302915
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 2.2666666666666666,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.017936728996442837,
+            "roll": 0.007321587363989353
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 2.3333333333333335,
+          "pose": {
+            "viseme_E": 0.33430515063167515,
+            "viseme_aa": 0.0371450167368528,
+            "viseme_I": 0.18749055177626903,
+            "viseme_SS": 0.18749055177626903,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.017842136766413524,
+            "roll": 0.007426951737993334
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 2.4,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.017705294766523105,
+            "roll": 0.0075237313828315725
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 2.466666666666667,
+          "pose": {
+            "viseme_I": 0.25925925925925863,
+            "viseme_SS": 0.25925925925925863,
+            "viseme_O": 0.17694444444444568,
+            "viseme_RR": 0.03888888888888915,
+            "eyeBlinkRight": 0.2424242424242451,
+            "eyeBlinkLeft": 0.2424242424242451
+          },
+          "head": {
+            "yaw": 0.017526527035482773,
+            "roll": 0.0076118144320117325
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 2.533333333333333,
+          "pose": {
+            "viseme_O": 0.6825000000000001,
+            "viseme_RR": 0.15,
+            "eyeBlinkRight": 0.8484848484848491,
+            "eyeBlinkLeft": 0.8484848484848491
+          },
+          "head": {
+            "yaw": 0.017306256891171653,
+            "roll": 0.0076910990713376275
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 2.6,
+          "pose": {
+            "viseme_O": 0.6825000000000001,
+            "viseme_RR": 0.15,
+            "eyeBlinkRight": 0.5454545454545471,
+            "eyeBlinkLeft": 0.5454545454545471
+          },
+          "head": {
+            "yaw": 0.017045005928229797,
+            "roll": 0.0077614936565951025
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 2.6666666666666665,
+          "pose": {
+            "viseme_O": 0.6780045351473933,
+            "viseme_RR": 0.14901198574667981,
+            "viseme_E": 0.004742468415936775,
+            "viseme_aa": 0.0005269409351040861,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.016743392782934057,
+            "roll": 0.00782291681948253
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 2.7333333333333334,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.016402131668281604,
+            "roll": 0.007875297561663514
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 2.8,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.016022030682749953,
+            "roll": 0.00791857533683306
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 2.8666666666666667,
+          "pose": {
+            "viseme_E": 0.533333333333332,
+            "viseme_aa": 0.059259259259259116,
+            "viseme_I": 0.09074074074074136,
+            "viseme_SS": 0.09074074074074136,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.01560398989673835,
+            "roll": 0.007952700120702354
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 2.933333333333333,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.015148999221221739,
+            "roll": 0.007977632468821282
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 3,
+          "pose": {
+            "viseme_I": 0.3306122448979567,
+            "viseme_SS": 0.3306122448979567,
+            "viseme_U": 0.051183673469394286,
+            "viseme_O": 0.006979591836735585,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.014658136063664326,
+            "roll": 0.007993343562171809
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 3.066666666666667,
+          "pose": {
+            "viseme_U": 0.924,
+            "viseme_O": 0.126,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.01413256277674346,
+            "roll": 0.00799981524047956
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 3.1333333333333333,
+          "pose": {
+            "viseme_U": 0.924,
+            "viseme_O": 0.126,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.013573523905925212,
+            "roll": 0.007997040023205082
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 3.2,
+          "pose": {
+            "viseme_U": 0.924,
+            "viseme_O": 0.126,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.012982343242409293,
+            "roll": 0.007985021118190504
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 3.2666666666666666,
+          "pose": {
+            "viseme_aa": 0.88,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.012360420688421922,
+            "roll": 0.007963772417951633
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 3.3333333333333335,
+          "pose": {
+            "viseme_aa": 0.88,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.011709228942279529,
+            "roll": 0.007933318483619748
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 3.4,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.011030310011072991,
+            "roll": 0.007893694516551685
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 3.466666666666667,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.010325271559230229,
+            "roll": 0.007844946317640959
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 3.533333333333333,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.00959578310160386,
+            "roll": 0.00778713023437706
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 3.6,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.008843572050098308,
+            "roll": 0.007720313095714013
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 3.6666666666666665,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.008070419623198197,
+            "roll": 0.007644572134823552
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 3.7333333333333334,
+          "pose": {
+            "viseme_aa": 0.88,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.007278156628083812,
+            "roll": 0.007559994899822176
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 3.8,
+          "pose": {
+            "viseme_aa": 0.88,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.006468659125321872,
+            "roll": 0.00746667915257528
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 3.8666666666666667,
+          "pose": {
+            "viseme_aa": 0.88,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.005643843986397133,
+            "roll": 0.007364732755695312
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 3.933333333333333,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.004805664354604808,
+            "roll": 0.007254273547864619
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 4,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.003956105020052105,
+            "roll": 0.007135429207627037
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 4.066666666666666,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.003097177719720874,
+            "roll": 0.007008337105805733
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 4.133333333333334,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.002230916373720651,
+            "roll": 0.0068731441467178075
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 4.2,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.0013593722690126136,
+            "roll": 0.006730006598369279
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 4.266666666666667,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": 0.0004846092020091176,
+            "roll": 0.006579089911826669
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 4.333333333333333,
+          "pose": {
+            "viseme_I": 0.29992441421013366,
+            "viseme_SS": 0.29992441421013366,
+            "viseme_E": 0.10301263362486789,
+            "viseme_aa": 0.011445848180540877,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.0003913014084487028,
+            "roll": 0.006420568529973978
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 4.4,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.0012662854261631998,
+            "roll": 0.006254625685876159
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 4.466666666666667,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.002138270909087025,
+            "roll": 0.006081453190982084
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 4.533333333333333,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.003005193015634327,
+            "roll": 0.0059012512134118756
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 4.6,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.0038649988941781743,
+            "roll": 0.005714228046584844
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 4.666666666666667,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.004715652544156007,
+            "roll": 0.005520599868455489
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 4.733333333333333,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.005555139637272178,
+            "roll": 0.005320590491635878
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 4.8,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.006381472287381117,
+            "roll": 0.005114431104693156
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 4.866666666666666,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.0071926937577559925,
+            "roll": 0.0049023600049213295
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 4.933333333333334,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.007986883094596369,
+            "roll": 0.004684622322896122
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 5,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.008762159675802588,
+            "roll": 0.004461469739131336
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 5.066666666666666,
+          "pose": {
+            "viseme_PP": 0.9974999999999999,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.009516687664245758,
+            "roll": 0.004233160193164186
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 5.133333333333334,
+          "pose": {
+            "viseme_PP": 0.14271541950112215,
+            "viseme_I": 0.29992441421013255,
+            "viseme_SS": 0.29992441421013255,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.010248680354987863,
+            "roll": 0.003999957585405936
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 5.2,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.010956404406157963,
+            "roll": 0.0037621314721024055
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 5.266666666666667,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.011638183943465984,
+            "roll": 0.0035199567537569586
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 5.333333333333333,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.012292404528634471,
+            "roll": 0.003273713357376142
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 5.4,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.012917516982351348,
+            "roll": 0.0030236859129052283
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 5.466666666666667,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.013512041052690922,
+            "roll": 0.0027701634242277232
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 5.533333333333333,
+          "pose": {
+            "viseme_I": 0.03325774754346196,
+            "viseme_SS": 0.03325774754346196,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.014074568920316442,
+            "roll": 0.0025134389351090165
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 5.6,
+          "pose": {
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.01460376853216393,
+            "roll": 0.0022538091904704496
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 5.666666666666667,
+          "pose": {
+            "viseme_I": 0.09074074074074136,
+            "viseme_SS": 0.09074074074074136,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.01509838675571323,
+            "roll": 0.0019915742933852205
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 5.733333333333333,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.015557252346377004,
+            "roll": 0.0017270373581926646
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 5.8,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.015979278720981024,
+            "roll": 0.0014605041601318102
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 5.866666666666666,
+          "pose": {
+            "viseme_I": 0.25925925925925863,
+            "viseme_SS": 0.25925925925925863,
+            "viseme_PP": 0.25861111111111285,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.01636346653076815,
+            "roll": 0.0011922827818992635
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 5.933333333333334,
+          "pose": {
+            "viseme_PP": 0.9974999999999999,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.016708906027833204,
+            "roll": 0.0009226832575399254
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 6,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.01701477921938514,
+            "roll": 0.000652017214082153
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 6.066666666666666,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.017280361804735144,
+            "roll": 0.00038059751133161023
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 6.133333333333334,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.01750502489042404,
+            "roll": 0.00010873788024017781
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 6.2,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.017688236479427542,
+            "roll": -0.00016324743973208358
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 6.266666666666667,
+          "pose": {
+            "viseme_I": 0.008919123204834855,
+            "viseme_SS": 0.008919123204834855,
+            "viseme_PP": 0.9720804988662206,
+            "eyeBlinkRight": 0.2424242424242451,
+            "eyeBlinkLeft": 0.2424242424242451
+          },
+          "head": {
+            "yaw": -0.017829562730912983,
+            "roll": -0.0004350440638427632
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 6.333333333333333,
+          "pose": {
+            "viseme_PP": 0.6395266439909486,
+            "viseme_I": 0.12560468631896538,
+            "viseme_SS": 0.12560468631896538,
+            "eyeBlinkRight": 0.8484848484848491,
+            "eyeBlinkLeft": 0.8484848484848491
+          },
+          "head": {
+            "yaw": -0.017928668987564438,
+            "roll": -0.0007063378254608608
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 6.4,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0.545454545454539,
+            "eyeBlinkLeft": 0.545454545454539
+          },
+          "head": {
+            "yaw": -0.01798532056804356,
+            "roll": -0.0009768151392084202
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 6.466666666666667,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.0179993833227096,
+            "roll": -0.001246163363430296
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 6.533333333333333,
+          "pose": {
+            "viseme_I": 0.35,
+            "viseme_SS": 0.35,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.01797082395128265,
+            "roll": -0.0015140711615731128
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 6.6,
+          "pose": {
+            "viseme_PP": 0.9974999999999999,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.017899710081697984,
+            "roll": -0.0017802288620556374
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 6.666666666666667,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.017786210109964617,
+            "roll": -0.0020443288162146534
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 6.733333333333333,
+          "pose": {
+            "viseme_PP": 0.9974999999999999,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.017630592801407458,
+            "roll": -0.0023060657539125287
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 6.8,
+          "pose": {
+            "viseme_PP": 0.2908163265306132,
+            "viseme_U": 0.6546122448979583,
+            "viseme_O": 0.08926530612244886,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.017433226654237167,
+            "roll": -0.0025651371363955427
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 6.866666666666666,
+          "pose": {
+            "viseme_U": 0.924,
+            "viseme_O": 0.126,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.01719457902695489,
+            "roll": -0.0028212435059949688
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 6.933333333333334,
+          "pose": {
+            "viseme_U": 0.924,
+            "viseme_O": 0.126,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.01691521503165805,
+            "roll": -0.0030740888322667997
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 7,
+          "pose": {
+            "viseme_U": 0.1831836734693763,
+            "viseme_O": 0.02497959183673313,
+            "viseme_PP": 0.799744897959196,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.016595796195867898,
+            "roll": -0.0033233808541699703
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 7.066666666666666,
+          "pose": {
+            "viseme_PP": 0.9236111111111265,
+            "viseme_E": 0.053333333333322235,
+            "viseme_aa": 0.005925925925924693,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.016237078896047516,
+            "roll": -0.0035688314178875797
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 7.133333333333334,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.01583991256651977,
+            "roll": -0.0038101568099006256
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 7.2,
+          "pose": {
+            "viseme_E": 0.6801166180758034,
+            "viseme_aa": 0.0755685131195337,
+            "viseme_PP": 0.05525510204081408,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.01540523768802634,
+            "roll": -0.0040470780849292155
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 7.266666666666667,
+          "pose": {
+            "viseme_PP": 0.9974999999999999,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.014934083560690923,
+            "roll": -0.004279321388362274
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 7.333333333333333,
+          "pose": {
+            "viseme_O": 0.6825000000000001,
+            "viseme_RR": 0.15,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.014427565866660217,
+            "roll": -0.004506618272802958
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 7.4,
+          "pose": {
+            "viseme_O": 0.41387755102039203,
+            "viseme_RR": 0.09096209912536087,
+            "viseme_PP": 0.3926020408163502,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.013886884028194182,
+            "roll": -0.004728706008363969
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 7.466666666666667,
+          "pose": {
+            "viseme_PP": 0.9974999999999999,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.01331331836746178,
+            "roll": -0.00494532788635402
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 7.533333333333333,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.012708227074767422,
+            "roll": -0.005156233516004534
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 7.6,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.012073042992387562,
+            "roll": -0.0053611791138934595
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 7.666666666666667,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.011409270221633122,
+            "roll": -0.005559927785731776
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 7.733333333333333,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.010718480561172146,
+            "roll": -0.005752249800186898
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 7.8,
+          "pose": {
+            "viseme_E": 0.72,
+            "viseme_aa": 0.08,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.010002309785046662,
+            "roll": -0.005937922854426529
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 7.866666666666666,
+          "pose": {
+            "viseme_E": 0.018347910592812645,
+            "viseme_aa": 0.0020386567325347384,
+            "viseme_I": 0.3410808767951605,
+            "viseme_SS": 0.3410808767951605,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.009262453769197359,
+            "roll": -0.006116732331075968
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        },
+        {
+          "time": 7.933333333333334,
+          "pose": {
+            "viseme_I": 0.06364191287140873,
+            "viseme_SS": 0.06364191287140873,
+            "eyeBlinkRight": 0,
+            "eyeBlinkLeft": 0
+          },
+          "head": {
+            "yaw": -0.00850066447566831,
+            "roll": -0.006288471546291909
+          },
+          "eyes": {
+            "yaw": 0,
+            "pitch": 0
+          }
+        }
+      ],
+      "browser_errors": [],
+      "limits": "Actual WebGL/stock CPU speech; not generated imagery. Offline fixed-WAV-clock render, not physical AV, subjective realism approval, native appearance parity or measured i5 performance.",
+      "speaker": {
+        "id": "default",
+        "name": "Default",
+        "voice": "am_michael",
+        "speed": 1
+      },
+      "file": "docs/media/makehuman-male-skin-talking.mp4",
+      "image_sha256": "28285c19d93df3e149322abbf8e9612828c983cb69882e44e94a6341cd6e03e5"
+    }
+  },
+  "limits": "Offline fixed-WAV-clock WebGL rendering, not realtime/i5/physical AV or subjective quality approval. Shared source outfit, ponytail and base textures; official male-target geometry variant, not a new scan or Epic MetaHuman."
+}

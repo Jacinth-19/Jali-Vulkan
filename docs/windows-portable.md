@@ -1,5 +1,25 @@
 # Personal Windows portable build: WebGL and optional native Vulkan
 
+## Male MakeHuman / skin update — 2026-10-17
+
+Current WebGL skin/eye/hair runtime `d78fc3b` passed **all 12 hosted jobs** in
+[39017428466](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39017428466).
+The **stock female Windows EXE was actually rebuilt and run without Python, Node
+or gh in its PATH**, followed by unsigned personal installer install/update/
+uninstall tests. [Exact job steps and Windows receipts](evidence/makehuman-skin-actions.json).
+Your existing PC EXEs still require a local rebuild; they do not auto-update.
+
+The new **male MakeHuman gender-target variant** passed hosted asset and browser
+validation; a male custom Windows EXE was **not separately exercised**. Use the
+explicit [male preparation/custom package flow](makehuman-male-skin.md), not the
+stock builder that resets the female asset. No live mesh selector is implied.
+Keep provenance/licenses; back up rig-bound casts, conversations and archives,
+and retain the previous build for verified old replay. Appearance/video stay
+WebGL-only; human review, physical AV and measured i5-U/16 GB acceptance remain open.
+Personal signing is optional. No public binary/weight release or redistribution
+approval is implied by these tests.
+
+
 This is an **unsigned personal build**, not a signed consumer installer and not
 an approved redistributable release. Default builds use WebGL; an explicit
 option includes the native Vulkan engine, shaders and loader (not a GPU driver). Build/test automation does not certify your laptop's speed,

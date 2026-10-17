@@ -46,8 +46,11 @@ realism approval.** [Setup, provenance, scope and EXE rebuild](docs/makehuman-ma
 
 [Female talking video](docs/media/makehuman-female-skin-talking.mp4) ·
 [Male talking video](docs/media/makehuman-male-skin-talking.mp4).
-Local **146 Python / 37 JS tests pass**; hosted rebuild acceptance is recorded in
-[the durable tracker](docs/project-tracker.md). Appearance/video stay WebGL-only.
+Local **146 Python / 37 JS tests pass**; **all 12 hosted jobs passed** in
+[39017428466](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39017428466)
+(runtime `d78fc3b`), including male build/browser validation and the stock Windows
+frozen EXE rebuild/clean-PATH execution/unsigned installer tests.
+[Exact evidence and scope](docs/evidence/makehuman-skin-actions.json). Appearance/video stay WebGL-only.
 Existing PC EXEs need rebuilding; back up rig-bound archives/profiles first.
 Human review, physical AV and target-i5 measurements remain open.
 

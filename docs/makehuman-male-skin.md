@@ -28,7 +28,7 @@ skin environment fill (0.38) and subtle procedural micro-normal/roughness variat
 This is **not subsurface transport or scanned pores**; no claim of photorealism.
 
 One deterministic, shared **128×128 RGBA detail texture / 65,536 base bytes** per
-scene (about 87,384 bytes including GPU mip levels); repeat 24, mipmapping for
+scene (about 87,380 bytes including GPU mip levels); repeat 24, mipmapping for
 distance, normal scale 0.22. No new meshes/draw calls or runtime downloads. Authored
 normal maps are preserved instead of overwritten. Original eye/hair coatings remain.
 The appearance roughness slider still works. `?surface=original` bypasses all surface
@@ -43,6 +43,7 @@ Install the **build-only** extra, then prepare into an empty output directory:
 
 ```sh
 .venv/bin/python -m pip install -r tools/requirements-male-build.txt
+.venv/bin/python tools/studio_voices.py --install am_michael
 .venv/bin/python tools/prepare_makehuman_male.py
 node tools/test_makehuman_male.mjs
 .venv/bin/python tools/build_neural_studio.py --character artifacts/male-character --output artifacts/male-studio
@@ -65,8 +66,9 @@ Default stock female preparation is unchanged:
 The two studios use separate session stores for developer comparisons. A packaged
 studio still uses **one selected mesh, one audio player, one inference worker**;
 this is not a live male/female mesh switcher or simultaneous two-avatar renderer.
-Voice profiles share whichever mesh was prepared. Choose stock `am_michael` for
-the male and `af_heart` for the female; neither is the auditioned personal voice.
+Voice profiles share whichever mesh was prepared. The default voice remains
+`af_heart`; choose `am_michael` in the male studio's voice/profile controls, and
+`af_heart` for the female; neither is the auditioned personal voice.
 
 ## Personal Windows EXEs
 
@@ -115,3 +117,20 @@ No public release/redistribution clearance or full strand-hair pipeline is impli
   no Hair-Renderer-X assets, Epic assets or new scanned skin were imported.
 - Build proof/stock recordings are public synthetic fixtures, not user voice data.
   Asset notices do not by themselves clear every dependency/model for distribution.
+
+## Validation checkpoint
+
+Local **146 Python / 37 JavaScript tests pass**. All **12 hosted jobs succeeded**
+in [run 39017428466](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39017428466),
+runtime `d78fc3ba92052ef33597d9183c712518bcd3e8ca`. Male generation, strict import
+and actual browser workspace controls passed in job 117352319235. Stock Windows
+frozen EXE rebuilding, clean-PATH execution and unsigned installer install/update/
+uninstall passed in job 117352319734. The notice receipt explicitly retains
+`redistribution_approved: false` and unsigned-personal signing status.
+[Exact steps, Windows notice receipts and limitations](evidence/makehuman-skin-actions.json).
+
+The **male custom Windows EXE was not separately exercised**. Hosted male browser
+controls use explicit non-speech fixtures; the delivered local male/female movies
+use actual newly synthesized CPU speech and verified estimated cues. Artifact ZIP
+retrieval to this sandbox was blocked at the Azure redirect; no hosted/local male
+binary hash equivalence is claimed. This does not replace the open human/AV/i5 gates.

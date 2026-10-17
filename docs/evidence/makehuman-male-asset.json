@@ -1,0 +1,539 @@
+{
+  "passed": true,
+  "model_sha256": "697577ec3ccc6af6d85d7fae5fc9b746de2e1b24cddf1fed69e4415826fd889f",
+  "report": {
+    "vertices": 53116,
+    "triangles": 83686,
+    "morphs": [
+      "browDownLeft",
+      "browDownRight",
+      "browInnerUp",
+      "browOuterUpLeft",
+      "browOuterUpRight",
+      "cheekPuff",
+      "cheekSquintLeft",
+      "cheekSquintRight",
+      "eyeBlinkLeft",
+      "eyeBlinkRight",
+      "eyeLookDownLeft",
+      "eyeLookDownRight",
+      "eyeLookInLeft",
+      "eyeLookInRight",
+      "eyeLookOutLeft",
+      "eyeLookOutRight",
+      "eyeLookUpLeft",
+      "eyeLookUpRight",
+      "eyeSquintLeft",
+      "eyeSquintRight",
+      "eyeWideLeft",
+      "eyeWideRight",
+      "jawForward",
+      "jawLeft",
+      "jawOpen",
+      "jawRight",
+      "mouthClose",
+      "mouthDimpleLeft",
+      "mouthDimpleRight",
+      "mouthFrownLeft",
+      "mouthFrownRight",
+      "mouthFunnel",
+      "mouthLeft",
+      "mouthLowerDownLeft",
+      "mouthLowerDownRight",
+      "mouthPressLeft",
+      "mouthPressRight",
+      "mouthPucker",
+      "mouthRight",
+      "mouthRollLower",
+      "mouthRollUpper",
+      "mouthShrugLower",
+      "mouthShrugUpper",
+      "mouthSmileLeft",
+      "mouthSmileRight",
+      "mouthStretchLeft",
+      "mouthStretchRight",
+      "mouthUpperUpLeft",
+      "mouthUpperUpRight",
+      "noseSneerLeft",
+      "noseSneerRight",
+      "tongueOut",
+      "viseme_CH",
+      "viseme_DD",
+      "viseme_E",
+      "viseme_FF",
+      "viseme_I",
+      "viseme_O",
+      "viseme_PP",
+      "viseme_RR",
+      "viseme_SS",
+      "viseme_TH",
+      "viseme_U",
+      "viseme_aa",
+      "viseme_kk",
+      "viseme_nn"
+    ],
+    "bones": 76,
+    "textures": [
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ]
+  },
+  "source": {
+    "schema": "jali-makehuman-male-v1",
+    "source_sha256": "63c645a2a863b9972e9a9c2ed576a1de4c390b8475508e1473e69c87a3ee299c",
+    "mpfb_commit": "f4f4f1ffa8203585730a7ce433b66738777ba168",
+    "mpfb_archive_sha256": "af03a0f41f19806c717b0c832ddd6513b06fd6258228b5ab844e06792e2e72ac",
+    "targets": [
+      {
+        "file": "african-male-young.target.gz",
+        "sha256": "05ed84d6df36e788cdfa8da0be15376850524b960cf2f17f3e592b9cf7d21c85",
+        "weight": 0.3333333333333333
+      },
+      {
+        "file": "african-female-young.target.gz",
+        "sha256": "1147ae55ecb0f66bade3f45176b3af187e265878322db172ad1090e9f3108e84",
+        "weight": -0.3333333333333333
+      },
+      {
+        "file": "asian-male-young.target.gz",
+        "sha256": "0928ed8b9f08f60afb9884cf9e9f33a939ed3a85d7f136de9ccc88a76981d6d7",
+        "weight": 0.3333333333333333
+      },
+      {
+        "file": "asian-female-young.target.gz",
+        "sha256": "ee17da733288434e5b6fa120497f1fa6e72bf7faad5d694b0431d7275139170d",
+        "weight": -0.3333333333333333
+      },
+      {
+        "file": "caucasian-male-young.target.gz",
+        "sha256": "ffe69537e53148edff2776204ba48cf3bf1f3cbc72966592c8a562ab80b07333",
+        "weight": 0.3333333333333333
+      },
+      {
+        "file": "caucasian-female-young.target.gz",
+        "sha256": "e9d6212373ac5f1e2c596fa145e363385f4d169c3c6c88ede3bab93b681af041",
+        "weight": -0.3333333333333333
+      },
+      {
+        "file": "universal-male-young-averagemuscle-averageweight.target.gz",
+        "sha256": "e814651195c53971503d9823d6841216718a561951ef064f81d132297f4fa494",
+        "weight": 1
+      },
+      {
+        "file": "universal-female-young-averagemuscle-averageweight.target.gz",
+        "sha256": "30046c85a461249824548d5319d74c16392842a1ee00ca9a4485ea3eeb06e2e8",
+        "weight": -1
+      }
+    ],
+    "uv_matched_vertices": 11779,
+    "uv_shared_resolved_vertices": 0,
+    "uv_tolerance": 1e-06,
+    "scale_to_metres": 0.1,
+    "changes": [
+      {
+        "mesh": "base",
+        "max_displacement_m": 0.1497378783488638
+      },
+      {
+        "mesh": "female_casualsuit01",
+        "max_displacement_m": 0.14493219518319653
+      },
+      {
+        "mesh": "high-poly",
+        "max_displacement_m": 0.13540492848291422
+      },
+      {
+        "mesh": "mind_eyebrows_02",
+        "max_displacement_m": 0.1353903840290839
+      },
+      {
+        "mesh": "mind_eyelashes_02",
+        "max_displacement_m": 0.13571812757908716
+      },
+      {
+        "mesh": "ponytail01",
+        "max_displacement_m": 0.14900493156580308
+      },
+      {
+        "mesh": "teeth_base",
+        "max_displacement_m": 0.131578370304272
+      },
+      {
+        "mesh": "tongue01",
+        "max_displacement_m": 0.12915930243956558
+      }
+    ],
+    "bone_rest_offsets_m": {
+      "LeftButtock": [
+        0.03858026947126077,
+        0.0962562124331718,
+        0.010315588122308404
+      ],
+      "LeftToeBase": [
+        0.026666577650068895,
+        -0.003204241210438371,
+        -0.010372968574866722
+      ],
+      "LeftFoot": [
+        0.02687445036886336,
+        -0.0016807843851674967,
+        -0.013044089004680367
+      ],
+      "LeftLeg": [
+        0.030072958630470475,
+        -0.00805912775149192,
+        -0.0076143852540730105
+      ],
+      "LeftUpLeg": [
+        0.038580269459678074,
+        0.09625621244158243,
+        0.010315588103735007
+      ],
+      "RightButtock": [
+        -0.03858026962747005,
+        0.09625621231590115,
+        0.010315588341671806
+      ],
+      "RightToeBase": [
+        -0.026666616358984496,
+        -0.0032041915121880367,
+        -0.010373032495272716
+      ],
+      "RightFoot": [
+        -0.026874503608365567,
+        -0.0016807951055886287,
+        -0.013044130555256658
+      ],
+      "RightLeg": [
+        -0.03007295859701173,
+        -0.00805912784525263,
+        -0.007614385472380556
+      ],
+      "RightUpLeg": [
+        -0.038580269468173396,
+        0.09625621243524998,
+        0.010315588116131582
+      ],
+      "LeftBreast": [
+        0.015385557052983374,
+        0.10740331147364794,
+        -0.0028676246643474157
+      ],
+      "RightBreast": [
+        -0.015385557659970569,
+        0.10740331162145964,
+        -0.0028676255332928417
+      ],
+      "LeftHandIndex3": [
+        0.07364054916954185,
+        0.08704629203533412,
+        0.08037590569234199
+      ],
+      "LeftHandIndex2": [
+        0.07339083591316478,
+        0.08924325956567522,
+        0.07560499602103199
+      ],
+      "LeftHandIndex1": [
+        0.07271605822212462,
+        0.09036166651010713,
+        0.07060336118349686
+      ],
+      "LeftHandMiddle3": [
+        0.07792145742682491,
+        0.08037196344086149,
+        0.07905957285335995
+      ],
+      "LeftHandMiddle2": [
+        0.07729702432737284,
+        0.08333043263187019,
+        0.07396993203518994
+      ],
+      "LeftHandMiddle1": [
+        0.07583108533024839,
+        0.08661994998782192,
+        0.0679813526338025
+      ],
+      "LeftHandPinky3": [
+        0.07898478506104649,
+        0.07534852934814087,
+        0.06817085881539012
+      ],
+      "LeftHandPinky2": [
+        0.07887165038693035,
+        0.07735256452455198,
+        0.06547804953640161
+      ],
+      "LeftHandPinky1": [
+        0.07779497715718489,
+        0.0801832375266949,
+        0.06232440125291512
+      ],
+      "LeftHandRing3": [
+        0.07964773449669971,
+        0.07734981932778291,
+        0.07458597648189912
+      ],
+      "LeftHandRing2": [
+        0.0790846585894936,
+        0.08016313366440096,
+        0.07029966443116932
+      ],
+      "LeftHandRing1": [
+        0.07722962855569676,
+        0.08374673163720397,
+        0.06529291671498864
+      ],
+      "LeftHandThumb3": [
+        0.06061879145795586,
+        0.09262797517128848,
+        0.07008297801004518
+      ],
+      "LeftHandThumb2": [
+        0.062044989174052385,
+        0.09235929372491933,
+        0.06297387340036019
+      ],
+      "LeftHandThumb1": [
+        0.06754079264113386,
+        0.09395959670942916,
+        0.057291350481223184
+      ],
+      "LeftHand": [
+        0.06896425010534263,
+        0.0908202066035446,
+        0.049069372459568446
+      ],
+      "LeftForeArm": [
+        0.044678812329211434,
+        0.09944866819211784,
+        0.000915862173167734
+      ],
+      "LeftArm": [
+        0.014394868432727557,
+        0.12058268252113273,
+        -0.016094481934156604
+      ],
+      "LeftShoulder": [
+        0.006153465073868035,
+        0.10512648029176462,
+        0.008495682495245103
+      ],
+      "Jaw": [
+        -1.8225877722055803e-10,
+        0.12962858780154365,
+        0.0062154349879504165
+      ],
+      "LeftEye": [
+        0.002069486339561733,
+        0.13424740291179987,
+        0.017545560555033625
+      ],
+      "LeftOrbicularisBottom": [
+        0.002069486339561733,
+        0.13424740291179987,
+        0.017545560555033625
+      ],
+      "LeftOrbicularisTop": [
+        0.002069486339561733,
+        0.13424740291179987,
+        0.017545560555033625
+      ],
+      "RightEye": [
+        -0.0020694864036873047,
+        0.1342474029185845,
+        0.017545560397072217
+      ],
+      "RightOrbicularisBottom": [
+        -0.0020694864036873047,
+        0.1342474029185845,
+        0.017545560397072217
+      ],
+      "RightOrbicularisTop": [
+        -0.0020694864036873047,
+        0.1342474029185845,
+        0.017545560397072217
+      ],
+      "Ponytail3": [
+        -7.845644522237267e-11,
+        0.12005302637562171,
+        -0.005674424921112944
+      ],
+      "Ponytail2": [
+        3.2632711135741675e-12,
+        0.12944899784042202,
+        -0.00759107572894494
+      ],
+      "Ponytail1": [
+        -9.72867310324006e-12,
+        0.1479412330924575,
+        -0.01244399325078263
+      ],
+      "PonytailRoot": [
+        -2.37026358333885e-11,
+        0.14835457117763431,
+        -0.004360958870991279
+      ],
+      "Head": [
+        9.006711145813234e-06,
+        0.12700786163310934,
+        0.0050674745227939095
+      ],
+      "Neck": [
+        -4.9675708496425123e-11,
+        0.12353910375913857,
+        -0.007051560745805659
+      ],
+      "RightHandIndex3": [
+        -0.07364058466456619,
+        0.0870462488073181,
+        0.08037590302480031
+      ],
+      "RightHandIndex2": [
+        -0.07339086658623391,
+        0.08924322665186801,
+        0.07560500179799164
+      ],
+      "RightHandIndex1": [
+        -0.07271608492349439,
+        0.09036163686186942,
+        0.07060336624426672
+      ],
+      "RightHandMiddle3": [
+        -0.07792146018331633,
+        0.08037194235166896,
+        0.079059580634789
+      ],
+      "RightHandMiddle2": [
+        -0.07729703456850896,
+        0.08333040491416985,
+        0.0739699227382513
+      ],
+      "RightHandMiddle1": [
+        -0.07583110761889693,
+        0.08661992216398647,
+        0.06798135928929624
+      ],
+      "RightHandPinky3": [
+        -0.07898479361526677,
+        0.07534851579009504,
+        0.06817086607466086
+      ],
+      "RightHandPinky2": [
+        -0.07887165554721202,
+        0.07735256202873059,
+        0.0654780595997046
+      ],
+      "RightHandPinky1": [
+        -0.07779499118532036,
+        0.08018322656097437,
+        0.062324419665300716
+      ],
+      "RightHandRing3": [
+        -0.07964774195293876,
+        0.07734981558164357,
+        0.07458597737315434
+      ],
+      "RightHandRing2": [
+        -0.07908466641535049,
+        0.08016312770100442,
+        0.07029966196890632
+      ],
+      "RightHandRing1": [
+        -0.07722965481275959,
+        0.08374670893050679,
+        0.06529292811581464
+      ],
+      "RightHandThumb3": [
+        -0.060618839169398836,
+        0.09262798413556561,
+        0.07008301612395455
+      ],
+      "RightHandThumb2": [
+        -0.062045001611652696,
+        0.09235926298788757,
+        0.06297389412077616
+      ],
+      "RightHandThumb1": [
+        -0.06754083724281304,
+        0.09395958463653424,
+        0.05729136607021653
+      ],
+      "RightHand": [
+        -0.06896428191179192,
+        0.09082021760549291,
+        0.049069364031415506
+      ],
+      "RightForeArm": [
+        -0.04467881923526239,
+        0.09944867229181509,
+        0.0009158645736317222
+      ],
+      "RightArm": [
+        -0.014394868387285285,
+        0.12058268265891035,
+        -0.01609448201290756
+      ],
+      "RightShoulder": [
+        -0.006153465423169089,
+        0.10512648053807881,
+        0.008495682430144084
+      ],
+      "Spine2": [
+        -0.00027533119444776277,
+        0.11340613566108144,
+        -0.0009287726157599133
+      ],
+      "Spine1": [
+        -6.3085785872377e-10,
+        0.10936991727139418,
+        -0.01777012819289205
+      ],
+      "Spine": [
+        -5.32733588180289e-10,
+        0.1066255067303045,
+        -0.016186531146951694
+      ],
+      "Hips": [
+        0.029283489342618933,
+        0.10494366341672161,
+        0.0008338554883998455
+      ]
+    },
+    "method": "Official adult male-minus-female macro targets, ancestry-averaged, exact canonical UV correspondence; smooth spatial transfer to attachments and facial morphs; recomputed rest/morph normals. Spherical eyes translated rigidly with refitted pivots; all joint positions and inverse binds refitted, rest orientations retained. Shared ponytail and outfit. Not a new independently authored male scan.",
+    "epic_metahuman": false,
+    "public_redistribution_approved": false
+  },
+  "additional_local_rest_bind_check": {
+    "maximum_residual": 9.10527588782184e-06,
+    "tolerance": 5e-05,
+    "method": "World-joint times inverse bind is consistent across each skin. Meshopt embeds per-mesh dequantization into inverse binds, so the shared product is not necessarily identity.",
+    "passed": true
+  }
+}
