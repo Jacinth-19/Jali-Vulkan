@@ -31,6 +31,25 @@ Captured on **SwiftShader software Vulkan**, not a hardware-GPU performance resu
 The native fixture is not the detailed human above. [Capture commands, provenance,
 image hashes and scope](docs/render-captures.md) are retained.
 
+### Reviewed mouth, lighting and brow/lash fixes — 2026-10-17
+
+The first recommended fix batch adds depth-based oral lighting, less-white teeth,
+less overpowering skin fill and lower-glint brown brow/lash response. No geometry,
+speech weights or native appearance changes. **A lighting approximation—not new
+mouth anatomy, true AO, scanned skin or a new groom.**
+
+<img src="docs/images/makehuman-visual-fixes-comparison.png" width="680" alt="Actual decoded movie comparison: female and male, before left and updated shading right">
+
+[Updated female talking movie](docs/media/makehuman-female-visual-fixes-talking.mp4) ·
+[Updated male talking movie](docs/media/makehuman-male-visual-fixes-talking.mp4) ·
+[Settings, exact same-WAV/pose/LOD proof and remaining limitations](docs/makehuman-visual-fixes.md).
+Local **149 Python / 40 JS tests pass**; **all 12 hosted jobs passed** in
+[39021296279](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39021296279)
+(source `60cb4f1`), including stock Windows frozen EXE/unsigned installer checks.
+[Exact evidence, first failed run and corrected playback test](docs/evidence/makehuman-visual-fixes-actions.json). Mouth-corner/rounding, full-blink/F/V,
+better source fibers/hair, human/physical-AV/i5 gates remain open. Existing PC EXEs
+need rebuilding; back up rig-bound user data. Appearance/video stay WebGL-only.
+
 ### Male MakeHuman and skin for both characters — 2026-10-17
 
 Added a **male MakeHuman variant using official gender shape targets**, retaining
@@ -54,7 +73,7 @@ frozen EXE rebuild/clean-PATH execution/unsigned installer tests.
 Existing PC EXEs need rebuilding; back up rig-bound archives/profiles first.
 Human review, physical AV and target-i5 measurements remain open.
 
-**Visual review:** both talking movies still show a flat/bright mouth interior,
+**Earlier v2 visual review:** the older talking movies show a flat/bright mouth interior,
 washed-out skin, coarse brows/lashes and a strip-like front hairline. Selected
 P/B/M poses largely close; full blink and F/V contact are not established by these
 clips. [Ranked findings and actual decoded-frame details](docs/makehuman-visual-review.md).

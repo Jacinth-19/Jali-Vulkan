@@ -1,5 +1,24 @@
 # Personal Windows portable build: WebGL and optional native Vulkan
 
+## Reviewed visual-fix batch v3 — 2026-10-17
+
+Source **60cb4f1** passed **all 12 hosted jobs** in
+[39021296279](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39021296279),
+including actual Windows offline HTTP/file playback, **stock female frozen EXE
+rebuild and execution without Python/Node/gh in PATH**, and unsigned personal
+installer install/update/uninstall. [Exact steps, notices and original failed
+cancellation-test run](evidence/makehuman-visual-fixes-actions.json).
+
+The [mouth/lighting/brow-lash batch](makehuman-visual-fixes.md) is WebGL-only;
+geometry and speech weights are unchanged. The male model/browser path passed,
+but a custom male Windows EXE was not separately exercised. Existing user-PC EXEs
+still need rebuilding; back up rig-bound profiles/archives and retain old builds
+for old replay. The explicit developer two-fixture comparison is **not** automatic
+archive migration. Personal signing stays optional; public redistribution,
+human/physical-AV/target-i5 acceptance remain open. Earlier checkpoints below are
+retained as history, not the current visual-fix acceptance.
+
+
 ## Male MakeHuman / skin update — 2026-10-17
 
 Current WebGL skin/eye/hair runtime `d78fc3b` passed **all 12 hosted jobs** in

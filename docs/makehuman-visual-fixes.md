@@ -77,10 +77,19 @@ hashes: make a **new baseline and after** comparison rather than claiming equiva
 
 Local **149 Python / 40 JavaScript tests pass**, including role allowlists, oral
 attribute bounds/fallback, unchanged geometry/material texture/alpha contracts,
-lighting fallback and rejection of non-viewer rig changes. Actual shader renders
-are being verified on both prepared characters. Hosted CI and final comparison
-receipts are pending this runtime revision's run; the prior checkpoint is not
-acceptance of this new shader.
+lighting fallback and rejection of non-viewer rig changes. Both actual shader movies completed: female **107 encoded frames / 7.104-second
+WAV**, male **120 frames / 8.000-second WAV**. All **227 frame poses**, WAV/text hashes
+and prepared low-LOD hashes match the original movies exactly. Full video/audio
+decode and encoded counts were verified. Camera/exposure/roughness controls were
+unchanged; numeric light intensities changed deliberately as described above.
+[Exact comparison receipts](evidence/makehuman-visual-fixes-preview.json).
+**All 12 hosted jobs passed** in [39021296279](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39021296279),
+source `60cb4f145f1e17abb53ac18fb90692244bfaf2c8`. This includes Windows offline
+HTTP/file playback, stock frozen EXE rebuild/clean-PATH execution, unsigned
+installer install/update/uninstall and hosted male asset/browser validation.
+[Exact jobs, notices, first failure and scope](evidence/makehuman-visual-fixes-actions.json).
+The custom male Windows EXE was not separately exercised; hosted male workspace
+audio is an explicit non-speech fixture, unlike the actual recordings in the movies.
 
 This is not a complete facial asset overhaul. Lip-corner/rounding geometry,
 full-blink seal and F/V contact, better brow/lash/hair assets, authored skin detail,
@@ -89,3 +98,49 @@ open. No scanned skin, subsurface transport or full strand scattering is implied
 Appearance/video remain WebGL-only; native geometry/weights are unchanged.
 Existing personal EXEs need rebuilding; signing remains optional. Default hosted
 Windows packaging tests use the female asset, not a separate custom male EXE.
+
+## Actual before/after renders
+
+![Female above, male below: v2 before at left and v3 after at right, from decoded movies](images/makehuman-visual-fixes-comparison.png)
+
+![Same-pose mouth details: open before/after and closure before/after](images/makehuman-visual-fixes-mouth.png)
+
+- [Updated female talking movie](media/makehuman-female-visual-fixes-talking.mp4)
+- [Updated male talking movie](media/makehuman-male-visual-fixes-talking.mp4)
+
+These are decoded real WebGL movies, not generated or retouched imagery. Comparison
+labels/resizing/crops only. Sampled-frame review: less glaring oral pink/white and
+more visible facial shading; central closure retained. The tongue/cavity still has
+source-geometry limitations and brow/lash stippling is **not eliminated**. No final
+human realism approval is inferred from the images.
+
+The developer replay helper initially omitted its ready-job registry entry,
+causing `loadExisting` to reject the freshly prepared comparison ID. The helper
+registration was corrected and both complete captures then passed locally. This
+is a comparison-tool fix, not a relaxation of runtime bindings or a shader change.
+
+## Hosted cancellation-test regression and local confirmation
+
+The first hosted run, [39020253681](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39020253681)
+(source `7f4c931`), finished **11 successful jobs / 1 failed job**. Windows offline
+Chrome's cancellation check found an `ended` run rather than `cancelled`; the
+reported full-mesh SwiftShader playback was approximately 1.73 FPS. The shader,
+new speech, stock frozen EXE and unsigned installer checks in that run passed,
+but the overall run is **not** counted as accepted.
+
+The smoke test previously waited for a browser-protocol reply and then a separate
+Playwright actionability/click round trip during a short clip. The corrected test
+arms an in-page observation before starting playback, requires phase `playing`,
+actual unpaused/unended audio with advancing time strictly inside the recording,
+and invokes the **same Cancel or speed-change UI handler** immediately from that
+observation. It still requires `cancelled` / `speed changed` and invalid samples;
+end completion, startup cancellation, hash/no-network and report-integrity checks
+are unchanged. Probe timestamps are retained. **No measurement validity or
+performance threshold was weakened.** This tests handler semantics, not physical
+input responsiveness on the target laptop.
+
+Both HTTP and file:// checks passed locally with newly generated, verified stock
+CPU recordings of the fixed public corpus; their live-action probes are retained
+in the comparison receipt. Source `60cb4f1` includes this test correction and the
+replay helper ready-job fix. WebGL code is byte-for-byte unchanged between
+`7f4c931` and `60cb4f1`. The new full hosted run **39021296279 passed all 12 jobs**; the first failed run remains in the evidence.

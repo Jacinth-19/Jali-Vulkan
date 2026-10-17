@@ -51,8 +51,8 @@ recording -> animate the detailed character -> synchronized playback.
 
 - [x] First bounded WebGL implementation: vertex-depth oral lighting approximation, ivory/less-glossy teeth, lower fill-light dominance and lower-glint brown brow/lash materials. Geometry, speech weights and rig contracts preserved; not true AO/SSS or new grooming.
 - [x] Local 149 Python / 40 JS tests and initial actual shader diagnostic pass. Explicit developer same-WAV replay validates the two pinned public recordings and unchanged non-viewer rig identity; no runtime migration/check weakening.
-- [ ] Final male/female same-WAV comparisons, encoded-frame/decode checks and visual inspection.
-- [ ] Hosted rebuild/test acceptance of this runtime revision, including stock Windows frozen EXE/unsigned installer. Previous d78fc3b run is historical for this revision.
+- [x] Final male/female same-WAV comparisons: 107/120 verified encoded frames, both streams decoded; all 227 recorded frame poses, WAV/text hashes and low-LOD asset hashes unchanged. Actual before/after images and movies retained. Sample review shows less bright/flat oral shading and more facial definition; sparse fiber geometry and lip corners remain. [Receipts](evidence/makehuman-visual-fixes-preview.json).
+- [x] Hosted source **60cb4f145f1e17abb53ac18fb90692244bfaf2c8**, **all 12 jobs SUCCESS**, [39021296279](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39021296279). Includes Windows offline HTTP/file playback, actual stock frozen EXE rebuild/clean-PATH execution and unsigned installer install/update/uninstall. Male asset/browser validation passed; custom male Windows EXE not separately exercised. [Exact jobs, notices, original 11-pass/1-fail run and strict test correction](evidence/makehuman-visual-fixes-actions.json). No runtime/measurement limits weakened; shader unchanged between the two implementation commits.
 - [ ] Better source fiber geometry, oral anatomy/contact review, full blink/F/V coverage, human/physical-AV/i5 gates remain open.
 
 [Exact material settings, diagnostic findings and comparison method](makehuman-visual-fixes.md).
@@ -62,7 +62,8 @@ recording -> animate the detailed character -> synchronized playback.
 - [x] Reviewed selected frames decoded from both delivered MP4s, with source hashes and exact sample times retained. [Review, actual video crops and ranked findings](makehuman-visual-review.md).
 - [x] Identified the next fix priorities: flat/bright mouth interior and tooth response; washed-out skin lighting/detail; stippled brows/coarse lashes; lip-corner/rounding refinement; coarse front hairline/cards.
 - [x] Kept coverage honest: central P/B/M closure appears largely sealed at selected peaks; strongest sampled blink is only 0.848485, so full closure is unproven; neither clip activates viseme_FF, so no F/V acceptance claim.
-- [ ] Implement and compare the first visual-fix batch under the same WAV/camera/LOD. Add held full blinks, dedicated F/V and rounded-vowel tests, and three-quarter hair views.
+- [x] Implemented and compared the first bounded shading/lighting/fiber-response batch under the same WAV/camera/LOD; exact scope and remaining geometry issues are recorded in the newer fix section above.
+- [ ] Add held full blinks, dedicated F/V and rounded-vowel tests, and three-quarter hair views.
 - [ ] User appearance/listening acceptance remains open. This assistant sampled-frame review is not exhaustive motion/AV QA, a measured laptop result or human realism approval. No runtime changes in this review.
 
 ## Male MakeHuman and skin for both — 2026-10-17

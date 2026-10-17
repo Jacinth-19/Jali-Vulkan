@@ -34,3 +34,20 @@ notices remain those of the prepared local Kokoro stock setup; no cloned user
 voice. [Source hashes, setup and rights scope](../makehuman-male-skin.md).
 This is not Epic MetaHuman, target-i5 performance, physical AV or final human
 quality approval. Appearance/video changes are WebGL-only.
+
+
+## Reviewed mouth/lighting/fiber fix movies (2026-10-17)
+
+`makehuman-female-visual-fixes-talking.mp4` and
+`makehuman-male-visual-fixes-talking.mp4` are newly rendered **WebGL movies using the
+same previously synthesized stock recordings**, not new synthesis. Female 107
+encoded frames / 7.104-second WAV, male 120 / 8.000 seconds, 512² / 15 FPS, H.264/AAC.
+Full-stream decode and exact frame counts verified; all 227 frame poses, actual
+WAV/text and prepared LOD hashes match the prior captures. New viewer identity is
+recorded through an explicit pinned-public-fixture comparison—not runtime archive
+migration. [Receipts](../evidence/makehuman-visual-fixes-preview.json) and
+[comparison images/settings/remaining limits](../makehuman-visual-fixes.md).
+
+No geometry or speech-motion changes. Cavity lighting is an approximation, not
+true shadows/AO; source tongue/fiber geometry, full-blink/F/V, human/physical-AV/i5
+acceptance remain open. Existing CC0 character and stock voice/model notices apply.

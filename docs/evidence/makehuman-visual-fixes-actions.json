@@ -1,0 +1,1551 @@
+{
+  "conclusion": "success",
+  "databaseId": 39021296279,
+  "event": "push",
+  "headSha": "60cb4f145f1e17abb53ac18fb90692244bfaf2c8",
+  "jobs": [
+    {
+      "completedAt": "2026-10-17T09:42:00Z",
+      "conclusion": "success",
+      "databaseId": 117363474277,
+      "name": "Native speech, Vulkan validation layers and browser",
+      "startedAt": "2026-10-17T09:29:07Z",
+      "status": "completed",
+      "steps": [
+        {
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Check out source",
+          "number": 2,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Install platform speech and Vulkan development dependencies",
+          "number": 3,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Select software Vulkan and record actual runner resources",
+          "number": 4,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Record Vulkan device and validation layer inventory",
+          "number": 5,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Install pinned Python image transport dependency",
+          "number": 6,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Fetch the pinned self-contained glTF parser",
+          "number": 7,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Configure real backends",
+          "number": 8,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Build",
+          "number": 9,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Test real PCM and Vulkan readback",
+          "number": 10,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Exercise the full native CLI",
+          "number": 11,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Verify hardware-required mode rejects the software driver",
+          "number": 12,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Exercise live Web Audio and native frames in Chromium",
+          "number": 13,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Fail on Vulkan validation diagnostics",
+          "number": 14,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Upload built-in synthetic speech and native frame evidence",
+          "number": 15,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Check out source",
+          "number": 30,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 31,
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39021296279/job/117363474277"
+    },
+    {
+      "completedAt": "2026-10-17T09:42:00Z",
+      "conclusion": "success",
+      "databaseId": 117363474407,
+      "name": "g++ / Debug",
+      "startedAt": "2026-10-17T09:29:07Z",
+      "status": "completed",
+      "steps": [
+        {
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Check out source",
+          "number": 2,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Confirm Python analyzer is available",
+          "number": 3,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Configure",
+          "number": 4,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Build",
+          "number": 5,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run contracts and serialized-artifact gauntlet",
+          "number": 6,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Upload synthetic fixture and test log",
+          "number": 7,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Check out source",
+          "number": 14,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 15,
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39021296279/job/117363474407"
+    },
+    {
+      "completedAt": "2026-10-17T09:42:00Z",
+      "conclusion": "success",
+      "databaseId": 117363474413,
+      "name": "Character import validation and Blender skin/morph round trip",
+      "startedAt": "2026-10-17T09:29:07Z",
+      "status": "completed",
+      "steps": [
+        {
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "number": 2,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38",
+          "number": 3,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Install pinned Node tools and distribution Blender",
+          "number": 4,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+          "number": 5,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Install image resizing dependency",
+          "number": 6,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Validate synthetic import, alias mapping and reusable profile",
+          "number": 7,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Actually import/export skin and all morphs in clean Blender",
+          "number": 8,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Verify all required morphs and world-space posed mesh round trips",
+          "number": 9,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Prepare and actually render imported rig through dialogue/export controls",
+          "number": 10,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Validate explicitly requested personal-noncommercial character sample",
+          "number": 11,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Build and validate the explicitly requested CC0 male MakeHuman variant",
+          "number": 12,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Upload only synthetic fixture and roundtrip evidence",
+          "number": 13,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+          "number": 24,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38",
+          "number": 25,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "number": 26,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 27,
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39021296279/job/117363474413"
+    },
+    {
+      "completedAt": "2026-10-17T09:42:00Z",
+      "conclusion": "success",
+      "databaseId": 117363474423,
+      "name": "clang++ / Debug",
+      "startedAt": "2026-10-17T09:29:07Z",
+      "status": "completed",
+      "steps": [
+        {
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Check out source",
+          "number": 2,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Confirm Python analyzer is available",
+          "number": 3,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Configure",
+          "number": 4,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Build",
+          "number": 5,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run contracts and serialized-artifact gauntlet",
+          "number": 6,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Upload synthetic fixture and test log",
+          "number": 7,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Check out source",
+          "number": 14,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 15,
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39021296279/job/117363474423"
+    },
+    {
+      "completedAt": "2026-10-17T09:42:00Z",
+      "conclusion": "success",
+      "databaseId": 117363474428,
+      "name": "Windows local neural speech, analyzer and live face",
+      "startedAt": "2026-10-17T09:29:08Z",
+      "status": "completed",
+      "steps": [
+        {
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Check out source",
+          "number": 2,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Select Python 3.11 x64",
+          "number": 3,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Select Node 22",
+          "number": 4,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Record actual Windows runner inventory",
+          "number": 5,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Install pinned neural dependencies and browser tooling",
+          "number": 6,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Check cross-platform neural contracts without inference",
+          "number": 7,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Explicitly prepare stock voice, model, Windows analyzer and CC0 head",
+          "number": 8,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Check Windows preset/articulation/prebuffer browser controls",
+          "number": 9,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Check Windows dialogue, saved WAVs, cast, local API, LOD and unload",
+          "number": 10,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Generate three NEW Windows CPU recordings and animate their live face",
+          "number": 11,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Assert actual Windows CPU and analyzer measurements",
+          "number": 12,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Exercise the one-command Windows benchmark launcher",
+          "number": 13,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Build relocatable native renderer for the optional personal package",
+          "number": 14,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Build personal-only frozen CPU/WebGL/native app (no distributable artifact)",
+          "number": 15,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run the frozen app with Python, Node and gh removed from its PATH",
+          "number": 16,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Build and test unsigned personal per-user installer (never uploaded)",
+          "number": 17,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Upload public synthetic Windows evidence, never weights or caches",
+          "number": 18,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Remove only this hosted run's temporary software ICD registration",
+          "number": 19,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Select Node 22",
+          "number": 36,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Select Python 3.11 x64",
+          "number": 37,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Check out source",
+          "number": 38,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 39,
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39021296279/job/117363474428"
+    },
+    {
+      "completedAt": "2026-10-17T09:42:00Z",
+      "conclusion": "success",
+      "databaseId": 117363474441,
+      "name": "Local neural speech, WebGL and articulation review",
+      "startedAt": "2026-10-17T09:29:07Z",
+      "status": "completed",
+      "steps": [
+        {
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Check out source",
+          "number": 2,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Select Python 3.11",
+          "number": 3,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Select Node 22",
+          "number": 4,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Record actual hosted CPU resources",
+          "number": 5,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Install pinned CPU dependencies",
+          "number": 6,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Install optional pinned phone-alignment crosscheck (no microphone)",
+          "number": 7,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Check contracts without loading a neural model",
+          "number": 8,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Explicitly prepare reviewed model, stock voice and CC0 character",
+          "number": 9,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Check presets, articulation controls and controlled-delay prebuffer transport",
+          "number": 10,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Check dialogue, saved WAVs, cast, local API, LOD and unload (explicit non-speech fixture)",
+          "number": 11,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Exercise actual neural synthesis, audio analysis and facial articulation",
+          "number": 12,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Crosscheck all actual corpus WAVs with two-pass phone alignment",
+          "number": 13,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Build and test the offline laptop playback checkpoint",
+          "number": 14,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Upload offline browser checkpoint (not a Windows backend)",
+          "number": 15,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Upload public corpus, exact CC0 rig and review evidence (never speech weights)",
+          "number": 16,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Select Node 22",
+          "number": 30,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Select Python 3.11",
+          "number": 31,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Check out source",
+          "number": 32,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 33,
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39021296279/job/117363474441"
+    },
+    {
+      "completedAt": "2026-10-17T09:42:00Z",
+      "conclusion": "success",
+      "databaseId": 117363474516,
+      "name": "g++ / Release",
+      "startedAt": "2026-10-17T09:29:07Z",
+      "status": "completed",
+      "steps": [
+        {
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Check out source",
+          "number": 2,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Confirm Python analyzer is available",
+          "number": 3,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Configure",
+          "number": 4,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Build",
+          "number": 5,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run contracts and serialized-artifact gauntlet",
+          "number": 6,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Upload synthetic fixture and test log",
+          "number": 7,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Check out source",
+          "number": 14,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 15,
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39021296279/job/117363474516"
+    },
+    {
+      "completedAt": "2026-10-17T09:42:00Z",
+      "conclusion": "success",
+      "databaseId": 117363474532,
+      "name": "clang++ / Release",
+      "startedAt": "2026-10-17T09:29:08Z",
+      "status": "completed",
+      "steps": [
+        {
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Check out source",
+          "number": 2,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Confirm Python analyzer is available",
+          "number": 3,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Configure",
+          "number": 4,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Build",
+          "number": 5,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run contracts and serialized-artifact gauntlet",
+          "number": 6,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Upload synthetic fixture and test log",
+          "number": 7,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Check out source",
+          "number": 14,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 15,
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39021296279/job/117363474532"
+    },
+    {
+      "completedAt": "2026-10-17T09:42:00Z",
+      "conclusion": "success",
+      "databaseId": 117363474563,
+      "name": "Address and undefined-behavior checks",
+      "startedAt": "2026-10-17T09:29:07Z",
+      "status": "completed",
+      "steps": [
+        {
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Check out source",
+          "number": 2,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Configure",
+          "number": 3,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Build",
+          "number": 4,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run sanitized contracts",
+          "number": 5,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Check out source",
+          "number": 10,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 11,
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39021296279/job/117363474563"
+    },
+    {
+      "completedAt": "2026-10-17T09:42:00Z",
+      "conclusion": "success",
+      "databaseId": 117365360444,
+      "name": "Windows native Vulkan binary pipes and detailed-head playback",
+      "startedAt": "2026-10-17T09:39:22Z",
+      "status": "completed",
+      "steps": [
+        {
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "number": 2,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+          "number": 3,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38",
+          "number": 4,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Install image and browser tools",
+          "number": 5,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53",
+          "number": 6,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Prepare native head from the same licensed source",
+          "number": 7,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Build pinned Vulkan loader and native C++ engine on Windows",
+          "number": 8,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Test Windows native buffers and binary-pipe speech presentation",
+          "number": 9,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run beyond the former lifetime cap and check native resident memory",
+          "number": 10,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Upload native Windows proof only (no runtime or driver)",
+          "number": 11,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Remove only this hosted run's temporary software ICD registration",
+          "number": 12,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38",
+          "number": 22,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+          "number": 23,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "number": 24,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39021296279/job/117365360444"
+    },
+    {
+      "completedAt": "2026-10-17T09:42:00Z",
+      "conclusion": "success",
+      "databaseId": 117365360461,
+      "name": "Windows Chrome offline playback (not local TTS)",
+      "startedAt": "2026-10-17T09:39:22Z",
+      "status": "completed",
+      "steps": [
+        {
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Check out source",
+          "number": 2,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Select Node 22",
+          "number": 3,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Download only the public synthetic playback artifact",
+          "number": 4,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Extract the playback pack",
+          "number": 5,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Install pinned browser tooling without install hooks",
+          "number": 6,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Check sampler and measurement contracts on Windows",
+          "number": 7,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Exercise actual installed Chrome over HTTP and file URLs",
+          "number": 8,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Upload Windows browser-only evidence",
+          "number": 9,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Select Node 22",
+          "number": 17,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Check out source",
+          "number": 18,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 19,
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39021296279/job/117365360461"
+    },
+    {
+      "completedAt": "2026-10-17T09:42:00Z",
+      "conclusion": "success",
+      "databaseId": 117365360479,
+      "name": "Detailed human Vulkan, same-WAV native UI and source Three comparison",
+      "startedAt": "2026-10-17T09:39:23Z",
+      "status": "completed",
+      "steps": [
+        {
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Check out source",
+          "number": 2,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Select Python 3.11",
+          "number": 3,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Select Node 22",
+          "number": 4,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Install Vulkan build and validation tools",
+          "number": 5,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Download only verified public synthetic WAV/cue review recordings",
+          "number": 6,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Explicitly prepare the decoded native head and comparison presentation",
+          "number": 7,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Build and test expanded native importer and GPU ABI",
+          "number": 8,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Render actual speech, compare all source vertices and exercise native UI",
+          "number": 9,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Native protocol longevity and detailed-head resident-memory regression",
+          "number": 10,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Reject Vulkan validation warnings or errors",
+          "number": 11,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Upload rendered evidence and metrics, never native model or weights",
+          "number": 12,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Select Node 22",
+          "number": 22,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Select Python 3.11",
+          "number": 23,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Check out source",
+          "number": 24,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39021296279/job/117365360479"
+    }
+  ],
+  "status": "completed",
+  "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39021296279",
+  "windows_notice_receipts": {
+    "Unsigned personal installer checks": {
+      "passed": true,
+      "install": true,
+      "uninstall_preserves_data": true,
+      "redistribution_approved": false,
+      "retired_payload_file_removed": true,
+      "updated_payload_verified": true,
+      "clean_user_data": true,
+      "reinstall_update_preserves_data": true,
+      "signing": "unsigned personal build"
+    },
+    "Actual Windows neural summary": {
+      "platform": "win32",
+      "cpu_only": true,
+      "new_recordings": [
+        {
+          "case": "closures",
+          "audio_seconds": 3.456,
+          "generation_seconds": 0.8029,
+          "analysis_seconds": 2.054,
+          "total_seconds": 4.5046,
+          "peak_working_set_mib": 291.73,
+          "audio_sha256": "3be0398c5f15eed477692544e8e3757e508fef1eb598255ccde11c5aff2916a4",
+          "analyzer_binary_sha256": "d31a3030bcb11c39c175cdba45f8152456d7d2a288a8198b820f3b8c4f37ab2b"
+        },
+        {
+          "case": "contacts",
+          "audio_seconds": 4.074666666666666,
+          "generation_seconds": 0.9141,
+          "analysis_seconds": 2.0327,
+          "total_seconds": 4.3684,
+          "peak_working_set_mib": 297.07,
+          "audio_sha256": "735738fc34ad062eff499482edb242c2f5469a0d80494339dea6264f25188db2",
+          "analyzer_binary_sha256": "d31a3030bcb11c39c175cdba45f8152456d7d2a288a8198b820f3b8c4f37ab2b"
+        },
+        {
+          "case": "vowels",
+          "audio_seconds": 3.6053333333333333,
+          "generation_seconds": 0.8098,
+          "analysis_seconds": 2.58,
+          "total_seconds": 4.819,
+          "peak_working_set_mib": 291.16,
+          "audio_sha256": "d794eb3a7149bf324abb534e630dac296d6e73cbcb2e50d57d9ad23159ad6ac8",
+          "analyzer_binary_sha256": "d31a3030bcb11c39c175cdba45f8152456d7d2a288a8198b820f3b8c4f37ab2b"
+        }
+      ],
+      "review_frames": 22,
+      "estimated_classes": [
+        "X",
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H"
+      ],
+      "human_review_completed": false,
+      "target_laptop_tested": false,
+      "scope": "Actual Windows hosted CPU inference and exact-WAV/dialog analysis plus live Chrome/WebGL; not laptop or physical AV validation"
+    }
+  },
+  "prior_failed_run": {
+    "databaseId": 39020253681,
+    "headSha": "7f4c931091243708f065177cc2f0eead3f9e19ff",
+    "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39020253681",
+    "conclusion": "failure",
+    "jobs": [
+      {
+        "name": "Address and undefined-behavior checks",
+        "databaseId": 117360469699,
+        "conclusion": "success"
+      },
+      {
+        "name": "Character import validation and Blender skin/morph round trip",
+        "databaseId": 117360469827,
+        "conclusion": "success"
+      },
+      {
+        "name": "clang++ / Release",
+        "databaseId": 117360469869,
+        "conclusion": "success"
+      },
+      {
+        "name": "Windows local neural speech, analyzer and live face",
+        "databaseId": 117360469885,
+        "conclusion": "success"
+      },
+      {
+        "name": "Native speech, Vulkan validation layers and browser",
+        "databaseId": 117360469893,
+        "conclusion": "success"
+      },
+      {
+        "name": "clang++ / Debug",
+        "databaseId": 117360469895,
+        "conclusion": "success"
+      },
+      {
+        "name": "g++ / Debug",
+        "databaseId": 117360469930,
+        "conclusion": "success"
+      },
+      {
+        "name": "Local neural speech, WebGL and articulation review",
+        "databaseId": 117360469960,
+        "conclusion": "success"
+      },
+      {
+        "name": "g++ / Release",
+        "databaseId": 117360470022,
+        "conclusion": "success"
+      },
+      {
+        "name": "Detailed human Vulkan, same-WAV native UI and source Three comparison",
+        "databaseId": 117362133304,
+        "conclusion": "success"
+      },
+      {
+        "name": "Windows Chrome offline playback (not local TTS)",
+        "databaseId": 117362133367,
+        "conclusion": "failure"
+      },
+      {
+        "name": "Windows native Vulkan binary pipes and detailed-head playback",
+        "databaseId": 117362133368,
+        "conclusion": "success"
+      }
+    ],
+    "failed_job_annotations": [
+      {
+        "path": ".github",
+        "blob_href": "https://github.com/Jacinth-19/Jali-Vulkan/blob/7f4c931091243708f065177cc2f0eead3f9e19ff/.github",
+        "start_line": 2,
+        "start_column": null,
+        "end_line": 2,
+        "end_column": null,
+        "annotation_level": "warning",
+        "title": "",
+        "message": "Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/",
+        "raw_details": ""
+      },
+      {
+        "path": ".github",
+        "blob_href": "https://github.com/Jacinth-19/Jali-Vulkan/blob/7f4c931091243708f065177cc2f0eead3f9e19ff/.github",
+        "start_line": 16,
+        "start_column": null,
+        "end_line": 16,
+        "end_column": null,
+        "annotation_level": "failure",
+        "title": "",
+        "message": "Process completed with exit code 1.",
+        "raw_details": ""
+      },
+      {
+        "path": ".github",
+        "blob_href": "https://github.com/Jacinth-19/Jali-Vulkan/blob/7f4c931091243708f065177cc2f0eead3f9e19ff/.github",
+        "start_line": 11,
+        "start_column": null,
+        "end_line": 11,
+        "end_column": null,
+        "annotation_level": "failure",
+        "title": "Neural setup failure",
+        "message": "HTTP portable checkpoint passed\nCheckpoint stage: file actual-playback cancellation\nError: Cancellation failed: {\"clip_id\":\"36f3f420f8b84ee9a7afa5db17b9e5fc\",\"completed\":true,\"reason\":\"ended\",\"visibility_valid\":true,\"settings\":{\"speed\":1,\"speech_animation\":true,\"procedural_motion\":false,\"mood\":\"neutral\",\"trim_ms\":0,\"render_target_fps\":30},\"diagnostics\":{\"surfaceShading\":{\"version\":\"physical-oral-skin-fibers-v3\",\"eyeMeshes\":1,\"hairMeshes\":1,\"skinMeshes\":1,\"teethMeshes\":1,\"tongueMeshes\":1,\"fiberMeshes\":2,\"oralAttributeBytes\":18988,\"detailBytes\":65536,\"tangentBytes\":62432,\"newDrawCalls\":0,\"newTextures\":1,\"limits\":\"Vertex-depth oral light attenuation (not ray-traced AO), ivory teeth, low-glint brow/lash fibers, balanced lighting and procedural skin detail; no scanned pores or subsurface transport. Wet coated eyes and anisotropic cards; no corneal geometry, strands, voxel scattering or native changes.\"},\"renderAsset\":{\"lod\":\"full\",\"sha256\":\"fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2\",\"shading\":\"physical-oral-skin-fibers-v3\"},\"idleRate\":2,\"activeRenderer\":\"WebGL\",\"modelStats\":{\"vertices\":53116,\"bones\":67,\"faceControls\":66,\"runtimeFaceControls\":26,\"morphMeshes\":6},\"webgl\":{\"version\":\"WebGL 2.0 (OpenGL ES 3.0 Chromium)\",\"renderer\":\"ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)\",\"vendor\":\"Google Inc. (Google)\",\"contextLost\":false},\"canvas\":{\"width\":626,\"height\":520},\"pixelRatio\":1,\"speechRig\":{\"profile\":\"mpfb-rhubarb-9-v1\",\"source_commit\":\"2afe6d79779313db8909badebf46f9805a6c7b70\",\"model_sha256\":\"fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2\",\"retarget_sha256\":\"96d2d2a82f71bbdf87b7c301d1e79e566c8b66d9c79a645e65309c11b90d8a30\",\"viewer_sha256\":\"36aa3e0926c183b05c981184c9c23730320ee121e58f661a488a637c8c6065b3\"}},\"rendered_frames\":5,\"observed_span_seconds\":2.3142000000000116,\"observed_render_fps\":1.7284590787313023,\"median_frame_gap_ms\":572.6000000000349,\"p95_frame_gap_ms\":586.6999999999534,\"max_frame_gap_ms\":586.6999999999534,\"p95_cpu_submission_ms\":1.400000000023283,\"first_audio_time\":1.067371,\"last_audio_time\":3.381814,\"method\":\"Visible-tab render-completion samples during actual audio playback; CPU submission time, not GPU execution or physical AV latency\",\"valid_sample\":true}\n    at D:\\a\\Jali-Vulkan\\Jali-Vulkan\\tools\\smoke_playback_checkpoint.cjs:61:137\n",
+        "raw_details": ""
+      }
+    ],
+    "correction": "Browser smoke actions are armed before playback and invoke the same UI handlers in-page only when actual audio is running strictly inside its duration. Strict cancelled/speed-changed invalidation remains required. No renderer/geometry/performance thresholds changed."
+  },
+  "local_validation": {
+    "python_tests": 149,
+    "javascript_tests": 40,
+    "same_WAV_text_all_227_frame_poses_and_LOD_hashes_verified": true,
+    "female_encoded_frames": 107,
+    "male_encoded_frames": 120,
+    "both_videos_full_stream_decoded": true,
+    "encoded_counts_verified_by_framemd5": true,
+    "HTTP_and_file_actual_playback_action_probes": {
+      "environment": "Automated linux browser; NOT the user target laptop",
+      "results": [
+        {
+          "mode": "HTTP",
+          "passed": true,
+          "web_security_enabled": true,
+          "errors": [],
+          "external": [],
+          "actual_playback": {
+            "clip_id": "86a93c6c7f6a41d08db80864d54898ce",
+            "completed": true,
+            "reason": "ended",
+            "visibility_valid": true,
+            "settings": {
+              "speed": 1,
+              "speech_animation": true,
+              "procedural_motion": false,
+              "mood": "neutral",
+              "trim_ms": 0,
+              "render_target_fps": 30
+            },
+            "diagnostics": {
+              "surfaceShading": {
+                "version": "physical-oral-skin-fibers-v3",
+                "eyeMeshes": 1,
+                "hairMeshes": 1,
+                "skinMeshes": 1,
+                "teethMeshes": 1,
+                "tongueMeshes": 1,
+                "fiberMeshes": 2,
+                "oralAttributeBytes": 18988,
+                "detailBytes": 65536,
+                "tangentBytes": 62432,
+                "newDrawCalls": 0,
+                "newTextures": 1,
+                "limits": "Vertex-depth oral light attenuation (not ray-traced AO), ivory teeth, low-glint brow/lash fibers, balanced lighting and procedural skin detail; no scanned pores or subsurface transport. Wet coated eyes and anisotropic cards; no corneal geometry, strands, voxel scattering or native changes."
+              },
+              "renderAsset": {
+                "lod": "full",
+                "sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+                "shading": "physical-oral-skin-fibers-v3"
+              },
+              "idleRate": 2,
+              "activeRenderer": "WebGL",
+              "modelStats": {
+                "vertices": 53116,
+                "bones": 67,
+                "faceControls": 66,
+                "runtimeFaceControls": 26,
+                "morphMeshes": 6
+              },
+              "webgl": {
+                "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+                "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+                "vendor": "Google Inc. (Google)",
+                "contextLost": false
+              },
+              "canvas": {
+                "width": 626,
+                "height": 520
+              },
+              "pixelRatio": 1,
+              "speechRig": {
+                "profile": "mpfb-rhubarb-9-v1",
+                "source_commit": "2afe6d79779313db8909badebf46f9805a6c7b70",
+                "model_sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+                "retarget_sha256": "96d2d2a82f71bbdf87b7c301d1e79e566c8b66d9c79a645e65309c11b90d8a30",
+                "viewer_sha256": "36aa3e0926c183b05c981184c9c23730320ee121e58f661a488a637c8c6065b3"
+              }
+            },
+            "rendered_frames": 3,
+            "observed_span_seconds": 2.0967000000001863,
+            "observed_render_fps": 0.9538799065196845,
+            "median_frame_gap_ms": 736.3000000002794,
+            "p95_frame_gap_ms": 1360.3999999999069,
+            "max_frame_gap_ms": 1360.3999999999069,
+            "p95_cpu_submission_ms": 2.2000000001862645,
+            "first_audio_time": 1.284661,
+            "last_audio_time": 3.380373,
+            "method": "Visible-tab render-completion samples during actual audio playback; CPU submission time, not GPU execution or physical AV latency",
+            "valid_sample": true
+          },
+          "actual_playback_actions": [
+            {
+              "action": "cancel",
+              "audio_time": 0.002091,
+              "duration": 3.456,
+              "phase": "playing",
+              "paused": false,
+              "ended": false
+            },
+            {
+              "action": "speed",
+              "audio_time": 0.019624,
+              "duration": 3.456,
+              "phase": "playing",
+              "paused": false,
+              "ended": false
+            }
+          ],
+          "checks": [
+            "three embedded WAV hashes and actual playback",
+            "audio/face identity",
+            "notes survive clip switch",
+            "actual end completes measurement",
+            "cancel and speed change invalidate",
+            "downloaded report matches state",
+            "unreviewed cases remain pending",
+            "mobile layout"
+          ]
+        },
+        {
+          "mode": "file",
+          "passed": true,
+          "web_security_enabled": true,
+          "errors": [],
+          "external": [],
+          "actual_playback": {
+            "clip_id": "86a93c6c7f6a41d08db80864d54898ce",
+            "completed": true,
+            "reason": "ended",
+            "visibility_valid": true,
+            "settings": {
+              "speed": 1,
+              "speech_animation": true,
+              "procedural_motion": false,
+              "mood": "neutral",
+              "trim_ms": 0,
+              "render_target_fps": 30
+            },
+            "diagnostics": {
+              "surfaceShading": {
+                "version": "physical-oral-skin-fibers-v3",
+                "eyeMeshes": 1,
+                "hairMeshes": 1,
+                "skinMeshes": 1,
+                "teethMeshes": 1,
+                "tongueMeshes": 1,
+                "fiberMeshes": 2,
+                "oralAttributeBytes": 18988,
+                "detailBytes": 65536,
+                "tangentBytes": 62432,
+                "newDrawCalls": 0,
+                "newTextures": 1,
+                "limits": "Vertex-depth oral light attenuation (not ray-traced AO), ivory teeth, low-glint brow/lash fibers, balanced lighting and procedural skin detail; no scanned pores or subsurface transport. Wet coated eyes and anisotropic cards; no corneal geometry, strands, voxel scattering or native changes."
+              },
+              "renderAsset": {
+                "lod": "full",
+                "sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+                "shading": "physical-oral-skin-fibers-v3"
+              },
+              "idleRate": 2,
+              "activeRenderer": "WebGL",
+              "modelStats": {
+                "vertices": 53116,
+                "bones": 67,
+                "faceControls": 66,
+                "runtimeFaceControls": 26,
+                "morphMeshes": 6
+              },
+              "webgl": {
+                "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+                "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+                "vendor": "Google Inc. (Google)",
+                "contextLost": false
+              },
+              "canvas": {
+                "width": 626,
+                "height": 520
+              },
+              "pixelRatio": 1,
+              "speechRig": {
+                "profile": "mpfb-rhubarb-9-v1",
+                "source_commit": "2afe6d79779313db8909badebf46f9805a6c7b70",
+                "model_sha256": "fc10ae05693c8d8c8baf2a89204e337d0a943ed06d35fd7d5c472c1d1e00afc2",
+                "retarget_sha256": "96d2d2a82f71bbdf87b7c301d1e79e566c8b66d9c79a645e65309c11b90d8a30",
+                "viewer_sha256": "36aa3e0926c183b05c981184c9c23730320ee121e58f661a488a637c8c6065b3"
+              }
+            },
+            "rendered_frames": 3,
+            "observed_span_seconds": 2.287899999999907,
+            "observed_render_fps": 0.8741640805979638,
+            "median_frame_gap_ms": 900.5999999996275,
+            "p95_frame_gap_ms": 1387.3000000002794,
+            "max_frame_gap_ms": 1387.3000000002794,
+            "p95_cpu_submission_ms": 1.3000000002793968,
+            "first_audio_time": 0.014706,
+            "last_audio_time": 2.239729,
+            "method": "Visible-tab render-completion samples during actual audio playback; CPU submission time, not GPU execution or physical AV latency",
+            "valid_sample": true
+          },
+          "actual_playback_actions": [
+            {
+              "action": "cancel",
+              "audio_time": 0.015778,
+              "duration": 3.456,
+              "phase": "playing",
+              "paused": false,
+              "ended": false
+            },
+            {
+              "action": "speed",
+              "audio_time": 0.187327,
+              "duration": 3.456,
+              "phase": "playing",
+              "paused": false,
+              "ended": false
+            }
+          ],
+          "checks": [
+            "three embedded WAV hashes and actual playback",
+            "audio/face identity",
+            "notes survive clip switch",
+            "actual end completes measurement",
+            "cancel and speed change invalidate",
+            "downloaded report matches state",
+            "unreviewed cases remain pending",
+            "mobile layout"
+          ]
+        }
+      ]
+    }
+  },
+  "scope": {
+    "webgl_only_appearance": true,
+    "geometry_and_speech_weights_changed": false,
+    "cast_shadow_or_ray_traced_AO_implemented": false,
+    "oral_vertex_attribute_bytes": 18988,
+    "extra_meshes_or_draw_calls": 0,
+    "extra_textures_relative_to_v2": 0,
+    "stock_windows_frozen_exe_rebuilt_and_executed": true,
+    "unsigned_personal_installer_install_update_uninstall_tested": true,
+    "male_model_and_browser_hosted_validation": true,
+    "male_hosted_browser_audio_explicit_non_speech_fixture": true,
+    "male_custom_windows_exe_separately_exercised": false,
+    "binaries_or_weights_published": false,
+    "new_main_movie_synthesis": false,
+    "source_fiber_stippling_eliminated": false,
+    "human_quality_review_complete": false,
+    "physical_AV_verified": false,
+    "target_i5_measured": false,
+    "public_redistribution_approved": false,
+    "personal_signing_required": false
+  },
+  "evidence_scope": "GitHub job/step metadata and Windows notice receipts, plus local exact-WAV/pose/LOD/movie verification. No downloaded hosted binary hash-equivalence claim."
+}

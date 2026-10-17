@@ -1,5 +1,9 @@
 # Male MakeHuman and shared skin treatment
 
+This records the **v2 male/skin milestone**. The subsequent
+[mouth, lighting and fiber-response fix batch](makehuman-visual-fixes.md) uses v3;
+its settings, movies and acceptance are documented separately.
+
 ## Delivered scope
 
 The male is a **MakeHuman gender-target variant** of our existing CC0 rigged
