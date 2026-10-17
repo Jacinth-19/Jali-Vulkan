@@ -70,6 +70,8 @@ def main():
     strands=72+12*np.sin(xx*1.9)+6*np.sin(xx*.47+yy*.04)+4*np.sin(xx*4.7+yy*.09)
     hair=np.stack([strands,strands*.72,strands*.49],axis=-1)
     Image.fromarray(np.clip(hair,0,255).astype('uint8')).save(a.output/'hair.png')
+    y,x=np.mgrid[:32,:128];alpha=92*np.exp(-((y/31-.5)/.25)**2)*np.sin(np.pi*(x+.5)/128)**.25
+    brow=np.full((32,128,4),255,dtype='uint8');brow[:,:,3]=alpha.astype('uint8');Image.fromarray(brow).save(a.output/'brow-density.png')
     (a.output/'recipe.json').write_text(json.dumps(images[3],indent=2)+'\n')
 
 

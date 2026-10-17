@@ -41,7 +41,7 @@ jobs:
         run: |
           .venv/Scripts/python.exe -m unittest discover -s tests -p test_character_selector.py
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          node --test tests/studio-path.test.mjs tests/renderer-lease.test.mjs
+          node --test tests/studio-path.test.mjs tests/renderer-lease.test.mjs tests/eye-clearance.test.mjs tests/contact-reference.test.mjs tests/author-eye-clearance.test.mjs
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Explicitly prepare both models and stock CPU voices
         env:

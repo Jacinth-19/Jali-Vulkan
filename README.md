@@ -2,6 +2,35 @@
 
 C++17 voice-to-face engine with **native Vulkan morphing/skinning and rasterization**, plus a connected **local CPU neural-speech / detailed WebGL face studio**. These are separate rendering paths sharing verified neural WAV/cue sessions: **the detailed textured human now also renders in native Vulkan**.
 
+## Brow and full-blink follow-up — actual WebGL renders
+
+| Male — updated brows | Female — updated brows |
+|:---:|:---:|
+| ![Actual male brow follow-up](docs/images/brow-blink-male-neutral.png) | ![Actual female brow follow-up](docs/images/brow-blink-female-neutral.png) |
+| ![Actual male corrected full blink](docs/images/brow-blink-male-full.png) | ![Actual female corrected full blink](docs/images/brow-blink-female-full.png) |
+
+Both-sex surface-projected brow flow/density and separate bounded eyelid correctives
+are implemented. The original 66 face controls/rest data are retained; the enhanced
+rig adds two corrective channels. **Not final artistic approval:** pale lid margins,
+lash/brow stylization and unreviewed contact remain. A 1 mm frontal geometry audit
+improves female exposed samples **214→0/1,924**, male **242→0/1,924**; this shared-helper
+sample audit is **not independent review or proof of gap-free pixels at every view**.
+
+**Fresh actual CPU-speech previews for these new rig/viewer bytes:**
+[male, am_michael](docs/media/brow-blink-male-talking.mp4) ·
+[female, af_heart](docs/media/brow-blink-female-talking.mp4).
+Both say “Mama brought five blue bags.” New synthesis and decoded 512px/15fps fixed-WAV-clock videos;
+not camera-recorded AV or independent articulation truth.
+
+Local **162 Python / 54 JS** pass; 32 held-pose frames cover both LODs/sexes,
+unilateral/half/full blink, gaze and quarter view. Contact landmark intake now
+measures actual skinned/morphed points against **externally declared** ranges.
+**No genuine independent contact reference or physical camera/mic recording has
+been supplied.** Actual i5-U/16GB/thermal and personal install/recovery acceptance
+also remain open. Enhanced appearance is **WebGL-only**, not a silent native port.
+
+[Changes, limits, contact picking/intake, physical recording requirements and evidence](docs/contact-and-blink-review.md).
+
 ## Experimental v4 WebGL appearance and cross-tab ownership
 
 | Male — actual neutral render | Female — actual neutral render |
@@ -9,13 +38,14 @@ C++17 voice-to-face engine with **native Vulkan morphing/skinning and rasterizat
 | ![Actual v4 male head with scalp-fitted short crop](docs/images/realism-v4-male.png) | ![Actual v4 female head with recipe skin maps and tapered brow/lash geometry](docs/images/realism-v4-female.png) |
 
 These are **held diagnostic poses, not newly validated speech/contact references**.
-**New actual talking previews:** [male, am_michael](docs/media/realism-v4-male-talking.mp4) · [female, af_heart](docs/media/realism-v4-female-talking.mp4). Both say “Mama brought five blue bags.” using freshly synthesized, hash-bound local WAV/cues; offline 512px/15fps captures, not physical AV or perceptual approval.
+**Historical v4 talking previews (before the brow/blink follow-up above):** [male, am_michael](docs/media/realism-v4-male-talking.mp4) · [female, af_heart](docs/media/realism-v4-female-talking.mp4). Both say “Mama brought five blue bags.” using freshly synthesized, hash-bound local WAV/cues; offline 512px/15fps captures, not physical AV or perceptual approval.
 
 Optional build-time skin normal/roughness maps, brow/lash ribbons and distinct male
 short hair are implemented. Generated microdetail is **not scanned skin**, the hair
 shell is **not a strand groom**, and opt-in thin-skin wrap (default off) is **not true
-SSS**. Full-blink renders still show small gaps; artistic/eyelid/contact approval
-remains open. The enhanced pair is WebGL-only; stock/native assets stay separate.
+SSS**. These historical v4 full-blink renders showed gaps; the bounded
+corrective follow-up above reduces sampled exposure, but artistic/eyelid/contact
+approval remains open. The enhanced pair is WebGL-only; stock/native assets stay separate.
 
 Live tabs now acquire an exclusive Web Lock **before renderer creation or model
 fetch/decode**. Other tabs on that origin/browser profile wait; unload/close hands

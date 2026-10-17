@@ -2,12 +2,12 @@
 // Developer-only FFmpeg rendering; browser WebM export still requires current Chrome.
 const fs=require('node:fs'),path=require('node:path'),{execFileSync}=require('node:child_process'),{createHash}=require('node:crypto');
 (async()=>{
- const base=process.argv[2]||'http://127.0.0.1:8082',out=path.resolve(process.argv[3]||'artifacts/talking-preview');fs.mkdirSync(out,{recursive:true});
+ const base=(process.argv[2]||'http://127.0.0.1:8082').replace(/\/+$/,''),out=path.resolve(process.argv[3]||'artifacts/talking-preview');fs.mkdirSync(out,{recursive:true});
  const browser=await require('./test_browser.cjs').launch(),context=await browser.newContext({viewport:{width:1200,height:1000}}),errors=[];
  const text=process.env.JALI_PREVIEW_TEXT||'Hello. Here is our updated local character. Watch the eyes and the hair as I speak. Please bring my blue paper bag.';
  try{
   const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
-  await page.goto(base+'?preset=low');await page.waitForFunction(()=>window.JaliCreative&&window.JaliStudio&&JaliHeadDemo.getState().ready&&!document.querySelector('#generate').disabled,null,{timeout:60000});
+  await page.goto(base+'/?preset=low');await page.waitForFunction(()=>window.JaliCreative&&window.JaliStudio&&JaliHeadDemo.getState().ready&&!document.querySelector('#generate').disabled,null,{timeout:60000});
   if(!process.env.JALI_PREVIEW_SESSION&&process.env.JALI_PREVIEW_VOICE){const cast=await(await context.request.get(base+'/api/config')).json();const response=await context.request.post(base+'/api/cast',{headers:{'X-Jali-Token':cast.token},data:cast.cast.map((s,i)=>i?s:{...s,voice:process.env.JALI_PREVIEW_VOICE})});if(!response.ok())throw Error('Voice selection rejected: '+await response.text());await page.reload();await page.waitForFunction(()=>window.JaliStudio&&!document.querySelector('#generate').disabled);}
   if(process.env.JALI_PREVIEW_SESSION){
    if(!/^[a-f0-9]{32}$/.test(process.env.JALI_PREVIEW_SESSION))throw Error('Invalid explicit comparison session');
@@ -31,7 +31,7 @@ const fs=require('node:fs'),path=require('node:path'),{execFileSync}=require('no
   }
   const asset=await page.evaluate(()=>JaliHeadDemo.getState().renderAsset);
   // Same WAV, same camera/settings/clock; original shading is an explicit URL mode.
-  await page.goto(base+'?preset=low&surface=original');await page.waitForFunction(()=>window.JaliCreative&&window.JaliStudio&&JaliHeadDemo.getState().ready&&!document.querySelector('#generate').disabled,null,{timeout:60000});
+  await page.goto(base+'/?preset=low&surface=original');await page.waitForFunction(()=>window.JaliCreative&&window.JaliStudio&&JaliHeadDemo.getState().ready&&!document.querySelector('#generate').disabled,null,{timeout:60000});
   await page.evaluate(id=>JaliStudio.loadExisting(id),clip.id);await setup();
   fs.writeFileSync(path.join(out,'before.png'),Buffer.from((await page.evaluate(()=>JaliHeadDemo.capture(.4))).split(',')[1],'base64'));
   if(errors.length)throw Error('Browser errors: '+JSON.stringify(errors));

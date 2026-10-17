@@ -1,0 +1,3203 @@
+{
+  "schema": "jali-brow-blink-contact-local-v1",
+  "date": "2026-10-17",
+  "python_tests_passed": 162,
+  "js_tests_passed": 54,
+  "human_quality_accepted": false,
+  "independent_contact_reference_supplied": false,
+  "physical_av_measured": false,
+  "target_i5_measured": false,
+  "renderer_frames": {
+    "schema": "jali-eye-clearance-render-proof-v1",
+    "records": [
+      {
+        "sex": "female",
+        "lod": "full",
+        "pose": "neutral",
+        "source_pose": {},
+        "file": "female-full-neutral.png",
+        "png_sha256": "44beb0df08608dca098416cd64f52fb2d0b228f914ed3541e0bdb3b05f6ea8ec",
+        "render_asset": {
+          "lod": "full",
+          "sha256": "98a1f92b042e1b89703eb3a80152028cd4f98923f386e1e4f9d0cb597a8e104f",
+          "shading": "physical-authored-fibers-wrap-v4"
+        },
+        "eye_clearance": {
+          "supported": true,
+          "enabled": true,
+          "diagnosticOverride": false
+        },
+        "appearance": {
+          "lighting": "soft",
+          "background": "slate",
+          "camera": "close",
+          "exposure": 1,
+          "skin": 0.75,
+          "eyes": 0.12,
+          "fxaa": false,
+          "scattering": 0
+        },
+        "gaze_bones": [
+          {
+            "name": "LeftEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          {
+            "name": "RightEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          }
+        ]
+      },
+      {
+        "sex": "female",
+        "lod": "full",
+        "pose": "half",
+        "source_pose": {
+          "eyeBlinkLeft": 0.5,
+          "eyeBlinkRight": 0.5
+        },
+        "file": "female-full-half.png",
+        "png_sha256": "9965f565e41f73bfa970e248bdbb7b18792cb00078e2882b24ef402342a70586",
+        "render_asset": {
+          "lod": "full",
+          "sha256": "98a1f92b042e1b89703eb3a80152028cd4f98923f386e1e4f9d0cb597a8e104f",
+          "shading": "physical-authored-fibers-wrap-v4"
+        },
+        "eye_clearance": {
+          "supported": true,
+          "enabled": true,
+          "diagnosticOverride": false
+        },
+        "appearance": {
+          "lighting": "soft",
+          "background": "slate",
+          "camera": "close",
+          "exposure": 1,
+          "skin": 0.75,
+          "eyes": 0.12,
+          "fxaa": false,
+          "scattering": 0
+        },
+        "gaze_bones": [
+          {
+            "name": "LeftEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          {
+            "name": "RightEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          }
+        ]
+      },
+      {
+        "sex": "female",
+        "lod": "full",
+        "pose": "source_full",
+        "source_pose": {
+          "eyeBlinkLeft": 1,
+          "eyeBlinkRight": 1
+        },
+        "file": "female-full-source_full.png",
+        "png_sha256": "0437c08ad111933fbdbbe207aa89ae2bd5c8b7390d1f74ddbbd95af20bc7a223",
+        "render_asset": {
+          "lod": "full",
+          "sha256": "98a1f92b042e1b89703eb3a80152028cd4f98923f386e1e4f9d0cb597a8e104f",
+          "shading": "physical-authored-fibers-wrap-v4"
+        },
+        "eye_clearance": {
+          "supported": true,
+          "enabled": false,
+          "diagnosticOverride": true
+        },
+        "appearance": {
+          "lighting": "soft",
+          "background": "slate",
+          "camera": "close",
+          "exposure": 1,
+          "skin": 0.75,
+          "eyes": 0.12,
+          "fxaa": false,
+          "scattering": 0
+        },
+        "gaze_bones": [
+          {
+            "name": "LeftEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          {
+            "name": "RightEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          }
+        ]
+      },
+      {
+        "sex": "female",
+        "lod": "full",
+        "pose": "full",
+        "source_pose": {
+          "eyeBlinkLeft": 1,
+          "eyeBlinkRight": 1
+        },
+        "file": "female-full-full.png",
+        "png_sha256": "4c491e202d766b8d579db84104e42cc2b2fc585cab75accfd98ca46671f9490f",
+        "render_asset": {
+          "lod": "full",
+          "sha256": "98a1f92b042e1b89703eb3a80152028cd4f98923f386e1e4f9d0cb597a8e104f",
+          "shading": "physical-authored-fibers-wrap-v4"
+        },
+        "eye_clearance": {
+          "supported": true,
+          "enabled": true,
+          "diagnosticOverride": false
+        },
+        "appearance": {
+          "lighting": "soft",
+          "background": "slate",
+          "camera": "close",
+          "exposure": 1,
+          "skin": 0.75,
+          "eyes": 0.12,
+          "fxaa": false,
+          "scattering": 0
+        },
+        "gaze_bones": [
+          {
+            "name": "LeftEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          {
+            "name": "RightEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          }
+        ]
+      },
+      {
+        "sex": "female",
+        "lod": "full",
+        "pose": "left",
+        "source_pose": {
+          "eyeBlinkLeft": 1
+        },
+        "file": "female-full-left.png",
+        "png_sha256": "f311692ecd3f4e322c29c962362db815a8b4dfb0ed7611dbef45dd7eeb41dbd9",
+        "render_asset": {
+          "lod": "full",
+          "sha256": "98a1f92b042e1b89703eb3a80152028cd4f98923f386e1e4f9d0cb597a8e104f",
+          "shading": "physical-authored-fibers-wrap-v4"
+        },
+        "eye_clearance": {
+          "supported": true,
+          "enabled": true,
+          "diagnosticOverride": false
+        },
+        "appearance": {
+          "lighting": "soft",
+          "background": "slate",
+          "camera": "close",
+          "exposure": 1,
+          "skin": 0.75,
+          "eyes": 0.12,
+          "fxaa": false,
+          "scattering": 0
+        },
+        "gaze_bones": [
+          {
+            "name": "LeftEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          {
+            "name": "RightEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          }
+        ]
+      },
+      {
+        "sex": "female",
+        "lod": "full",
+        "pose": "right",
+        "source_pose": {
+          "eyeBlinkRight": 1
+        },
+        "file": "female-full-right.png",
+        "png_sha256": "d558345d8e8aad0bb301882353f6981ed2b7ec22171220da0d2dbd6aab334ba4",
+        "render_asset": {
+          "lod": "full",
+          "sha256": "98a1f92b042e1b89703eb3a80152028cd4f98923f386e1e4f9d0cb597a8e104f",
+          "shading": "physical-authored-fibers-wrap-v4"
+        },
+        "eye_clearance": {
+          "supported": true,
+          "enabled": true,
+          "diagnosticOverride": false
+        },
+        "appearance": {
+          "lighting": "soft",
+          "background": "slate",
+          "camera": "close",
+          "exposure": 1,
+          "skin": 0.75,
+          "eyes": 0.12,
+          "fxaa": false,
+          "scattering": 0
+        },
+        "gaze_bones": [
+          {
+            "name": "LeftEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          {
+            "name": "RightEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          }
+        ]
+      },
+      {
+        "sex": "female",
+        "lod": "full",
+        "pose": "gaze_closed",
+        "source_pose": {
+          "eyeBlinkLeft": 1,
+          "eyeBlinkRight": 1
+        },
+        "file": "female-full-gaze_closed.png",
+        "png_sha256": "ee349d1e93e53ead5bd6b5970db8a1205bb3a5304f5c55b272554576a9440f31",
+        "render_asset": {
+          "lod": "full",
+          "sha256": "98a1f92b042e1b89703eb3a80152028cd4f98923f386e1e4f9d0cb597a8e104f",
+          "shading": "physical-authored-fibers-wrap-v4"
+        },
+        "eye_clearance": {
+          "supported": true,
+          "enabled": true,
+          "diagnosticOverride": false
+        },
+        "appearance": {
+          "lighting": "soft",
+          "background": "slate",
+          "camera": "close",
+          "exposure": 1,
+          "skin": 0.75,
+          "eyes": 0.12,
+          "fxaa": false,
+          "scattering": 0
+        },
+        "gaze_bones": [
+          {
+            "name": "LeftEye",
+            "delta": {
+              "x": 0,
+              "y": 0.08000001811347661
+            }
+          },
+          {
+            "name": "RightEye",
+            "delta": {
+              "x": 0,
+              "y": 0.08000000691724117
+            }
+          }
+        ]
+      },
+      {
+        "sex": "female",
+        "lod": "full",
+        "pose": "quarter_closed",
+        "source_pose": {
+          "eyeBlinkLeft": 1,
+          "eyeBlinkRight": 1
+        },
+        "file": "female-full-quarter_closed.png",
+        "png_sha256": "d31622f8d5efc888bef8435da44a96934495e4bdbeb486d533f4ff6b12292e06",
+        "render_asset": {
+          "lod": "full",
+          "sha256": "98a1f92b042e1b89703eb3a80152028cd4f98923f386e1e4f9d0cb597a8e104f",
+          "shading": "physical-authored-fibers-wrap-v4"
+        },
+        "eye_clearance": {
+          "supported": true,
+          "enabled": true,
+          "diagnosticOverride": false
+        },
+        "appearance": {
+          "lighting": "studio",
+          "background": "slate",
+          "camera": "threequarter",
+          "exposure": 1.05,
+          "skin": 0.75,
+          "eyes": 0.12,
+          "fxaa": false,
+          "scattering": 0
+        },
+        "gaze_bones": [
+          {
+            "name": "LeftEye",
+            "delta": {
+              "x": 0,
+              "y": 0.08000001811347661
+            }
+          },
+          {
+            "name": "RightEye",
+            "delta": {
+              "x": 0,
+              "y": 0.08000000691724117
+            }
+          }
+        ]
+      },
+      {
+        "sex": "female",
+        "lod": "low",
+        "pose": "neutral",
+        "source_pose": {},
+        "file": "female-low-neutral.png",
+        "png_sha256": "a43ece9be8ec501e30ecde61ed788bf21f4a57c3e5fdb338287a7218a4da17d3",
+        "render_asset": {
+          "lod": "low",
+          "sha256": "92e17c2e71b40438d503cff6036c2d52f2cfb275f462245e045a0d8e76f2cdbb",
+          "shading": "physical-authored-fibers-wrap-v4"
+        },
+        "eye_clearance": {
+          "supported": true,
+          "enabled": true,
+          "diagnosticOverride": false
+        },
+        "appearance": {
+          "lighting": "soft",
+          "background": "slate",
+          "camera": "close",
+          "exposure": 1,
+          "skin": 0.75,
+          "eyes": 0.12,
+          "fxaa": false,
+          "scattering": 0
+        },
+        "gaze_bones": [
+          {
+            "name": "LeftEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          {
+            "name": "RightEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          }
+        ]
+      },
+      {
+        "sex": "female",
+        "lod": "low",
+        "pose": "half",
+        "source_pose": {
+          "eyeBlinkLeft": 0.5,
+          "eyeBlinkRight": 0.5
+        },
+        "file": "female-low-half.png",
+        "png_sha256": "f7144f069ee3cf321a0c4bd918da1953cee22e8b4bf5df9f4175f2fe9620a705",
+        "render_asset": {
+          "lod": "low",
+          "sha256": "92e17c2e71b40438d503cff6036c2d52f2cfb275f462245e045a0d8e76f2cdbb",
+          "shading": "physical-authored-fibers-wrap-v4"
+        },
+        "eye_clearance": {
+          "supported": true,
+          "enabled": true,
+          "diagnosticOverride": false
+        },
+        "appearance": {
+          "lighting": "soft",
+          "background": "slate",
+          "camera": "close",
+          "exposure": 1,
+          "skin": 0.75,
+          "eyes": 0.12,
+          "fxaa": false,
+          "scattering": 0
+        },
+        "gaze_bones": [
+          {
+            "name": "LeftEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          {
+            "name": "RightEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          }
+        ]
+      },
+      {
+        "sex": "female",
+        "lod": "low",
+        "pose": "source_full",
+        "source_pose": {
+          "eyeBlinkLeft": 1,
+          "eyeBlinkRight": 1
+        },
+        "file": "female-low-source_full.png",
+        "png_sha256": "8607ba2113cfead496cff59fe679856a9d6110c1d51a277f433efb50442acdbb",
+        "render_asset": {
+          "lod": "low",
+          "sha256": "92e17c2e71b40438d503cff6036c2d52f2cfb275f462245e045a0d8e76f2cdbb",
+          "shading": "physical-authored-fibers-wrap-v4"
+        },
+        "eye_clearance": {
+          "supported": true,
+          "enabled": false,
+          "diagnosticOverride": true
+        },
+        "appearance": {
+          "lighting": "soft",
+          "background": "slate",
+          "camera": "close",
+          "exposure": 1,
+          "skin": 0.75,
+          "eyes": 0.12,
+          "fxaa": false,
+          "scattering": 0
+        },
+        "gaze_bones": [
+          {
+            "name": "LeftEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          {
+            "name": "RightEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          }
+        ]
+      },
+      {
+        "sex": "female",
+        "lod": "low",
+        "pose": "full",
+        "source_pose": {
+          "eyeBlinkLeft": 1,
+          "eyeBlinkRight": 1
+        },
+        "file": "female-low-full.png",
+        "png_sha256": "d64b222c60d22fa1558252f5b8430ae012628ed35a773df6e05e3bc16b458101",
+        "render_asset": {
+          "lod": "low",
+          "sha256": "92e17c2e71b40438d503cff6036c2d52f2cfb275f462245e045a0d8e76f2cdbb",
+          "shading": "physical-authored-fibers-wrap-v4"
+        },
+        "eye_clearance": {
+          "supported": true,
+          "enabled": true,
+          "diagnosticOverride": false
+        },
+        "appearance": {
+          "lighting": "soft",
+          "background": "slate",
+          "camera": "close",
+          "exposure": 1,
+          "skin": 0.75,
+          "eyes": 0.12,
+          "fxaa": false,
+          "scattering": 0
+        },
+        "gaze_bones": [
+          {
+            "name": "LeftEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          {
+            "name": "RightEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          }
+        ]
+      },
+      {
+        "sex": "female",
+        "lod": "low",
+        "pose": "left",
+        "source_pose": {
+          "eyeBlinkLeft": 1
+        },
+        "file": "female-low-left.png",
+        "png_sha256": "7255604d008066581300902be53f2e3e0141dffafe74e133100fc281685d5228",
+        "render_asset": {
+          "lod": "low",
+          "sha256": "92e17c2e71b40438d503cff6036c2d52f2cfb275f462245e045a0d8e76f2cdbb",
+          "shading": "physical-authored-fibers-wrap-v4"
+        },
+        "eye_clearance": {
+          "supported": true,
+          "enabled": true,
+          "diagnosticOverride": false
+        },
+        "appearance": {
+          "lighting": "soft",
+          "background": "slate",
+          "camera": "close",
+          "exposure": 1,
+          "skin": 0.75,
+          "eyes": 0.12,
+          "fxaa": false,
+          "scattering": 0
+        },
+        "gaze_bones": [
+          {
+            "name": "LeftEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          {
+            "name": "RightEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          }
+        ]
+      },
+      {
+        "sex": "female",
+        "lod": "low",
+        "pose": "right",
+        "source_pose": {
+          "eyeBlinkRight": 1
+        },
+        "file": "female-low-right.png",
+        "png_sha256": "ea88ef636cd447f19c7a739408da354b0c12b41c4d780d240df56505a3591846",
+        "render_asset": {
+          "lod": "low",
+          "sha256": "92e17c2e71b40438d503cff6036c2d52f2cfb275f462245e045a0d8e76f2cdbb",
+          "shading": "physical-authored-fibers-wrap-v4"
+        },
+        "eye_clearance": {
+          "supported": true,
+          "enabled": true,
+          "diagnosticOverride": false
+        },
+        "appearance": {
+          "lighting": "soft",
+          "background": "slate",
+          "camera": "close",
+          "exposure": 1,
+          "skin": 0.75,
+          "eyes": 0.12,
+          "fxaa": false,
+          "scattering": 0
+        },
+        "gaze_bones": [
+          {
+            "name": "LeftEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          {
+            "name": "RightEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          }
+        ]
+      },
+      {
+        "sex": "female",
+        "lod": "low",
+        "pose": "gaze_closed",
+        "source_pose": {
+          "eyeBlinkLeft": 1,
+          "eyeBlinkRight": 1
+        },
+        "file": "female-low-gaze_closed.png",
+        "png_sha256": "446a467f8eecbf0e2f926b5969b4cbb59778ae097455f56d7aba1726c40dac4b",
+        "render_asset": {
+          "lod": "low",
+          "sha256": "92e17c2e71b40438d503cff6036c2d52f2cfb275f462245e045a0d8e76f2cdbb",
+          "shading": "physical-authored-fibers-wrap-v4"
+        },
+        "eye_clearance": {
+          "supported": true,
+          "enabled": true,
+          "diagnosticOverride": false
+        },
+        "appearance": {
+          "lighting": "soft",
+          "background": "slate",
+          "camera": "close",
+          "exposure": 1,
+          "skin": 0.75,
+          "eyes": 0.12,
+          "fxaa": false,
+          "scattering": 0
+        },
+        "gaze_bones": [
+          {
+            "name": "LeftEye",
+            "delta": {
+              "x": 0,
+              "y": 0.08000001811347661
+            }
+          },
+          {
+            "name": "RightEye",
+            "delta": {
+              "x": 0,
+              "y": 0.08000000691724117
+            }
+          }
+        ]
+      },
+      {
+        "sex": "female",
+        "lod": "low",
+        "pose": "quarter_closed",
+        "source_pose": {
+          "eyeBlinkLeft": 1,
+          "eyeBlinkRight": 1
+        },
+        "file": "female-low-quarter_closed.png",
+        "png_sha256": "68e842068fc12e53a706fdae535c98ce92bc0e752cbdb3187901a104deffde7c",
+        "render_asset": {
+          "lod": "low",
+          "sha256": "92e17c2e71b40438d503cff6036c2d52f2cfb275f462245e045a0d8e76f2cdbb",
+          "shading": "physical-authored-fibers-wrap-v4"
+        },
+        "eye_clearance": {
+          "supported": true,
+          "enabled": true,
+          "diagnosticOverride": false
+        },
+        "appearance": {
+          "lighting": "studio",
+          "background": "slate",
+          "camera": "threequarter",
+          "exposure": 1.05,
+          "skin": 0.75,
+          "eyes": 0.12,
+          "fxaa": false,
+          "scattering": 0
+        },
+        "gaze_bones": [
+          {
+            "name": "LeftEye",
+            "delta": {
+              "x": 0,
+              "y": 0.08000001811347661
+            }
+          },
+          {
+            "name": "RightEye",
+            "delta": {
+              "x": 0,
+              "y": 0.08000000691724117
+            }
+          }
+        ]
+      },
+      {
+        "sex": "male",
+        "lod": "full",
+        "pose": "neutral",
+        "source_pose": {},
+        "file": "male-full-neutral.png",
+        "png_sha256": "191451244cbf1abdab9d9af543abbbf6edddd179f1564e72201b4d604d098067",
+        "render_asset": {
+          "lod": "full",
+          "sha256": "f917c39d447c342f4247ea890b434d0b0cbc70b68b7d9924d25705c3a9a0b3ad",
+          "shading": "physical-authored-fibers-wrap-v4"
+        },
+        "eye_clearance": {
+          "supported": true,
+          "enabled": true,
+          "diagnosticOverride": false
+        },
+        "appearance": {
+          "lighting": "soft",
+          "background": "slate",
+          "camera": "close",
+          "exposure": 1,
+          "skin": 0.75,
+          "eyes": 0.12,
+          "fxaa": false,
+          "scattering": 0
+        },
+        "gaze_bones": [
+          {
+            "name": "LeftEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          {
+            "name": "RightEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          }
+        ]
+      },
+      {
+        "sex": "male",
+        "lod": "full",
+        "pose": "half",
+        "source_pose": {
+          "eyeBlinkLeft": 0.5,
+          "eyeBlinkRight": 0.5
+        },
+        "file": "male-full-half.png",
+        "png_sha256": "0228b0b3f2f16d648827cc5dbf7876d009fd9442ddf319f9f513c2c12ec7bc9e",
+        "render_asset": {
+          "lod": "full",
+          "sha256": "f917c39d447c342f4247ea890b434d0b0cbc70b68b7d9924d25705c3a9a0b3ad",
+          "shading": "physical-authored-fibers-wrap-v4"
+        },
+        "eye_clearance": {
+          "supported": true,
+          "enabled": true,
+          "diagnosticOverride": false
+        },
+        "appearance": {
+          "lighting": "soft",
+          "background": "slate",
+          "camera": "close",
+          "exposure": 1,
+          "skin": 0.75,
+          "eyes": 0.12,
+          "fxaa": false,
+          "scattering": 0
+        },
+        "gaze_bones": [
+          {
+            "name": "LeftEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          {
+            "name": "RightEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          }
+        ]
+      },
+      {
+        "sex": "male",
+        "lod": "full",
+        "pose": "source_full",
+        "source_pose": {
+          "eyeBlinkLeft": 1,
+          "eyeBlinkRight": 1
+        },
+        "file": "male-full-source_full.png",
+        "png_sha256": "68fecca62a0aef96c605b6a8ae4e794946a8ce4288c90f79759a30dfe2a561e5",
+        "render_asset": {
+          "lod": "full",
+          "sha256": "f917c39d447c342f4247ea890b434d0b0cbc70b68b7d9924d25705c3a9a0b3ad",
+          "shading": "physical-authored-fibers-wrap-v4"
+        },
+        "eye_clearance": {
+          "supported": true,
+          "enabled": false,
+          "diagnosticOverride": true
+        },
+        "appearance": {
+          "lighting": "soft",
+          "background": "slate",
+          "camera": "close",
+          "exposure": 1,
+          "skin": 0.75,
+          "eyes": 0.12,
+          "fxaa": false,
+          "scattering": 0
+        },
+        "gaze_bones": [
+          {
+            "name": "LeftEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          {
+            "name": "RightEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          }
+        ]
+      },
+      {
+        "sex": "male",
+        "lod": "full",
+        "pose": "full",
+        "source_pose": {
+          "eyeBlinkLeft": 1,
+          "eyeBlinkRight": 1
+        },
+        "file": "male-full-full.png",
+        "png_sha256": "925ed221db2b38410685bf3ec9ce776b11dd8182b3093347f5d11a82cad837a0",
+        "render_asset": {
+          "lod": "full",
+          "sha256": "f917c39d447c342f4247ea890b434d0b0cbc70b68b7d9924d25705c3a9a0b3ad",
+          "shading": "physical-authored-fibers-wrap-v4"
+        },
+        "eye_clearance": {
+          "supported": true,
+          "enabled": true,
+          "diagnosticOverride": false
+        },
+        "appearance": {
+          "lighting": "soft",
+          "background": "slate",
+          "camera": "close",
+          "exposure": 1,
+          "skin": 0.75,
+          "eyes": 0.12,
+          "fxaa": false,
+          "scattering": 0
+        },
+        "gaze_bones": [
+          {
+            "name": "LeftEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          {
+            "name": "RightEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          }
+        ]
+      },
+      {
+        "sex": "male",
+        "lod": "full",
+        "pose": "left",
+        "source_pose": {
+          "eyeBlinkLeft": 1
+        },
+        "file": "male-full-left.png",
+        "png_sha256": "5cf1cfad97e4549b0be57de978d1043924ec9c2c46cb1d43becfafcb2489d1db",
+        "render_asset": {
+          "lod": "full",
+          "sha256": "f917c39d447c342f4247ea890b434d0b0cbc70b68b7d9924d25705c3a9a0b3ad",
+          "shading": "physical-authored-fibers-wrap-v4"
+        },
+        "eye_clearance": {
+          "supported": true,
+          "enabled": true,
+          "diagnosticOverride": false
+        },
+        "appearance": {
+          "lighting": "soft",
+          "background": "slate",
+          "camera": "close",
+          "exposure": 1,
+          "skin": 0.75,
+          "eyes": 0.12,
+          "fxaa": false,
+          "scattering": 0
+        },
+        "gaze_bones": [
+          {
+            "name": "LeftEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          {
+            "name": "RightEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          }
+        ]
+      },
+      {
+        "sex": "male",
+        "lod": "full",
+        "pose": "right",
+        "source_pose": {
+          "eyeBlinkRight": 1
+        },
+        "file": "male-full-right.png",
+        "png_sha256": "5042253401c81c681dbfa507772931b35ceda8155c55b0b19909cb306a9011ad",
+        "render_asset": {
+          "lod": "full",
+          "sha256": "f917c39d447c342f4247ea890b434d0b0cbc70b68b7d9924d25705c3a9a0b3ad",
+          "shading": "physical-authored-fibers-wrap-v4"
+        },
+        "eye_clearance": {
+          "supported": true,
+          "enabled": true,
+          "diagnosticOverride": false
+        },
+        "appearance": {
+          "lighting": "soft",
+          "background": "slate",
+          "camera": "close",
+          "exposure": 1,
+          "skin": 0.75,
+          "eyes": 0.12,
+          "fxaa": false,
+          "scattering": 0
+        },
+        "gaze_bones": [
+          {
+            "name": "LeftEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          {
+            "name": "RightEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          }
+        ]
+      },
+      {
+        "sex": "male",
+        "lod": "full",
+        "pose": "gaze_closed",
+        "source_pose": {
+          "eyeBlinkLeft": 1,
+          "eyeBlinkRight": 1
+        },
+        "file": "male-full-gaze_closed.png",
+        "png_sha256": "1b79de9f7c808a209d8f14c5c71a733209628d6ec9de5fd3d39d9250bb84a7c5",
+        "render_asset": {
+          "lod": "full",
+          "sha256": "f917c39d447c342f4247ea890b434d0b0cbc70b68b7d9924d25705c3a9a0b3ad",
+          "shading": "physical-authored-fibers-wrap-v4"
+        },
+        "eye_clearance": {
+          "supported": true,
+          "enabled": true,
+          "diagnosticOverride": false
+        },
+        "appearance": {
+          "lighting": "soft",
+          "background": "slate",
+          "camera": "close",
+          "exposure": 1,
+          "skin": 0.75,
+          "eyes": 0.12,
+          "fxaa": false,
+          "scattering": 0
+        },
+        "gaze_bones": [
+          {
+            "name": "LeftEye",
+            "delta": {
+              "x": 0.000574972314222865,
+              "y": 0.079170243332545
+            }
+          },
+          {
+            "name": "RightEye",
+            "delta": {
+              "x": 0.0005749722336730645,
+              "y": 0.07917023225292812
+            }
+          }
+        ]
+      },
+      {
+        "sex": "male",
+        "lod": "full",
+        "pose": "quarter_closed",
+        "source_pose": {
+          "eyeBlinkLeft": 1,
+          "eyeBlinkRight": 1
+        },
+        "file": "male-full-quarter_closed.png",
+        "png_sha256": "703c410b807f158ec82687ceefaaadb81a327bdec028ba66a3b4b5d4bc345b30",
+        "render_asset": {
+          "lod": "full",
+          "sha256": "f917c39d447c342f4247ea890b434d0b0cbc70b68b7d9924d25705c3a9a0b3ad",
+          "shading": "physical-authored-fibers-wrap-v4"
+        },
+        "eye_clearance": {
+          "supported": true,
+          "enabled": true,
+          "diagnosticOverride": false
+        },
+        "appearance": {
+          "lighting": "studio",
+          "background": "slate",
+          "camera": "threequarter",
+          "exposure": 1.05,
+          "skin": 0.75,
+          "eyes": 0.12,
+          "fxaa": false,
+          "scattering": 0
+        },
+        "gaze_bones": [
+          {
+            "name": "LeftEye",
+            "delta": {
+              "x": 0.000574972314222865,
+              "y": 0.079170243332545
+            }
+          },
+          {
+            "name": "RightEye",
+            "delta": {
+              "x": 0.0005749722336730645,
+              "y": 0.07917023225292812
+            }
+          }
+        ]
+      },
+      {
+        "sex": "male",
+        "lod": "low",
+        "pose": "neutral",
+        "source_pose": {},
+        "file": "male-low-neutral.png",
+        "png_sha256": "aa786e3831873f288ebdb8a688b572b3fb01121c447be754a6cc1b93361dcd5e",
+        "render_asset": {
+          "lod": "low",
+          "sha256": "535d028ecdc17752e6aa1b1d50fd8e72e4750bfd1413332a5fb421fdb29f2423",
+          "shading": "physical-authored-fibers-wrap-v4"
+        },
+        "eye_clearance": {
+          "supported": true,
+          "enabled": true,
+          "diagnosticOverride": false
+        },
+        "appearance": {
+          "lighting": "soft",
+          "background": "slate",
+          "camera": "close",
+          "exposure": 1,
+          "skin": 0.75,
+          "eyes": 0.12,
+          "fxaa": false,
+          "scattering": 0
+        },
+        "gaze_bones": [
+          {
+            "name": "LeftEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          {
+            "name": "RightEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          }
+        ]
+      },
+      {
+        "sex": "male",
+        "lod": "low",
+        "pose": "half",
+        "source_pose": {
+          "eyeBlinkLeft": 0.5,
+          "eyeBlinkRight": 0.5
+        },
+        "file": "male-low-half.png",
+        "png_sha256": "460dc938ba6a5454c00be8babdc7c9976b23e6d8e1f0c37d9546a65fe5497097",
+        "render_asset": {
+          "lod": "low",
+          "sha256": "535d028ecdc17752e6aa1b1d50fd8e72e4750bfd1413332a5fb421fdb29f2423",
+          "shading": "physical-authored-fibers-wrap-v4"
+        },
+        "eye_clearance": {
+          "supported": true,
+          "enabled": true,
+          "diagnosticOverride": false
+        },
+        "appearance": {
+          "lighting": "soft",
+          "background": "slate",
+          "camera": "close",
+          "exposure": 1,
+          "skin": 0.75,
+          "eyes": 0.12,
+          "fxaa": false,
+          "scattering": 0
+        },
+        "gaze_bones": [
+          {
+            "name": "LeftEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          {
+            "name": "RightEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          }
+        ]
+      },
+      {
+        "sex": "male",
+        "lod": "low",
+        "pose": "source_full",
+        "source_pose": {
+          "eyeBlinkLeft": 1,
+          "eyeBlinkRight": 1
+        },
+        "file": "male-low-source_full.png",
+        "png_sha256": "c583a1847aa01758a1615ffa99a0b865e75cc4f8e8fa82af0b388b2d2507b231",
+        "render_asset": {
+          "lod": "low",
+          "sha256": "535d028ecdc17752e6aa1b1d50fd8e72e4750bfd1413332a5fb421fdb29f2423",
+          "shading": "physical-authored-fibers-wrap-v4"
+        },
+        "eye_clearance": {
+          "supported": true,
+          "enabled": false,
+          "diagnosticOverride": true
+        },
+        "appearance": {
+          "lighting": "soft",
+          "background": "slate",
+          "camera": "close",
+          "exposure": 1,
+          "skin": 0.75,
+          "eyes": 0.12,
+          "fxaa": false,
+          "scattering": 0
+        },
+        "gaze_bones": [
+          {
+            "name": "LeftEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          {
+            "name": "RightEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          }
+        ]
+      },
+      {
+        "sex": "male",
+        "lod": "low",
+        "pose": "full",
+        "source_pose": {
+          "eyeBlinkLeft": 1,
+          "eyeBlinkRight": 1
+        },
+        "file": "male-low-full.png",
+        "png_sha256": "9a235df4f59aa2ae21b013a9c135fe3104007b57c8e76fbb98f24cbe766eddd2",
+        "render_asset": {
+          "lod": "low",
+          "sha256": "535d028ecdc17752e6aa1b1d50fd8e72e4750bfd1413332a5fb421fdb29f2423",
+          "shading": "physical-authored-fibers-wrap-v4"
+        },
+        "eye_clearance": {
+          "supported": true,
+          "enabled": true,
+          "diagnosticOverride": false
+        },
+        "appearance": {
+          "lighting": "soft",
+          "background": "slate",
+          "camera": "close",
+          "exposure": 1,
+          "skin": 0.75,
+          "eyes": 0.12,
+          "fxaa": false,
+          "scattering": 0
+        },
+        "gaze_bones": [
+          {
+            "name": "LeftEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          {
+            "name": "RightEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          }
+        ]
+      },
+      {
+        "sex": "male",
+        "lod": "low",
+        "pose": "left",
+        "source_pose": {
+          "eyeBlinkLeft": 1
+        },
+        "file": "male-low-left.png",
+        "png_sha256": "91181af3cb1ead9d51c9e5ac60cc541b0f98d08f5bbbb667e235f14279bdeb7f",
+        "render_asset": {
+          "lod": "low",
+          "sha256": "535d028ecdc17752e6aa1b1d50fd8e72e4750bfd1413332a5fb421fdb29f2423",
+          "shading": "physical-authored-fibers-wrap-v4"
+        },
+        "eye_clearance": {
+          "supported": true,
+          "enabled": true,
+          "diagnosticOverride": false
+        },
+        "appearance": {
+          "lighting": "soft",
+          "background": "slate",
+          "camera": "close",
+          "exposure": 1,
+          "skin": 0.75,
+          "eyes": 0.12,
+          "fxaa": false,
+          "scattering": 0
+        },
+        "gaze_bones": [
+          {
+            "name": "LeftEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          {
+            "name": "RightEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          }
+        ]
+      },
+      {
+        "sex": "male",
+        "lod": "low",
+        "pose": "right",
+        "source_pose": {
+          "eyeBlinkRight": 1
+        },
+        "file": "male-low-right.png",
+        "png_sha256": "4c689dbf7c4d992105bd6642970f25e60de471b44d0cd917935fa03e3946fd02",
+        "render_asset": {
+          "lod": "low",
+          "sha256": "535d028ecdc17752e6aa1b1d50fd8e72e4750bfd1413332a5fb421fdb29f2423",
+          "shading": "physical-authored-fibers-wrap-v4"
+        },
+        "eye_clearance": {
+          "supported": true,
+          "enabled": true,
+          "diagnosticOverride": false
+        },
+        "appearance": {
+          "lighting": "soft",
+          "background": "slate",
+          "camera": "close",
+          "exposure": 1,
+          "skin": 0.75,
+          "eyes": 0.12,
+          "fxaa": false,
+          "scattering": 0
+        },
+        "gaze_bones": [
+          {
+            "name": "LeftEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          {
+            "name": "RightEye",
+            "delta": {
+              "x": 0,
+              "y": 0
+            }
+          }
+        ]
+      },
+      {
+        "sex": "male",
+        "lod": "low",
+        "pose": "gaze_closed",
+        "source_pose": {
+          "eyeBlinkLeft": 1,
+          "eyeBlinkRight": 1
+        },
+        "file": "male-low-gaze_closed.png",
+        "png_sha256": "6a79814339e75718fe6858bea83dd90303325d698c38ba69e139cf6978994070",
+        "render_asset": {
+          "lod": "low",
+          "sha256": "535d028ecdc17752e6aa1b1d50fd8e72e4750bfd1413332a5fb421fdb29f2423",
+          "shading": "physical-authored-fibers-wrap-v4"
+        },
+        "eye_clearance": {
+          "supported": true,
+          "enabled": true,
+          "diagnosticOverride": false
+        },
+        "appearance": {
+          "lighting": "soft",
+          "background": "slate",
+          "camera": "close",
+          "exposure": 1,
+          "skin": 0.75,
+          "eyes": 0.12,
+          "fxaa": false,
+          "scattering": 0
+        },
+        "gaze_bones": [
+          {
+            "name": "LeftEye",
+            "delta": {
+              "x": 0.000574972314222865,
+              "y": 0.079170243332545
+            }
+          },
+          {
+            "name": "RightEye",
+            "delta": {
+              "x": 0.0005749722336730645,
+              "y": 0.07917023225292812
+            }
+          }
+        ]
+      },
+      {
+        "sex": "male",
+        "lod": "low",
+        "pose": "quarter_closed",
+        "source_pose": {
+          "eyeBlinkLeft": 1,
+          "eyeBlinkRight": 1
+        },
+        "file": "male-low-quarter_closed.png",
+        "png_sha256": "c8cb961cbc18d96019d61fae1487c16dd2ec3b3fee78fcb11715c2f656579af8",
+        "render_asset": {
+          "lod": "low",
+          "sha256": "535d028ecdc17752e6aa1b1d50fd8e72e4750bfd1413332a5fb421fdb29f2423",
+          "shading": "physical-authored-fibers-wrap-v4"
+        },
+        "eye_clearance": {
+          "supported": true,
+          "enabled": true,
+          "diagnosticOverride": false
+        },
+        "appearance": {
+          "lighting": "studio",
+          "background": "slate",
+          "camera": "threequarter",
+          "exposure": 1.05,
+          "skin": 0.75,
+          "eyes": 0.12,
+          "fxaa": false,
+          "scattering": 0
+        },
+        "gaze_bones": [
+          {
+            "name": "LeftEye",
+            "delta": {
+              "x": 0.000574972314222865,
+              "y": 0.079170243332545
+            }
+          },
+          {
+            "name": "RightEye",
+            "delta": {
+              "x": 0.0005749722336730645,
+              "y": 0.07917023225292812
+            }
+          }
+        ]
+      }
+    ],
+    "diagnostic_bypass_reset_verified": true,
+    "ray_barycentric_transport_verified": true,
+    "independent_review": false,
+    "human_quality_accepted": false,
+    "physical_av_measured": false,
+    "limits": "Static actual WebGL frames at selected full/low LOD, gaze, unilateral, half and full closure. No pixel visibility verdict, continuous collision proof, anatomical reference, speech synthesis or physical AV."
+  },
+  "synthetic_contact_transport": {
+    "schema": "jali-contact-comparison-v1",
+    "model_sha256": "f917c39d447c342f4247ea890b434d0b0cbc70b68b7d9924d25705c3a9a0b3ad",
+    "reference_sha256": "203ad7b6dc76bc950b65dd65db16349ee54c8bf9a64b3a066be27055dbcb3d87",
+    "provenance": {
+      "kind": "synthetic-fixture",
+      "reviewer": "AUTOMATED TEST, NOT A HUMAN REVIEWER",
+      "method": "Arbitrary neighbouring vertices exercise browser sampling only, not lip/teeth/tongue contact",
+      "source": "Explicit transport regression fixture"
+    },
+    "fixture": true,
+    "cases": [
+      {
+        "id": "not-an-anatomical-reference",
+        "pose": {
+          "viseme_PP": 1
+        },
+        "pairs": [
+          {
+            "id": "arbitrary-neighbours",
+            "metric": "distance",
+            "value_mm": 1.098321816335597,
+            "min_mm": 0,
+            "max_mm": 25,
+            "within_declared_range": true,
+            "physical_or_perceptual_contact_verified": false,
+            "sampled_world_points_metres": [
+              [
+                -0.03868537834683341,
+                1.7903454122714788,
+                0.16371999243139101
+              ],
+              [
+                -0.03880741454386222,
+                1.7893691261223685,
+                0.16323184969211396
+              ]
+            ]
+          }
+        ]
+      }
+    ],
+    "all_within_declared_ranges": true,
+    "independent_review_verified": false,
+    "human_quality_accepted": false,
+    "independent_phone_timing_verified": false,
+    "physical_av_measured": false,
+    "limits": "Rendered skinned/morphed vertex or barycentric point distances in metres, compared to supplier-declared ranges. Externally supplied three-vertex weighted anchors are not checked for triangle membership; the capture picker does return a hit triangle. Not a continuous surface collision test or independent quality verdict. Reviewer identity, landmark anatomy and independence require external review."
+  },
+  "characters": {
+    "male": {
+      "rig": {
+        "profile": "canonical-face-v1",
+        "source_commit": "f917c39d447c342f4247ea890b434d0b0cbc70b68b7d9924d25705c3a9a0b3ad",
+        "model_sha256": "f917c39d447c342f4247ea890b434d0b0cbc70b68b7d9924d25705c3a9a0b3ad",
+        "retarget_sha256": "96d2d2a82f71bbdf87b7c301d1e79e566c8b66d9c79a645e65309c11b90d8a30",
+        "viewer_sha256": "8c6851702d32f3dc59ffc486d3fa2d0ab94bde019b5c7587c3c1a871b42a8132",
+        "import_profile_sha256": "0ef13875b76f4fef9b3bf3fdbe17d61d1daf65414f87b08aee310e7abdd31670"
+      },
+      "fibers": [
+        {
+          "kind": "brow",
+          "old_vertices": 12243,
+          "new_vertices": 5400,
+          "ribbons": 900,
+          "source_morphs": 23,
+          "density_underlay_vertices": 390,
+          "density_underlay_peak_alpha": 0.3607843137254902,
+          "additional_asset_draws": 1,
+          "method": "Tapered curved opaque ribbons; per-vertex source-nearest anchors retain original skin weights and all source morph positions; layered brow flow is projected above the rest skin surface. Not a strand simulation or full-blink approval."
+        },
+        {
+          "kind": "lash",
+          "old_vertices": 16992,
+          "new_vertices": 864,
+          "ribbons": 144,
+          "source_morphs": 33,
+          "density_underlay_vertices": 0,
+          "density_underlay_peak_alpha": 0,
+          "additional_asset_draws": 0,
+          "method": "Tapered curved opaque ribbons; per-vertex source-nearest anchors retain original skin weights and all source morph positions; layered brow flow is projected above the rest skin surface. Not a strand simulation or full-blink approval."
+        }
+      ],
+      "eye_clearance": {
+        "schema": "jali-eye-clearance-v1",
+        "margin_mm": 0.8,
+        "max_offset_mm": 12,
+        "activation": "smoothstep at original blink 0.7..1, zero at neutral/half blink",
+        "original_morphs_unchanged": true,
+        "eyes_hidden_or_scaled": false,
+        "world_front_clearance_only": true,
+        "human_anatomical_approval": false,
+        "meshes": [
+          {
+            "mesh": "Human",
+            "name": "jaliEyeSealLeft",
+            "corrected_vertices": 58,
+            "maximum_offset_mm": 6.417651929857854
+          },
+          {
+            "mesh": "Human",
+            "name": "jaliEyeSealRight",
+            "corrected_vertices": 58,
+            "maximum_offset_mm": 6.417651929857854
+          },
+          {
+            "mesh": "Human.mindfront_eyelashes_02",
+            "name": "jaliEyeSealLeft",
+            "corrected_vertices": 0,
+            "maximum_offset_mm": 0
+          },
+          {
+            "mesh": "Human.mindfront_eyelashes_02",
+            "name": "jaliEyeSealRight",
+            "corrected_vertices": 0,
+            "maximum_offset_mm": 0
+          }
+        ]
+      },
+      "eye_coverage": {
+        "schema": "jali-eye-coverage-audit-v1",
+        "grid_step_mm": 1,
+        "depth_tolerance_mm": 0.05,
+        "poses": [
+          {
+            "blink": 0,
+            "corrected": true,
+            "sampled_eye_surface": 1924,
+            "exposed_samples": 384,
+            "eyes": {
+              "Left": {
+                "samples": 962,
+                "exposed": 193
+              },
+              "Right": {
+                "samples": 962,
+                "exposed": 191
+              }
+            },
+            "exposed_fraction": 0.1995841995841996
+          },
+          {
+            "blink": 0.5,
+            "corrected": true,
+            "sampled_eye_surface": 1924,
+            "exposed_samples": 298,
+            "eyes": {
+              "Left": {
+                "samples": 962,
+                "exposed": 149
+              },
+              "Right": {
+                "samples": 962,
+                "exposed": 149
+              }
+            },
+            "exposed_fraction": 0.1548856548856549
+          },
+          {
+            "blink": 1,
+            "corrected": false,
+            "sampled_eye_surface": 1924,
+            "exposed_samples": 242,
+            "eyes": {
+              "Left": {
+                "samples": 962,
+                "exposed": 121
+              },
+              "Right": {
+                "samples": 962,
+                "exposed": 121
+              }
+            },
+            "exposed_fraction": 0.1257796257796258
+          },
+          {
+            "blink": 1,
+            "corrected": true,
+            "sampled_eye_surface": 1924,
+            "exposed_samples": 0,
+            "eyes": {
+              "Left": {
+                "samples": 962,
+                "exposed": 0
+              },
+              "Right": {
+                "samples": 962,
+                "exposed": 0
+              }
+            },
+            "exposed_fraction": 0
+          }
+        ],
+        "independent_human_approval": false,
+        "independent_implementation": false,
+        "limits": "Model-space forward orthographic sampled coverage, not all-view continuous collision proof, corneal thickness, anatomical approval or physical AV. Original source geometry/morphs are retained."
+      },
+      "original_face_attribute_hashes": [
+        "4fea942b738db1bcc33b1e0e419563972ff7f7db11ecdb5b646e3ad4cdfe0949",
+        "c08b731fbac798fbbec4681dbbeae4fea69d875e039f213f073ab35077ff8faa",
+        "090434a2493098a4a6ac6574ee8c27a9266e7acd811ad6331d20fe6d183a4633",
+        "1b1a116235c46ce679b0056bfe25874b7ee32d2695edb1e2e31f3d83c10ff1fc",
+        "bb1e14dbd19e1fa89f1663c2c3b6dd44ed96546323094abcb43e461803fdd3a3",
+        "7eec7e4f38ff004a278eac06faf09c347ca1651498d0d265cfc4cd4c4747065c",
+        "387810ba4bdaf9df366edd93b85720a8fcc60638e6757c56c0486d51f01be4d2",
+        "913a51d0ccf440167d7bfbff350163bfaee5312467685f7a63c8abbd6269aad3",
+        "c8fdcbe7326a8b2477dced97e3462d6d7e4e7c6f5e31db6d92fc939f4e6f3b56",
+        "5fd9b35eceacd690db7e98b017afff9a624fb3086d5b03c7c2fa8a31c3157775",
+        "3ae041164761c77efebde556130496cc398812ad993509257e4b168dc19b723b",
+        "1993122f4a8c3ff94e1a7c395abd5db85c6aa18ac8fb6b2c9626a04aae70da70",
+        "845f090cfc182c26ebd015ed9bd3fad06a8c9e3c3c0dd1ff78737b093bb75337",
+        "3ec3a4afae40cc67646ef124cb9673b7a86bfd0cd033f101a48bebc530db85e4",
+        "02d2b97b0d83341f5b65dfdab161b3744aeb9fc7e2e5e29029aa64b90d0ddcf1",
+        "d551dc09248b70ff838b6040224e8d843a7335c8d6d0f198e4de0852ffaff277",
+        "540e5924b0812bcd3158189c8875c79e86f65e406b68212d34d1e8c7d7116a71",
+        "eb5ae74a1eec0bd5e9fe7ca9cc03e3014f7cb43786723a96e30f0a50b6d12e84",
+        "b35330ea985cc81e586999fb675b08acec9def3eba360772edb6bc9b98714cb7",
+        "e39e0eab08d0c1defbc5f43595f0363703a067d455917392bb513759e133fd0e",
+        "37fe7660aad67666d3b6f618c2a0632dadf3f8ef6cc70edf2d41f6867b5890fa",
+        "e90cf6fead33a39672f857642cdd4073a3a1bbd8d81fb562465c0908f0bdef9b",
+        "fcc53f39e6798ffdf292d77ed99152c03932465f2c118e5a23469ef6f7ef65f1",
+        "3a35065b27def5064e62b1ba059e818c12b95058a338d622966ba3fe53908058",
+        "d5b0cc5f79333740bb22e0ac9401d0af70e585d07c9394c8bc9c2bacc532c985",
+        "03a9356d38fe6fd47d556bcd8c876aae3e4d3cd4cfd05471bcecac8c7cfdb1af",
+        "886a4fbb545668de9dceb5caa0104a05349c71e5f0ddbc3dae0c29e0fe6876da",
+        "8ac2b9f1b0c07ba69abd72bdeccb14951ad24b3d74a28dd082d00025d67465eb",
+        "c8e793a304716d13092fb46eeb21f3da4cea99d629d90d6b13ac16e7d34acb61",
+        "c948bc37a960a051b89efc372936ea055629dcfdddf0cb9320191402e8af0dc5",
+        "d0aa84ad210becb5a3b28c8b924ac57e871b78354cd1c58cd77af24e97797883",
+        "d0aa84ad210becb5a3b28c8b924ac57e871b78354cd1c58cd77af24e97797883",
+        "8ce20ec8969a491583dc8bfa057bc1f76ef64fb8dbc9af605cca7beb01f4af35",
+        "ed525ba09c7869db8ed00a54279dd2bb0ab38000c0b22c160d1515e2cbd45657",
+        "4f61e0e5094fe7e10216ffd4079908b8a44c7192e5a922d8bd9c85d7b0c5ece8",
+        "696b73571cb9b7f8316c8fa3d936b4de25a722701ab4f66cbfdc8a41a0f078c1",
+        "bef1c83ea52ee8ce47e70969f9b171b07c28f5299a45043c3c6b9365c759c48f",
+        "cb24093f38db8e24efdb5d0f3fdec2deb27ffee8acf1bd9a6fd9a8932d55a1b3",
+        "eaeaa223d7ad437e2ebc911d6176cc921f7fadb37784cd3b12abc0f99a1ecc54",
+        "50ed7f0396e0ca054964effd05de31563896ee1dee8404d84ca5f2aebe3cd23f",
+        "894f2afad8edfca8c768b671f0a03c32cf559f96f905214fd7bec459ca0569e4",
+        "5ff2fb4f808bb5a2f06cec96c9185045f92149f1004b79ab9dc3a71469070eb6",
+        "94af20b5939cc7a03a0c075f30856d6fafbb6062bb48a704b75ba77d564a9911",
+        "8e46b4e2673d25146eb5b6ca130a231080fef0f63fa43ed2206c0cbf02339b63",
+        "cfeec0a0c2ab4e54fe26144362b4ef50b67580e339ccc636ea9ffc55bc43391e",
+        "534d79252ce4deecf8ac906bf7fa95c6929a7cfb4860f29c2fced247fc8d8fe9",
+        "e44c53f97b4dc572943243a36b28b0caa33b23ff856f944661e6167b1ec7909e",
+        "755896918e0b392951e11125421ce620ce4660edd727c61d288435ea565a58d2",
+        "7675f4210e91ea2d97203384fb315c9018e36f742edba6413685522cb3a90cf7",
+        "883ebba31db5b4642353c6cfb9dba8ae8520f3a8e1641afbc53672309ecac30d",
+        "4c3e0d2b4ca4fa3a37c607f4001b84d3c2e0c2ec56100ef5630c4db1a299314f",
+        "1c6cfb7fecc8f1996a2be2587c38207e301752c8e03ba7bc92a52742a1429310",
+        "c5862cc3ac91f4b24277dcd61f15d70e801b16df7b3d4175e386d064306bfdff",
+        "97c3247149e0b2b2245c3261d31be38545cf2cdd6bae3fcd337ceab8641b442c",
+        "ee02350bdb3e5f95d17d6a587d96603474573d926dc6ea2f928c95f10399b82c",
+        "f2661341547a019a7303ae8e6531662a596d577985454228cdc0e9d74b82cb86",
+        "cfeec0a0c2ab4e54fe26144362b4ef50b67580e339ccc636ea9ffc55bc43391e",
+        "534d79252ce4deecf8ac906bf7fa95c6929a7cfb4860f29c2fced247fc8d8fe9",
+        "8e18506e0f0f095d9526511ebe3b94186ac42bcbcf311496564ddece98da9b5a",
+        "0428145aeff825da4565b65c3d1f972f62697c938d1c337047e64fe470a2bbd7",
+        "e8d791af4d83a709d368dba96a4c78b16dcbc468de8babe9e945c6bb259e5c05",
+        "5bcc229edd385dfc432cf4768c7bb2f836c6e17b39da1d25ee014f85635caf4d",
+        "3d3773776bf2ee5e53e9676cf4ce85f226ccb63b746b96ca5b645afb1cda3ee8",
+        "392c6eb97d9c005200c8837c6f30382502b7a1aa315e9c4236a0a244fe7885aa",
+        "4d605e514fc62143f1c516ee356259dd95b4a3f19343990cc81c220d8b81710c",
+        "3acf15c94c2259b229dbb436b04f4b7de9909f42bf659b7185073a1ceb07c960",
+        "db9b38682710164c55bdc8e7d5ccebf0ab61d0e4d2b669a5d90448fe1ecb089a",
+        "68927fe9eb2d7ab95ebe8aa5fc546557c747f38135f7f0f3d6d3c557399be9b9",
+        "629845971f2e1e494132a106637a704245cb6518137e17f3fd3205fd7945aef3",
+        "7c334dab62e952474311b17e52c2299172e17607f28cf2236562b67e91d81492",
+        "222181db8dc58a3201b9b9b46c0bea52d049ca168cd9b46622f5b4c672111cdf",
+        "15c3963671214cc976de12d5444120712f1e76b8d350ce1f670928b0ccbb9ad0",
+        "cc92c8453dd27a17b4846c5dc80aecfd94ecf8fe99ba37cfb9b9767ef4557312",
+        "3d44bd8e5a479fc359f6a110e8c33dc2e6cb8c15411621ee191829686bd65766",
+        "7181dc58a5e614d1d46976709d7125411b9c9628af10781e630c6314842f291a",
+        "804be4c3cba00ff26f9dd72c6068ada041ace8c25b4506075de14d33063f9477",
+        "e417043c8f025a2b88e09ba4a26dd1429baa1ce1e086e1e66a85bca3f8d50f16",
+        "01217a5f05b1cffea2f58b03d00f2666c834cf65b0a77df7e20a7f4423829e70",
+        "2a4ad25a70462814500b44877cb2c44eb62af305fe6e78fdffa0f4e614b4ff42",
+        "e2d4243b406b9f5f6dbb2621e084d23738c1436a40e9ef32b6ec614beae2fb7f",
+        "59477eded8dfcb6a254f64f0a6430d5d7d0184b74ec8d347f6bbd9d513fde7f5",
+        "5d15986a24b7564d3b2a2f16c0d7dcab0bb8a3528b64a2fc038171454a5658f6",
+        "863e380706b519b794d165c1e80c5b5fc1d251d86f682e91e0af9e67d536f4f7",
+        "04cecf8ddf7517289d949435caa656775cb0842fd21d02468d811773db64bd85",
+        "8e92a3c11bc83eed1b84975f252bb731720a55d69e17109479969d816353654a",
+        "35d910eb950d5a861fa8390ad82eed2513b1e449bc9d38e0a562fff323645f68",
+        "1c8f483a3c0234278a314cd0f9f19f98c25488543a309445fc4ad66369bca005",
+        "1abf6f0834c55988599dabf8ca491304fd9b6d5212c11b846b7ca42fd8c1a7c8",
+        "55a2e851a0a9aad870760efc7880afe22e78645528fcb514111af6352cacb043",
+        "121a9904dfa45ad9bbe5a2094e6665b481a39bf071fbd7e6d248aa4cdf3d8c08",
+        "343b29f8f2d7afd8017e9ed71f8eecc8d71bff6a6c6b831c2fee0b5d05e89cbc",
+        "0851afddd8fa531f7f0be872eb0ddccbd2ff9da00f38d1b17ba9e0ccea05936d",
+        "1eeaa583cfd2604be39b1c53b6aa6b956957ba51c78ad2fe9a76e5fd463f0131",
+        "33f2f16abbccc12d125ce35d2e24e637bbf73330175f92d221b592bf3996dd3b",
+        "f762379ea28c0eb70afe101919f9c998b1c3173f2a0697da95cccdbc4214e3a6",
+        "bd80cff09dc8539daf38b49362397a79978848ebedc675947b13c32766d3ec2e",
+        "1f2df5c1b1ea354a2dc8bf87f933a96aabdbbc614ac3dadc1fb324d566ac7390",
+        "7f2719096dce392450d5c83ead6700b8d9b543555b16765355dd434be2e0a7af",
+        "787939d50c6b3294aa46dc389ce82c76ebb33939e9725970f2da9ff5ddcbce00",
+        "001acb6ce1937465aee000c3e90385f6605fcb7be373c4492e199f20c34a3700",
+        "0b5ee2afd11af84c2fd746aa05b5453b0ee4786ec6602acb368c16655f085b28",
+        "4169f6b541e34afc1ac85b424d739eefef250f66b3779b9851c2cf7a004298f4",
+        "a1bbaaea8125f9ee1726fc328df98d7166f6eb654451b65bb98e58f9198b3855",
+        "296aa2e5086a0b9f7a1019fca3976e4137e26d27d5e00c547f7b2ce8422f025b",
+        "63c8ef52fb27c378bdd7ab2fe468c921d3d5fc47be26b277af66b4cbf749db5a",
+        "e1ce21d962a07f77740ad8aeeb626c1a99ba6f4f4d98bbfad77358974164916a",
+        "d0641977d0e9bf751227b71221d0c4bcc2137a87a4465705624d61a3259c6ddf",
+        "c6fb4e99837f9e6828c4cf58621f0a8eb2b939f37e12c6b7f4d3a0369148c0a9",
+        "6322c0b7c4764fa5981ee54761e7696cf1662a9432796821c634ae94107b6f84",
+        "061c04abf2d635a7290f96404e5b611b475c98a8d58b0c0456919e7040eff128",
+        "18b50cb52f0043fccc5eee8763df9436f1eb06b0038ee282cb26944771d918e8",
+        "6197796842a1bc6711411cc1e3c4caf926a20943279cc458bf6a0abb4423c19e",
+        "4004fef324786f0075cdbf82ce0e4f9c623fa80e8778f71047d030d8d643cb1f",
+        "fca1359df182b899e922f7472e503e7464534994e92f218e0fbc0b099bb7b23d",
+        "609a6f6997ddcb79ea636ad25056c9e651d5f47dd98ffa7e9241041db18e9f20",
+        "1df31271a20dd9f1a55a4ff1be5e6610ef517efdb3412a3af8207ca94d192ad1",
+        "d1936d9bc162848b137d2ee9a54caf87438b201087a6ffccff7c6236f623be0d",
+        "65fd8280c822538e11a2e8c756bda735ed8507e9531584d8f809a5ee6474ea97",
+        "9940134d118d96751f3f98b4f484e074ff22c893a3ac1f4ae6dd96f778330d30",
+        "afb953c0bdf613b1cced7a6803361172a0526c2ec282aff3f99e8a84f108918d",
+        "66086a0ee14d2156350b1ccf20957a3593a7069109d72d607f2d454501c7dd24",
+        "0ae503129bb980b983c02c30b5283759275f72f98e210f16c50b8cbbfc1b4d69",
+        "f632c041163ba8925c5ac70ebba56ef8365c64712ead8486211edf75938dfb7b",
+        "92b88dec5c20d8fc5973a27b72c41558d62b552790b84b45d7be88482da416ce",
+        "ef0767f6f1b0aab12bfc68b302eff75fc9a9e197840cb3464ee478d1344c8c1d",
+        "9d2292ccd6eaa9fed186e2bd496f299e002a89dbb7ebd9ae55f4279594a434df",
+        "65d1504157c3c7ccf7f9b5d6b1757dc15a415446e6d1a859b2b1ed0d9051dd92",
+        "283f13506d166d233f29d0f83bc7182b221452657f1b250b67cb395081f273ce",
+        "77be119d204074025901ba519dfb4ba25f857d5ad2caa651a085cb5e83d63731",
+        "60c61ca044b62dd0da49b72b5541fe7c7d6d3de4e567a5bd6df392fae1397517",
+        "b1f099c136c72b4436e178d7972b8ac7356bfef05d4d29f9e6a8fd33b3f5394f",
+        "897c768844d0b17ead0e4c1e5185b69a8aab9c0157e94ef9e990b53ceb364e91",
+        "c188490533f2c85c9baf4f7c121685420c626ce520752cfa6d7b93a76919b1ff",
+        "f381b534a8d0caf2765c5721c03029f9b13c47b490790d3e5b2b6277277b4e1d"
+      ],
+      "authoring_code_sha256": "728af05bce5fdc3f81e123ce86f288533f72d3d3951faa84f7be1bae6a40a211",
+      "eye_clearance_code_sha256": "0e1ddf147f27180d511c7159c7c09b7cc8cc3cbb0193686159dca66f26c924e2",
+      "eye_coverage_code_sha256": "fa525eb548fb8df897ca1b407d65a233bebff0f9bf3f1bac99b7c90b64513151",
+      "fresh_actual_talking": {
+        "schema": "jali-talking-preview-v1",
+        "fixture": false,
+        "text": "Mama brought five blue bags.",
+        "new_synthesis": true,
+        "comparison_replay": null,
+        "voice": "am_michael",
+        "session_id": "e274bf669b9541d3a1882f1801306492",
+        "audio_sha256": "f7e4b4628cfbf0f2a8b0c496d79762f20f7fe0ef8b76519c9979852e761ffe99",
+        "text_sha256": "eee578f8a1f085edff627d40fe21c63d20853135ace5be56e8d9c444623e91f9",
+        "rig": {
+          "profile": "canonical-face-v1",
+          "source_commit": "f917c39d447c342f4247ea890b434d0b0cbc70b68b7d9924d25705c3a9a0b3ad",
+          "model_sha256": "f917c39d447c342f4247ea890b434d0b0cbc70b68b7d9924d25705c3a9a0b3ad",
+          "retarget_sha256": "96d2d2a82f71bbdf87b7c301d1e79e566c8b66d9c79a645e65309c11b90d8a30",
+          "viewer_sha256": "8c6851702d32f3dc59ffc486d3fa2d0ab94bde019b5c7587c3c1a871b42a8132",
+          "import_profile_sha256": "0ef13875b76f4fef9b3bf3fdbe17d61d1daf65414f87b08aee310e7abdd31670"
+        },
+        "render_asset": {
+          "lod": "full",
+          "sha256": "f917c39d447c342f4247ea890b434d0b0cbc70b68b7d9924d25705c3a9a0b3ad",
+          "shading": "physical-authored-fibers-wrap-v4"
+        },
+        "surface_shading": {
+          "version": "physical-authored-fibers-wrap-v4",
+          "eyeMeshes": 1,
+          "hairMeshes": 1,
+          "skinMeshes": 1,
+          "teethMeshes": 1,
+          "tongueMeshes": 1,
+          "fiberMeshes": 3,
+          "oralAttributeBytes": 18988,
+          "detailBytes": 0,
+          "authoredSkinMeshes": 1,
+          "wrapSupportedMeshes": 1,
+          "tangentBytes": 38800,
+          "newDrawCalls": 0,
+          "newTextures": 0,
+          "limits": "Vertex-depth oral light attenuation (not ray-traced AO), ivory teeth, low-glint brow/lash fibers, balanced lighting; authored recipe maps when supplied, procedural fallback otherwise; opt-in masked single-pass wrap approximation (not physical SSS); no scanned pores or subsurface transport. Wet coated eyes and anisotropic cards; no corneal geometry, strands, voxel scattering or native changes."
+        },
+        "appearance": {
+          "lighting": "soft",
+          "camera": "portrait",
+          "resolution": 512
+        },
+        "fps": 15,
+        "frames": 31,
+        "duration": 2.048,
+        "video_sha256": "d785604028c5db8b796add0a2219849b02959e74a1c9e9a600976af292fd6f22",
+        "all_streams_ffmpeg_decoded": true,
+        "encoded_video_frames": 31,
+        "encoded_frames_verified_by_framemd5": true,
+        "poses": [
+          {
+            "time": 0,
+            "pose": {},
+            "head": {
+              "yaw": 0,
+              "roll": 0
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 0.06666666666666667,
+            "pose": {
+              "viseme_PP": 0.534348072562358,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.0008756542480583641,
+              "roll": 0.0002719475976956116
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 0.13333333333333333,
+            "pose": {
+              "viseme_aa": 0.88,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.0017492349669793435,
+              "roll": 0.0005435808542515673
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 0.2,
+            "pose": {
+              "viseme_PP": 0.9974999999999999,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.0026186735376949014,
+              "roll": 0.0008145857918715641
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 0.26666666666666666,
+            "pose": {
+              "viseme_E": 0.72,
+              "viseme_aa": 0.08,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.003481911149648769,
+              "roll": 0.0010846491590260222
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 0.3333333333333333,
+            "pose": {
+              "viseme_PP": 0.9974999999999999,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.0043369036760125285,
+              "roll": 0.001353458792535968
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 0.4,
+            "pose": {
+              "viseme_O": 0.6825000000000001,
+              "viseme_RR": 0.15,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.005181626514130976,
+              "roll": 0.0016207039783989107
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 0.4666666666666667,
+            "pose": {
+              "viseme_O": 0.6825000000000001,
+              "viseme_RR": 0.15,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.006014079379734675,
+              "roll": 0.0018860758109396256
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 0.5333333333333333,
+            "pose": {
+              "viseme_I": 0.35,
+              "viseme_SS": 0.35,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.006832291043567155,
+              "roll": 0.0021492675498707182
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 0.6,
+            "pose": {
+              "viseme_I": 0.35,
+              "viseme_SS": 0.35,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.007634323999210478,
+              "roll": 0.0024099749748502375
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 0.6666666666666666,
+            "pose": {
+              "viseme_FF": 0.935,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.008418279051055926,
+              "roll": 0.0026678967371265147
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 0.7333333333333333,
+            "pose": {
+              "viseme_FF": 0.935,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.009182299811555553,
+              "roll": 0.0029227347078637647
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 0.8,
+            "pose": {
+              "viseme_E": 0.72,
+              "viseme_aa": 0.08,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.00992457709710524,
+              "roll": 0.0031741943227458157
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 0.8666666666666667,
+            "pose": {
+              "viseme_E": 0.72,
+              "viseme_aa": 0.08,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.0106433532121499,
+              "roll": 0.0034219849224596645
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 0.9333333333333333,
+            "pose": {
+              "viseme_E": 0.06841593780369103,
+              "viseme_aa": 0.00760177086707678,
+              "viseme_I": 0.3167422524565391,
+              "viseme_SS": 0.3167422524565391,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.011336926111366157,
+              "roll": 0.0036658200886652693
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 1,
+            "pose": {
+              "viseme_I": 0.12732789908966616,
+              "viseme_SS": 0.12732789908966616,
+              "viseme_PP": 0.6346154875944514,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.012003653430066562,
+              "roll": 0.0039054179750632597
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 1.0666666666666667,
+            "pose": {
+              "viseme_PP": 0.9236111111111133,
+              "viseme_U": 0.06844444444444243,
+              "viseme_O": 0.009333333333333058,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.012641956373281431,
+              "roll": 0.0041405016331778725
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 1.1333333333333333,
+            "pose": {
+              "viseme_U": 0.924,
+              "viseme_O": 0.126,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.01325032345430906,
+              "roll": 0.004370799332478546
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 1.2,
+            "pose": {
+              "viseme_U": 0.8728163265306144,
+              "viseme_O": 0.11902040816326559,
+              "viseme_PP": 0.05525510204081408,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.013827314073881491,
+              "roll": 0.004596044874470161
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 1.2666666666666666,
+            "pose": {
+              "viseme_PP": 0.9974999999999999,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.014371561931470477,
+              "roll": 0.004815977900388852
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 1.3333333333333333,
+            "pose": {
+              "viseme_E": 0.72,
+              "viseme_aa": 0.08,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.014881778260655742,
+              "roll": 0.005030344192147748
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 1.4,
+            "pose": {
+              "viseme_E": 0.72,
+              "viseme_aa": 0.08,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.015356754880894245,
+              "roll": 0.005238895966184772
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 1.4666666666666666,
+            "pose": {
+              "viseme_E": 0.72,
+              "viseme_aa": 0.08,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.015795367058463947,
+              "roll": 0.005441392159872847
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 1.5333333333333334,
+            "pose": {
+              "viseme_E": 0.72,
+              "viseme_aa": 0.08,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.016196576169807405,
+              "roll": 0.005637598710161446
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 1.6,
+            "pose": {
+              "viseme_E": 0.6801166180757999,
+              "viseme_aa": 0.07556851311953333,
+              "viseme_I": 0.019387755102041663,
+              "viseme_SS": 0.019387755102041663,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.016559432160968512,
+              "roll": 0.0058272888241274155
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 1.6666666666666667,
+            "pose": {
+              "viseme_I": 0.35,
+              "viseme_SS": 0.35,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.016883075797298416,
+              "roll": 0.006010243241122342
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 1.7333333333333334,
+            "pose": {
+              "viseme_I": 0.35,
+              "viseme_SS": 0.35,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.01716674069810342,
+              "roll": 0.006186250486213442
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 1.8,
+            "pose": {
+              "viseme_I": 0.35,
+              "viseme_SS": 0.35,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.01740975515141687,
+              "roll": 0.0063551071146250365
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 1.8666666666666667,
+            "pose": {
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.01761154370459766,
+              "roll": 0.006516617946898056
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 1.9333333333333333,
+            "pose": {
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.017771628526988825,
+              "roll": 0.006670596294495761
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 2,
+            "pose": {
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.017889630541409605,
+              "roll": 0.006816864175594904
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          }
+        ],
+        "browser_errors": [],
+        "limits": "Actual WebGL/stock CPU speech; not generated imagery. Offline fixed-WAV-clock render, not physical AV, subjective realism approval, native appearance parity or measured i5 performance."
+      }
+    },
+    "female": {
+      "rig": {
+        "profile": "mpfb-rhubarb-9-v1",
+        "source_commit": "2afe6d79779313db8909badebf46f9805a6c7b70",
+        "model_sha256": "98a1f92b042e1b89703eb3a80152028cd4f98923f386e1e4f9d0cb597a8e104f",
+        "retarget_sha256": "96d2d2a82f71bbdf87b7c301d1e79e566c8b66d9c79a645e65309c11b90d8a30",
+        "viewer_sha256": "8c6851702d32f3dc59ffc486d3fa2d0ab94bde019b5c7587c3c1a871b42a8132"
+      },
+      "fibers": [
+        {
+          "kind": "brow",
+          "old_vertices": 12243,
+          "new_vertices": 5400,
+          "ribbons": 900,
+          "source_morphs": 23,
+          "density_underlay_vertices": 390,
+          "density_underlay_peak_alpha": 0.3607843137254902,
+          "additional_asset_draws": 1,
+          "method": "Tapered curved opaque ribbons; per-vertex source-nearest anchors retain original skin weights and all source morph positions; layered brow flow is projected above the rest skin surface. Not a strand simulation or full-blink approval."
+        },
+        {
+          "kind": "lash",
+          "old_vertices": 16992,
+          "new_vertices": 858,
+          "ribbons": 143,
+          "source_morphs": 33,
+          "density_underlay_vertices": 0,
+          "density_underlay_peak_alpha": 0,
+          "additional_asset_draws": 0,
+          "method": "Tapered curved opaque ribbons; per-vertex source-nearest anchors retain original skin weights and all source morph positions; layered brow flow is projected above the rest skin surface. Not a strand simulation or full-blink approval."
+        }
+      ],
+      "eye_clearance": {
+        "schema": "jali-eye-clearance-v1",
+        "margin_mm": 0.8,
+        "max_offset_mm": 12,
+        "activation": "smoothstep at original blink 0.7..1, zero at neutral/half blink",
+        "original_morphs_unchanged": true,
+        "eyes_hidden_or_scaled": false,
+        "world_front_clearance_only": true,
+        "human_anatomical_approval": false,
+        "meshes": [
+          {
+            "mesh": "Human",
+            "name": "jaliEyeSealLeft",
+            "corrected_vertices": 51,
+            "maximum_offset_mm": 8.658680504607357
+          },
+          {
+            "mesh": "Human",
+            "name": "jaliEyeSealRight",
+            "corrected_vertices": 51,
+            "maximum_offset_mm": 8.65867101628856
+          },
+          {
+            "mesh": "Human.mindfront_eyelashes_02",
+            "name": "jaliEyeSealLeft",
+            "corrected_vertices": 0,
+            "maximum_offset_mm": 0
+          },
+          {
+            "mesh": "Human.mindfront_eyelashes_02",
+            "name": "jaliEyeSealRight",
+            "corrected_vertices": 0,
+            "maximum_offset_mm": 0
+          }
+        ]
+      },
+      "eye_coverage": {
+        "schema": "jali-eye-coverage-audit-v1",
+        "grid_step_mm": 1,
+        "depth_tolerance_mm": 0.05,
+        "poses": [
+          {
+            "blink": 0,
+            "corrected": true,
+            "sampled_eye_surface": 1924,
+            "exposed_samples": 403,
+            "eyes": {
+              "Left": {
+                "samples": 962,
+                "exposed": 201
+              },
+              "Right": {
+                "samples": 962,
+                "exposed": 202
+              }
+            },
+            "exposed_fraction": 0.20945945945945946
+          },
+          {
+            "blink": 0.5,
+            "corrected": true,
+            "sampled_eye_surface": 1924,
+            "exposed_samples": 274,
+            "eyes": {
+              "Left": {
+                "samples": 962,
+                "exposed": 135
+              },
+              "Right": {
+                "samples": 962,
+                "exposed": 139
+              }
+            },
+            "exposed_fraction": 0.14241164241164242
+          },
+          {
+            "blink": 1,
+            "corrected": false,
+            "sampled_eye_surface": 1924,
+            "exposed_samples": 214,
+            "eyes": {
+              "Left": {
+                "samples": 962,
+                "exposed": 106
+              },
+              "Right": {
+                "samples": 962,
+                "exposed": 108
+              }
+            },
+            "exposed_fraction": 0.11122661122661123
+          },
+          {
+            "blink": 1,
+            "corrected": true,
+            "sampled_eye_surface": 1924,
+            "exposed_samples": 0,
+            "eyes": {
+              "Left": {
+                "samples": 962,
+                "exposed": 0
+              },
+              "Right": {
+                "samples": 962,
+                "exposed": 0
+              }
+            },
+            "exposed_fraction": 0
+          }
+        ],
+        "independent_human_approval": false,
+        "independent_implementation": false,
+        "limits": "Model-space forward orthographic sampled coverage, not all-view continuous collision proof, corneal thickness, anatomical approval or physical AV. Original source geometry/morphs are retained."
+      },
+      "original_face_attribute_hashes": [
+        "57f33199e0fd8ec1abcee82066797b5be0de178b65b418b79c3c3e7140773e56",
+        "2236f2a5c5a517b073fd9957513fa615fafeefa327a839277f3c23ae98696b28",
+        "752bdde54ba0d44e7bc3726f68e5d4dd4187dd455c856b3b4a94314c3f756bc7",
+        "22fb085c6b4a4f4e0844f099386b012911db6fc88bff394665df31074b8783c7",
+        "f82abdde9f9959bb7f7d7326936d8dccaeb7b4830052e8ba8123564b8a3a4ff2",
+        "18f98eba7d5c083a691351221faad4d3fef1c87d116620b6997a2bc04b964ba1",
+        "b4a1bccc98492cebe42c70915bfdaa9ef05efb5895e5c5a1ef4f569ec9c327f0",
+        "05313f28f8c33ec3425d3e77108dc506d92206c3dd7f145e53fb829651c43b09",
+        "aacd4d0f0e6bbc302fbb666995d338b48198fa5eb8cf7dc763bd0225e108aded",
+        "4ae3a14ac00be17c0090c6d0c32d4d140ee1fddd7883fcdda4b6e45f19eefb6a",
+        "cce894f65d8b3f3abb429671cf206e714a00b58243cba9c4584c41782dd4c82c",
+        "fe1d992b7305f7c64196a77a7827f637202dbbac5d8c8961b51348c9c2460e0f",
+        "01356c54f0b02f3b9d970fc8d489aa4700dda120744b9376757d4d12df64f1b7",
+        "c13a1fc8dabd91f85995ff9784346e85e26dfcc39a62d9c3cbdd914ee38feddd",
+        "77bab76d0757c41174235f150b8228ca42fe457846388b328f895bfa4fc1b43d",
+        "102042f0bf343a31f230188562a02cb46fd2f3fc778a8cf5835e0931b20f4060",
+        "2f9d1d25edf90a6fe5e3d821cf66ef26c484aa914cc74948646fb0c69a61438f",
+        "78123fccab747bf77050d79cfdd3116f5c7a9b2819f4b6b2549a3b82f82d7b87",
+        "f05a9c166209102757e4e44c31389e3b110d54fffa2a4a6e59c280d165c94203",
+        "5aa34afb9664638e658c42690774d8d264164937a4f3ee0cf4d16281a1d9192e",
+        "5e0a6002fd12536a68bdd4eab90c2fc7e08428d15bdf242a988b8ea3a5afaabb",
+        "b96aeafa2806d37972cc4ffb09450b1df71b09f40dd5d1135a908eb8de1894a4",
+        "1c2fab92821c90daeb653f5c5642d448cd9e5e792cf33ec02eb8dd5287c9b0fa",
+        "542f64413cd8727654d44520ecec433c7b618398e51fa344e6005998f863871e",
+        "9725ad93cf50da3ce581625814d9d0b93bd2a75d0f7ed71039c381c3230e5527",
+        "59ebb4f57cf18a7d1a9d1d9784341250027ab29bf25cf33416797b3dd49990f9",
+        "e2735172de56cff07865131f537b255a3f954664851bcbdfa220461aa4876adb",
+        "bbaacc634590be3336b5fefce750997e5a9eac55f2d8b18f4eca969ac259c53e",
+        "45f2162de247ab4bceb453a683309a2c176b2ed730715971b6d82de80113f97b",
+        "ea91828b927669c5944f5a22ac85a37909bf7b007ecd3a4921ef0e2a7baed1b6",
+        "730085604a9439925fed3bf7d156c92d6e0926064912b09aa219be070dfa7cde",
+        "d22dc49c80bb3a43ab1484982b2bbc28fdb46febf5bcb592967fcb551f28435e",
+        "d7eb9f009ba130328ff18a562832d33a29862bd743fc7ad95cd6d53f97da0788",
+        "62c6e83dd8e2283722990e862a00938dbf430665e20c9168ecca3135657bc7c1",
+        "2b55c23c49068006f57b469fefd8d7f9a5cb282aa099ca9a48a92f389a064518",
+        "edfa309562c4fc6d1f7ae1dadef45d6b1ebd81b1bd15a30f1cf122ce11ac389f",
+        "4d6589e868963dc5dc8cada44da3e83d2b23e7d8dac9c11ca7b9d7dd8d11932f",
+        "c4b914406cff68aed6fec5b5d5e6209625963a70e117da59f5a5bbccfe5afbfe",
+        "614f9d4bde811ec2c80195f3e1a80e09d57a56c7333be2c41a57fdb731209aa0",
+        "cef7312f579a82c665ebf765f92fc736aa45753a2f4e4fd7ef4ad1b2ba356064",
+        "db53e8df004abbd724afc70daa1c1b2c59562c99f407d6091e54b97c97fffaa6",
+        "746dd46026234bf157a707c814e621cf743e640a8bd8a1709329efa3c8847705",
+        "a7a724b7914f46ff3dab2ed68747e904be7dd385ec84cebe5c080a7bbce4512d",
+        "96cfd2b2e6744f5ab503457f045dcd5492cf16266a181275c9c22f007df0bb67",
+        "d4382835f065fa3bbcf357ba6195f7d0e8c119b872b8c040baad91534c12cfa3",
+        "9fd502b6abc06d83beeeecabf2beed1d454a7f530069125220640a97ea74d9f7",
+        "31574aafd17a89179d14e0cf1e9d5487bfbaaa84992602a36331eb3631ec4d88",
+        "7085764ff40f7de9132b8ff972d4ad4a78f6f3c0d374dd43ec9494d38d921793",
+        "2925d657879d8622ccd368370c24d94c21ed6cff4544d9a4790dedc28d7ac651",
+        "887e8c7a71995d8ef90974fd6530a10cef40803072b3be57887afe73294226d1",
+        "2d99b06e20fdec904a0bc7e2480e55422472a7595844bf7295ab94c1ddce21ed",
+        "350552cbfe6940979ae320ca975cd4132d3a8cc2adcb9953c1324cf2f1bf330a",
+        "5ac7c7e70eae91a8d4e9fe6b4c15b97c08751725080486b6a54196071a300812",
+        "7789efc53d550a587e6dc6b0001787eae3895df7a2258b31fdd8631c9bad681d",
+        "f91ee967c57c5aa9dce7a7083ff898589db02083f6c1b2d2f8239ec776c9b1c0",
+        "2ea5613896d454ab6b9b78d4f87fc3f08eeb1a95f27b8c744d7851cb006f4839",
+        "d4382835f065fa3bbcf357ba6195f7d0e8c119b872b8c040baad91534c12cfa3",
+        "9fd502b6abc06d83beeeecabf2beed1d454a7f530069125220640a97ea74d9f7",
+        "aa8390e1b956e36a64183fa60cab330715c9740862e422c8666f9c4ff7cc8343",
+        "b20c9317d7ad04a472d96f0840343b77378e11f0d12f30914b1969927589683b",
+        "366798fb697c7189a15d3e33373e9a8941d252426bf7e22470b09b2718fe01a5",
+        "638fe20772e78ca0cbadc32599930d97019c16856ff86856afb6d705fb2a760f",
+        "856226d9aee58658b6734ab68ad6d2873e90ac4547e5590e41a9942f4df1f924",
+        "08fed6a48749403a8616854f77d9dae0f591b4645209e74fdd69670a0d6aa6b3",
+        "bdfd7f8810c9225d2bd33a5e3c9f7af479e9a6d7220d07f5d7320f6f06c36f0d",
+        "68d58e4a9122ae9ae4bfee3721d6ff032806fae84a2eaf8935623bbd2d4f18f4",
+        "a3ba974c2b260a1cf856e64f80399786a44ee4f0b83a3dcc04ac8c5aba6abb59",
+        "ecd575336c12daad7a13a337fd94203cf0954d209775f889694004f05f05067c",
+        "fd6088a53b7319f66efea8e402b890b53348abfcfb6d7684f88a3418cbbb42d8",
+        "f7fba5a2ef05a1d4893e2ef9aa375d37c36e57da776c48268045f729393cd752",
+        "825550c68c2c324f95828e58c521dc821b0650e52c00673ddb974043b6cb7e82",
+        "511f29f54e61b48f33516367e85f0e9e04d34d99bcb6ebf37852606acae872e4",
+        "119b89f99522e00a9ecd9114fc5a9038e864ec6d94e2377f74ac8d5e550de5b9",
+        "9adb37693ed604d293a85c7abca9a56c7bbbd62945d1577c47294ad7a65b242f",
+        "4c6a96cfd7608d4352af1bc3172a6e23b03502f5e1f1daeeab898ae250eaf289",
+        "d88933b6ab63b1248bc69fac9ba0f5307a7b6901bb9879bae677c12f4b323fa7",
+        "6b3f96a6b0219624430b9618e426f1324085a10db9ad4b3e9c4464e9bb90a59e",
+        "f9d9b60c861651f3c0af040078a077ea3708b17c9dea9e9f82b29f1d645281e1",
+        "b077312d1c52f15b8e7bc54cfe11189b2287a9b71d2d737b2e9af4d492a49dd2",
+        "c86e68a7d8ff05162e70d1311dc78858c8540555d29d5f7e7e54a33c4e875ebc",
+        "326ac04af22b81e44093806bd86dc5b053dcb9c8fafbcea48240b9ea20b3c3da",
+        "743c6150b313583a38ae62874aefabea1a599e9ae31053d8f543e65555a23eac",
+        "1630ba7c6cd235e558bd1b16138c2bf04cfdf9c886edfee09d75bb4052d7572c",
+        "179fec9f87c3935153fe01dbc841422bbd9df9550e8783968ee75f594717292f",
+        "46144c1df3996f8f49505c0d40f9dd8c65a1c11d712c727e0122cc9bb19b6174",
+        "3bc3202006f09811105b450eef5ce239c587ef06ce24292ca7119e12b9b16e8d",
+        "29407605ae3f86cb6ac88fb1cbfb6004469ca27019909b306273b483ef4768bb",
+        "f47a592e90539ee9a0bca97da8cd70f2acd4f4f23f8a1a58ed9b12c03a6b0c33",
+        "51e5911812cd4c9de81f2c2e7e69508443b368f9ab46949d0a769cef8f295c72",
+        "73a9a3e756376fd5dc7c0b94c3457f56c506990d4c00f6699a98aa1d7fc2acdd",
+        "3898b169ebdfdfa64d05c8f53adc2043fddbdd73089fe5422d6a51911ec48473",
+        "49a17ebb6abcab1e2b6407fb924261454497f19cda06f4685d6f7bf2c2c28ea8",
+        "097b52c7be01489b340ab8b332002f1aad13d1ac75a06f4ee1fef9b682ab6336",
+        "beee74a6f9b10e69af3c1edc142a7a700bb07cd1e316cbba4a5d320766b414d1",
+        "f413d1439bf4c7d7c96aa4e2374b61f054a656e3188f0f5c89889c998c35349c",
+        "293255667a4d3c455b7ae603ed76f5ac2e1e07d367e212923331c06fab83cc33",
+        "412d6c3ce5412f0d93c6d35f0d04609a84136901dfde3bb4c8c1bcc67de322f9",
+        "240c6402e8cb403b4b80e98c2e99be0c7c4d1547e68639408b837fc835912439",
+        "fea6f08c0c45b038dea158d7c25ed21a66d5c231a42c46f5cea5218323cd6a84",
+        "099f3883db4bfc942bf8ccd5f73616bc58ed5278e270cc30c9f6baa0680bfc09",
+        "291314d7db2d117c3410ab972c706fdc1fa9ca5fea68bce545986f7c70d9b4e4",
+        "714929453115c72bb4fcaafd63999a250a054a75354d52fe4e1a99b48fb6fc9e",
+        "9d43426297fac25855a42905689c96fd8be758b0d08719b475f442bc09dfe833",
+        "bb9cc8cf9bb7d1027eec8548a1b2363fc9fa72b1d667e8d65f86da3c4909ac50",
+        "1944446d4209863262c948c33a1fa9724f524bad3cceb3841f3a37b8926a7159",
+        "a84ef60d90ace334b3a6ece72b0196281b0262f95d709044ede093457b9dbb3b",
+        "44ba96628a35e19c579a0a42bc1160f41a02313035ff9fb3cbf36e8d73e993f1",
+        "c70550bf3b8a4ed97584004a5e87b00ebfb8967259f13bc8da88d32ea8329326",
+        "762abdf36ecfde678a3b431e04cbc87a6981810cce732381bdce100f01ff7691",
+        "9880c8a6ea5a913709c046dc7a43b41b711fc1424947f966b464b6f31591a397",
+        "f0052e95dd504b9adf04135d36494155fc969bfad99c4ac00682869e61bf1701",
+        "44bbeecad98243617647995328921d3a511be30dab92f8c1cc71ea5bd2ca3e14",
+        "c6fe59f07576c0e41ce36f7a2facecee4fb4712a417a4309ca2c48c74d1da6b6",
+        "f778b58c791de16c5ef48e3b4315de881ea1b112fb0db5f6915782d9c675e339",
+        "cc0f31aa384b8d2b1b732ea69f4c6802f452a2fa5a075b222d9a1c1442d3ec8c",
+        "781c06e20f4a21dff56e0e8e76d231b341616034b967258b917b79e88f71673b",
+        "e1664e438cb81d57195cf5c26fa9f465c96d47148206e2b86ab75fb6ab23f48e",
+        "84f8b96b57948bdda67f9e78732412096eb1f89f8f20d733242ae8d24d3d7c32",
+        "cd1da9d25fa7abec3fa716dd50c8e6fb3153bedaeffa13bf3a2c4bddfb144416",
+        "3ccdebe61673592f75522bf173863a4096c368f761f050fa7f01deeb56734d75",
+        "e2f0f65e692a9430a92afd55caab96db32e899fad2fa87f89b2e2691ac08206d",
+        "551759504ae0efe3e583f6a3087c7167cb5686b3539217214bf2be017814b56f",
+        "43d66e9ca8d2dd4343fbcaf3ffc71717822dcd1d657e24f32e0d6bd5c30298a0",
+        "c4884d7ee1a336a70ca6c123f3365c38586f53beba592e4dc60b37b52860c832",
+        "c2d63184b440509548871f184d971f4c02fe2a0540853264cc321ed77e9e4eb1",
+        "dfa43152265ab426a2e99ec62fd15fecfe720804c79db0c9b22bf128466a4980",
+        "ae52d4fdcb60da538c8a01451bbd7ec49df2b520052e000009a25754d5d037dd",
+        "d4de6c66970f55a1407670ab3c0273800a773d6a21f8d1e41a129bb32e93e06e",
+        "ace2ca47b5445df142ca9633af4f645aac98d4f7852af61a52dbb9ff5172f9d5",
+        "59d0e738e3c05fe32e5d2efa96897b5ea47f40c81770abe937c6cad5e3a4f707",
+        "29aa28be25e053bd1b0f9cf8e5e7fd4b92484d9c04e892cfe696772365a73fab",
+        "2dce1028fadb569b696e5b8804cabcc58fc34e7b9562b58e52ba3cd08e35b872",
+        "a311d8328eb1f463603ac3f3249090a346c468f1af4b085075ae23c09d73a213",
+        "e48fdd5843a8c5925d5a8e2b2a3f6942107e1d46e9151d9b6a9d44ec60fed5d5"
+      ],
+      "authoring_code_sha256": "728af05bce5fdc3f81e123ce86f288533f72d3d3951faa84f7be1bae6a40a211",
+      "eye_clearance_code_sha256": "0e1ddf147f27180d511c7159c7c09b7cc8cc3cbb0193686159dca66f26c924e2",
+      "eye_coverage_code_sha256": "fa525eb548fb8df897ca1b407d65a233bebff0f9bf3f1bac99b7c90b64513151",
+      "fresh_actual_talking": {
+        "schema": "jali-talking-preview-v1",
+        "fixture": false,
+        "text": "Mama brought five blue bags.",
+        "new_synthesis": true,
+        "comparison_replay": null,
+        "voice": "af_heart",
+        "session_id": "4adf93a4297f4bb98beb1a72a865a85e",
+        "audio_sha256": "3a76f201496bc395c4292ba015b98135332ea7a170ebbe204faef7509270e1a6",
+        "text_sha256": "eee578f8a1f085edff627d40fe21c63d20853135ace5be56e8d9c444623e91f9",
+        "rig": {
+          "profile": "mpfb-rhubarb-9-v1",
+          "source_commit": "2afe6d79779313db8909badebf46f9805a6c7b70",
+          "model_sha256": "98a1f92b042e1b89703eb3a80152028cd4f98923f386e1e4f9d0cb597a8e104f",
+          "retarget_sha256": "96d2d2a82f71bbdf87b7c301d1e79e566c8b66d9c79a645e65309c11b90d8a30",
+          "viewer_sha256": "8c6851702d32f3dc59ffc486d3fa2d0ab94bde019b5c7587c3c1a871b42a8132"
+        },
+        "render_asset": {
+          "lod": "full",
+          "sha256": "98a1f92b042e1b89703eb3a80152028cd4f98923f386e1e4f9d0cb597a8e104f",
+          "shading": "physical-authored-fibers-wrap-v4"
+        },
+        "surface_shading": {
+          "version": "physical-authored-fibers-wrap-v4",
+          "eyeMeshes": 1,
+          "hairMeshes": 1,
+          "skinMeshes": 1,
+          "teethMeshes": 1,
+          "tongueMeshes": 1,
+          "fiberMeshes": 3,
+          "oralAttributeBytes": 18988,
+          "detailBytes": 0,
+          "authoredSkinMeshes": 1,
+          "wrapSupportedMeshes": 1,
+          "tangentBytes": 62432,
+          "newDrawCalls": 0,
+          "newTextures": 0,
+          "limits": "Vertex-depth oral light attenuation (not ray-traced AO), ivory teeth, low-glint brow/lash fibers, balanced lighting; authored recipe maps when supplied, procedural fallback otherwise; opt-in masked single-pass wrap approximation (not physical SSS); no scanned pores or subsurface transport. Wet coated eyes and anisotropic cards; no corneal geometry, strands, voxel scattering or native changes."
+        },
+        "appearance": {
+          "lighting": "soft",
+          "camera": "portrait",
+          "resolution": 512
+        },
+        "fps": 15,
+        "frames": 27,
+        "duration": 1.7493333333333334,
+        "video_sha256": "96586ac99089e48e9603ee37783a915f0c8827b6ba4b862ff5442a3aab401d4b",
+        "all_streams_ffmpeg_decoded": true,
+        "encoded_video_frames": 27,
+        "encoded_frames_verified_by_framemd5": true,
+        "poses": [
+          {
+            "time": 0,
+            "pose": {},
+            "head": {
+              "yaw": 0,
+              "roll": 0
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 0.06666666666666667,
+            "pose": {
+              "viseme_PP": 0.9471307755366478,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.0008756542480583641,
+              "roll": 0.0002719475976956116
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 0.13333333333333333,
+            "pose": {
+              "viseme_aa": 0.88,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.0017492349669793435,
+              "roll": 0.0005435808542515673
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 0.2,
+            "pose": {
+              "viseme_PP": 0.9974999999999999,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.0026186735376949014,
+              "roll": 0.0008145857918715641
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 0.26666666666666666,
+            "pose": {
+              "viseme_E": 0.72,
+              "viseme_aa": 0.08,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.003481911149648769,
+              "roll": 0.0010846491590260222
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 0.3333333333333333,
+            "pose": {
+              "viseme_PP": 0.9974999999999999,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.0043369036760125285,
+              "roll": 0.001353458792535968
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 0.4,
+            "pose": {
+              "viseme_O": 0.6825000000000001,
+              "viseme_RR": 0.15,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.005181626514130976,
+              "roll": 0.0016207039783989107
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 0.4666666666666667,
+            "pose": {
+              "viseme_O": 0.6780045351473922,
+              "viseme_RR": 0.14901198574667956,
+              "viseme_I": 0.0023053665910809807,
+              "viseme_SS": 0.0023053665910809807,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.006014079379734675,
+              "roll": 0.0018860758109396256
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 0.5333333333333333,
+            "pose": {
+              "viseme_I": 0.35,
+              "viseme_SS": 0.35,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.006832291043567155,
+              "roll": 0.0021492675498707182
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 0.6,
+            "pose": {
+              "viseme_I": 0.35,
+              "viseme_SS": 0.35,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.007634323999210478,
+              "roll": 0.0024099749748502375
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 0.6666666666666666,
+            "pose": {
+              "viseme_FF": 0.935,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.008418279051055926,
+              "roll": 0.0026678967371265147
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 0.7333333333333333,
+            "pose": {
+              "viseme_FF": 0.935,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.009182299811555553,
+              "roll": 0.0029227347078637647
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 0.8,
+            "pose": {
+              "viseme_E": 0.72,
+              "viseme_aa": 0.08,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.00992457709710524,
+              "roll": 0.0031741943227458157
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 0.8666666666666667,
+            "pose": {
+              "viseme_I": 0.35,
+              "viseme_SS": 0.35,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.0106433532121499,
+              "roll": 0.0034219849224596645
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 0.9333333333333333,
+            "pose": {
+              "viseme_PP": 0.9974999999999999,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.011336926111366157,
+              "roll": 0.0036658200886652693
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 1,
+            "pose": {
+              "viseme_U": 0.924,
+              "viseme_O": 0.126,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.012003653430066562,
+              "roll": 0.0039054179750632597
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 1.0666666666666667,
+            "pose": {
+              "viseme_U": 0.9179138321995478,
+              "viseme_O": 0.12517006802721106,
+              "viseme_PP": 0.0065702947845790735,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.012641956373281431,
+              "roll": 0.0041405016331778725
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 1.1333333333333333,
+            "pose": {
+              "viseme_PP": 0.9974999999999999,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.01325032345430906,
+              "roll": 0.004370799332478546
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 1.2,
+            "pose": {
+              "viseme_E": 0.72,
+              "viseme_aa": 0.08,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.013827314073881491,
+              "roll": 0.004596044874470161
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 1.2666666666666666,
+            "pose": {
+              "viseme_E": 0.72,
+              "viseme_aa": 0.08,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.014371561931470477,
+              "roll": 0.004815977900388852
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 1.3333333333333333,
+            "pose": {
+              "viseme_E": 0.72,
+              "viseme_aa": 0.08,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.014881778260655742,
+              "roll": 0.005030344192147748
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 1.4,
+            "pose": {
+              "viseme_E": 0.72,
+              "viseme_aa": 0.08,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.015356754880894245,
+              "roll": 0.005238895966184772
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 1.4666666666666666,
+            "pose": {
+              "viseme_I": 0.35,
+              "viseme_SS": 0.35,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.015795367058463947,
+              "roll": 0.005441392159872847
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 1.5333333333333334,
+            "pose": {
+              "viseme_I": 0.35,
+              "viseme_SS": 0.35,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.016196576169807405,
+              "roll": 0.005637598710161446
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 1.6,
+            "pose": {
+              "viseme_I": 0.35,
+              "viseme_SS": 0.35,
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.016559432160968512,
+              "roll": 0.0058272888241274155
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 1.6666666666666667,
+            "pose": {
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.016883075797298416,
+              "roll": 0.006010243241122342
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          {
+            "time": 1.7333333333333334,
+            "pose": {
+              "eyeBlinkRight": 0,
+              "eyeBlinkLeft": 0
+            },
+            "head": {
+              "yaw": 0.01716674069810342,
+              "roll": 0.006186250486213442
+            },
+            "eyes": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          }
+        ],
+        "browser_errors": [],
+        "limits": "Actual WebGL/stock CPU speech; not generated imagery. Offline fixed-WAV-clock render, not physical AV, subjective realism approval, native appearance parity or measured i5 performance."
+      }
+    }
+  }
+}

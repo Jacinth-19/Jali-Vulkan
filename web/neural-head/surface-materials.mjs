@@ -4,7 +4,7 @@
 export const SURFACE_VERSION='physical-authored-fibers-wrap-v4';
 const EYES=new Set(['Human.high-poly','Wolf3D_EyeLeft','Wolf3D_EyeRight','Wolf3D_Eye']);
 const HAIR=new Set(['Human.ponytail01','Wolf3D_Hair','Jali.short-crop']);
-export function surfaceRole(name){return name==='Human.teeth_base'?'teeth':name==='Human.tongue01'?'tongue':(name==='Human.mindfront_eyebrows_02'||name==='Human.mindfront_eyelashes_02')?'fibers':name==='Human.body'?'skin':EYES.has(name)?'eyes':HAIR.has(name)?'hair':null;}
+export function surfaceRole(name){return name==='Human.teeth_base'?'teeth':name==='Human.tongue01'?'tongue':(name==='Human.mindfront_eyebrows_02'||name==='Human.mindfront_eyelashes_02'||name==='Jali.brow-density')?'fibers':name==='Human.body'?'skin':EYES.has(name)?'eyes':HAIR.has(name)?'hair':null;}
 
 // Original deterministic procedural detail, not scanned skin. One 64 KiB RGBA
 // texture per scene, mipmapped to avoid distant pore aliasing; no network/assets.

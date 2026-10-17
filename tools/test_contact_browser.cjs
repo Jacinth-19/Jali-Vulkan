@@ -1,0 +1,10 @@
+// Explicit arbitrary-vertex TRANSPORT fixture, never reviewed lip anatomy.
+const fs=require('node:fs'),path=require('node:path'),{execFileSync}=require('node:child_process'),assert=require('node:assert/strict');
+const base=process.argv[2].replace(/\/$/,''),out=process.argv[3]||'artifacts/contact-fixture-proof';fs.mkdirSync(out,{recursive:true});
+const template=path.join(out,'UNFILLED-template.json'),reference=path.join(out,'synthetic-reference.json'),result=path.join(out,'synthetic-result.json'),url=base+'/characters/male/?preset=low';
+execFileSync(process.execPath,['tools/check_contact_reference.cjs','--url',url,'--make-template','--output',template,'--overwrite-output'],{stdio:'inherit',timeout:120000});
+const t=JSON.parse(fs.readFileSync(template)),mesh=t.layout.meshes.find(m=>m.vertices>2&&m.controls.includes('viseme_PP'));
+const r={schema:t.schema,model_sha256:t.model_sha256,provenance:{kind:'synthetic-fixture',reviewer:'AUTOMATED TEST, NOT A HUMAN REVIEWER',method:'Arbitrary neighbouring vertices exercise browser sampling only, not lip/teeth/tongue contact',source:'Explicit transport regression fixture'},cases:[{id:'not-an-anatomical-reference',pose:{viseme_PP:1},pairs:[{id:'arbitrary-neighbours',a:{mesh:mesh.name,vertices:[{index:0,weight:1}]},b:{mesh:mesh.name,vertices:[{index:1,weight:1}]},metric:'distance',min_mm:0,max_mm:25}]}]};fs.writeFileSync(reference,JSON.stringify(r,null,2));
+execFileSync(process.execPath,['tools/check_contact_reference.cjs','--url',url,'--reference',reference,'--allow-fixture','--output',result,'--overwrite-output'],{stdio:'inherit',timeout:120000});
+const report=JSON.parse(fs.readFileSync(result));assert.equal(report.fixture,true);assert.equal(report.model_sha256,t.model_sha256);assert.equal(report.human_quality_accepted,false);assert.equal(report.physical_av_measured,false);assert.ok(Number.isFinite(report.cases[0].pairs[0].value_mm));
+console.log('Bound rendered landmark sampling passed; NO independent anatomical reference supplied');

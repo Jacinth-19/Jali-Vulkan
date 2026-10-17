@@ -20,6 +20,8 @@ def main():
             subprocess.run(['node','tools/smoke_character_selector.cjs',f'http://127.0.0.1:{server.server_port}'],cwd=ROOT,check=True,timeout=300)
             subprocess.run(['node','tools/smoke_renderer_lease.cjs',f'http://127.0.0.1:{server.server_port}'],cwd=ROOT,check=True,timeout=300)
             if a.authored_appearance:subprocess.run(['node','tools/inspect_authored_appearance.cjs',f'http://127.0.0.1:{server.server_port}'],cwd=ROOT,check=True,timeout=300)
+            if a.authored_appearance:subprocess.run(['node','tools/test_contact_browser.cjs',f'http://127.0.0.1:{server.server_port}'],cwd=ROOT,check=True,timeout=300)
+            if a.authored_appearance:subprocess.run(['node','tools/inspect_eye_clearance.cjs',f'http://127.0.0.1:{server.server_port}'],cwd=ROOT,check=True,timeout=300)
             out=ROOT/'artifacts/character-selector-proof/browser.json';r=json.loads(out.read_text());r['speech_source']='Explicit NON-SPEECH fixture; not inference or alignment acceptance';out.write_text(json.dumps(r,indent=2)+'\n')
         finally:
             server.shutdown();thread.join();close_character_server(server)

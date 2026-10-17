@@ -1,0 +1,5 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {eyeClearancePose,EYE_SEAL_NAMES} from '../web/neural-head/eye-clearance.mjs';
+test('unported and stock rigs are byte-for-byte pose identity',()=>{const p={viseme_PP:1,eyeBlinkLeft:1};assert.equal(eyeClearancePose(p,false),p);});
+test('companion geometry is zero at rest/half blink, smooth and bounded at closure',()=>{const p={viseme_PP:.6,eyeBlinkLeft:.5,eyeBlinkRight:.85},r=eyeClearancePose(p,true);assert.equal(r.jaliEyeSealLeft,0);assert.ok(Math.abs(r.jaliEyeSealRight-.5)<1e-10);assert.deepEqual(p,{viseme_PP:.6,eyeBlinkLeft:.5,eyeBlinkRight:.85});assert.equal(r.viseme_PP,.6);for(let x=0;x<=1;x+=.01){const v=eyeClearancePose({eyeBlinkLeft:x},true);assert.ok(v.jaliEyeSealLeft>=0&&v.jaliEyeSealLeft<=1);}assert.equal(eyeClearancePose({eyeBlinkLeft:1},true)[EYE_SEAL_NAMES[0]],1);});
+test('corrective input cannot extrapolate or accept NaN',()=>{for(const v of [NaN,Infinity,-.01,1.01,'1',true])assert.throws(()=>eyeClearancePose({eyeBlinkLeft:v},true));});

@@ -40,3 +40,10 @@ class IndependentReferenceTests(unittest.TestCase):
             audio="aevalsrc='0.2*sin(2*PI*1200*t)*(between(t,0.62,0.74)+between(t,1.62,1.74)+between(t,2.62,2.74))':s=48000:d=4"
             subprocess.run([imageio_ffmpeg.get_ffmpeg_exe(),'-y','-f','lavfi','-i',video,'-itsoffset','0.1','-f','lavfi','-i',audio,'-c:v','libx264','-pix_fmt','yuv420p','-c:a','aac',str(file)],check=True,capture_output=True,timeout=30)
             result=analyze(file,[8,8,100,80]);self.assertAlmostEqual(result['median_observed_offset_ms'],220,delta=20);self.assertFalse(result['physical_av_accepted']);self.assertEqual(len(result['visual_onsets_seconds']),3)
+
+    def test_reference_template_cannot_overwrite_relative_source_audio(self):
+        import subprocess,tempfile,json
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);(root/'clip').mkdir();(root/'clip/manifest.json').write_text('{}');audio=root/'clip/audio.wav';audio.write_bytes(b'keep source audio')
+            result=subprocess.run([sys.executable,str(Path(__file__).resolve().parents[1]/'tools/check_independent_reference.py'),'--manifest','clip/manifest.json','--make-template','--output','clip/audio.wav'],cwd=root,capture_output=True,text=True,timeout=15)
+            self.assertNotEqual(result.returncode,0);self.assertIn('must not overwrite',result.stderr);self.assertEqual(audio.read_bytes(),b'keep source audio')

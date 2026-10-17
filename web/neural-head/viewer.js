@@ -1,3 +1,4 @@
+import {eyeClearancePose,EYE_SEAL_NAMES} from './eye-clearance.mjs';
 import {rendererLease} from './renderer-lease.mjs';
 import {studioPath} from './studio-path.mjs';
 import * as THREE from 'three';
@@ -32,7 +33,7 @@ let creativeOptions=null, appearance=null, composer=null,fxaaPass=null, lights=n
 let surfaceShading=null;
 let idleRate=2,actualAsset={lod:'full',sha256:data.rig?.model_sha256};
 const idleEpoch=performance.now();
-let diagnosticPose=null;
+let diagnosticPose=null,diagnosticClearance=true,eyeClearanceSupported=false;
 let currentPose = {}, modelStats = {}, captureOnly = false, resizeViewer;
 const scene = new THREE.Scene();
 scene.background = new THREE.Color('#101a1d');
@@ -71,7 +72,7 @@ function applyAt(time) {
   const layers=composePerformance(sample.weights,{time,duration:clip?.duration||0,
     life:$('life').checked,mood:$('mood').value,gaze:$('gaze')?.value||'forward',creative:creativeOptions?{...creativeOptions,offset:(clip?._stream_start_sample||0)/(clip?.audio?.sample_rate||24000),idle:!clip,idleTime:((performance.now()-idleEpoch)/1000)%3600}:null});
   currentLayers=layers;
-  const pose=diagnosticPose||layers.pose;
+  const pose=eyeClearancePose(diagnosticPose||layers.pose,eyeClearanceSupported&&(!captureOnly||diagnosticClearance));
   for (const mesh of speechMeshes) {
     mesh.morphTargetInfluences.fill(0);
     for (const [name, value] of Object.entries(pose)) {
@@ -163,7 +164,8 @@ async function init() {
   // The downloadable asset retains all 66 facial controls. The viewer uploads
   // only controls used by this demo, avoiding 66-way zero-weight shader loops.
   const originalFaceControls = Object.keys(facial.morphTargetDictionary).length;
-  const used = new Set(['viseme_PP','viseme_I','viseme_SS','viseme_E','viseme_aa','viseme_O','viseme_RR','viseme_U','viseme_FF','viseme_nn','viseme_DD','eyeBlinkLeft','eyeBlinkRight','mouthSmileLeft','mouthSmileRight','cheekSquintLeft','cheekSquintRight','browInnerUp','browOuterUpLeft','browOuterUpRight','browDownLeft','browDownRight','mouthFrownLeft','mouthFrownRight','eyeWideLeft','eyeWideRight']);
+  eyeClearanceSupported=EYE_SEAL_NAMES.every(n=>Object.hasOwn(facial.morphTargetDictionary,n))&&(Array.isArray(facial.material)?facial.material:[facial.material]).some(m=>m.userData?.jaliEyeClearance==='jali-eye-clearance-v1');
+  const used = new Set([...EYE_SEAL_NAMES,'viseme_PP','viseme_I','viseme_SS','viseme_E','viseme_aa','viseme_O','viseme_RR','viseme_U','viseme_FF','viseme_nn','viseme_DD','eyeBlinkLeft','eyeBlinkRight','mouthSmileLeft','mouthSmileRight','cheekSquintLeft','cheekSquintRight','browInnerUp','browOuterUpLeft','browOuterUpRight','browDownLeft','browDownRight','mouthFrownLeft','mouthFrownRight','eyeWideLeft','eyeWideRight']);
   for (const mesh of speechMeshes) {
     const entries = Object.entries(mesh.morphTargetDictionary).filter(([name]) => used.has(name));
     for (const type of Object.keys(mesh.geometry.morphAttributes)) {
@@ -183,7 +185,7 @@ async function init() {
   controls.minDistance = 0.38; controls.maxDistance = 2.8;
   controls.maxPolarAngle = Math.PI * 0.68;
   const vertices = [...geometries].reduce((sum, geometry) => sum + geometry.attributes.position.count, 0);
-  modelStats = { vertices, bones: bones.size, faceControls: originalFaceControls, runtimeFaceControls: Object.keys(facial.morphTargetDictionary).length, morphMeshes: speechMeshes.length };
+  modelStats = { vertices, bones: bones.size, faceControls: originalFaceControls, authoredEyeCorrectives:eyeClearanceSupported?2:0,sourceFaceControls:originalFaceControls-(eyeClearanceSupported?2:0),runtimeFaceControls: Object.keys(facial.morphTargetDictionary).length, morphMeshes: speechMeshes.length };
   $('vertices').textContent = vertices.toLocaleString();
   $('bones').textContent = String(bones.size);
   $('controls').textContent = String(modelStats.faceControls);
@@ -259,12 +261,21 @@ window.JaliHeadDemo = {
   setIdleRate:value=>{if(![2,15].includes(value))throw Error('Invalid idle rate');idleRate=value;},
   unload:()=>{if(captureOnly)throw Error('Finish export before unloading');leaseAbort.abort();audio.pause();audio.removeAttribute('src');audio.load();window.JALI_HEAD_BASE64=null;for(const c of data.clips)if(c.file.startsWith('blob:'))URL.revokeObjectURL(c.file);data.clips=[];selected=-1;ready=false;canvas.dataset.ready='false';if(!initializing)disposeScene();},
 
-  holdDiagnosticPose:pose=>{
+  holdDiagnosticPose:(pose,clearance=true)=>{
+    if(typeof clearance!=='boolean')throw Error('Invalid diagnostic clearance flag');
     if(!ready||nativeActive||!captureOnly||!audio.paused)throw Error('Diagnostic pose needs paused capture mode');
     const known=new Set(speechMeshes.flatMap(m=>Object.keys(m.morphTargetDictionary)));
     if(pose!==null&&(!pose||Array.isArray(pose)||Object.keys(pose).length>80||Object.entries(pose).some(([k,v])=>!known.has(k)||!Number.isFinite(v)||v<0||v>1)))throw Error('Invalid diagnostic pose');
-    diagnosticPose=pose?{...pose}:null;renderAt(0);return {diagnostic:true,pose:currentPose};
+    diagnosticClearance=clearance;diagnosticPose=pose?{...pose}:null;renderAt(0);return {diagnostic:true,pose:currentPose};
   },
+  pickDiagnosticLandmark:(x,y)=>{
+    if(!ready||nativeActive||!captureOnly||![x,y].every(v=>typeof v==='number'&&Number.isFinite(v)&&v>=0&&v<=1))throw Error('Picking needs capture mode and normalized canvas coordinates');
+    root.updateMatrixWorld(true);for(const mesh of speechMeshes)mesh.skeleton?.update();const ray=new THREE.Raycaster();ray.setFromCamera(new THREE.Vector2(x*2-1,1-y*2),camera);
+    const hit=ray.intersectObject(root,true).find(h=>speechMeshes.includes(h.object));if(!hit?.face)throw Error('No diagnostic face mesh at that point');
+    const mesh=hit.object,ids=[hit.face.a,hit.face.b,hit.face.c],v=ids.map(i=>mesh.getVertexPosition(i,new THREE.Vector3()).applyMatrix4(mesh.matrixWorld)),bary=THREE.Triangle.getBarycoord(hit.point,...v,new THREE.Vector3());
+    return {model_sha256:actualAsset.sha256,anchor:{mesh:mesh.name,vertices:ids.map((index,i)=>({index,weight:Math.max(0,Math.min(1,bary.toArray()[i]))}))},point_metres:hit.point.toArray(),pose:{...currentPose},human_anatomy_or_contact_verified:false};
+  },
+  diagnosticLayout:()=>{if(!ready||!captureOnly)throw Error('Diagnostic layout needs capture mode');return {model_sha256:actualAsset.sha256,meshes:speechMeshes.map(m=>({name:m.name,vertices:m.geometry.attributes.position.count,controls:Object.keys(m.morphTargetDictionary)}))};},
   diagnosticVertices:(name,ids)=>{
     if(!ready||nativeActive||!captureOnly||!Array.isArray(ids)||ids.length>64)throw Error('Diagnostic vertex sampling needs capture mode and <=64 indices');
     const meshes=speechMeshes.filter(m=>m.name===name);if(meshes.length!==1)throw Error('Expected unique speech mesh');const mesh=meshes[0];root.updateMatrixWorld(true);mesh.skeleton?.update();
@@ -314,7 +325,7 @@ window.JaliHeadDemo = {
     } : null, canvas:{width:canvas.width,height:canvas.height}, pixelRatio:renderer?.getPixelRatio(),
     speechRig:data.rig || null };
   },
-  getState: () => ({ ready,leaseState,surfaceShading:nativeActive?null:surfaceShading,renderAsset:nativeActive?{lod:'native-fixed',sha256:data.rig?.model_sha256}:actualAsset,idleRate, layers:currentLayers, creative:creativeOptions,appearance,streamOffset:(track()?._stream_start_sample||0)/(track()?.audio?.sample_rate||24000),idleTime:creativeOptions?.natural?((performance.now()-idleEpoch)/1000)%3600:0, sessionId: track()?.id || null, clips: data.clips.map(c => ({id:c.id, title:c.title})), modelStats, gazeBones:eyeBones.map(({bone,base})=>{const e=new THREE.Euler().setFromQuaternion(bone.quaternion.clone().multiply(base.clone().invert()));return {name:bone.name,delta:{x:Math.abs(e.x)<1e-12?0:e.x,y:Math.abs(e.y)<1e-12?0:e.y}};}), pose: currentPose, time: audio.currentTime, clip: selected,
+  getState: () => ({ ready,leaseState,eyeClearance:{supported:eyeClearanceSupported,enabled:!captureOnly||diagnosticClearance,diagnosticOverride:captureOnly&&!diagnosticClearance},surfaceShading:nativeActive?null:surfaceShading,renderAsset:nativeActive?{lod:'native-fixed',sha256:data.rig?.model_sha256}:actualAsset,idleRate, layers:currentLayers, creative:creativeOptions,appearance,streamOffset:(track()?._stream_start_sample||0)/(track()?.audio?.sample_rate||24000),idleTime:creativeOptions?.natural?((performance.now()-idleEpoch)/1000)%3600:0, sessionId: track()?.id || null, clips: data.clips.map(c => ({id:c.id, title:c.title})), modelStats, gazeBones:eyeBones.map(({bone,base})=>{const e=new THREE.Euler().setFromQuaternion(bone.quaternion.clone().multiply(base.clone().invert()));return {name:bone.name,delta:{x:Math.abs(e.x)<1e-12?0:e.x,y:Math.abs(e.y)<1e-12?0:e.y}};}), pose: currentPose, time: audio.currentTime, clip: selected,
     activeMorphs: speechMeshes.map(mesh => ({ mesh: mesh.name, values: Object.fromEntries(Object.entries(mesh.morphTargetDictionary).filter(([, i]) => mesh.morphTargetInfluences[i] > 0.01).map(([name,i]) => [name, mesh.morphTargetInfluences[i]])) })) }),
   referenceVertices: (layout,time,index=selected) => {
     if(index!==selected)selectClip(index,false);renderAt(time);root.updateMatrixWorld(true);
@@ -330,7 +341,7 @@ window.JaliHeadDemo = {
   setCaptureMode: (enabled, size = 512) => {
     if (!ready) throw new Error('Model is not ready');
     if (enabled && (!Number.isInteger(size) || size < 128 || size > 2048)) throw new Error('Invalid capture size');
-    captureOnly = Boolean(enabled);if(!captureOnly)diagnosticPose=null;
+    captureOnly = Boolean(enabled);if(!captureOnly){diagnosticPose=null;diagnosticClearance=true;}
     if (captureOnly) {
       canvas.style.width = `${size}px`; canvas.style.height = `${size}px`;
       renderer.setPixelRatio(1); renderer.setSize(size, size, false);syncPost();

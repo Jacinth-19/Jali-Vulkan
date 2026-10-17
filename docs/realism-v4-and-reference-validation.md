@@ -1,5 +1,7 @@
 # V4 appearance, cross-tab ownership and independent validation
 
+**Newer brow/blink/contact follow-up:** [implementation, actual renders and remaining acceptance gates](contact-and-blink-review.md). Historical v4 images/receipts below are not rebound to the newer rig/viewer. Previous 7cf2cda follow-up CI is now 12 core + 1 male successful; see its completed receipt.
+
 2026-10-17. **Experimental WebGL assets and validation tools, not artistic or
 physical acceptance.** Stock/native assets remain separate. The earlier 12+1
 successful Actions receipts belong to source `61e0315`, not this implementation.

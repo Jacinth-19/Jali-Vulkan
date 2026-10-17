@@ -211,7 +211,7 @@ jobs:
       - name: Check contracts without loading a neural model
         run: |
           .venv/bin/python -m unittest discover -s tests -p 'test_*.py'
-          node --test tests/visemes.test.mjs tests/measurement.test.mjs tests/performance.test.mjs tests/streaming.test.mjs tests/upgrades.test.mjs tests/creative.test.mjs tests/surfaces.test.mjs tests/studio-path.test.mjs tests/renderer-lease.test.mjs
+          node --test tests/visemes.test.mjs tests/measurement.test.mjs tests/performance.test.mjs tests/streaming.test.mjs tests/upgrades.test.mjs tests/creative.test.mjs tests/surfaces.test.mjs tests/studio-path.test.mjs tests/renderer-lease.test.mjs tests/eye-clearance.test.mjs tests/contact-reference.test.mjs tests/author-eye-clearance.test.mjs
       - name: Explicitly prepare reviewed model, stock voice and CC0 character
         env:
           GH_TOKEN: ${{ github.token }}
@@ -345,7 +345,7 @@ jobs:
             .venv/Scripts/python.exe -m unittest discover -s tests -p $pattern
             if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           }
-          node --test tests/visemes.test.mjs tests/measurement.test.mjs tests/performance.test.mjs tests/streaming.test.mjs tests/upgrades.test.mjs tests/creative.test.mjs tests/surfaces.test.mjs tests/studio-path.test.mjs tests/renderer-lease.test.mjs
+          node --test tests/visemes.test.mjs tests/measurement.test.mjs tests/performance.test.mjs tests/streaming.test.mjs tests/upgrades.test.mjs tests/creative.test.mjs tests/surfaces.test.mjs tests/studio-path.test.mjs tests/renderer-lease.test.mjs tests/eye-clearance.test.mjs tests/contact-reference.test.mjs tests/author-eye-clearance.test.mjs
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Explicitly prepare stock voice, model, Windows analyzer and CC0 head
         env:
@@ -653,4 +653,5 @@ jobs:
             artifacts/character-selector-proof/
             artifacts/renderer-lease/
             artifacts/authored-appearance-proof/
+            artifacts/contact-fixture-proof/
           retention-days: 3

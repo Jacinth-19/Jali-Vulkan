@@ -43,7 +43,7 @@ def compare(reference,clip):
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--manifest',type=Path,required=True);group=p.add_mutually_exclusive_group(required=True);group.add_argument('--reference',type=Path);group.add_argument('--make-template',action='store_true');p.add_argument('--output',type=Path,required=True);a=p.parse_args()
-    if a.output.resolve() in [a.manifest.resolve(),*(a.manifest.parent/f for f in ('audio.wav','cues.json','requested-text.txt')),*( [a.reference.resolve()] if a.reference else [])]:raise ValueError('Output must not overwrite source media, manifest or reference')
+    if a.output.resolve() in [a.manifest.resolve(),*((a.manifest.parent/f).resolve() for f in ('audio.wav','cues.json','requested-text.txt')),*( [a.reference.resolve()] if a.reference else [])]:raise ValueError('Output must not overwrite source media, manifest or reference')
     if a.make_template:
         clip=json.loads(a.manifest.read_text());template={'schema':'jali-independent-phone-reference-v1','audio_sha256':clip['audio']['sha256'],'text_sha256':clip['text_sha256'],'provenance':{'kind':'manual-phonetic-annotation','tool':'','annotator_or_model':'','method':'','source':''},'phones':[],'instructions':'Annotate this exact WAV independently. Add phone/start/end/uncertainty_ms. Do not copy Rhubarb/PocketSphinx cues into the reference.'};a.output.parent.mkdir(parents=True,exist_ok=True);a.output.write_text(json.dumps(template,indent=2)+'\n');return
     if a.reference.stat().st_size>512*1024:raise ValueError('Reference exceeds 512 KiB')
