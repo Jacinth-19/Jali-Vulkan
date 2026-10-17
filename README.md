@@ -29,6 +29,8 @@ measures actual skinned/morphed points against **externally declared** ranges.
 been supplied.** Actual i5-U/16GB/thermal and personal install/recovery acceptance
 also remain open. Enhanced appearance is **WebGL-only**, not a silent native port.
 
+**Current runtime CI: all 12 core + 1 male Windows jobs passed**, including the rebuilt enhanced EXE/selector and unsigned installer tests. [Completed source-bound receipt](docs/evidence/brow-blink-contact-actions.json). Binaries are deliberately not publicly uploaded; personal build instructions remain separate.
+
 [Changes, limits, contact picking/intake, physical recording requirements and evidence](docs/contact-and-blink-review.md).
 
 ## Experimental v4 WebGL appearance and cross-tab ownership
