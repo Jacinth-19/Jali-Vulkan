@@ -99,8 +99,17 @@ The tool submits new text to local CPU speech, verifies the actual WAV/text/cue
 binding, renders 512-pixel frames at 15 FPS using that WAV clock, and encodes an
 MP4 with the same speech. Output `artifacts/talking-preview/talking-face.mp4`,
 `before.png`, `after.png` and `evidence.json` are actual rendered evidence, not
-image synthesis. MP4 audio is AAC encoded; the source WAV hash is retained.
+image synthesis. MP4 audio is AAC encoded; the source WAV hash is retained. Every encoded video
+frame is counted through FFmpeg `framemd5`, in addition to decoding both streams.
+The final video frame may extend less than one frame beyond the source WAV; this
+is frame quantization, not a physical AV measurement.
 This offline developer MP4 path does not add FFmpeg to the personal runtime.
+
+Back up saved data before updating. Rig bindings include the viewer hash: this
+shader change can make an older cast/archive fail the strict rig check even though
+the mesh is unchanged. Files are preserved, not silently migrated or regenerated.
+Keep the previous build for old verified replay, or explicitly export/recreate the
+script/profiles in the new build; do not delete the old archive to clear a warning.
 
 For the stock head, rebuild portable EXE and optional installer on Windows:
 
@@ -114,3 +123,16 @@ sequence in [workspace upgrades](workspace-upgrades.md#6-personal-installer-and-
 not the wrapper that deliberately prepares the stock head. Neither existing EXEs
 nor an already installed copy update themselves. Signing stays optional; public
 redistribution/source/license clearance remains blocked.
+
+## Executed acceptance
+
+Local 143 Python / 36 JavaScript tests and all 12 hosted jobs passed in
+[39003511599](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39003511599),
+runtime source `8af0695`. This includes an actual frozen Windows rebuild and
+clean-PATH execution, plus unsigned installer install/update/uninstall.
+[Exact jobs, prior failure and remaining gates](evidence/eye-hair-actions.json).
+The final developer MP4 encoder correction was executed locally with all 107
+frames counted by FFmpeg; it does not change frozen-runtime appearance/export.
+The retained [CC0-head talking movie](media/makehuman-talking-preview.mp4) is
+public synthetic evidence. The optional noncommercial character also rendered
+and spoke successfully in a separate studio; its local movie remains ignored.

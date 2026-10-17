@@ -2,7 +2,7 @@
   "schema": "jali-talking-preview-v1",
   "fixture": false,
   "text": "Hello. Here is our updated local character. Watch the eyes and the hair as I speak. Please bring my blue paper bag.",
-  "session_id": "c5d06e78e4d54afcabb5ebad34bea387",
+  "session_id": "0f0cde2dae3844e0aba179ee60eb2926",
   "audio_sha256": "0e8d3a446bfe2ac4d4dfa2bc9fc2a68069bb36ed63d14f166278ab72a543b8b3",
   "text_sha256": "8be6560a682d6876c2db84d1996972cc04901d6b6b1fecc9b011917c7c4356cf",
   "rig": {
@@ -34,10 +34,13 @@
   "fps": 15,
   "frames": 107,
   "duration": 7.104,
-  "video_sha256": "a95b4ec0b14d69bedc9857c8ac1308622e31f8faaa07e1b475f207ff3a7e7023",
+  "video_sha256": "d360bcacae3b7837d917bc3bac51b5293a71aec1f8fae711a7af62a7df5502e9",
   "all_streams_ffmpeg_decoded": true,
+  "encoded_video_frames": 107,
+  "encoded_frames_verified_by_framemd5": true,
   "browser_errors": [],
   "limits": "Actual WebGL/stock CPU speech; not generated imagery. Offline fixed-WAV-clock render, not physical AV, subjective realism approval, native appearance parity or measured i5 performance.",
+  "video_path": "docs/media/makehuman-talking-preview.mp4",
   "image": {
     "path": "docs/images/eye-hair-preview.png",
     "sha256": "772c54026ed76ddd99f692810a39bb77cf0ebe057a1994e781a040beb9d510fb"
@@ -46,5 +49,38 @@
     "python": 143,
     "javascript": 36
   },
-  "hosted_acceptance": "Pending final source workflow, including frozen Windows rebuild and installer test."
+  "hosted_acceptance": {
+    "run_id": 39003511599,
+    "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39003511599",
+    "runtime_source": "8af06959cb56e432cd03b48ef6f0212166044004",
+    "all_12_jobs_passed": true,
+    "windows_frozen_rebuild_execution_installer_passed": true
+  },
+  "additional_character": {
+    "name": "Ready Player Me brunette \u2014 noncommercial sample; NOT Epic MetaHuman",
+    "fixture": false,
+    "rig": {
+      "profile": "canonical-face-v1",
+      "source_commit": "64a25a95e7a22f5eb8cbfbf50afc1c05ef0b02f1bcd3b066e795117ce3807f9c",
+      "model_sha256": "64a25a95e7a22f5eb8cbfbf50afc1c05ef0b02f1bcd3b066e795117ce3807f9c",
+      "retarget_sha256": "96d2d2a82f71bbdf87b7c301d1e79e566c8b66d9c79a645e65309c11b90d8a30",
+      "viewer_sha256": "7d2c06814f1ee15f5fa61aada287e140562e25955c47ebe6cf42646969870ff8",
+      "import_profile_sha256": "310281e002bd7a8b4b16e2113d6f9213a79502a56349264c1929de2c3ef3ace8"
+    },
+    "surface_shading": {
+      "version": "physical-eyes-hair-cards-v1",
+      "eyeMeshes": 2,
+      "hairMeshes": 1,
+      "tangentBytes": 14912,
+      "newDrawCalls": 0,
+      "newTextures": 0,
+      "limits": "Wet dielectric eye coating and anisotropic hair cards; no refractive corneal geometry, strand groom, voxel scattering or native changes."
+    },
+    "duration": 7.104,
+    "encoded_video_frames": 107,
+    "encoded_frames_verified_by_framemd5": true,
+    "video_sha256": "1181564ea2de6d78c029d7a2ca0f7ceb1bf729b4a6d4d652d6b1c07e1ce7acfe",
+    "local_only_path": "artifacts/brunette-preview/talking-face.mp4",
+    "public_model_or_movie_published": false
+  }
 }

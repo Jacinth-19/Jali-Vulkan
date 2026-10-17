@@ -61,7 +61,14 @@ laptop benchmark, an installer-security audit or human acceptance.
 
 ## Executed evidence
 
-Current [run 38960192424](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38960192424)
+Current eye/hair runtime source **8af0695** passed **all 12 jobs** in
+[39003511599](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39003511599),
+including a fresh frozen Windows EXE build/execution and unsigned installer
+install/update/uninstall. [Exact evidence and prior fixture failure](evidence/eye-hair-actions.json).
+Existing EXEs do not update in place. Back up rig-bound archives/profiles before
+rebuilding; see [appearance/character scope and compatibility](eyes-hair-characters.md).
+
+Previous workspace checkpoint: [run 38960192424](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/38960192424)
 passed all **12 jobs** for source `1b527c0`, including frozen native/WebGL execution
 and unsigned per-user installation, clean application-data doctor, reinstall/update
 with retired-file cleanup, payload re-verification and data-preserving uninstall.

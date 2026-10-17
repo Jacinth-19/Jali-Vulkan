@@ -38,12 +38,16 @@ hair-card shading. This is **not** strand-hair scattering or MetaHuman-quality
 approval. An optional pinned Ready Player Me brunette sample can be prepared for
 personal noncommercial use; no Epic MetaHuman assets were obtained.
 [Repo review, character setup, real talking-video command and EXE rebuild](docs/eyes-hair-characters.md).
-Local checks: **143 Python / 36 JS**. Final hosted/frozen rebuild acceptance is
-tracked in the [project tracker](docs/project-tracker.md); old EXEs must be rebuilt.
+**143 Python / 36 JS** and **all 12 hosted jobs passed** in
+[39003511599](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39003511599)
+(runtime `8af0695`), including the rebuilt/executed Windows frozen EXE and unsigned
+installer. [Exact evidence and prior failure](docs/evidence/eye-hair-actions.json).
+Old EXEs still need a local rebuild; keep backups of rig-bound profiles/archives.
 
 <img src="docs/images/eye-hair-preview.png" width="380" alt="Actual updated MakeHuman WebGL face, with eye coating and hair-card material treatment">
 
-[Actual render/WAV identity and scope](docs/evidence/eye-hair-preview.json).
+[Watch the actual talking-face MP4](docs/media/makehuman-talking-preview.mp4) ·
+[Render/WAV identity and scope](docs/evidence/eye-hair-preview.json).
 Appearance/video remain WebGL-only; native retains calibration, authored
 performance and weight timelines. Current Chrome is required for browser video.
 Human quality, physical AV and measured i5 performance remain open.

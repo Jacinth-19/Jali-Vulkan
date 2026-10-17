@@ -1,0 +1,208 @@
+{
+  "databaseId": 39003511599,
+  "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39003511599",
+  "event": "push",
+  "headSha": "8af06959cb56e432cd03b48ef6f0212166044004",
+  "status": "completed",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "databaseId": 117311395595,
+      "name": "clang++ / Release",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-17T04:42:50Z",
+      "completedAt": "2026-10-17T04:54:50Z",
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39003511599/job/117311395595"
+    },
+    {
+      "databaseId": 117311395775,
+      "name": "Character import validation and Blender skin/morph round trip",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-17T04:42:50Z",
+      "completedAt": "2026-10-17T04:54:50Z",
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39003511599/job/117311395775"
+    },
+    {
+      "databaseId": 117311395785,
+      "name": "g++ / Debug",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-17T04:42:49Z",
+      "completedAt": "2026-10-17T04:54:50Z",
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39003511599/job/117311395785"
+    },
+    {
+      "databaseId": 117311395828,
+      "name": "Address and undefined-behavior checks",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-17T04:42:50Z",
+      "completedAt": "2026-10-17T04:54:50Z",
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39003511599/job/117311395828"
+    },
+    {
+      "databaseId": 117311395844,
+      "name": "Windows local neural speech, analyzer and live face",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-17T04:42:51Z",
+      "completedAt": "2026-10-17T04:54:50Z",
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39003511599/job/117311395844"
+    },
+    {
+      "databaseId": 117311395885,
+      "name": "clang++ / Debug",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-17T04:42:49Z",
+      "completedAt": "2026-10-17T04:54:50Z",
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39003511599/job/117311395885"
+    },
+    {
+      "databaseId": 117311395915,
+      "name": "Local neural speech, WebGL and articulation review",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-17T04:42:50Z",
+      "completedAt": "2026-10-17T04:54:50Z",
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39003511599/job/117311395915"
+    },
+    {
+      "databaseId": 117311395947,
+      "name": "g++ / Release",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-17T04:42:50Z",
+      "completedAt": "2026-10-17T04:54:50Z",
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39003511599/job/117311395947"
+    },
+    {
+      "databaseId": 117311396269,
+      "name": "Native speech, Vulkan validation layers and browser",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-17T04:42:50Z",
+      "completedAt": "2026-10-17T04:54:50Z",
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39003511599/job/117311396269"
+    },
+    {
+      "databaseId": 117313169280,
+      "name": "Windows native Vulkan binary pipes and detailed-head playback",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-17T04:52:32Z",
+      "completedAt": "2026-10-17T04:54:50Z",
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39003511599/job/117313169280"
+    },
+    {
+      "databaseId": 117313169281,
+      "name": "Windows Chrome offline playback (not local TTS)",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-17T04:52:32Z",
+      "completedAt": "2026-10-17T04:54:50Z",
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39003511599/job/117313169281"
+    },
+    {
+      "databaseId": 117313169307,
+      "name": "Detailed human Vulkan, same-WAV native UI and source Three comparison",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-17T04:52:32Z",
+      "completedAt": "2026-10-17T04:54:50Z",
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39003511599/job/117313169307"
+    }
+  ],
+  "windows_notices": {
+    "Unsigned personal installer checks": {
+      "retired_payload_file_removed": true,
+      "signing": "unsigned personal build",
+      "redistribution_approved": false,
+      "install": true,
+      "clean_user_data": true,
+      "reinstall_update_preserves_data": true,
+      "updated_payload_verified": true,
+      "uninstall_preserves_data": true,
+      "passed": true
+    },
+    "Actual Windows neural summary": {
+      "platform": "win32",
+      "cpu_only": true,
+      "new_recordings": [
+        {
+          "case": "closures",
+          "audio_seconds": 3.4133333333333336,
+          "generation_seconds": 1.9491,
+          "analysis_seconds": 3.6762,
+          "total_seconds": 8.3573,
+          "peak_working_set_mib": 290.52,
+          "audio_sha256": "e0d9fb8345d9d3b4547ce4c2dde223d37da55702fdca2bcc4168a4209c502009",
+          "analyzer_binary_sha256": "d31a3030bcb11c39c175cdba45f8152456d7d2a288a8198b820f3b8c4f37ab2b"
+        },
+        {
+          "case": "contacts",
+          "audio_seconds": 4.074666666666666,
+          "generation_seconds": 2.1047,
+          "analysis_seconds": 3.2556,
+          "total_seconds": 7.8559,
+          "peak_working_set_mib": 296.99,
+          "audio_sha256": "735738fc34ad062eff499482edb242c2f5469a0d80494339dea6264f25188db2",
+          "analyzer_binary_sha256": "d31a3030bcb11c39c175cdba45f8152456d7d2a288a8198b820f3b8c4f37ab2b"
+        },
+        {
+          "case": "vowels",
+          "audio_seconds": 3.6053333333333333,
+          "generation_seconds": 1.8451,
+          "analysis_seconds": 4.0811,
+          "total_seconds": 8.4132,
+          "peak_working_set_mib": 291.22,
+          "audio_sha256": "f26e466068028f7afbc7bc55d1fe786a1efce8300a314f820e4f4f8e5e9b9b6b",
+          "analyzer_binary_sha256": "d31a3030bcb11c39c175cdba45f8152456d7d2a288a8198b820f3b8c4f37ab2b"
+        }
+      ],
+      "review_frames": 21,
+      "estimated_classes": [
+        "X",
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H"
+      ],
+      "human_review_completed": false,
+      "target_laptop_tested": false,
+      "scope": "Actual Windows hosted CPU inference and exact-WAV/dialog analysis plus live Chrome/WebGL; not laptop or physical AV validation"
+    }
+  },
+  "previous_attempt": {
+    "databaseId": 39002942307,
+    "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39002942307",
+    "headSha": "e0dd5fd72b5d139913b75dbedb1f63eebe74794c",
+    "conclusion": "cancelled",
+    "windows_fixture_conclusion": "failure",
+    "failure_job": 117309487100,
+    "notes": "Windows workspace fixture failed before EXE build; the error annotation exceeded GitHub's 4096-character storage limit and lost the actual failure tail. Exact original cause was not reproduced locally. Added bounded failure-state reporting, quiet synthetic-fixture request logs and a 2800-character annotation tail. Subsequent full run passed; this is not a demonstrated production-renderer root-cause fix. Other running dependent jobs were cancelled by the diagnostic push."
+  },
+  "scope": {
+    "runtime_source": "8af06959cb56e432cd03b48ef6f0212166044004",
+    "local_python_tests": 143,
+    "local_js_tests": 36,
+    "frozen_windows_rebuilt_and_executed": true,
+    "unsigned_installer_tested": true,
+    "binaries_or_weights_published": false,
+    "native_appearance_changed": false,
+    "epic_metahuman_assets_obtained": false,
+    "hair_renderer_x_code_or_grooms_copied": false,
+    "human_quality_review_completed": false,
+    "physical_av_verified": false,
+    "target_i5_measured": false,
+    "public_redistribution_approved": false,
+    "personal_signing_required": false
+  },
+  "local_developer_video_tool": "Final developer MP4 helper was separately executed locally after the runtime CI source: stale-frame cleanup, explicit frame limit (not -shortest), both-stream decode and all 107 encoded frames verified via framemd5. This helper/preview-only correction is not part of the frozen runtime."
+}
