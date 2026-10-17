@@ -19,7 +19,7 @@ ROOT=Path(__file__).resolve().parents[1]
 def studio_assets(source, relative):
     """Only prepared static assets, never arbitrary session/workspace files."""
     source=Path(source).resolve();relative=Path(relative)
-    names=['index.html','style.css','viewer.js','controller.js','demo-data.js','rig.json','native-shapes.json','character.json','model/mpfb-head.glb','model/low.glb','model/low.glb.json']
+    names=['av-probe.html','index.html','style.css','viewer.js','controller.js','demo-data.js','rig.json','native-shapes.json','character.json','appearance-assets.json','model/mpfb-head.glb','model/low.glb','model/low.glb.json']
     files=[source/name for name in names if (source/name).is_file()]
     if (source/'licenses').exists():files.extend(f for f in (source/'licenses').rglob('*') if f.is_file())
     assets=[]
@@ -55,6 +55,7 @@ def main():
     if args.female_studio:assets.extend(studio_assets(args.female_studio,'artifacts/character-female'))
     native_binaries=[]
     if args.include_native:
+        if (studio/'appearance-assets.json').is_file():raise ValueError('Authored appearance assets are WebGL-only; use the separate stock native build')
         if rig['profile']!='mpfb-rhubarb-9-v1':raise ValueError('Custom imports require an explicit native port; build WebGL-only')
         for filename in ('jali_rich.exe','vulkan-1.dll'):
             file=ROOT/'build-live'/filename
@@ -102,7 +103,7 @@ coll=COLLECT(exe,a.binaries,a.datas,name='JaliStudio')
     (app/'build-receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
     (dest/'build-receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
     if args.female_studio:
-        with (app/'START-HERE.txt').open('a',encoding='utf-8') as f:f.write('\nPrepared male/female selector enabled. Default mesh is male (am_michael when prepared). Switching unloads the\nold renderer, then navigates to a fresh document. One model per page; close\nother studio tabs to bound total browser memory. Both rigs share one CPU job.\nNative renderer is not included in this paired WebGL build.\n')
+        with (app/'START-HERE.txt').open('a',encoding='utf-8') as f:f.write('\nPrepared male/female selector enabled. Default mesh is male (am_michael when prepared). Switching unloads the\nold renderer, then navigates to a fresh document. One renderer per origin/browser profile; other tabs wait before model fetch/decode.\nDifferent origins, profiles and browser apps remain separate. Both rigs share one CPU job.\nNative renderer is not included in this paired WebGL build.\n')
     from package_integrity import create_manifest,verify_installation
     create_manifest(app)
     check=verify_installation(app)

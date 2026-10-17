@@ -2,6 +2,28 @@
 
 C++17 voice-to-face engine with **native Vulkan morphing/skinning and rasterization**, plus a connected **local CPU neural-speech / detailed WebGL face studio**. These are separate rendering paths sharing verified neural WAV/cue sessions: **the detailed textured human now also renders in native Vulkan**.
 
+## Experimental v4 WebGL appearance and cross-tab ownership
+
+| Male — actual neutral render | Female — actual neutral render |
+|:---:|:---:|
+| ![Actual v4 male head with scalp-fitted short crop](docs/images/realism-v4-male.png) | ![Actual v4 female head with recipe skin maps and tapered brow/lash geometry](docs/images/realism-v4-female.png) |
+
+These are **held diagnostic poses, not newly validated speech/contact references**.
+Optional build-time skin normal/roughness maps, brow/lash ribbons and distinct male
+short hair are implemented. Generated microdetail is **not scanned skin**, the hair
+shell is **not a strand groom**, and opt-in thin-skin wrap (default off) is **not true
+SSS**. Full-blink renders still show small gaps; artistic/eyelid/contact approval
+remains open. The enhanced pair is WebGL-only; stock/native assets stay separate.
+
+Live tabs now acquire an exclusive Web Lock **before renderer creation or model
+fetch/decode**. Other tabs on that origin/browser profile wait; unload/close hands
+over ownership. This is not a cross-profile/app/port or whole-PC memory cap.
+Close/reload old build tabs after an upgrade. Exact-WAV independent-reference intake
+and a private physical-camera AV probe/analyzer are available, but **no genuine
+independent annotation or physical laptop recording has been accepted**.
+
+[Build, tests, performance scope, remaining defects and reference/recording commands](docs/realism-v4-and-reference-validation.md).
+
 ## Actual renderer captures
 
 These are real application exports, **not AI-generated illustrations or mockups**.

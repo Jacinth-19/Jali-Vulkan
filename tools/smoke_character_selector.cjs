@@ -31,7 +31,7 @@ const fs=require('node:fs'),path=require('node:path');
   const maleState=await page.evaluate(()=>JaliStudio.getState());
   if(!maleState.verified||await page.evaluate(()=>JALI_HEAD_DATA.rig.model_sha256)!==male.rig.model_sha256)throw Error('Male recording or current mesh failed');
   if(errors.length||external.length)throw Error(JSON.stringify({errors,external}));
-  fs.mkdirSync(path.dirname(out),{recursive:true});fs.writeFileSync(out,JSON.stringify({passed:true,male_rig:male.rig,female_rig:female.rig,release_markers:releases,scoped_low_lod:true,rig_isolated_recordings:true,verified_female_session:femaleState.selectedId,verified_male_session:maleState.selectedId,errors,external,limits:'One loaded character per document. Not a total-memory measurement across tabs, physical AV or perceptual acceptance. Speech versus explicit non-speech fixture is specified by the invoking receipt.'},null,2));
+  fs.mkdirSync(path.dirname(out),{recursive:true});fs.writeFileSync(out,JSON.stringify({passed:true,male_rig:male.rig,female_rig:female.rig,release_markers:releases,scoped_low_lod:true,rig_isolated_recordings:true,verified_female_session:femaleState.selectedId,verified_male_session:maleState.selectedId,errors,external,limits:'Switching explicitly unloads the old character. Separate same-context renderer-lease receipt tests cross-tab serialization; neither is total-RAM, physical AV or perceptual acceptance. Speech versus explicit non-speech fixture is specified by the invoking receipt.'},null,2));
   console.log('Male/female selection, explicit unload, scoped LOD and both rig-bound recordings passed');
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});

@@ -1,0 +1,190 @@
+{
+  "passed": true,
+  "results": {
+    "male": {
+      "diagnostics": {
+        "surfaceShading": {
+          "version": "physical-authored-fibers-wrap-v4",
+          "eyeMeshes": 1,
+          "hairMeshes": 1,
+          "skinMeshes": 1,
+          "teethMeshes": 1,
+          "tongueMeshes": 1,
+          "fiberMeshes": 2,
+          "oralAttributeBytes": 18988,
+          "detailBytes": 0,
+          "authoredSkinMeshes": 1,
+          "wrapSupportedMeshes": 1,
+          "tangentBytes": 38800,
+          "newDrawCalls": 0,
+          "newTextures": 0,
+          "limits": "Vertex-depth oral light attenuation (not ray-traced AO), ivory teeth, low-glint brow/lash fibers, balanced lighting; authored recipe maps when supplied, procedural fallback otherwise; opt-in masked single-pass wrap approximation (not physical SSS); no scanned pores or subsurface transport. Wet coated eyes and anisotropic cards; no corneal geometry, strands, voxel scattering or native changes."
+        },
+        "renderAsset": {
+          "lod": "full",
+          "sha256": "5c471ec486503a71ae9f84ca296ec87398bb1a040a0b83f046830abdb32dfb5a",
+          "shading": "physical-authored-fibers-wrap-v4"
+        },
+        "idleRate": 2,
+        "activeRenderer": "WebGL",
+        "modelStats": {
+          "vertices": 24588,
+          "bones": 67,
+          "faceControls": 66,
+          "runtimeFaceControls": 26,
+          "morphMeshes": 6
+        },
+        "webgl": {
+          "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)",
+          "contextLost": false
+        },
+        "canvas": {
+          "width": 512,
+          "height": 512
+        },
+        "pixelRatio": 1,
+        "speechRig": {
+          "profile": "canonical-face-v1",
+          "source_commit": "5c471ec486503a71ae9f84ca296ec87398bb1a040a0b83f046830abdb32dfb5a",
+          "model_sha256": "5c471ec486503a71ae9f84ca296ec87398bb1a040a0b83f046830abdb32dfb5a",
+          "retarget_sha256": "96d2d2a82f71bbdf87b7c301d1e79e566c8b66d9c79a645e65309c11b90d8a30",
+          "viewer_sha256": "e6007d4de1b116ce50c5cab34c4c7720da78d8bc61d6b26a785b38d3208c6420",
+          "import_profile_sha256": "0ef13875b76f4fef9b3bf3fdbe17d61d1daf65414f87b08aee310e7abdd31670"
+        }
+      },
+      "held_poses": [
+        "neutral",
+        "blink",
+        "PP",
+        "FF",
+        "open",
+        "tongue"
+      ],
+      "benchmark": [
+        {
+          "scattering": 0,
+          "median_ms": 207.5,
+          "p95_ms": 253.40000000037253,
+          "frames": 12
+        },
+        {
+          "scattering": 0.25,
+          "median_ms": 222,
+          "p95_ms": 250,
+          "frames": 12
+        },
+        {
+          "scattering": 0.25,
+          "median_ms": 208.39999999850988,
+          "p95_ms": 230.69999999925494,
+          "frames": 12
+        },
+        {
+          "scattering": 0,
+          "median_ms": 207.09999999962747,
+          "p95_ms": 230.30000000074506,
+          "frames": 12
+        }
+      ],
+      "blink_and_contact_human_approved": false,
+      "benchmark_scope": "256px synchronous render+readback+JPEG on this browser; warm-up excluded; balanced off/on/on/off order; not GPU-only cost or i5 performance"
+    },
+    "female": {
+      "diagnostics": {
+        "surfaceShading": {
+          "version": "physical-authored-fibers-wrap-v4",
+          "eyeMeshes": 1,
+          "hairMeshes": 1,
+          "skinMeshes": 1,
+          "teethMeshes": 1,
+          "tongueMeshes": 1,
+          "fiberMeshes": 2,
+          "oralAttributeBytes": 18988,
+          "detailBytes": 0,
+          "authoredSkinMeshes": 1,
+          "wrapSupportedMeshes": 1,
+          "tangentBytes": 62432,
+          "newDrawCalls": 0,
+          "newTextures": 0,
+          "limits": "Vertex-depth oral light attenuation (not ray-traced AO), ivory teeth, low-glint brow/lash fibers, balanced lighting; authored recipe maps when supplied, procedural fallback otherwise; opt-in masked single-pass wrap approximation (not physical SSS); no scanned pores or subsurface transport. Wet coated eyes and anisotropic cards; no corneal geometry, strands, voxel scattering or native changes."
+        },
+        "renderAsset": {
+          "lod": "full",
+          "sha256": "56892caada00327ace63bd2b85e6c20037c076bafef0afaa8cfef942d251ed5a",
+          "shading": "physical-authored-fibers-wrap-v4"
+        },
+        "idleRate": 2,
+        "activeRenderer": "WebGL",
+        "modelStats": {
+          "vertices": 26059,
+          "bones": 67,
+          "faceControls": 66,
+          "runtimeFaceControls": 26,
+          "morphMeshes": 6
+        },
+        "webgl": {
+          "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)",
+          "contextLost": false
+        },
+        "canvas": {
+          "width": 512,
+          "height": 512
+        },
+        "pixelRatio": 1,
+        "speechRig": {
+          "profile": "mpfb-rhubarb-9-v1",
+          "source_commit": "2afe6d79779313db8909badebf46f9805a6c7b70",
+          "model_sha256": "56892caada00327ace63bd2b85e6c20037c076bafef0afaa8cfef942d251ed5a",
+          "retarget_sha256": "96d2d2a82f71bbdf87b7c301d1e79e566c8b66d9c79a645e65309c11b90d8a30",
+          "viewer_sha256": "e6007d4de1b116ce50c5cab34c4c7720da78d8bc61d6b26a785b38d3208c6420"
+        }
+      },
+      "held_poses": [
+        "neutral",
+        "blink",
+        "PP",
+        "FF",
+        "open",
+        "tongue"
+      ],
+      "benchmark": [
+        {
+          "scattering": 0,
+          "median_ms": 227.40000000037253,
+          "p95_ms": 240.59999999962747,
+          "frames": 12
+        },
+        {
+          "scattering": 0.25,
+          "median_ms": 235.30000000074506,
+          "p95_ms": 250.10000000149012,
+          "frames": 12
+        },
+        {
+          "scattering": 0.25,
+          "median_ms": 244.7999999988824,
+          "p95_ms": 264.09999999962747,
+          "frames": 12
+        },
+        {
+          "scattering": 0,
+          "median_ms": 237,
+          "p95_ms": 262.3999999985099,
+          "frames": 12
+        }
+      ],
+      "blink_and_contact_human_approved": false,
+      "benchmark_scope": "256px synchronous render+readback+JPEG on this browser; warm-up excluded; balanced off/on/on/off order; not GPU-only cost or i5 performance"
+    }
+  },
+  "errors": [],
+  "scattering_default": 0,
+  "physical_sss": false,
+  "independent_reference_supplied": false,
+  "human_quality_accepted": false,
+  "limits": "Held diagnostic controls are not an independently timed speech reference. Inspect images for real defects; this receipt verifies rendering/maps/control availability only."
+}

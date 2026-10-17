@@ -4,7 +4,6 @@
 Requires Node tools, Pillow and the already prepared local Kokoro assets.
 Uses an explicitly selected, checksum-pinned x64 Linux or Windows analyzer.
 """
-import base64
 import json
 from pathlib import Path
 import shutil
@@ -19,7 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / 'artifacts/neural-studio'
 
 
-def build(*,prepare_speech=True,character=None,output=None):
+def build(*,prepare_speech=True,character=None,output=None,appearance_v4=False):
     output=Path(output) if output else OUTPUT
     if prepare_speech:
         verify_assets(ASSETS)
@@ -36,12 +35,23 @@ def build(*,prepare_speech=True,character=None,output=None):
             prepare_model()
         elif not (ROOT / '.cache/lipsync/mpfb.glb').is_file() or digest(ROOT / '.cache/lipsync/mpfb.glb') != SOURCE_SHA:
             prepare_model()
+    if appearance_v4:
+        if imported:raise ValueError('For custom male, author appearance during prepare_makehuman_male.py --appearance-v4')
+        output.mkdir(parents=True,exist_ok=True)
+        import sys
+        source=ROOT/'.cache/lipsync/mpfb.glb'
+        model=output/'appearance-source.glb'
+        subprocess.run(['node','tools/author_character_appearance.mjs',str(source),str(model),'female',sys.executable],cwd=ROOT,check=True,timeout=120)
     (output / 'licenses').mkdir(parents=True, exist_ok=True)
     (output / 'model').mkdir(exist_ok=True)
-    for name in ('index.html','style.css'):
+    for name in ('index.html','style.css','av-probe.html'):
         shutil.copy2(ROOT / 'web/neural-studio' / name, output / name)
     subprocess.run(['node','tools/bundle_head.cjs',str(output/'controller.js'),'web/neural-studio/controller.js'],cwd=ROOT,check=True,timeout=60)
     shutil.copy2(model, output / 'model/mpfb-head.glb')
+    recipe=(character/'appearance-assets.json') if character else (Path(str(model)+'.json') if appearance_v4 else None)
+    if recipe and recipe.is_file():shutil.copy2(recipe,output/'appearance-assets.json')
+    else:(output/'appearance-assets.json').unlink(missing_ok=True)
+    if not imported:(output/'character.json').unlink(missing_ok=True)
     subprocess.run(['node', 'tools/bundle_head.cjs', str(output / 'viewer.js')], cwd=ROOT, check=True, timeout=60)
     subprocess.run(['node', 'tools/validate_head.cjs', str(model), str(output / 'proof/decoded-model-validation.json')], cwd=ROOT, check=True, timeout=60)
     rig = {'profile':'canonical-face-v1' if imported else 'mpfb-rhubarb-9-v1', 'source_commit': imported['source_sha256'] if imported else SOURCE_COMMIT,
@@ -52,7 +62,7 @@ def build(*,prepare_speech=True,character=None,output=None):
     subprocess.run(['node','tools/character_cli.mjs','lod','--input',str(model),'--output',str(output/'model/low.glb'),'--python',__import__('sys').executable],cwd=ROOT,check=True,timeout=120)
     lod=json.loads((output/'model/low.glb.json').read_text())
     data = {'clips': [], 'live': True, 'rig': rig,'lod':{'file':'/model/low.glb','sha256':lod['sha256'],'source_sha256':rig['model_sha256']}}
-    (output / 'demo-data.js').write_text('window.JALI_HEAD_DATA='+json.dumps(data)+';\nwindow.JALI_HEAD_BASE64='+json.dumps(base64.b64encode(model.read_bytes()).decode())+';\n')
+    (output / 'demo-data.js').write_text('window.JALI_HEAD_DATA='+json.dumps(data)+';\nwindow.JALI_HEAD_MODEL_URL="/model/mpfb-head.glb";\n')
     readme = github_file(f'repos/met4citizen/TalkingHead/contents/README.md?ref={SOURCE_COMMIT}')
     if b'licensed under [CC0]' not in readme or b'mpfb.glb' not in readme:
         raise ValueError('Explicit model license statement is missing')
@@ -79,4 +89,4 @@ def build(*,prepare_speech=True,character=None,output=None):
 
 if __name__ == '__main__':
     import argparse
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--character',type=Path);parser.add_argument('--output',type=Path);args=parser.parse_args();build(character=args.character,output=args.output)
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--character',type=Path);parser.add_argument('--output',type=Path);parser.add_argument('--appearance-v4',action='store_true');args=parser.parse_args();build(character=args.character,output=args.output,appearance_v4=args.appearance_v4)

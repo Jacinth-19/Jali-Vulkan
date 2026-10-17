@@ -21,7 +21,7 @@ const fs=require('node:fs'),path=require('node:path'),{execFileSync}=require('no
   fs.writeFileSync(path.join(out,'speech.wav'),wav);
   async function setup(){await page.evaluate(()=>{document.querySelector('#audio').pause();JaliHeadDemo.setAppearance({lighting:'soft',background:'slate',camera:'portrait',exposure:1,skin:.75,eyes:.12,fxaa:false});JaliHeadDemo.setCaptureMode(true,512);});}
   await setup();const enhanced=await page.evaluate(()=>JaliHeadDemo.getState().surfaceShading);
-  if(enhanced?.eyeMeshes<1||enhanced?.hairMeshes<1||enhanced.skinMeshes<1||enhanced.version!=='physical-oral-skin-fibers-v3')throw Error('Enhanced skin/eye/hair shader was not applied');
+  if(enhanced?.eyeMeshes<1||enhanced?.hairMeshes<1||enhanced.skinMeshes<1||enhanced.version!=='physical-authored-fibers-wrap-v4')throw Error('Enhanced skin/eye/hair shader was not applied');
   fs.writeFileSync(path.join(out,'after.png'),Buffer.from((await page.evaluate(()=>JaliHeadDemo.capture(.4))).split(',')[1],'base64'));
   const fps=15,count=Math.ceil(clip.duration*fps),frames=path.join(out,'frames');fs.mkdirSync(frames,{recursive:true});for(const name of fs.readdirSync(frames))if(/^frame-\d{5}\.png$/.test(name))fs.unlinkSync(path.join(frames,name));const poses=[];
   for(let i=0;i<count;i++){

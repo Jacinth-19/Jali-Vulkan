@@ -1,3 +1,4 @@
+import {rendererLease} from './renderer-lease.mjs';
 import {studioPath} from './studio-path.mjs';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
@@ -19,6 +20,9 @@ const $ = id => document.getElementById(id);
 const data = window.JALI_HEAD_DATA;
 const audio = $('audio');
 const canvas = $('face');
+const leaseAbort=new AbortController();
+let environmentTarget=null;
+let initializing=true,releaseLease=null,leaseState='starting';
 let sourceAssociations,importedHeadBasis=null,importedParentBasis=null;
 let root, controls, camera, renderer, headBone, baseHeadRotation;
 const eyeBones=[], gazeRotation=new THREE.Quaternion(), gazeEuler=new THREE.Euler();
@@ -28,6 +32,7 @@ let creativeOptions=null, appearance=null, composer=null,fxaaPass=null, lights=n
 let surfaceShading=null;
 let idleRate=2,actualAsset={lod:'full',sha256:data.rig?.model_sha256};
 const idleEpoch=performance.now();
+let diagnosticPose=null;
 let currentPose = {}, modelStats = {}, captureOnly = false, resizeViewer;
 const scene = new THREE.Scene();
 scene.background = new THREE.Color('#101a1d');
@@ -66,7 +71,7 @@ function applyAt(time) {
   const layers=composePerformance(sample.weights,{time,duration:clip?.duration||0,
     life:$('life').checked,mood:$('mood').value,gaze:$('gaze')?.value||'forward',creative:creativeOptions?{...creativeOptions,offset:(clip?._stream_start_sample||0)/(clip?.audio?.sample_rate||24000),idle:!clip,idleTime:((performance.now()-idleEpoch)/1000)%3600}:null});
   currentLayers=layers;
-  const pose=layers.pose;
+  const pose=diagnosticPose||layers.pose;
   for (const mesh of speechMeshes) {
     mesh.morphTargetInfluences.fill(0);
     for (const [name, value] of Object.entries(pose)) {
@@ -111,6 +116,8 @@ function renderAt(time, updateOrbit = true) {
 }
 
 async function init() {
+  releaseLease=await rendererLease(navigator.locks,state=>{leaseState=state;if(state==='waiting')$('loading').textContent='Another tab may own the character. Close it or use Unload resources there; this tab waits without downloading/decoding a model.';},leaseAbort.signal);
+  leaseAbort.signal.throwIfAborted();
   data.clips.forEach(clip => validateCues(clip.cues, clip.duration));
   renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, preserveDrawingBuffer: true });
   renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.5));
@@ -119,7 +126,7 @@ async function init() {
   camera = new THREE.PerspectiveCamera(32, 1, 0.01, 20);
   const pmrem = new THREE.PMREMGenerator(renderer);
   const room = new RoomEnvironment();
-  scene.environment = pmrem.fromScene(room, 0.04).texture;
+  environmentTarget=pmrem.fromScene(room,0.04);scene.environment=environmentTarget.texture;
   room.dispose(); pmrem.dispose();
   const fill=new THREE.HemisphereLight(0xfaf4e9, 0x36545c, 1.1);scene.add(fill);
   const key = new THREE.DirectionalLight(0xffebd0, 2); key.position.set(-2, 3, 4); scene.add(key);
@@ -127,14 +134,18 @@ async function init() {
   let bytes;
   if(new URLSearchParams(location.search).get('lod')==='low'){
    if(!data.lod||data.lod.source_sha256!==data.rig.model_sha256)throw Error('No matching prepared low LOD; switch to Full');
-   const response=await fetch(studioPath(data.lod.file));if(!response.ok)throw Error('Prepared low LOD is unavailable');bytes=new Uint8Array(await response.arrayBuffer());
+   const response=await fetch(studioPath(data.lod.file),{signal:leaseAbort.signal});if(!response.ok)throw Error('Prepared low LOD is unavailable');bytes=new Uint8Array(await response.arrayBuffer());
    const hash=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)),b=>b.toString(16).padStart(2,'0')).join('');if(hash!==data.lod.sha256)throw Error('LOD identity mismatch');actualAsset={lod:'low',sha256:hash};
+  }else if(data.live&&window.JALI_HEAD_MODEL_URL){
+   const response=await fetch(studioPath(window.JALI_HEAD_MODEL_URL),{signal:leaseAbort.signal});if(!response.ok)throw Error('Prepared model unavailable');bytes=new Uint8Array(await response.arrayBuffer());
+   const hash=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)),b=>b.toString(16).padStart(2,'0')).join('');if(hash!==data.rig.model_sha256)throw Error('Model identity mismatch');
   }else bytes=Uint8Array.from(atob(window.JALI_HEAD_BASE64), c => c.charCodeAt(0));
   delete window.JALI_HEAD_BASE64;
+  leaseAbort.signal.throwIfAborted();
   const loader = new GLTFLoader().setMeshoptDecoder(MeshoptDecoder);
   const gltf = await loader.parseAsync(bytes.buffer, '');
   sourceAssociations=gltf.parser.associations;
-  root = gltf.scene; scene.add(root); root.updateMatrixWorld(true);
+  root = gltf.scene;leaseAbort.signal.throwIfAborted(); scene.add(root); root.updateMatrixWorld(true);
   surfaceShading=enhanceSurfaceMaterials(root,THREE,{enabled:new URLSearchParams(location.search).get('surface')!=='original'});
   actualAsset={...actualAsset,shading:surfaceShading.version};
   const geometries = new Set(), bones = new Set();
@@ -228,6 +239,7 @@ function setAppearance(value){
  const l=surfaceLighting(a.lighting,surfaceShading?.version!=='original');
  lights.key.intensity=l[0];lights.rim.intensity=l[1];lights.fill.intensity=l[2];
  root.traverse(o=>{if(!o.isMesh)return;for(const m of (Array.isArray(o.material)?o.material:[o.material])){
+  if(m.userData.jaliWrap)m.userData.jaliWrap.value=a.scattering;
   if(m.name==='Human.body'){m.roughness=a.skin;m.envMapIntensity=m.userData.jaliSurface==='skin'?.38:.9;}
   if(m.name==='Human.high-poly'||m.userData.jaliSurface==='eyes'){m.roughness=a.eyes;m.metalness=0;m.envMapIntensity=m.userData.jaliSurface?1.05:1.4;if(m.userData.jaliSurface)m.clearcoatRoughness=Math.max(.025,Math.min(.1,a.eyes*.35));}
  }});
@@ -236,10 +248,28 @@ function setAppearance(value){
  if(a.fxaa&&!composer){composer=new EffectComposer(renderer);composer.addPass(new RenderPass(scene,camera));fxaaPass=new ShaderPass(FXAAShader);composer.addPass(fxaaPass);composer.addPass(new OutputPass());}
  syncPost();renderAt(audio.currentTime||0);
 }
+function disposeScene(){
+ const geometries=new Set(),materials=new Set(),textures=new Set(),skeletons=new Set();
+ root?.traverse(o=>{if(!o.isMesh)return;if(o.skeleton)skeletons.add(o.skeleton);geometries.add(o.geometry);for(const m of(Array.isArray(o.material)?o.material:[o.material])){materials.add(m);for(const value of Object.values(m))if(value?.isTexture)textures.add(value);}});
+ if(root)scene.remove(root);for(const g of geometries)g.dispose();for(const t of textures)t.dispose();for(const m of materials)m.dispose();for(const s of skeletons)s.dispose();
+ controls?.dispose();for(const pass of composer?.passes||[])pass.dispose?.();composer?.dispose();environmentTarget?.dispose();environmentTarget=null;scene.environment=null;renderer?.renderLists.dispose();renderer?.dispose();renderer?.forceContextLoss();
+ speechMeshes=[];eyeBones.length=0;sourceAssociations=null;headBone=null;root=null;currentPose={};diagnosticPose=null;ready=false;canvas.dataset.ready='false';releaseLease?.();releaseLease=null;
+}
 window.JaliHeadDemo = {
   setIdleRate:value=>{if(![2,15].includes(value))throw Error('Invalid idle rate');idleRate=value;},
-  unload:()=>{if(captureOnly)throw Error('Finish export before unloading');audio.pause();audio.removeAttribute('src');audio.load();window.JALI_HEAD_BASE64=null;for(const c of data.clips)if(c.file.startsWith('blob:'))URL.revokeObjectURL(c.file);data.clips=[];selected=-1;ready=false;canvas.dataset.ready='false';scene.remove(root);root?.traverse(o=>{if(!o.isMesh)return;o.geometry.dispose();for(const m of (Array.isArray(o.material)?o.material:[o.material])){for(const value of Object.values(m))if(value?.isTexture)value.dispose();m.dispose();}});controls?.dispose();composer?.dispose();scene.environment?.dispose();renderer.renderLists.dispose();renderer.dispose();renderer.forceContextLoss();speechMeshes=[];eyeBones.length=0;sourceAssociations=null;headBone=null;root=null;currentPose={};},
+  unload:()=>{if(captureOnly)throw Error('Finish export before unloading');leaseAbort.abort();audio.pause();audio.removeAttribute('src');audio.load();window.JALI_HEAD_BASE64=null;for(const c of data.clips)if(c.file.startsWith('blob:'))URL.revokeObjectURL(c.file);data.clips=[];selected=-1;ready=false;canvas.dataset.ready='false';if(!initializing)disposeScene();},
 
+  holdDiagnosticPose:pose=>{
+    if(!ready||nativeActive||!captureOnly||!audio.paused)throw Error('Diagnostic pose needs paused capture mode');
+    const known=new Set(speechMeshes.flatMap(m=>Object.keys(m.morphTargetDictionary)));
+    if(pose!==null&&(!pose||Array.isArray(pose)||Object.keys(pose).length>80||Object.entries(pose).some(([k,v])=>!known.has(k)||!Number.isFinite(v)||v<0||v>1)))throw Error('Invalid diagnostic pose');
+    diagnosticPose=pose?{...pose}:null;renderAt(0);return {diagnostic:true,pose:currentPose};
+  },
+  diagnosticVertices:(name,ids)=>{
+    if(!ready||nativeActive||!captureOnly||!Array.isArray(ids)||ids.length>64)throw Error('Diagnostic vertex sampling needs capture mode and <=64 indices');
+    const meshes=speechMeshes.filter(m=>m.name===name);if(meshes.length!==1)throw Error('Expected unique speech mesh');const mesh=meshes[0];root.updateMatrixWorld(true);mesh.skeleton?.update();
+    return ids.map(i=>{if(!Number.isInteger(i)||i<0||i>=mesh.geometry.attributes.position.count)throw Error('Invalid landmark index');return mesh.getVertexPosition(i,new THREE.Vector3()).applyMatrix4(mesh.matrixWorld).toArray();});
+  },
   setCreative: value=>{creativeOptions=creativeSettings(value);renderAt(audio.currentTime||0);},
   setAppearance,
 
@@ -284,7 +314,7 @@ window.JaliHeadDemo = {
     } : null, canvas:{width:canvas.width,height:canvas.height}, pixelRatio:renderer?.getPixelRatio(),
     speechRig:data.rig || null };
   },
-  getState: () => ({ ready,surfaceShading:nativeActive?null:surfaceShading,renderAsset:nativeActive?{lod:'native-fixed',sha256:data.rig?.model_sha256}:actualAsset,idleRate, layers:currentLayers, creative:creativeOptions,appearance,streamOffset:(track()?._stream_start_sample||0)/(track()?.audio?.sample_rate||24000),idleTime:creativeOptions?.natural?((performance.now()-idleEpoch)/1000)%3600:0, sessionId: track()?.id || null, clips: data.clips.map(c => ({id:c.id, title:c.title})), modelStats, gazeBones:eyeBones.map(({bone,base})=>{const e=new THREE.Euler().setFromQuaternion(bone.quaternion.clone().multiply(base.clone().invert()));return {name:bone.name,delta:{x:Math.abs(e.x)<1e-12?0:e.x,y:Math.abs(e.y)<1e-12?0:e.y}};}), pose: currentPose, time: audio.currentTime, clip: selected,
+  getState: () => ({ ready,leaseState,surfaceShading:nativeActive?null:surfaceShading,renderAsset:nativeActive?{lod:'native-fixed',sha256:data.rig?.model_sha256}:actualAsset,idleRate, layers:currentLayers, creative:creativeOptions,appearance,streamOffset:(track()?._stream_start_sample||0)/(track()?.audio?.sample_rate||24000),idleTime:creativeOptions?.natural?((performance.now()-idleEpoch)/1000)%3600:0, sessionId: track()?.id || null, clips: data.clips.map(c => ({id:c.id, title:c.title})), modelStats, gazeBones:eyeBones.map(({bone,base})=>{const e=new THREE.Euler().setFromQuaternion(bone.quaternion.clone().multiply(base.clone().invert()));return {name:bone.name,delta:{x:Math.abs(e.x)<1e-12?0:e.x,y:Math.abs(e.y)<1e-12?0:e.y}};}), pose: currentPose, time: audio.currentTime, clip: selected,
     activeMorphs: speechMeshes.map(mesh => ({ mesh: mesh.name, values: Object.fromEntries(Object.entries(mesh.morphTargetDictionary).filter(([, i]) => mesh.morphTargetInfluences[i] > 0.01).map(([name,i]) => [name, mesh.morphTargetInfluences[i]])) })) }),
   referenceVertices: (layout,time,index=selected) => {
     if(index!==selected)selectClip(index,false);renderAt(time);root.updateMatrixWorld(true);
@@ -300,7 +330,7 @@ window.JaliHeadDemo = {
   setCaptureMode: (enabled, size = 512) => {
     if (!ready) throw new Error('Model is not ready');
     if (enabled && (!Number.isInteger(size) || size < 128 || size > 2048)) throw new Error('Invalid capture size');
-    captureOnly = Boolean(enabled);
+    captureOnly = Boolean(enabled);if(!captureOnly)diagnosticPose=null;
     if (captureOnly) {
       canvas.style.width = `${size}px`; canvas.style.height = `${size}px`;
       renderer.setPixelRatio(1); renderer.setSize(size, size, false);syncPost();
@@ -317,4 +347,4 @@ window.JaliHeadDemo = {
     renderAt(time); return canvas.toDataURL(mime, 0.92);
   }
 };
-init().catch(failure => { error(failure.message); $('loading').textContent = 'Model could not load'; console.error(failure); });
+init().then(()=>{initializing=false;if(leaseAbort.signal.aborted)disposeScene();}).catch(failure => { initializing=false;disposeScene();if(failure.name==='AbortError'){$('loading').textContent='Renderer unloaded. Reload to request ownership again.';return;}error(failure.message); $('loading').textContent = 'Model could not load'; console.error(failure); });

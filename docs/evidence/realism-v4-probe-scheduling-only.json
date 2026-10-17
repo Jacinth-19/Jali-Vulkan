@@ -1,0 +1,19 @@
+{
+  "schema": "jali-av-probe-v1",
+  "scheduled_audio_context_times": [
+    0.75,
+    1.75,
+    2.75
+  ],
+  "observed_flash_callback_times": [
+    0.7604535147392291,
+    1.7589115646258504,
+    2.7602721088435374
+  ],
+  "frequency_hz": 1200,
+  "sample_rate": 44100,
+  "reported_base_latency": 0.01,
+  "reported_output_latency": 0.04,
+  "physical_measurement": false,
+  "limits": "Scheduling/callback metadata only. Actual physical offset comes from the independently recorded markers, including capture-device and microphone-path uncertainty."
+}

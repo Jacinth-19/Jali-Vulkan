@@ -29,8 +29,8 @@ def speaker(value,voices):
         articulation(p['calibration']);settings(p['creative'])
         a=p['appearance']
         if a is not None:
-            if not isinstance(a,dict) or set(a)!={'lighting','background','camera','exposure','skin','eyes','fxaa'} or a['lighting'] not in ('studio','soft','dramatic') or a['background'] not in ('slate','charcoal','cream','blue','green') or a['camera'] not in ('portrait','close','threequarter','wide') or type(a['fxaa']) is not bool:raise ValueError('Invalid speaker appearance')
-            for k,lo,hi in [('exposure',.5,1.8),('skin',.3,1),('eyes',.03,.6)]:
+            if not isinstance(a,dict) or set(a) not in ({'lighting','background','camera','exposure','skin','eyes','fxaa'},{'lighting','background','camera','exposure','skin','eyes','fxaa','scattering'}) or a['lighting'] not in ('studio','soft','dramatic') or a['background'] not in ('slate','charcoal','cream','blue','green') or a['camera'] not in ('portrait','close','threequarter','wide') or type(a['fxaa']) is not bool:raise ValueError('Invalid speaker appearance')
+            for k,lo,hi in [('exposure',.5,1.8),('skin',.3,1),('eyes',.03,.6),*([('scattering',0,.25)] if 'scattering' in a else [])]:
                 if type(a[k]) not in (float,int) or not math.isfinite(a[k]) or not lo<=a[k]<=hi:raise ValueError('Invalid speaker material')
     return copy.deepcopy(value)
 

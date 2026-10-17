@@ -31,8 +31,8 @@ from neural_stream import sentence_batches, perform_stream, MAX_CHUNKS, MAX_STRE
 from preview_server import Handler as FileHandler
 from http.server import ThreadingHTTPServer
 
-STATIC = {'/': 'index.html', '/style.css': 'style.css', '/controller.js': 'controller.js',
-          '/viewer.js': 'viewer.js', '/model/low.glb':'model/low.glb', '/demo-data.js': 'demo-data.js',
+STATIC = {'/av-probe.html':'av-probe.html', '/': 'index.html', '/style.css': 'style.css', '/controller.js': 'controller.js',
+          '/viewer.js': 'viewer.js', '/model/mpfb-head.glb':'model/mpfb-head.glb', '/model/low.glb':'model/low.glb', '/demo-data.js': 'demo-data.js',
           '/rig.json': 'rig.json', '/licenses/model-source-README.md': 'licenses/model-source-README.md'}
 
 
@@ -380,6 +380,7 @@ def main():
             if len(key)!=64 or any(c not in '0123456789abcdef' for c in key):raise ValueError('Invalid integration key file')
             state.control=ControlBroker(key)
         if args.native_asset:
+            if (assets/'appearance-assets.json').is_file():raise ValueError('Authored appearance assets are WebGL-only')
             if rig.get('profile')!='mpfb-rhubarb-9-v1':raise ValueError('Custom rigs are WebGL-only; native profile must be explicitly ported')
             from native_studio import NativeStudio
             state.native=NativeStudio(args.native_asset.resolve(),rig,args.software_vulkan)

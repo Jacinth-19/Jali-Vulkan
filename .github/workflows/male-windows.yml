@@ -41,7 +41,7 @@ jobs:
         run: |
           .venv/Scripts/python.exe -m unittest discover -s tests -p test_character_selector.py
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          node --test tests/studio-path.test.mjs
+          node --test tests/studio-path.test.mjs tests/renderer-lease.test.mjs
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Explicitly prepare both models and stock CPU voices
         env:
@@ -58,7 +58,7 @@ jobs:
       - name: Run male EXE without Python Node gh in PATH, synthesize both characters, switch and unload
         shell: pwsh
         run: |
-          python tools/ci_command.py .venv/Scripts/python.exe tools/smoke_packaged.py --expected-model artifacts/male-character/character.glb
+          python tools/ci_command.py .venv/Scripts/python.exe tools/smoke_packaged.py --expected-model artifacts/male-character-v4/character.glb
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           $model=Get-Content artifacts/windows-portable/proof/requested-character.json -Raw | ConvertFrom-Json
           $switch=Get-Content artifacts/windows-portable/proof/selector.json -Raw | ConvertFrom-Json

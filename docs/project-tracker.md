@@ -1,5 +1,21 @@
 # Jali project tracker
 
+## V4 implementation follow-up — 2026-10-17
+
+- [x] Local regression: **161 Python / 46 JS tests passed**, enhanced asset/import/LOD audits and actual same-context browser tests passed. [Renderer-lease receipt](evidence/realism-v4-renderer-lease.json), [held-pose/render/software timing receipt](evidence/realism-v4-render.json). New hosted checks are being run separately; historical 12+1 is not new-source acceptance.
+- [x] Same-origin/profile cross-tab Web Lock, acquired before WebGL/model work; live full-model URL replaces per-tab base64. Explicit unload/close handoff, queued cancellation and cancellation during model fetch tested in a real same-context browser. No expiry/split-brain fallback; unsupported contexts fail closed.
+- [x] Cleanup-before-release, including failed/aborted initialization, skeletons, textures, postprocessing, environment target and context loss. No claim of cross-profile/app/port or whole-browser RAM enforcement.
+- [x] Optional enhanced female/male recipe maps and tapered source-anchored brow/lash geometry; male scalp-projected short crop with original streak map. Body rest geometry/normals and all 66 body morphs asserted unchanged before compression. Not scans, hand-painted artist approval or strand hair.
+- [x] Optional bounded masked wrapped-diffuse approximation, default off, no additional pass/draw/runtime texture. Seven-key appearance-settings compatibility maintained; strict rig bindings unchanged. Software off/on timing and held-pose renders recorded; not true SSS or a hardware cost bound.
+- [x] Exact-WAV/transcript independent phone-reference intake/comparison tool, known related Sphinx methods rejected. No automatic retuning/ground-truth approval. Capture-only held-pose and bounded vertex diagnostic APIs added.
+- [x] Local private flash/tone capture probe and recording analyzer, preserving actual container presentation timestamps, calibration/uncertainty reporting. Synthetic +120ms and shifted-track tests are explicitly not physical evidence.
+- [ ] Final artistic approval: brows remain stylized, held full-blink still shows eye gaps. Independently reviewed lip closure, teeth/tongue contact and speech transitions, with evidence-led tuning, remain open.
+- [ ] Genuine independent phone annotation/reference and actual calibrated camera/microphone recording have not been supplied. Tools/synthetic fixtures do not close these gates.
+- [ ] Actual i5-U/16GB startup/synthesis/whole-app RAM/playback/thermals and personal install/update/uninstall/saved-data recovery remain open. Signing optional; redistribution separate.
+
+[Implementation, build commands, receipts and explicit limitations](realism-v4-and-reference-validation.md). Hosted results for this new implementation must not be confused with the historical 12+1 baseline below.
+
+
 ## Six-area follow-up: male Windows / prepared-character selector (2026-10-17)
 
 - [x] Added scoped male/female selector with explicit old-renderer/audio unload and fresh-document navigation. One model per page, not an OS-wide/browser-tab memory guarantee.
@@ -7,7 +23,7 @@
 - [x] Local 157 Python / 42 JS tests, selector transport fixture AND new actual CPU speech through both rigs pass; shared-busy, cross-token/session rejection and safe custom-studio packaging tested. Explicit-male Linux benchmark completed all 3 cases; not i5 acceptance. [Exact local receipt](evidence/character-selector-local.json).
 - [x] Personal Windows build command and benchmark selection of explicit prepared male/female studio implemented.
 - [x] Dedicated male-default frozen EXE, requested male hash, clean PATH, integrity/tamper, NEW actual CPU speech for both selected rigs, switch/unload, male benchmark and paired unsigned installer install/update/uninstall passed [39024328601](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39024328601), source 61e0315. [Exact notices and preserved first installer failure](evidence/male-selector-windows-actions.json). **All 12 stock/native jobs also passed** for source 61e0315 in [39024328602](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39024328602): 12 core + 1 dedicated male successful. [Complete receipt](evidence/character-selector-full-actions.json).
-- [ ] New authored skin normal/roughness assets, groom/brow/lash geometry, distinct male hairstyle and bounded scattering; no new assets delivered in this follow-up.
+- [ ] Artistic realism acceptance remains open; see the newer v4 implementation section above for delivered recipe assets and the held-blink defect.
 - [ ] Independently reviewed acoustic/visual reference, evidence-led closure/contact/tongue/transition tuning and physical AV offset. Related Sphinx crosscheck is not independent truth.
 - [ ] Actual i5-U/16GB startup, synthesis, whole-app RAM, visible playback and sustained thermal report; default remains untuned for that laptop.
 - [ ] User's actual personal install/update/uninstall and saved-data recovery. Signing optional; public redistribution separate and uncleared.

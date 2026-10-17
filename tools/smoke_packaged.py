@@ -74,6 +74,7 @@ def main():
             subprocess.run([shutil.which('node'),str(ROOT/'tools/smoke_packaged.cjs'),f'http://127.0.0.1:{port}',str(proof/'browser.json')],cwd=ROOT,check=True,timeout=540)
             if json.loads((app.parent/'build-receipt.json').read_text()).get('character_selector'):
                 subprocess.run([shutil.which('node'),str(ROOT/'tools/smoke_character_selector.cjs'),f'http://127.0.0.1:{port}',str(proof/'selector.json')],cwd=ROOT,check=True,timeout=300)
+                subprocess.run([shutil.which('node'),str(ROOT/'tools/smoke_renderer_lease.cjs'),f'http://127.0.0.1:{port}',str(proof/'renderer-lease.json')],cwd=ROOT,check=True,timeout=300)
                 selector=json.loads((proof/'selector.json').read_text());selector['speech_source']='NEW actual frozen Kokoro CPU synthesis for both rig-bound sessions, not fixture audio';(proof/'selector.json').write_text(json.dumps(selector,indent=2)+'\n')
         finally:
             stop_server(server)

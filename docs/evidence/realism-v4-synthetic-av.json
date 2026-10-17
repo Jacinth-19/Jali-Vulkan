@@ -1,0 +1,39 @@
+{
+  "schema": "jali-recorded-av-offset-v1",
+  "sign": "positive = recorded sound later than recorded flash",
+  "audio_onsets_seconds": [
+    0.62,
+    1.62,
+    2.62
+  ],
+  "visual_onsets_seconds": [
+    0.5,
+    1.5,
+    2.5
+  ],
+  "per_event_observed_offset_ms": [
+    120.0,
+    120.00000000000011,
+    120.00000000000011
+  ],
+  "median_observed_offset_ms": 120.00000000000011,
+  "capture_device_offset_ms": null,
+  "corrected_output_offset_ms": null,
+  "minimum_timing_uncertainty_ms": 26.667000000000098,
+  "recording_claimed_physical_by_supplier": false,
+  "capture_calibration_independently_verified": false,
+  "physical_av_accepted": false,
+  "lip_sync_or_mesh_contact_verified": false,
+  "limits": "Observed camera-track flash/tone offset, not speech-gesture timing. Calibration/source declarations require review. Includes unknown capture-device AV sync and microphone/acoustic path delay unless independently corrected. Uncertainty is a lower bound, not a confidence interval. Synthetic/loopback fixtures cannot certify physical laptop latency.",
+  "recording_sha256": "9bbe72dd8bb65dba2b44ea9061b4e17183894d5aef4b7f51201bc7267b0e9163",
+  "roi_pixels": [
+    8,
+    8,
+    100,
+    80
+  ],
+  "recording_processed_seconds": 4.010666666666666,
+  "audio_detector": "1200 Hz energy ratio >0.45 in 10 ms frames",
+  "video_detector": "ROI luminance rise, actual decoded presentation timestamps",
+  "fixture": "SYNTHETIC software regression fixture, explicitly NOT physical recording"
+}

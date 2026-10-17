@@ -53,7 +53,7 @@ def canonical_map(obj, source_uv, source_positions):
     return chosen, len(vertices), int((~unique).sum())
 
 
-def prepare(output):
+def prepare(output, appearance_v4=False):
     import numpy as np
     from scipy.spatial import cKDTree
     from build_neural_head import prepare_model
@@ -217,13 +217,14 @@ def prepare(output):
     generated = output/'male-source.glb'
     generated.write_bytes(result)
     shutil.copy2(assets/'LICENSE.ASSETS.md',output/'MPFB-ASSETS-CC0.md')
-    evidence = {'schema':'jali-makehuman-male-v1','source_sha256':SOURCE_SHA,'mpfb_commit':MPFB_COMMIT,'mpfb_archive_sha256':ARCHIVE_SHA,'targets':targets,'uv_matched_vertices':len(mapping),'uv_shared_resolved_vertices':ambiguous,'uv_tolerance':1e-6,'scale_to_metres':.1,'changes':changes,'bone_rest_offsets_m':{nodes[i].get('name',str(i)):d.tolist() for i,d in offsets.items()},'method':'Official adult male-minus-female macro targets, ancestry-averaged, exact canonical UV correspondence; smooth spatial transfer to attachments and facial morphs; recomputed rest/morph normals. Spherical eyes translated rigidly with refitted pivots; all joint positions and inverse binds refitted, rest orientations retained. Shared ponytail and outfit. Not a new independently authored male scan.','epic_metahuman':False,'public_redistribution_approved':False}
+    evidence = {'schema':'jali-makehuman-male-v1','source_sha256':SOURCE_SHA,'mpfb_commit':MPFB_COMMIT,'mpfb_archive_sha256':ARCHIVE_SHA,'appearance_v4':appearance_v4,'targets':targets,'uv_matched_vertices':len(mapping),'uv_shared_resolved_vertices':ambiguous,'uv_tolerance':1e-6,'scale_to_metres':.1,'changes':changes,'bone_rest_offsets_m':{nodes[i].get('name',str(i)):d.tolist() for i,d in offsets.items()},'method':'Official adult male-minus-female macro targets, ancestry-averaged, exact canonical UV correspondence; smooth spatial transfer to attachments and facial morphs; recomputed rest/morph normals. Spherical eyes translated rigidly with refitted pivots; all joint positions and inverse binds refitted, rest orientations retained. Shared base outfit; original shared ponytail is replaced by the original scalp-projected short-crop recipe only when appearance_v4 is true. Not a new independently authored male scan.','epic_metahuman':False,'public_redistribution_approved':False}
     (output/'male-source.json').write_text(json.dumps(evidence,indent=2)+'\n')
-    subprocess.run(['node','tools/prepare_makehuman_male.mjs',str(output)],cwd=ROOT,check=True,timeout=120)
+    subprocess.run(['node','tools/prepare_makehuman_male.mjs',str(output),*(['--appearance-v4',__import__('sys').executable] if appearance_v4 else [])],cwd=ROOT,check=True,timeout=120)
     return output
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output',type=Path,default=ROOT/'artifacts/male-character')
-    print(prepare(parser.parse_args().output))
+    parser.add_argument('--appearance-v4',action='store_true')
+    args=parser.parse_args();print(prepare(args.output,args.appearance_v4))

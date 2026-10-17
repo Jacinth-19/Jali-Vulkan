@@ -1,9 +1,9 @@
 // Original bounded hair-card/eye material treatment. No Hair-Renderer-X shader code
 // or groom assets are copied. This is NOT strand scattering or a MetaHuman renderer.
 
-export const SURFACE_VERSION='physical-oral-skin-fibers-v3';
+export const SURFACE_VERSION='physical-authored-fibers-wrap-v4';
 const EYES=new Set(['Human.high-poly','Wolf3D_EyeLeft','Wolf3D_EyeRight','Wolf3D_Eye']);
-const HAIR=new Set(['Human.ponytail01','Wolf3D_Hair']);
+const HAIR=new Set(['Human.ponytail01','Wolf3D_Hair','Jali.short-crop']);
 export function surfaceRole(name){return name==='Human.teeth_base'?'teeth':name==='Human.tongue01'?'tongue':(name==='Human.mindfront_eyebrows_02'||name==='Human.mindfront_eyelashes_02')?'fibers':name==='Human.body'?'skin':EYES.has(name)?'eyes':HAIR.has(name)?'hair':null;}
 
 // Original deterministic procedural detail, not scanned skin. One 64 KiB RGBA
@@ -40,7 +40,7 @@ function oralShader(material){
  };material.customProgramCacheKey=()=>'jali-oral-depth-v1';
 }
 export function enhanceSurfaceMaterials(root,THREE,{enabled=true}={}){
- let detail=null;const replacements=new Map(),report={version:enabled?SURFACE_VERSION:'original',eyeMeshes:0,hairMeshes:0,skinMeshes:0,teethMeshes:0,tongueMeshes:0,fiberMeshes:0,oralAttributeBytes:0,detailBytes:0,tangentBytes:0,newDrawCalls:0,newTextures:0,limits:'Vertex-depth oral light attenuation (not ray-traced AO), ivory teeth, low-glint brow/lash fibers, balanced lighting and procedural skin detail; no scanned pores or subsurface transport. Wet coated eyes and anisotropic cards; no corneal geometry, strands, voxel scattering or native changes.'};
+ let detail=null;const replacements=new Map(),report={version:enabled?SURFACE_VERSION:'original',eyeMeshes:0,hairMeshes:0,skinMeshes:0,teethMeshes:0,tongueMeshes:0,fiberMeshes:0,oralAttributeBytes:0,detailBytes:0,authoredSkinMeshes:0,wrapSupportedMeshes:0,tangentBytes:0,newDrawCalls:0,newTextures:0,limits:'Vertex-depth oral light attenuation (not ray-traced AO), ivory teeth, low-glint brow/lash fibers, balanced lighting; authored recipe maps when supplied, procedural fallback otherwise; opt-in masked single-pass wrap approximation (not physical SSS); no scanned pores or subsurface transport. Wet coated eyes and anisotropic cards; no corneal geometry, strands, voxel scattering or native changes.'};
  if(!enabled)return report;
  root.traverse(mesh=>{
   if(!mesh.isMesh)return;
@@ -59,6 +59,7 @@ export function enhanceSurfaceMaterials(root,THREE,{enabled=true}={}){
     if(!g.index||!g.attributes.uv||!g.attributes.normal||!g.attributes.position)return source;
     if(!g.attributes.tangent){g.computeTangents();report.tangentBytes+=g.attributes.tangent.array.byteLength;}
    }
+   if(role==='skin'&&source.userData?.jaliAuthoredSkin==='jali-authored-appearance-v1'){report.authoredSkinMeshes++;report.wrapSupportedMeshes++;}
    report[{eyes:'eyeMeshes',hair:'hairMeshes',skin:'skinMeshes',teeth:'teethMeshes',tongue:'tongueMeshes',fibers:'fiberMeshes'}[role]]++;
    if(replacements.has(source))return replacements.get(source);
    const material=new THREE.MeshPhysicalMaterial();
@@ -82,6 +83,22 @@ export function enhanceSurfaceMaterials(root,THREE,{enabled=true}={}){
      material.normalMap=detail;material.normalScale.set(.22,.22);
      material.onBeforeCompile=shader=>{shader.fragmentShader=shader.fragmentShader.replace('#include <roughnessmap_fragment>', '#include <roughnessmap_fragment>\nroughnessFactor = clamp(roughnessFactor * mix(0.82, 1.12, texture2D(normalMap, vNormalMapUv).a), 0.32, 1.0);');};
      material.customProgramCacheKey=()=>'jali-procedural-skin-v1';
+    }
+    if(source.userData?.jaliAuthoredSkin==='jali-authored-appearance-v1'){
+     const previous=material.onBeforeCompile;
+     material.userData.jaliWrap={value:0};
+     material.onBeforeCompile=shader=>{
+      previous(shader);shader.uniforms.jaliSkinWrap=material.userData.jaliWrap;
+      shader.fragmentShader=shader.fragmentShader.replace('#include <common>','#include <common>\nuniform float jaliSkinWrap;').replace('#include <lights_fragment_end>',`#include <lights_fragment_end>
+#if NUM_DIR_LIGHTS > 0 && defined(USE_NORMALMAP)
+if (jaliSkinWrap > 0.0) {
+ float jNdotL=dot(geometryNormal,directionalLights[0].direction);
+ float jWrap=max((jNdotL+0.45)/1.45,0.0)-max(jNdotL,0.0);
+ float jThin=texture2D(normalMap,vNormalMapUv).a;
+ reflectedLight.directDiffuse+=directionalLights[0].color*BRDF_Lambert(diffuseColor.rgb)*vec3(1.0,0.45,0.28)*max(jWrap,0.0)*jaliSkinWrap*jThin;
+}
+#endif`);
+     };material.customProgramCacheKey=()=>'jali-authored-wrap-v1';
     }
    }else if(role==='eyes'){
     // A clear wet dielectric layer preserves the original iris/sclera texture.

@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "same_origin_and_context": true,
+  "waiting_model_requests_before_release": 0,
+  "waiting_webgl_context": null,
+  "cancelled_waiter_did_not_initialize": true,
+  "explicit_disposal_context_lost": true,
+  "close_releases_lock": true,
+  "initialization_cancel_disposes_before_release": true,
+  "errors": [],
+  "limits": "Exclusive renderer per origin/browser profile, not different origins/apps/profiles or a total-RAM measurement."
+}

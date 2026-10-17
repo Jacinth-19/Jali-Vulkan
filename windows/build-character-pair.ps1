@@ -1,5 +1,5 @@
 # Personal paired WebGL build. Run windows/setup-neural.ps1 explicitly first.
-param([Parameter(Mandatory=$true)][switch]$PersonalUseOnly,[switch]$NoArchive)
+param([Parameter(Mandatory=$true)][switch]$PersonalUseOnly,[switch]$NoArchive,[string]$MaleCharacterOutput='artifacts/male-character-v4')
 $ErrorActionPreference='Stop'
 $env:PYTHONUTF8='1'
 Push-Location (Split-Path $PSScriptRoot -Parent)
@@ -7,15 +7,16 @@ try {
     if (-not $PersonalUseOnly) { throw 'Personal acknowledgement required. Do not redistribute the bundle.' }
     $python='.venv/Scripts/python.exe'
     if (-not (Test-Path $python)) { throw 'Run windows/setup-neural.ps1 first.' }
+    if ((Test-Path $MaleCharacterOutput) -and (Get-ChildItem -Force $MaleCharacterOutput | Select-Object -First 1)) { throw 'Existing character packages are never overwritten. Use -MaleCharacterOutput with a new empty build directory; keep the old package for rollback.' }
     & $python -m pip install -r tools/requirements-male-build.txt pyinstaller==6.16.0
     if ($LASTEXITCODE -ne 0) { throw 'Explicit build dependency preparation failed.' }
     & $python tools/studio_voices.py --install am_michael
     if ($LASTEXITCODE -ne 0) { throw 'Explicit male voice preparation failed.' }
-    & $python tools/build_neural_studio.py
+    & $python tools/build_neural_studio.py --appearance-v4
     if ($LASTEXITCODE -ne 0) { throw 'Female studio preparation failed.' }
-    & $python tools/prepare_makehuman_male.py
+    & $python tools/prepare_makehuman_male.py --output $MaleCharacterOutput --appearance-v4
     if ($LASTEXITCODE -ne 0) { throw 'Official male variant preparation failed.' }
-    & $python tools/build_neural_studio.py --character artifacts/male-character --output artifacts/male-studio
+    & $python tools/build_neural_studio.py --character $MaleCharacterOutput --output artifacts/male-studio
     if ($LASTEXITCODE -ne 0) { throw 'Male studio preparation failed.' }
     $Options=@()
     if ($NoArchive) { $Options+='--no-archive' }

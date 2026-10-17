@@ -1,0 +1,14 @@
+{
+  "date": "2026-10-17",
+  "python_tests": 161,
+  "js_tests": 46,
+  "passed": true,
+  "new_source_hosted_status": "pending submission",
+  "images": {
+    "male": "cec888bc3a0ad52218576c8741a5a49b780cebf60efb56681c381d642ab2cb01",
+    "female": "92f27bbd2adfb4834ec29fc7b10888b9945c5ea5974f58f78f964b9c2bea2fda"
+  },
+  "physical_av_accepted": false,
+  "human_appearance_accepted": false,
+  "independent_reference_supplied": false
+}

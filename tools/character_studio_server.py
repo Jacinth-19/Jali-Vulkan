@@ -1,8 +1,9 @@
 """Two explicitly prepared, rig-isolated studios; one shared CPU inference slot.
 
-One model per browser page. Switching unloads the old renderer then navigates to a
-fresh document. This cannot impose a global GPU budget across separate tabs/apps.
-No runtime assets/model downloads, geometry rebinding or implicit native fallback.
+An exclusive browser Web Lock serializes renderer ownership across this origin
+and browser profile. Switching disposes the old renderer before releasing the
+lock and navigating. Different origins/profiles/apps remain separate.
+No runtime external assets/model downloads, geometry rebinding or implicit native fallback.
 """
 import argparse
 from concurrent.futures import ThreadPoolExecutor
@@ -65,7 +66,7 @@ class CharacterHandler(Handler):
         if urlparse(self.path).path == '/api/config' and status == 200:
             data = {**data, 'voice': 'Kokoro stock CPU: '+self.server.state.cast[0]['voice'], 'character': self.character, 'characters': [
                 {'id': name, 'name': name.title()} for name in ('female', 'male')],
-                'resource_scope': 'One loaded mesh per page, one shared inference job across both characters. Other tabs are not unloaded.'}
+                'resource_scope': 'One character renderer per origin/browser profile; other tabs wait before model fetch/decode. One shared CPU job. Different origins/profiles/apps remain separate.'}
         return super().json_response(status, data)
 
     def dispatch(self, method, head_only=False):

@@ -52,3 +52,7 @@ test('oral shading and fibers preserve geometry, source albedo, alpha and speech
 test('lighting reduces dominant fill but preserves explicit original comparison',()=>{
  assert.deepEqual(surfaceLighting('soft',false),[1.3,.6,1.7]);assert.deepEqual(surfaceLighting('soft'),[1.6,.5,.35]);assert.ok(surfaceLighting('studio')[2]<surfaceLighting('studio',false)[2]);assert.throws(()=>surfaceLighting('bad'));const a=surfaceLighting('soft');a[0]=100;assert.equal(surfaceLighting('soft')[0],1.6);
 });
+test('authored-map wrap is opt-in, uniform driven, skin-only and adds no draw/texture',()=>{
+ const root=new THREE.Group(),normal=new THREE.Texture(),rough=new THREE.Texture(),skin=new THREE.MeshStandardMaterial({name:'Human.body',normalMap:normal,roughnessMap:rough});skin.userData.jaliAuthoredSkin='jali-authored-appearance-v1';root.add(new THREE.Mesh(new THREE.PlaneGeometry(),skin));
+ const r=enhanceSurfaceMaterials(root,THREE),m=root.children[0].material;assert.equal(r.newDrawCalls,0);assert.equal(r.newTextures,0);assert.equal(r.wrapSupportedMeshes,1);assert.equal(m.normalMap,normal);assert.equal(m.roughnessMap,rough);assert.equal(m.userData.jaliWrap.value,0);const shader={uniforms:{},fragmentShader:'#include <common>\n#include <lights_fragment_end>'};m.onBeforeCompile(shader);assert.equal(shader.uniforms.jaliSkinWrap,m.userData.jaliWrap);assert.match(shader.fragmentShader,/jThin/);assert.match(shader.fragmentShader,/NUM_DIR_LIGHTS/);assert.equal(surfaceRole('Jali.short-crop'),'hair');
+});
