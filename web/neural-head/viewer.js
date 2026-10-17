@@ -227,7 +227,7 @@ function setAppearance(value){
  const l={studio:[2,1.3,1.1],soft:[1.3,.6,1.7],dramatic:[3,.9,.4]}[a.lighting];
  lights.key.intensity=l[0];lights.rim.intensity=l[1];lights.fill.intensity=l[2];
  root.traverse(o=>{if(!o.isMesh)return;for(const m of (Array.isArray(o.material)?o.material:[o.material])){
-  if(m.name==='Human.body'){m.roughness=a.skin;m.envMapIntensity=.9;}
+  if(m.name==='Human.body'){m.roughness=a.skin;m.envMapIntensity=m.userData.jaliSurface==='skin'?.38:.9;}
   if(m.name==='Human.high-poly'||m.userData.jaliSurface==='eyes'){m.roughness=a.eyes;m.metalness=0;m.envMapIntensity=m.userData.jaliSurface?1.05:1.4;if(m.userData.jaliSurface)m.clearcoatRoughness=Math.max(.025,Math.min(.1,a.eyes*.35));}
  }});
  const position={portrait:[.035,.005,.82],close:[.015,.015,.57],threequarter:[.33,.025,.78],wide:[.02,-.04,1.22]}[a.camera];

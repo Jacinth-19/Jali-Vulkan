@@ -60,6 +60,13 @@ def build(*,prepare_speech=True,character=None,output=None):
         readme=('User-supplied imported character. NOT assumed CC0.\n'+json.dumps(imported,indent=2)).encode()
         html=(output/'index.html').read_text();html=html.replace('Free character from TalkingHead / MPFB / MakeHuman, explicitly CC0.','User-supplied imported character; see its declared license and source. Not independently licensed or artistically approved.');(output/'index.html').write_text(html)
         (output/'character.json').write_text(json.dumps(imported,indent=2))
+        # Preserve optional build provenance/asset notices in personal packages.
+        # Fixed filenames and small bounds only; no arbitrary package traversal.
+        for name in ('SOURCE-README.md','MPFB-ASSETS-CC0.md','male-source.json'):
+            notice=character/name
+            if notice.is_file():
+                if notice.stat().st_size>128*1024:raise ValueError('Character provenance notice exceeds 128 KiB')
+                shutil.copy2(notice,output/'licenses'/name)
     (output / 'licenses/model-source-README.md').write_bytes(readme)
     for package, source, target in (
         ('webm-muxer', 'LICENSE', 'webm-muxer-MIT.txt'), ('three', 'LICENSE', 'three-MIT.txt'), ('meshoptimizer', 'LICENSE.md', 'meshoptimizer-MIT.txt')

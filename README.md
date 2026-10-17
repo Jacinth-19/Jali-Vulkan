@@ -31,6 +31,26 @@ Captured on **SwiftShader software Vulkan**, not a hardware-GPU performance resu
 The native fixture is not the detailed human above. [Capture commands, provenance,
 image hashes and scope](docs/render-captures.md) are retained.
 
+### Male MakeHuman and skin for both characters — 2026-10-17
+
+Added a **male MakeHuman variant using official gender shape targets**, retaining
+speech/blink morphs and refitting the rig/eye pivots—not just changing a name or
+voice. Both characters now share restrained physical skin highlights plus bounded
+procedural micro-normal/roughness detail. Original textures, ponytail and outfit
+are shared. **Not scanned skin, subsurface transport, Epic MetaHuman or final
+realism approval.** [Setup, provenance, scope and EXE rebuild](docs/makehuman-male-skin.md).
+
+| Female — actual WebGL | Male — actual WebGL |
+|:---:|:---:|
+| ![Actual female MakeHuman skin render](docs/images/makehuman-female-skin.png) | ![Actual male MakeHuman gender-target variant render](docs/images/makehuman-male-skin.png) |
+
+[Female talking video](docs/media/makehuman-female-skin-talking.mp4) ·
+[Male talking video](docs/media/makehuman-male-skin-talking.mp4).
+Local **146 Python / 37 JS tests pass**; hosted rebuild acceptance is recorded in
+[the durable tracker](docs/project-tracker.md). Appearance/video stay WebGL-only.
+Existing PC EXEs need rebuilding; back up rig-bound archives/profiles first.
+Human review, physical AV and target-i5 measurements remain open.
+
 ### Eye/hair materials and additional character — 2026-10-17
 
 WebGL now has a wet dielectric eye coating and restrained anisotropic MakeHuman

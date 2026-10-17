@@ -47,6 +47,19 @@ recording -> animate the detailed character -> synchronized playback.
 | M7 | Windows performance and packaging | Partial: source/frozen renderer/preset GUI, Launch/Stop/device doctor and one-command benchmark passed hosted CI; user-reported PC run works; redistribution licensing and measured laptop acceptance open; personal signing optional | Measured target-device results and a tested, understandable launcher/package |
 | M8 | Asset workflow and final QA | Partial: mapped GLB import and actual Blender skin/morph round trips pass; broad production assets, physical AV and release review remain open | Reliable asset round trips, real AV measurements, and release review |
 
+## Male MakeHuman and skin for both — 2026-10-17
+
+- [x] Generated an actual male shape variant from pinned CC0 official MPFB adult gender targets, with exact canonical UV correspondence for all 11,779 body vertices. Shared custom identity, ponytail, outfit and original textures; not a new scan or Epic asset.
+- [x] Refit joint positions/inverse binds and rigid eyeballs for the changed stature, transfer attachment/morph deformation and recompute normals. Required speech/blink morphs and strict importer retained; zero glTF validation errors.
+- [x] Shared bounded physical skin treatment: restrained specular/environment response, procedural micro-normal/roughness detail; one 64 KiB base texture, no extra draw calls or downloads. Authored normal maps preserved. Not scanned pores or subsurface scattering.
+- [x] Local 146 Python / 37 JS tests; actual generated male asset audit. Hosted character job now explicitly prepares, validates and browser-exercises the male as well as the previous synthetic/Blender workflow.
+- [ ] Current runtime hosted all-job/Windows EXE rebuild acceptance: pending this revision's run. Previous eye/hair run below is historical, not acceptance of the new skin/male code.
+- [ ] Final male/female talking-video frame/decode receipts: captures in progress; finalize before delivery.
+- [ ] Human skin/lid/teeth/appearance acceptance, physical AV and measured target-i5 results remain open. One active prepared mesh; no live male/female mesh switcher or simultaneous multi-avatar renderer.
+- [ ] Existing user-PC EXEs require rebuild; back up old rig-bound profiles/archives. Personal unsigned builds remain allowed; public distribution review remains blocked.
+
+[Reproducible setup, provenance and exact limitations](makehuman-male-skin.md).
+
 ## Eye/hair materials and character candidates — 2026-10-17
 
 - [x] Reviewed Hair-Renderer-X at ff0b40347733d4b58ed334ffc45e158bebcdf4d3; documented Vulkan/LFS/strand/scattering requirements and incomplete root/asset licensing scope. No code, shaders or grooms copied.

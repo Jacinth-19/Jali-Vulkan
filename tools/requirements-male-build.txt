@@ -1,0 +1,3 @@
+# Build-time canonical geometry correspondence only; not a runtime/EXE dependency.
+# Install after the regular tools/requirements-local-neural.lock.txt environment.
+scipy==1.17.1
