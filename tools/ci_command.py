@@ -20,7 +20,7 @@ def main():
         print(output, flush=True)
         code = 1
     if code and os.environ.get('GITHUB_ACTIONS') == 'true':
-        message = output[-6000:].replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A')
+        message = output[-2800:].replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A')
         print(f'::error title=Neural setup failure::{message}', flush=True)
     return code
 
