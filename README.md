@@ -39,11 +39,18 @@ per page; a shared CPU slot prevents simultaneous male/female generation. Close
 other tabs to control total browser memory. Profiles, tokens, recordings and
 saved conversations remain rig-isolated; no silent archive rebinding.
 
+<img src="docs/images/character-selector.png" width="780" alt="Actual low-preset male studio with the prepared-character selector; neutral pose, not realism or lip-sync approval">
+
 Personal build: `windows/build-character-pair.ps1 -PersonalUseOnly`.
 [Commands, resource scope, all six requested areas and your laptop acceptance checklist](docs/character-selector-and-personal-acceptance.md).
 Local **157 Python / 42 JS tests pass**; the selector browser fixture also passed.
-Dedicated hosted male frozen EXE/paired selector/unsigned installer acceptance is
-**pending execution**, not inherited from the older female-only result. New asset
+**Dedicated male frozen EXE/paired selector/unsigned installer passed** in
+[39024328601](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39024328601),
+with actual CPU speech and the requested male hash verified.
+[Exact receipt and first failed installer attempt](docs/evidence/male-selector-windows-actions.json).
+**All 12 stock/native regression jobs also passed** for the **same source `61e0315`** in
+[39024328602](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39024328602):
+**12 core + 1 dedicated male job successful**. [Complete receipt](docs/evidence/character-selector-full-actions.json). New asset
 realism, independent lip-sync/physical AV, actual i5 thermals and your PC's
 install/recovery acceptance are **not** claimed complete.
 

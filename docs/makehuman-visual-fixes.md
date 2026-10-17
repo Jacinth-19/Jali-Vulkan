@@ -1,5 +1,11 @@
 # MakeHuman mouth, lighting and fiber cleanup
 
+This records the historical **v3 visual-fix checkpoint** and its exact movies.
+The later [paired studio / male Windows follow-up](character-selector-and-personal-acceptance.md)
+closes the separately tested male WebGL EXE gap; statements below about the
+untested custom male EXE describe this older checkpoint, not current acceptance.
+Native male rendering remains unsupported; no new realism assets are implied.
+
 ## First visual-fix batch — 2026-10-17
 
 This follows the [decoded-preview review](makehuman-visual-review.md).

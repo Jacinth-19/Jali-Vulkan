@@ -6,12 +6,12 @@ This is an incremental delivery, **not a claim that all six areas are finished**
 
 | Area | Current scope |
 |---|---|
-| 1. Male Windows EXE | Dedicated hosted workflow added: actual male-default frozen EXE, SHA-checked male asset, clean PATH, new CPU speech, both characters, integrity/tamper checks and unsigned installer. Execution/acceptance pending. |
-| 2. Male/female selector | Implemented. Local browser fixture passed full-document switching, explicit unload, scoped low LOD and both rig-bound recording paths. Hosted frozen acceptance pending. |
+| 1. Male Windows EXE | Dedicated hosted workflow added: actual male-default frozen EXE, SHA-checked male asset, clean PATH, new CPU speech, both characters, integrity/tamper checks and unsigned installer. **Passed** in corrected run [39024328601](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39024328601). [Exact notice/step receipt](evidence/male-selector-windows-actions.json). |
+| 2. Male/female selector | Implemented. Local browser fixture passed full-document switching, explicit unload, scoped low LOD and both rig-bound recording paths. **Hosted frozen acceptance passed** in the same corrected Windows run. |
 | 3. More realism | Previous v3 shading retained. **No new authored/scanned textures, authored normal/roughness maps, eyebrow/lash geometry, short male hairstyle or skin scattering delivered in this follow-up.** These still need asset work, new render evidence and budget checks. |
 | 4. Lip-sync | Existing tuning controls and phone crosscheck retained. No new independently reviewed reference or physical AV measurement; do not call the related PocketSphinx/Rhubarb acoustic families independent ground truth. Further tuning must follow actual evidence, not arbitrary extra jaw/tongue gain. |
 | 5. i5-U / 16 GB | Benchmark now accepts either prepared studio. Actual laptop results and thermal/whole-system measurements remain user-side. No default quality increase based on cloud performance. |
-| 6. Personal acceptance | Hosted male paired install/update/uninstall is scheduled. Your actual PC install, saved-data recovery and unsigned-warning UX remain open. Signing optional; public redistribution remains uncleared. |
+| 6. Personal acceptance | **Hosted male paired install/update/uninstall passed**. Your actual PC install, saved-data recovery and unsigned-warning UX remain open. Signing optional; public redistribution remains uncleared. |
 
 ## Prepare and run the selector
 
@@ -139,4 +139,46 @@ preset if needed, but do not declare the final default tuned until results exist
 - The installer setup now guards an already-present compiler (like the passing
   stock workflow) and annotates any fresh Chocolatey error. The corrected workflow
   is being triggered by branch push because the integration denied manual dispatch
-  with HTTP 403. **Final corrected hosted acceptance is still pending.**
+  with HTTP 403. **Corrected male hosted run 39024328601 passed.** **All 12 stock/native regression jobs also passed** for the same source `61e0315` in [39024328602](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39024328602). [Complete 12+1 acceptance receipt](evidence/character-selector-full-actions.json).
+
+## Visual asset/scattering investigation (not delivered assets)
+
+The current surface code preserves supplied normal/roughness maps via material
+copy. It adds procedural skin detail only when the known skin material has no
+normal map. A complete authored glTF PBR set should therefore supply its own
+normal map and roughness map, correct tangent-space orientation/UV seams and
+color spaces, and be reviewed under all three lighting presets. Existing
+roughness controls still scale material response. This is an import path, **not**
+evidence that new authored maps have been created.
+
+For an i5-first scattering experiment, prefer an optional skin-only single-pass
+wrapped-diffuse approximation before considering extra screen-space passes.
+Three r174 physical transmission uses a transmission render pass/target; enabling
+it is not free, and glass-like transmission is not skin subsurface transport.
+Neither approach is currently enabled or measured here. A candidate needs a
+thickness/masking strategy, oral/eye exclusion, energy/color safeguards, known
+texture budgets, actual before/after frames and a measured low-preset regression
+before adoption. No GPU cost or quality gain is being asserted from a design alone.
+
+Brows/lashes and the male ponytail still use the source geometry. Material tint
+cannot create missing strands or a distinct hairstyle. Next asset work must use
+owned or explicitly licensed geometry/textures, preserve facial controls and
+head attachment, and provide new camera/pose/groom evidence—not reuse these
+selector screenshots as realism acceptance.
+
+## Final hosted acceptance
+
+**Source `61e0315641d0424f199e937b8c0dbc39f5114c40`: all 12 core jobs plus the
+separate male Windows job succeeded.** This includes the existing stock female
+native-enabled package/installer, new male-default paired WebGL EXE/installer,
+actual CPU synthesis, both-character switch/unload, scoped low LOD, Windows
+offline HTTP/file playback, sanitizers, Blender roundtrip and native Vulkan tests.
+[Exact jobs/steps, notices, source lineage, scope and image hash](evidence/character-selector-full-actions.json).
+
+The first male installer-step failure is retained. Its exact log text was not
+retrievable; the correction guards the existing compiler and annotates fresh
+setup failures. The corrected build/install tests actually ran and passed—none
+were skipped. The first main run was superseded/cancelled, not counted as passing.
+No binaries or weights were published. Neutral low-preset UI screenshot:
+
+![Actual paired studio with male selected; not new realism approval](images/character-selector.png)

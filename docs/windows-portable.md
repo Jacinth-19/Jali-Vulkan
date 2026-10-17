@@ -1,5 +1,25 @@
 # Personal Windows portable build: WebGL and optional native Vulkan
 
+## Male-default EXE with male/female selector — accepted 2026-10-17
+
+Source **61e0315** passed **12 core + 1 dedicated male Windows job**:
+[core](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39024328602) /
+[male](https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39024328601).
+The male-default paired **WebGL** EXE was actually executed with Python/Node/gh
+removed from its PATH; its requested male hash, new CPU speech for both rigs,
+switch/unload, integrity/tamper and unsigned install/update/uninstall checks passed.
+The stock female native-enabled package also passed in the same-source core run.
+[Exact acceptance and preserved first installer failure](evidence/character-selector-full-actions.json).
+
+Build with `windows/build-character-pair.ps1 -PersonalUseOnly` after explicit
+normal setup. [Full commands, memory scope, profile/archive safety, benchmark and
+actual-PC recovery checklist](character-selector-and-personal-acceptance.md).
+One model per page and one shared inference slot; close other tabs for a bounded
+browser total. No unsupported native-male fallback. Actual i5 thermals/physical AV,
+your personal install/recovery and public redistribution remain unaccepted.
+Signing stays optional. Earlier sections below describe historical checkpoints.
+
+
 ## Reviewed visual-fix batch v3 — 2026-10-17
 
 Source **60cb4f1** passed **all 12 hosted jobs** in

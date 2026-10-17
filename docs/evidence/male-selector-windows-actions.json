@@ -1,0 +1,222 @@
+{
+  "conclusion": "success",
+  "databaseId": 39024328601,
+  "event": "push",
+  "headSha": "61e0315641d0424f199e937b8c0dbc39f5114c40",
+  "jobs": [
+    {
+      "completedAt": "2026-10-17T10:25:19Z",
+      "conclusion": "success",
+      "databaseId": 117372210161,
+      "name": "Actual male EXE, paired selector and unsigned installer",
+      "startedAt": "2026-10-17T10:17:26Z",
+      "status": "completed",
+      "steps": [
+        {
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "number": 2,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+          "number": 3,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38",
+          "number": 4,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Install explicit build-time dependencies",
+          "number": 5,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Test selector namespace, shared budget and packaging allowlist",
+          "number": 6,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Explicitly prepare both models and stock CPU voices",
+          "number": 7,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Build actual male-default paired WebGL EXE using the personal build command",
+          "number": 8,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run male EXE without Python Node gh in PATH, synthesize both characters, switch and unload",
+          "number": 9,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Exercise male-selectable benchmark command (not target-laptop proof)",
+          "number": 10,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Build and test male paired personal installer and preserved data",
+          "number": 11,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Upload public synthetic evidence only",
+          "number": 12,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38",
+          "number": 22,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+          "number": 23,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "number": 24,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39024328601/job/117372210161"
+    }
+  ],
+  "status": "completed",
+  "url": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39024328601",
+  "notice_receipts": {
+    "Male paired unsigned installer checks": {
+      "install": true,
+      "updated_payload_verified": true,
+      "passed": true,
+      "redistribution_approved": false,
+      "uninstall_preserves_data": true,
+      "clean_user_data": true,
+      "signing": "unsigned personal build",
+      "reinstall_update_preserves_data": true,
+      "retired_payload_file_removed": true
+    },
+    "Actual male Windows EXE and selector": {
+      "physical_av_verified": false,
+      "target_laptop_measured": false,
+      "native_included": false,
+      "frozen_runtime": true,
+      "new_actual_cpu_speech": true,
+      "selector": {
+        "passed": true,
+        "male_rig": {
+          "profile": "canonical-face-v1",
+          "source_commit": "819a2d0afa29d406dfe167a489ca807fd94f83546f109bf446edf923c8f4a8c1",
+          "model_sha256": "819a2d0afa29d406dfe167a489ca807fd94f83546f109bf446edf923c8f4a8c1",
+          "retarget_sha256": "96d2d2a82f71bbdf87b7c301d1e79e566c8b66d9c79a645e65309c11b90d8a30",
+          "viewer_sha256": "cf9166fab3fd85d017be72f3ed428d2cae116a9d00162dbf29027b5e143e03c5",
+          "import_profile_sha256": "09e557ae8ac1228a1132728dfc9b3a7743facf8ee2c4f23391ae15f0a5d500f3"
+        },
+        "female_rig": {
+          "profile": "mpfb-rhubarb-9-v1",
+          "source_commit": "2afe6d79779313db8909badebf46f9805a6c7b70",
+          "model_sha256": "536a1331b9179449752aabb358246901421e4734946c1df557f2be18fc67c994",
+          "retarget_sha256": "96d2d2a82f71bbdf87b7c301d1e79e566c8b66d9c79a645e65309c11b90d8a30",
+          "viewer_sha256": "cf9166fab3fd85d017be72f3ed428d2cae116a9d00162dbf29027b5e143e03c5"
+        },
+        "release_markers": [
+          {
+            "character": "male",
+            "model": "819a2d0afa29d406dfe167a489ca807fd94f83546f109bf446edf923c8f4a8c1",
+            "readyAfterUnload": false
+          },
+          {
+            "character": "female",
+            "model": "536a1331b9179449752aabb358246901421e4734946c1df557f2be18fc67c994",
+            "readyAfterUnload": false
+          }
+        ],
+        "scoped_low_lod": true,
+        "rig_isolated_recordings": true,
+        "verified_female_session": "60d9f11ff9d546d191906f7084038348",
+        "verified_male_session": "90e8c981bd7745c4b7fa08e94d562e38",
+        "errors": [],
+        "external": [],
+        "limits": "One loaded character per document. Not a total-memory measurement across tabs, physical AV or perceptual acceptance. Speech versus explicit non-speech fixture is specified by the invoking receipt.",
+        "speech_source": "NEW actual frozen Kokoro CPU synthesis for both rig-bound sessions, not fixture audio"
+      },
+      "requested_character": {
+        "passed": true,
+        "actual_rig": {
+          "profile": "canonical-face-v1",
+          "source_commit": "819a2d0afa29d406dfe167a489ca807fd94f83546f109bf446edf923c8f4a8c1",
+          "model_sha256": "819a2d0afa29d406dfe167a489ca807fd94f83546f109bf446edf923c8f4a8c1",
+          "retarget_sha256": "96d2d2a82f71bbdf87b7c301d1e79e566c8b66d9c79a645e65309c11b90d8a30",
+          "viewer_sha256": "cf9166fab3fd85d017be72f3ed428d2cae116a9d00162dbf29027b5e143e03c5",
+          "import_profile_sha256": "09e557ae8ac1228a1132728dfc9b3a7743facf8ee2c4f23391ae15f0a5d500f3"
+        },
+        "expected_model_sha256": "819a2d0afa29d406dfe167a489ca807fd94f83546f109bf446edf923c8f4a8c1",
+        "selector": [
+          {
+            "id": "female",
+            "name": "Female"
+          },
+          {
+            "id": "male",
+            "name": "Male"
+          }
+        ]
+      },
+      "passed": true,
+      "clean_path": true,
+      "binary_uploaded": false
+    }
+  },
+  "first_failed_run": "https://github.com/Jacinth-19/Jali-Vulkan/actions/runs/39023609869",
+  "first_failed_evidence": "male-selector-first-windows.json",
+  "scope": {
+    "actual_male_default_frozen_exe_executed": true,
+    "requested_male_model_hash_verified": true,
+    "new_actual_cpu_speech_for_both_rigs": true,
+    "clean_path_without_python_node_gh_for_app": true,
+    "selector_switch_unload_and_low_LOD": true,
+    "native_male_supported": false,
+    "unsigned_installer_install_update_uninstall_preserve_marker": true,
+    "actual_user_PC_install_and_data_recovery_verified": false,
+    "target_i5_measured": false,
+    "physical_AV_verified": false,
+    "new_realism_assets_implemented": false,
+    "independent_lipsync_reference_accepted": false,
+    "binary_or_weights_published": false,
+    "cross_host_model_byte_equivalence_claimed": false,
+    "artifact_binary_downloaded": false
+  },
+  "compiler_file_version_raw": "0.0.0.0",
+  "compiler_version_independently_identified": false,
+  "compiler_version_note": "Windows FileVersion reported 0.0.0.0; do not treat this as a real Inno version. Guard found/used compiler and actual install tests passed. Exact first installer failure text unavailable."
+}
